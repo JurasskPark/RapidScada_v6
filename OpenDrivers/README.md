@@ -20,4 +20,5 @@ The KpDbImport library has been improved and new functionality has been added:
 
 Video on YouTube 
 https://www.youtube.com/watch?v=YysMbwIxhwE
+
 [![Video on YouTube](https://img.youtube.com/vi/YysMbwIxhwE/0.jpg)](https://www.youtube.com/watch?v=YysMbwIxhwE)
