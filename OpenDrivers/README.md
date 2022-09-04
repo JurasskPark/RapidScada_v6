@@ -18,4 +18,6 @@ The KpDbImport library has been improved and new functionality has been added:
 - SQL syntax highlighting.
 - A new data collection mode has been implemented, when the first column contains the tag name, the second column contains the tag value, and the third column contains the time of the value. (Historical data recording via slice works.)
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YysMbwIxhwE/0.jpg)](https://www.youtube.com/watch?v=YysMbwIxhwE)
+Video on YouTube 
+https://www.youtube.com/watch?v=YysMbwIxhwE
+[![Video on YouTube](https://img.youtube.com/vi/YysMbwIxhwE/0.jpg)](https://www.youtube.com/watch?v=YysMbwIxhwE)
