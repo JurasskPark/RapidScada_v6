@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.View</RootNamespace>
+		<Version>6.0.0</Version>
+		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
+		<Company>Rapid Software LLC</Company>
+		<Product>Rapid SCADA</Product>
+		<Copyright>Copyright © 2022</Copyright>
+	</PropertyGroup>
+
+	<Import Project="..\DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems" Label="Shared" />
+
+	<ItemGroup>
+	  <None Remove="Lang\DrvDbImportPlus.en-GB.xml" />
+	  <None Remove="Lang\DrvDbImportPlus.ru-RU.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Lang\DrvDbImportPlus.en-GB.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Lang\DrvDbImportPlus.ru-RU.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="FirebirdSql.Data.FirebirdClient">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+	  </Reference>
+	  <Reference Include="MySql.Data">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\MySql.Data.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Npgsql">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\Npgsql.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Oracle.ManagedDataAccess">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\Oracle.ManagedDataAccess.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\..\..\SCADA_6\ScadaComm\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\..\..\SCADA_6\ScadaComm\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Forms">
+	    <HintPath>..\..\..\SCADA_6\ScadaAdmin\ScadaCommon.Forms.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\..\..\SCADA_6\ScadaComm\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	  <Reference Include="System.Data.Odbc">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.Odbc.dll</HintPath>
+	  </Reference>
+	  <Reference Include="System.Data.OleDb">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.OleDb.dll</HintPath>
+	  </Reference>
+	  <Reference Include="System.Data.SqlClient">
+	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.SqlClient.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+</Project>

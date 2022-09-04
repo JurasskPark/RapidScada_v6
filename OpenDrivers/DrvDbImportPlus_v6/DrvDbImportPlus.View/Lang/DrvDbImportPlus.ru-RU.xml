@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvDbImportPlusDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmConfig">
+    <Phrase key="this">Импорт из БД Плюс - Свойства КП {0}</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
+    <Phrase key="gbDataSourceType">Тип источника данных</Phrase>
+    <Phrase key="gbConnection">Соединение</Phrase>
+	<Phrase key="btnConnectionTest">Проверка подключения...</Phrase>
+    <Phrase key="lblServer">Сервер</Phrase>
+    <Phrase key="lblDatabase">База данных</Phrase>
+    <Phrase key="lblUser">Пользователь</Phrase>
+    <Phrase key="lblPassword">Пароль</Phrase>
+	<Phrase key="lblPort">Порт</Phrase>
+	<Phrase key="lblOptionalOptions">Дополнительные параметры</Phrase>
+	<Phrase key="lblConnectionString">Строка соединения</Phrase>
+    <Phrase key="pageQuery">Извлечение данных</Phrase>
+    <Phrase key="lblSelectQuery">SQL</Phrase>
+    <Phrase key="pageCommands">Команды</Phrase>
+    <Phrase key="gbCommand">Команда</Phrase>
+    <Phrase key="btnCreateCommand">Создать</Phrase>
+    <Phrase key="btnDeleteCommand">Удалить</Phrase>
+    <Phrase key="gbCommandParams">Параметры команды</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+	<Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblCmdQuery">SQL</Phrase>
+    <Phrase key="pageData">Данные</Phrase>
+    <Phrase key="btnExecuteSQLQuery">Выполнить SQL-запрос</Phrase>
+    <Phrase key="pageSettings">Настройки</Phrase>
+    <Phrase key="gpbTagFormatDatabase">Формат тегов из базы данных</Phrase>
+	<Phrase key="rdbKPTagsBasedRequestedTableColumns">Теги КП на основе списка запрашиваемых столбцов таблицы</Phrase>
+	<Phrase key="rdbKPTagsBasedRequestedTableRows">Теги КП на основе списка запрашиваемых строк таблицы</Phrase>  
+    <Phrase key="gpbTagsCount">Количество тегов</Phrase>
+    <Phrase key="chkAutoTagCount">Авто</Phrase>  
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+	<Phrase key="pageHelp">Помощь</Phrase>  
+	<Phrase key="txtHelp">
+		На вкладке База данных необходимо задать тип базы данных и указать параметры соеднинения с БД. 
+		Если требуется ввести нестандартные параметры соединения, то допускается редактирование строки соединения напрямую.
+		Примеры параметров соединения можно найти на сайте https://www.connectionstrings.com.
+
+		Драйвер предполагает два формата получения данных - это "Теги КП на основе списка запрашиваемых столбцов таблицы" и 
+		"Теги КП на основе списка запрашиваемых строк таблицы".
+		В формате "Теги КП на основе списка запрашиваемых столбцов таблицы" SQL-запрос составлен так, что в названии столбца
+		будет название тега КП, а в первой строке значение.
+
+		Пример, данна таблица
+
+		+----------+----------+----------+
+		| COLUMN_1 | COLUMN_2 | COLUMN_3 |
+		+----------+----------+----------+
+		|    1,000 |    2,000 |    3,000 |
+		+----------+----------+----------+
+		|    3,000 |    4,000 |    5,000 |
+		+----------+----------+----------+
+		|    6,000 |    7,000 |    8,000 |
+		+----------+----------+----------+
+
+		Если в источнике данных каждый столбец является значением одной переменной, то запрос будет простым:
+		SELECT COLUMN_1 AS TAGNAME_1, COLUMN_2 AS TAGNAME_2, COLUMN_3 AS TAGNAME_3
+		FROM DATATABLE_NAME
+		WHERE УСЛОВИЕ
+
+		Если в источнике данные в таком примере,
+		+----------+--------------+----------+
+		| COLUMN_1 | COLUMN_2     | COLUMN_3 |
+		+----------+--------------+----------+
+		|        1 | TAGNAME_1    |    1,000 |
+		+----------+--------------+----------+
+		|        2 | TAGNAME_2    |    2,000 |
+		+----------+--------------+----------+
+		|        3 | TAGNAME_3    |    3,000 |
+		+----------+--------------+----------+
+
+		то самым простым способом перевернуть будет следующий запрос:
+		SELECT
+		MAX(CASE WHEN [COLUMN_2] ='TAGNAME_1' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_1',
+		MAX(CASE WHEN [COLUMN_2] ='TAGNAME_2' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_2',
+		MAX(CASE WHEN [COLUMN_2] ='TAGNAME_3' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_3'
+		FROM DATATABLE_NAME
+		WHERE УСЛОВИЕ
+
+		В случаях, когда запрос является сложным и составляется из нескольких таблиц, с необходимостью передавать время, 
+		то лучше использоваться "Теги КП на основе списка запрашиваемых строк таблицы".
+		Для этого режима важно последовательность столбцов и значения в них.
+		Столбец первый (COLUMN_1) - это название тега КП, второй столбец (COLUMN_2) - это значение тега КП, третий 
+		столбец (COLUMN_3) - это дата и время значения тега КП.
+		Таблица должна выглядить так
+		+-----------+--------------+--------------------+
+		| COLUMN_1  | COLUMN_2     | COLUMN_3           |
+		+-----------+--------------+--------------------+
+		| TAGNAME_1 |        1,000 | 01.01.2000 0:00:00 |
+		+-----------+--------------+--------------------+
+		| TAGNAME_2 |        2,000 | 02.01.2000 0:00:00 |
+		+-----------+--------------+--------------------+
+		| TAGNAME_2 |        3,000 | 02.01.2000 0:00:00 |
+		+-----------+--------------+--------------------+
+
+		В случае, когда порядок столбцов перепутан - КП будет выдавать ошибку и значения не будут записаны!
+		В данном режиме разрешается, если третьего столбца не будет, тогда время будет указано текушее.
+
+		Команды.
+		Команды определяются в конфигурации КП.
+		Пример команды:
+		UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum
+	</Phrase>  
+  </Dictionary>
+</DrvDbImportPlusDictionaries>
