@@ -8,6 +8,7 @@
 - Проверка SQL-запроса из формы драйвера.
 - Подсветка синтаксиса SQL.
 - Реализован новый режим сбора данных, когда в первом столбце - название тега, во втором - значение тега, в третьем - время значения. (Работает историческая запись данных через срез.)
+
 Библиотека DrvDbImport (6.0.0.1) была исправлена и доработана:
 - В строке подключения теперь не отображается информация о настройках подключения, если это не драйвер OLEDB или ODBC.
 - Включен режим блокирования полей в зависимости от типа использования подключения.
@@ -23,6 +24,7 @@ The KpDbImport library has been improved and new functionality has been added:
 - Checking the SQL query from the driver form.
 - SQL syntax highlighting.
 - A new data collection mode has been implemented, when the first column contains the tag name, the second column contains the tag value, and the third column contains the time of the value. (Historical data recording via slice works.)
+
 The DrvDbImport library (6.0.0.1) has been fixed and improved:
 - The connection string now does not display information about the connection settings, unless it is an OLEDB or ODBC driver.
 - The field blocking mode is enabled depending on the type of connection usage.
