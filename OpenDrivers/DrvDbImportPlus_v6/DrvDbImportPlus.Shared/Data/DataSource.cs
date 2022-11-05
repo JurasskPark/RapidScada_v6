@@ -74,7 +74,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             {
                 host = server.Substring(0, ind);
                 if (!int.TryParse(server.Substring(ind + 1), out port))
+                {
                     port = defaultPort;
+                }
             }
             else
             {
@@ -95,8 +97,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public void Connect()
         {
             if (Connection == null)
+            {
                 throw new InvalidOperationException("Connection is not initialized.");
-
+            }
+               
             try
             {
                 Connection.Open();

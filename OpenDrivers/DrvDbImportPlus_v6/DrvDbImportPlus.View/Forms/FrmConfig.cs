@@ -1,5 +1,6 @@
 ﻿
 using FastColoredTextBoxNS;
+using MySqlX.XDevAPI.Relational;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvDbImportPlus;
 using Scada.Comm.Lang;
@@ -11,7 +12,9 @@ using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.Design.AxImporter;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
@@ -63,6 +66,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             // translate the form
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(txtHelp, GetType().FullName);
+            FormTranslator.Translate(cmnuSelectQuery, GetType().FullName);
+            FormTranslator.Translate(cmnuCmdQuery, GetType().FullName);
+            FormTranslator.Translate(cmnuLstTags, GetType().FullName);
 
             Text = string.Format(Text, deviceNum);
 
@@ -155,6 +161,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 chkAutoTagCount.Checked = false;
             }
 
+            foreach (string tag in config.DeviceTags)
+            {
+                if (!lstTags.Items.Contains(tag.Trim()))
+                {
+                    lstTags.Items.Add(tag.Trim());
+                }
+            }
+ 
             if (config.DeviceTagsBasedRequestedTableColumns)
             {
                 rdbKPTagsBasedRequestedTableColumns.Checked = true;
@@ -182,7 +196,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 }
                 else
                 {
-                    txtConnectionString.Text = connStr;
                     EnableConnProps();
                 }
             }
@@ -226,6 +239,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 config.AutoTagCount = false;
                 config.TagCount = Convert.ToInt32(numTagCount.Value);
             }
+
+            config.DeviceTags = lstTags.Items.Cast<String>().ToList();
 
             if (rdbKPTagsBasedRequestedTableColumns.Checked)
             {
@@ -280,9 +295,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void EnableConnProps()
         {
-            txtServer.BackColor = txtDatabase.BackColor = txtUser.BackColor = txtPassword.BackColor = txtPort.BackColor = txtOptionalOptions.BackColor =
-                Color.FromKnownColor(KnownColor.Window);
+            txtServer.BackColor = txtDatabase.BackColor = txtUser.BackColor = txtPassword.BackColor = txtPort.BackColor = txtOptionalOptions.BackColor = Color.FromKnownColor(KnownColor.Window);
+            txtServer.Enabled = txtDatabase.Enabled = txtUser.Enabled = txtPassword.Enabled = txtPort.Enabled = txtOptionalOptions.Enabled = true;
             txtConnectionString.BackColor = Color.FromKnownColor(KnownColor.Control);
+            txtConnectionString.Enabled = false;
         }
 
         /// <summary>
@@ -290,9 +306,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void EnableConnString()
         {
-            txtServer.BackColor = txtDatabase.BackColor = txtUser.BackColor = txtPassword.BackColor = txtPort.BackColor = txtOptionalOptions.BackColor =
-                Color.FromKnownColor(KnownColor.Control);
+            txtServer.BackColor = txtDatabase.BackColor = txtUser.BackColor = txtPassword.BackColor = txtPort.BackColor = txtOptionalOptions.BackColor = Color.FromKnownColor(KnownColor.Control);
+            txtServer.Enabled = txtDatabase.Enabled = txtUser.Enabled = txtPassword.Enabled = txtPort.Enabled = txtOptionalOptions.Enabled = false;
             txtConnectionString.BackColor = Color.FromKnownColor(KnownColor.Window);
+            txtConnectionString.Enabled = true;
         }
 
         /// <summary>
@@ -370,12 +387,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 {
                     gbConnection.Enabled = true;
                     string connStr = BuildConnectionsString();
-                    txtConnectionString.Text = connStr;
 
                     if (string.IsNullOrEmpty(connStr))
+                    {
                         EnableConnString();
+                    }   
                     else
+                    {
                         EnableConnProps();
+                    }
+                       
                 }
 
                 Modified = true;
@@ -392,7 +413,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 if (!string.IsNullOrEmpty(connStr))
                 {
                     connChanging = true;
-                    txtConnectionString.Text = connStr;
                     EnableConnProps();
                     connChanging = false;
                 }
@@ -410,7 +430,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 if (!string.IsNullOrEmpty(connStr))
                 {
                     connChanging = true;
-                    txtConnectionString.Text = connStr;
                     EnableConnProps();
                     connChanging = false;
                 }
@@ -541,6 +560,70 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 UpdateCommandItem();
                 Modified = true;
             }
+        }
+
+        private void btnTagnameAdd_Click(object sender, EventArgs e)
+        {
+            if (!lstTags.Items.Contains(txtTagnameAdd.Text.Trim()))
+            {
+                lstTags.Items.Add(txtTagnameAdd.Text.Trim());
+                numTagCount.Value = lstTags.Items.Count;
+                Modified = true;
+            }
+        }
+
+        private void btnTagnameAddList_Click(object sender, EventArgs e)
+        {
+            FrmInputBox InputBox = new FrmInputBox();
+            InputBox.Values = string.Empty;
+            InputBox.ShowDialog();
+
+            if (InputBox.DialogResult == DialogResult.OK)
+            {
+                String[] tags = InputBox.Values.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                
+                foreach (String tag in tags)
+                {
+                    if (!lstTags.Items.Contains(tag.Trim()))
+                    {
+                        lstTags.Items.Add(tag.Trim());
+                        numTagCount.Value = lstTags.Items.Count;
+                        Modified = true;
+                    }
+                }
+            }
+        }
+
+        private void btnTagnameDelete_Click(object sender, EventArgs e)
+        {
+            if (lstTags.SelectedIndex != -1)
+            {
+                lstTags.Items.RemoveAt(lstTags.SelectedIndex);
+                numTagCount.Value = lstTags.Items.Count;
+                Modified = true;
+            }
+            else
+            {
+                MessageBox.Show(Locale.IsRussian ?
+                    "Выберите тег для удаления!" :
+                    "Select the tag to delete!");
+            }
+        }
+
+        private void btnTagnameDeleteList_Click(object sender, EventArgs e)
+        {
+            lstTags.Items.Clear();
+            numTagCount.Value = lstTags.Items.Count;
+            Modified = true;
+        }
+
+        private void lstTags_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstTags.SelectedIndex >= 0)
+            {
+                txtTagnameAdd.Text = lstTags.SelectedItem.ToString();          
+            }
+            Modified = true;
         }
 
         private void txtCmdQuery_TextChanged(object sender, TextChangedEventArgs e)
@@ -730,6 +813,127 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 }
             }
         }
+
+        private void cmnuSelectQueryCut_Click(object sender, EventArgs e)
+        {
+            txtSelectQuery.Cut();
+        }
+
+        private void cmnuSelectQueryCopy_Click(object sender, EventArgs e)
+        {
+            txtSelectQuery.Copy();
+        }
+
+        private void cmnuSelectQueryPaste_Click(object sender, EventArgs e)
+        {
+            txtSelectQuery.Paste();
+        }
+
+        private void cmnuSelectQuerySelectAll_Click(object sender, EventArgs e)
+        {
+            txtSelectQuery.Selection.SelectAll();
+        }
+
+        private void cmnuSelectQueryUndo_Click(object sender, EventArgs e)
+        {
+            if (txtSelectQuery.UndoEnabled)
+            {
+                txtSelectQuery.Undo();
+            }                
+        }
+
+        private void cmnuSelectQueryRedo_Click(object sender, EventArgs e)
+        {
+            if (txtSelectQuery.RedoEnabled)
+            {
+                txtSelectQuery.Redo();
+            }               
+        }
+
+        private void cmnuCmdQueryCut_Click(object sender, EventArgs e)
+        {
+            txtCmdQuery.Cut();
+        }
+
+        private void cmnuCmdQueryCopy_Click(object sender, EventArgs e)
+        {
+            txtCmdQuery.Copy();
+        }
+
+        private void cmnuCmdQueryPaste_Click(object sender, EventArgs e)
+        {
+            txtCmdQuery.Paste();
+        }
+
+        private void cmnuCmdQuerySelectAll_Click(object sender, EventArgs e)
+        {
+            txtCmdQuery.Selection.SelectAll();
+        }
+
+        private void cmnuCmdQueryUndo_Click(object sender, EventArgs e)
+        {
+            if (txtCmdQuery.UndoEnabled)
+            {
+                txtCmdQuery.Undo();
+            }     
+        }
+
+        private void cmnuCmdQueryRedo_Click(object sender, EventArgs e)
+        {
+            if (txtCmdQuery.RedoEnabled)
+            {
+                txtCmdQuery.Redo();
+            }    
+        }
+
+        private void cmnuUp_Click(object sender, EventArgs e)
+        {
+            // an item must be selected
+            if (lstTags.SelectedItems.Count > 0)
+            {
+                object selected = lstTags.SelectedItem;
+                int index = lstTags.Items.IndexOf(selected);
+                int total = lstTags.Items.Count;
+                // if the item is right at the top, throw it right down to the bottom
+                if (index == 0)
+                {
+                    lstTags.Items.Remove(selected);
+                    lstTags.Items.Insert(total - 1, selected);
+                    lstTags.SetSelected(total - 1, true);
+                }
+                else // to move the selected item upwards in the listbox
+                {
+                    lstTags.Items.Remove(selected);
+                    lstTags.Items.Insert(index - 1, selected);
+                    lstTags.SetSelected(index - 1, true);
+                }
+            }
+        }
+
+        private void cmnuDown_Click(object sender, EventArgs e)
+        {
+            // an item must be selected
+            if (lstTags.SelectedItems.Count > 0)
+            {
+                object selected = lstTags.SelectedItem;
+                int index = lstTags.Items.IndexOf(selected);
+                int total = lstTags.Items.Count;
+                // if the item is last in the listbox, move it all the way to the top
+                if (index == total - 1)
+                {
+                    lstTags.Items.Remove(selected);
+                    lstTags.Items.Insert(0, selected);
+                    lstTags.SetSelected(0, true);
+                }
+                else // to move the selected item downwards in the listbox
+                {
+                    lstTags.Items.Remove(selected);
+                    lstTags.Items.Insert(index + 1, selected);
+                    lstTags.SetSelected(index + 1, true);
+                }
+            }
+        }
+
 
     }
 }

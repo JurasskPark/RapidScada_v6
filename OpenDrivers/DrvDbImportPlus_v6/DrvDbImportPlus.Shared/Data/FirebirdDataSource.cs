@@ -40,10 +40,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override void AddCmdParamWithValue(DbCommand cmd, string paramName, object value)
         {
             if (cmd == null)
+            {
                 throw new ArgumentNullException("cmd");
+            }
+               
             if (!(cmd is FbCommand))
+            {
                 throw new ArgumentException("FbCommand is required.", "cmd");
-
+            }
+                
             FbCommand pgSqlCmd = (FbCommand)cmd;
             pgSqlCmd.Parameters.AddWithValue(paramName, value);
         }
@@ -71,11 +76,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public static string BuildFbConnectionString(DbConnSettings connSettings)
         {
             if (connSettings == null)
+            {
                 throw new ArgumentNullException("connSettings");
-
+            }
+                
             if (connSettings.Port == string.Empty || connSettings.Port == null)
+            {
                 connSettings.Port = DefaultPort.ToString();
-
+            }
+               
             ExtractHostAndPort(connSettings.Server, Convert.ToInt32(connSettings.Port), out string host, out int port);
             return string.Format("Data Source={0};port number={1};Initial Catalog={2};user id={3};password={4};{5}",
                 host, port, connSettings.Database, connSettings.User, connSettings.Password, connSettings.OptionalOptions);

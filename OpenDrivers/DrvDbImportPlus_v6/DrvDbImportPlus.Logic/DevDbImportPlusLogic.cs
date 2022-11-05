@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using DrvDbImportPlus.Common.Configuration;
+using MySqlX.XDevAPI.Relational;
 using NpgsqlTypes;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
@@ -14,6 +15,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.Design.AxImporter;
@@ -205,28 +207,43 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             {
                 //Log.WriteLine("code " + code.ToString() + " tagIndex " + tagIndex.ToString() + " val " + val.ToString() + " stat " + stat.ToString());
 
-                DeviceTag deviceTag = DeviceTags[tagIndex];
+                if (config.DeviceTags.Count > 0)
+                {
+                    DeviceTag deviceTag = DeviceTags[tagIndex];
 
-                if (val is string strVal)
-                {
-                    deviceTag.DataType = TagDataType.Unicode;
-                    deviceTag.Format = TagFormat.String;
-                    try { base.DeviceData.SetUnicode(code, strVal, stat); } catch { }
-                    try { base.DeviceData.SetUnicode(tagIndex, strVal, stat); } catch { } 
+                    if (val is string strVal)
+                    {
+                        deviceTag.DataType = TagDataType.Unicode;
+                        deviceTag.Format = TagFormat.String;
+                        try { base.DeviceData.SetUnicode(tagIndex, strVal, stat); } catch { }
+                    }
+                    else if (val is DateTime dtVal)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.DateTime;
+                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, stat); } catch { }
+                    }
+                    else
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.FloatNumber;
+                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), stat); } catch { }
+                    }
                 }
-                else if (val is DateTime dtVal)
+                else
                 {
-                    deviceTag.DataType = TagDataType.Double;
-                    deviceTag.Format = TagFormat.DateTime;
-                    try { base.DeviceData.SetDateTime(code, dtVal, stat); } catch { }
-                    try { base.DeviceData.SetDateTime(tagIndex, dtVal, stat); } catch { }
-                }
-                else 
-                {
-                    deviceTag.DataType = TagDataType.Double;
-                    deviceTag.Format = TagFormat.FloatNumber;
-                    try { base.DeviceData.Set(code, Convert.ToDouble(val), stat); } catch { }
-                    try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), stat); } catch { }
+                    if (val is string strVal)
+                    {
+                        try { base.DeviceData.SetUnicode(code, strVal, stat); } catch { }
+                    }
+                    else if (val is DateTime dtVal)
+                    {
+                        try { base.DeviceData.SetDateTime(code, dtVal, stat); } catch { }
+                    }
+                    else
+                    {
+                        try { base.DeviceData.Set(code, Convert.ToDouble(val), stat); } catch { }
+                    }
                 }
             }
             catch (Exception ex)
@@ -336,6 +353,30 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                             {
                                 SetTagData("DBTAG" + (i + 1).ToString() + "", i, reader[i], 1);
                             }
+
+                            // checking the tag for up-to-date data (outdated values)
+                            for (int t = 0; t < DeviceTags.Count; t++)
+                            {
+                                DeviceTag deviceTag = (DeviceTag)DeviceTags[t];
+                                bool devicTagNotFound = true;
+                                for (int i = 0, cnt = Math.Min(tagCnt, fieldCnt); i < cnt; i++)
+                                {
+                                    if (Equals(reader.GetName(i), deviceTag.Name))
+                                    {
+                                        // the tag was found in the table
+                                        devicTagNotFound = false;
+                                    }
+                                }
+
+                                // the tag is not found in the table,
+                                // which means that the value that was before needs to be reset,
+                                // otherwise it will constantly hang,
+                                // and the status will be set to 0
+                                if (devicTagNotFound == true)
+                                {
+                                    SetTagData("DBTAG" + (deviceTag.Index + 1).ToString() + "", deviceTag.Index, 0, 0);
+                                }
+                            }
                         }
                         else
                         {
@@ -420,6 +461,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     int tagCnt = DeviceTags.Count;
                     int rowCnt = dtData.Rows.Count;
 
+                    // current
                     try
                     {
                         Log.WriteLine(CommPhrases.ResponseOK);
@@ -439,7 +481,52 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                                     "Столбец номер 2 с значениям тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
                                     "Column number 2 with the tag value is empty or null. Tag number and table row number" + (i + 1));
                             }
-                            SetTagData("DBTAG" + (i + 1).ToString() + "", i, dtData.Rows[i][1], 1);
+
+                            // if the driver has a list of tags to use
+                            if (config.DeviceTags.Count > 0)
+                            {
+                                try
+                                {
+                                    DeviceTag deviceTag = (DeviceTag)DeviceTags.Where(x => x.Name == dtData.Rows[i][0].ToString()).FirstOrDefault();
+                                    if (deviceTag == null)
+                                    {
+                                        Log.WriteLine(Locale.IsRussian ?
+                                       "[Текущие данные] В списке тегов конфигурации драйвера не обнаружен тег с названием '" + dtData.Rows[i][0].ToString() + "'" :
+                                       "[Current data] No tag with the name was found in the list of driver configuration tags '" + dtData.Rows[i][0].ToString() + "'");
+                                    }
+
+                                    SetTagData("DBTAG" + (deviceTag.Index + 1).ToString() + "", deviceTag.Index, dtData.Rows[i][1], 1);
+                                }
+                                catch { }
+                            }
+                            else // otherwise we insert all the values that we found in the database
+                            {
+                                SetTagData("DBTAG" + (i + 1).ToString() + "", i, dtData.Rows[i][1], 1);
+                            }
+                        }
+
+                        // checking the tag for up-to-date data (outdated values)
+                        for (int t = 0; t < DeviceTags.Count; t++)
+                        {
+                            DeviceTag deviceTag = (DeviceTag)DeviceTags[t];
+                            bool devicTagNotFound = true;
+                            for (int i = 0; i < dtData.Rows.Count; i++)
+                            {
+                                if (Equals(dtData.Rows[i][0], deviceTag.Name))
+                                {
+                                    // the tag was found in the table
+                                    devicTagNotFound = false;
+                                }
+                            }
+
+                            // the tag is not found in the table,
+                            // which means that the value that was before needs to be reset,
+                            // otherwise it will constantly hang,
+                            // and the status will be set to 0
+                            if (devicTagNotFound == true)
+                            {
+                                SetTagData("DBTAG" + (deviceTag.Index + 1).ToString() + "", deviceTag.Index, 0, 0);
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -448,6 +535,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                         InvalidateData();
                     }
 
+                    // history
                     try
                     {
                         for (int i = 0; i < Math.Min(tagCnt, rowCnt); i++)
@@ -461,18 +549,46 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                             }
                             else
                             {
-                                DateTime dtSSlice = (DateTime)dtData.Rows[i][2];
-                                DeviceSlice deviceSlice = new DeviceSlice(
-                                    new DateTime(dtSSlice.Year, dtSSlice.Month, dtSSlice.Day, dtSSlice.Hour, dtSSlice.Minute, dtSSlice.Second, DateTimeKind.Utc),
-                                    1, 1);
-                                deviceSlice.DeviceTags[0] = DeviceTags["DBTAG" + (i + 1).ToString() + ""];
-                                string Descr = Locale.IsRussian ? " Значение = " : " Value = ";
-                                deviceSlice.Descr = DeviceTags[i].Name + Descr + dtData.Rows[i][1].ToString();
-                                DeviceData.EnqueueSlice(deviceSlice);
+                                // if the driver has a list of tags to use
+                                if (config.DeviceTags.Count > 0)
+                                {
+                                    try
+                                    {
+                                        DeviceTag deviceTag = (DeviceTag)DeviceTags.Where(x => x.Name == dtData.Rows[i][0].ToString()).FirstOrDefault();
+                                        if (deviceTag == null)
+                                        {
+                                            Log.WriteLine(Locale.IsRussian ?
+                                           "[Исторические данные] В списке тегов конфигурации драйвера не обнаружен тег с названием '" + dtData.Rows[i][0].ToString() + "'" :
+                                           "[Historical data] No tag with the name was found in the list of driver configuration tags '" + dtData.Rows[i][0].ToString() + "'");
+                                        }
+
+                                        DateTime dtSSlice = (DateTime)dtData.Rows[i][2];
+                                        DeviceSlice deviceSlice = new DeviceSlice(
+                                            new DateTime(dtSSlice.Year, dtSSlice.Month, dtSSlice.Day, dtSSlice.Hour, dtSSlice.Minute, dtSSlice.Second, DateTimeKind.Utc),
+                                            1, 1);
+                                        deviceSlice.DeviceTags[0] = DeviceTags["DBTAG" + (deviceTag.Index + 1).ToString() + ""];
+                                        string Descr = Locale.IsRussian ? " Значение = " : " Value = ";
+                                        deviceSlice.Descr = deviceTag.Name + Descr + dtData.Rows[i][1];
+                                        DeviceData.EnqueueSlice(deviceSlice);
+                                    }
+                                    catch { }
+                                }
+                                else // otherwise we insert all the values that we found in the database
+                                {
+
+                                    DateTime dtSSlice = (DateTime)dtData.Rows[i][2];
+                                    DeviceSlice deviceSlice = new DeviceSlice(
+                                        new DateTime(dtSSlice.Year, dtSSlice.Month, dtSSlice.Day, dtSSlice.Hour, dtSSlice.Minute, dtSSlice.Second, DateTimeKind.Utc),
+                                        1, 1);
+                                    deviceSlice.DeviceTags[0] = DeviceTags["DBTAG" + (i + 1).ToString() + ""];
+                                    string Descr = Locale.IsRussian ? " Значение = " : " Value = ";
+                                    deviceSlice.Descr = DeviceTags[i].Name + Descr + dtData.Rows[i][1];
+                                    DeviceData.EnqueueSlice(deviceSlice);
+                                }
                             }
                         }
                     }
-                    catch                 
+                    catch
                     {
                         InvalidateData();
                     }

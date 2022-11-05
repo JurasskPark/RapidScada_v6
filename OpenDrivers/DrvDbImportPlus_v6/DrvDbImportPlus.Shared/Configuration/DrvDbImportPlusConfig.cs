@@ -10,6 +10,7 @@ using System.IO;
 using System.Xml;
 using Scada.Lang;
 using Scada.Comm.Lang;
+using System.Xml.Linq;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
@@ -53,6 +54,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public int TagCount { get; set; }
 
         /// <summary>
+        /// Gets or sets tag names as a list.
+        /// </summary>
+        public List<string> DeviceTags { get; set; }
+
+        /// <summary>
         /// Gets the export commands.
         /// </summary>
         public List<ExportCmd> ExportCmds { get; private set; }
@@ -63,10 +69,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public bool DeviceTagsBasedRequestedTableColumns { get; set; }
 
 
+
+
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        #pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
+#pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
         private void SetToDefault()
         #pragma warning restore CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
         {
@@ -75,6 +83,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             SelectQuery = "";
             AutoTagCount = true;
             TagCount = 0;
+            DeviceTags = new List<string>();
             DeviceTagsBasedRequestedTableColumns = true;
             ExportCmds = new List<ExportCmd>();
         }
@@ -101,25 +110,33 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
 
-                DataSourceType = rootElem.GetChildAsEnum<DataSourceType>("DataSourceType");
-                DbConnSettings.LoadFromXml(rootElem.SelectSingleNode("DbConnSettings"));
-                SelectQuery = rootElem.GetChildAsString("SelectQuery");
-                AutoTagCount = rootElem.GetChildAsBool("AutoTagCount");
-                TagCount = rootElem.GetChildAsInt("TagCount");
-                DeviceTagsBasedRequestedTableColumns = rootElem.GetChildAsBool("DeviceTagsBasedRequestedTableColumns");
-
-                if (rootElem.SelectSingleNode("ExportCmds") is XmlNode exportCmdsNode)
-                {
-                    foreach (XmlNode exportCmdNode in exportCmdsNode.SelectNodes("ExportCmd"))
+                try { DataSourceType = rootElem.GetChildAsEnum<DataSourceType>("DataSourceType"); } catch { }
+                try { DbConnSettings.LoadFromXml(rootElem.SelectSingleNode("DbConnSettings")); } catch { }
+                try { SelectQuery = rootElem.GetChildAsString("SelectQuery"); } catch { }
+                try { AutoTagCount = rootElem.GetChildAsBool("AutoTagCount"); } catch { }
+                try { TagCount = rootElem.GetChildAsInt("TagCount"); } catch { }
+                try {
+                    if (rootElem.SelectSingleNode("DeviceTags") is XmlNode exportDeviceTagsNode)
                     {
-                        ExportCmd exportCmd = new ExportCmd();
-                        exportCmd.LoadFromXml(exportCmdNode);
-                        ExportCmds.Add(exportCmd);
+                        foreach (XmlNode exportDeviceTag in exportDeviceTagsNode.SelectNodes("DeviceTag"))
+                        {
+                            DeviceTags.Add(exportDeviceTag.InnerText);
+                        }
                     }
-
-                    ExportCmds.Sort();
-                }
-
+                } catch { }
+                try { DeviceTagsBasedRequestedTableColumns = rootElem.GetChildAsBool("DeviceTagsBasedRequestedTableColumns"); } catch { }
+                try {
+                    if (rootElem.SelectSingleNode("ExportCmds") is XmlNode exportCmdsNode)
+                    {
+                        foreach (XmlNode exportCmdNode in exportCmdsNode.SelectNodes("ExportCmd"))
+                        {
+                            ExportCmd exportCmd = new ExportCmd();
+                            exportCmd.LoadFromXml(exportCmdNode);
+                            ExportCmds.Add(exportCmd);
+                        }
+                        ExportCmds.Sort();
+                    }
+                } catch { }
                 errMsg = "";
                 return true;
             }
@@ -146,19 +163,28 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 XmlElement rootElem = xmlDoc.CreateElement("DrvDbImportPlusConfig");
                 xmlDoc.AppendChild(rootElem);
 
-                rootElem.AppendElem("DataSourceType", DataSourceType);
-                DbConnSettings.SaveToXml(rootElem.AppendElem("DbConnSettings"));
-                rootElem.AppendElem("SelectQuery", SelectQuery);
-                rootElem.AppendElem("AutoTagCount", AutoTagCount);
-                rootElem.AppendElem("TagCount", TagCount);
-
-                rootElem.AppendElem("DeviceTagsBasedRequestedTableColumns", DeviceTagsBasedRequestedTableColumns);
-
-                XmlElement exportCmdsElem = rootElem.AppendElem("ExportCmds");
-                foreach (ExportCmd exportCmd in ExportCmds)
+                try { rootElem.AppendElem("DataSourceType", DataSourceType); } catch { }
+                try { DbConnSettings.SaveToXml(rootElem.AppendElem("DbConnSettings")); } catch { }
+                try { rootElem.AppendElem("SelectQuery", SelectQuery); } catch { }
+                try { rootElem.AppendElem("AutoTagCount", AutoTagCount); } catch { }
+                try { rootElem.AppendElem("TagCount", TagCount); } catch { }
+                try
                 {
-                    exportCmd.SaveToXml(exportCmdsElem.AppendElem("ExportCmd"));
-                }
+                    XmlElement exportDeviceTagsElem = rootElem.AppendElem("DeviceTags");
+                    foreach (string DeviceTag in DeviceTags)
+                    {
+                        exportDeviceTagsElem.AppendElem("DeviceTag", DeviceTag);
+                    }
+                } catch { }
+                try { rootElem.AppendElem("DeviceTagsBasedRequestedTableColumns", DeviceTagsBasedRequestedTableColumns); } catch { }
+                try
+                {
+                    XmlElement exportCmdsElem = rootElem.AppendElem("ExportCmds");
+                    foreach (ExportCmd exportCmd in ExportCmds)
+                    {
+                        exportCmd.SaveToXml(exportCmdsElem.AppendElem("ExportCmd"));
+                    }
+                } catch { }
 
                 xmlDoc.Save(fileName);
                 errMsg = "";

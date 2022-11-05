@@ -36,10 +36,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override void AddCmdParamWithValue(DbCommand cmd, string paramName, object value)
         {
             if (cmd == null)
+            {
                 throw new ArgumentNullException("cmd");
+            }
+               
             if (!(cmd is OracleCommand))
+            {
                 throw new ArgumentException("OracleCommand is required.", "cmd");
-
+            }
+                
             OracleCommand oraCmd = (OracleCommand)cmd;      
             oraCmd.Parameters.Add(new OracleParameter(paramName, value) );
         }
@@ -50,7 +55,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override void ClearPool()
         {
             if (Connection != null)
+            {
                 OracleConnection.ClearPool((OracleConnection)Connection);
+            }           
         }
 
 
@@ -68,8 +75,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public static string BuildOraConnectionString(DbConnSettings connSettings)
         {
             if (connSettings == null)
+            {
                 throw new ArgumentNullException("connSettings");
-
+            }
+                
             return string.Format("Server={0}{1};User ID={2};Password={3};{4}", connSettings.Server, 
                 string.IsNullOrEmpty(connSettings.Database) ? "" : "/" + connSettings.Database, 
                 connSettings.User, connSettings.Password, connSettings.OptionalOptions);

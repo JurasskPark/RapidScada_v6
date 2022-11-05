@@ -31,8 +31,14 @@
 	<Phrase key="rdbKPTagsBasedRequestedTableColumns">Теги КП на основе списка запрашиваемых столбцов таблицы</Phrase>
 	<Phrase key="rdbKPTagsBasedRequestedTableRows">Теги КП на основе списка запрашиваемых строк таблицы</Phrase>  
     <Phrase key="gpbTagsCount">Количество тегов</Phrase>
-    <Phrase key="chkAutoTagCount">Авто</Phrase>  
-    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="chkAutoTagCount">Авто</Phrase>
+	<Phrase key="gpbTags">Теги</Phrase>
+	<Phrase key="lblTagnameAdd">Название тега</Phrase>
+	<Phrase key="btnTagnameAdd">Добавить</Phrase>
+	<Phrase key="btnTagnameAddList">Добавить несколько</Phrase>
+	<Phrase key="btnTagnameDelete">Удалить</Phrase>
+	<Phrase key="btnTagnameDeleteList">Удалить список</Phrase>
+	<Phrase key="btnSave">Сохранить</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
 	<Phrase key="pageHelp">Помощь</Phrase>  
 	<Phrase key="txtHelp">
@@ -99,11 +105,31 @@
 
 		В случае, когда порядок столбцов перепутан - КП будет выдавать ошибку и значения не будут записаны!
 		В данном режиме разрешается, если третьего столбца не будет, тогда время будет указано текушее.
+		
+		
 
 		Команды.
 		Команды определяются в конфигурации КП.
 		Пример команды:
 		UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum
-	</Phrase>  
+	</Phrase>
+	<Phrase key="cmnuSelectQueryCut">Вырезать</Phrase>
+	<Phrase key="cmnuSelectQueryCopy">Копировать</Phrase>
+	<Phrase key="cmnuSelectQueryPaste">Вставить</Phrase>
+	<Phrase key="cmnuSelectQuerySelectAll">Выделить всё</Phrase>
+	<Phrase key="cmnuSelectQueryUndo">Отменить</Phrase>
+	<Phrase key="cmnuSelectQueryRedo">Повторить</Phrase>
+	<Phrase key="cmnuCmdQueryCut">Вырезать</Phrase>
+	<Phrase key="cmnuCmdQueryCopy">Копировать</Phrase>
+	<Phrase key="cmnuCmdQueryPaste">Вставить</Phrase>
+	<Phrase key="cmnuCmdQuerySelectAll">Выделить всё</Phrase>
+	<Phrase key="cmnuCmdQueryUndo">Отменить</Phrase>
+	<Phrase key="cmnuCmdQueryRedo">Повторить</Phrase>
+	<Phrase key="cmnuUp">Поднять вверх</Phrase>
+	<Phrase key="cmnuDown">Опустить вниз</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmInputBox">
+	<Phrase key="btnOk">Ок</Phrase>
+	<Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
 </DrvDbImportPlusDictionaries>

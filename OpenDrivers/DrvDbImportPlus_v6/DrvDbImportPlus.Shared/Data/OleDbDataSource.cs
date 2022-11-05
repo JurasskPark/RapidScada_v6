@@ -34,10 +34,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override void AddCmdParamWithValue(DbCommand cmd, string paramName, object value)
         {
             if (cmd == null)
+            {
                 throw new ArgumentNullException("cmd");
+            }
+                
             if (!(cmd is OleDbCommand))
+            {
                 throw new ArgumentException("OleDbCommand is required.", "cmd");
-
+            }
+                
             OleDbCommand oleDbCmd = (OleDbCommand)cmd;
             oleDbCmd.Parameters.AddWithValue(paramName, value);
         }

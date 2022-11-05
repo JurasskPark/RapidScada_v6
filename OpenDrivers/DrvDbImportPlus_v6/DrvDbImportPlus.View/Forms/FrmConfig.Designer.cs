@@ -29,8 +29,25 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConfig));
             this.txtSelectQuery = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.cmnuSelectQuery = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmnuSelectQueryCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuSelectQueryCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuSelectQueryPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuSelectQuerySelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmnuSelectQueryUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuSelectQueryRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.txtCmdQuery = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.cmnuCmdQuery = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmnuCmdQueryCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuCmdQueryCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuCmdQueryPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuCmdQuerySelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmnuCmdQueryUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuCmdQueryRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.txtHelp = new FastColoredTextBoxNS.FastColoredTextBox();
             this.cbDataSourceType = new System.Windows.Forms.ComboBox();
             this.gbConnection = new System.Windows.Forms.GroupBox();
@@ -72,6 +89,19 @@
             this.btnDeleteCommand = new System.Windows.Forms.Button();
             this.btnCreateCommand = new System.Windows.Forms.Button();
             this.pageSettings = new System.Windows.Forms.TabPage();
+            this.gpbTags = new System.Windows.Forms.GroupBox();
+            this.tlpTags = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpTagsManagement = new System.Windows.Forms.TableLayoutPanel();
+            this.btnTagnameDeleteList = new System.Windows.Forms.Button();
+            this.btnTagnameDelete = new System.Windows.Forms.Button();
+            this.lblTagnameAdd = new System.Windows.Forms.Label();
+            this.btnTagnameAddList = new System.Windows.Forms.Button();
+            this.btnTagnameAdd = new System.Windows.Forms.Button();
+            this.txtTagnameAdd = new System.Windows.Forms.TextBox();
+            this.lstTags = new System.Windows.Forms.ListBox();
+            this.cmnuLstTags = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmnuUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuDown = new System.Windows.Forms.ToolStripMenuItem();
             this.gpbTagsCount = new System.Windows.Forms.GroupBox();
             this.numTagCount = new System.Windows.Forms.NumericUpDown();
             this.chkAutoTagCount = new System.Windows.Forms.CheckBox();
@@ -83,7 +113,9 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.txtSelectQuery)).BeginInit();
+            this.cmnuSelectQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtCmdQuery)).BeginInit();
+            this.cmnuCmdQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtHelp)).BeginInit();
             this.gbConnection.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -98,6 +130,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).BeginInit();
             this.gbCommand.SuspendLayout();
             this.pageSettings.SuspendLayout();
+            this.gpbTags.SuspendLayout();
+            this.tlpTags.SuspendLayout();
+            this.tlpTagsManagement.SuspendLayout();
+            this.cmnuLstTags.SuspendLayout();
             this.gpbTagsCount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTagCount)).BeginInit();
             this.gpbTagFormatDatabase.SuspendLayout();
@@ -128,6 +164,7 @@
             this.txtSelectQuery.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtSelectQuery.CharHeight = 14;
             this.txtSelectQuery.CharWidth = 8;
+            this.txtSelectQuery.ContextMenuStrip = this.cmnuSelectQuery;
             this.txtSelectQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSelectQuery.DefaultMarkerSize = 8;
             this.txtSelectQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
@@ -143,6 +180,71 @@
             this.txtSelectQuery.WordWrap = true;
             this.txtSelectQuery.Zoom = 100;
             this.txtSelectQuery.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.txtSelectQuery_TextChanged);
+            // 
+            // cmnuSelectQuery
+            // 
+            this.cmnuSelectQuery.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuSelectQueryCut,
+            this.cmnuSelectQueryCopy,
+            this.cmnuSelectQueryPaste,
+            this.cmnuSelectQuerySelectAll,
+            this.toolStripSeparator1,
+            this.cmnuSelectQueryUndo,
+            this.cmnuSelectQueryRedo});
+            this.cmnuSelectQuery.Name = "cmnuSelectQuery";
+            this.cmnuSelectQuery.Size = new System.Drawing.Size(123, 142);
+            // 
+            // cmnuSelectQueryCut
+            // 
+            this.cmnuSelectQueryCut.Image = ((System.Drawing.Image)(resources.GetObject("cmnuSelectQueryCut.Image")));
+            this.cmnuSelectQueryCut.Name = "cmnuSelectQueryCut";
+            this.cmnuSelectQueryCut.Size = new System.Drawing.Size(122, 22);
+            this.cmnuSelectQueryCut.Text = "Cut";
+            this.cmnuSelectQueryCut.Click += new System.EventHandler(this.cmnuSelectQueryCut_Click);
+            // 
+            // cmnuSelectQueryCopy
+            // 
+            this.cmnuSelectQueryCopy.Image = ((System.Drawing.Image)(resources.GetObject("cmnuSelectQueryCopy.Image")));
+            this.cmnuSelectQueryCopy.Name = "cmnuSelectQueryCopy";
+            this.cmnuSelectQueryCopy.Size = new System.Drawing.Size(122, 22);
+            this.cmnuSelectQueryCopy.Text = "Copy";
+            this.cmnuSelectQueryCopy.Click += new System.EventHandler(this.cmnuSelectQueryCopy_Click);
+            // 
+            // cmnuSelectQueryPaste
+            // 
+            this.cmnuSelectQueryPaste.Image = ((System.Drawing.Image)(resources.GetObject("cmnuSelectQueryPaste.Image")));
+            this.cmnuSelectQueryPaste.Name = "cmnuSelectQueryPaste";
+            this.cmnuSelectQueryPaste.Size = new System.Drawing.Size(122, 22);
+            this.cmnuSelectQueryPaste.Text = "Paste";
+            this.cmnuSelectQueryPaste.Click += new System.EventHandler(this.cmnuSelectQueryPaste_Click);
+            // 
+            // cmnuSelectQuerySelectAll
+            // 
+            this.cmnuSelectQuerySelectAll.Name = "cmnuSelectQuerySelectAll";
+            this.cmnuSelectQuerySelectAll.Size = new System.Drawing.Size(122, 22);
+            this.cmnuSelectQuerySelectAll.Text = "Select All";
+            this.cmnuSelectQuerySelectAll.Click += new System.EventHandler(this.cmnuSelectQuerySelectAll_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(119, 6);
+            // 
+            // cmnuSelectQueryUndo
+            // 
+            this.cmnuSelectQueryUndo.Image = ((System.Drawing.Image)(resources.GetObject("cmnuSelectQueryUndo.Image")));
+            this.cmnuSelectQueryUndo.Name = "cmnuSelectQueryUndo";
+            this.cmnuSelectQueryUndo.Size = new System.Drawing.Size(122, 22);
+            this.cmnuSelectQueryUndo.Text = "Undo";
+            this.cmnuSelectQueryUndo.Click += new System.EventHandler(this.cmnuSelectQueryUndo_Click);
+            // 
+            // cmnuSelectQueryRedo
+            // 
+            this.cmnuSelectQueryRedo.Image = ((System.Drawing.Image)(resources.GetObject("cmnuSelectQueryRedo.Image")));
+            this.cmnuSelectQueryRedo.Name = "cmnuSelectQueryRedo";
+            this.cmnuSelectQueryRedo.Size = new System.Drawing.Size(122, 22);
+            this.cmnuSelectQueryRedo.Text = "Redo";
+            this.cmnuSelectQueryRedo.Click += new System.EventHandler(this.cmnuSelectQueryRedo_Click);
             // 
             // txtCmdQuery
             // 
@@ -167,6 +269,7 @@
             this.txtCmdQuery.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCmdQuery.CharHeight = 14;
             this.txtCmdQuery.CharWidth = 8;
+            this.txtCmdQuery.ContextMenuStrip = this.cmnuCmdQuery;
             this.txtCmdQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtCmdQuery.DefaultMarkerSize = 8;
             this.txtCmdQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
@@ -182,6 +285,71 @@
             this.txtCmdQuery.WordWrap = true;
             this.txtCmdQuery.Zoom = 100;
             this.txtCmdQuery.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.txtCmdQuery_TextChanged);
+            // 
+            // cmnuCmdQuery
+            // 
+            this.cmnuCmdQuery.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuCmdQueryCut,
+            this.cmnuCmdQueryCopy,
+            this.cmnuCmdQueryPaste,
+            this.cmnuCmdQuerySelectAll,
+            this.toolStripSeparator2,
+            this.cmnuCmdQueryUndo,
+            this.cmnuCmdQueryRedo});
+            this.cmnuCmdQuery.Name = "cmnuSelectQuery";
+            this.cmnuCmdQuery.Size = new System.Drawing.Size(123, 142);
+            // 
+            // cmnuCmdQueryCut
+            // 
+            this.cmnuCmdQueryCut.Image = ((System.Drawing.Image)(resources.GetObject("cmnuCmdQueryCut.Image")));
+            this.cmnuCmdQueryCut.Name = "cmnuCmdQueryCut";
+            this.cmnuCmdQueryCut.Size = new System.Drawing.Size(122, 22);
+            this.cmnuCmdQueryCut.Text = "Cut";
+            this.cmnuCmdQueryCut.Click += new System.EventHandler(this.cmnuCmdQueryCut_Click);
+            // 
+            // cmnuCmdQueryCopy
+            // 
+            this.cmnuCmdQueryCopy.Image = ((System.Drawing.Image)(resources.GetObject("cmnuCmdQueryCopy.Image")));
+            this.cmnuCmdQueryCopy.Name = "cmnuCmdQueryCopy";
+            this.cmnuCmdQueryCopy.Size = new System.Drawing.Size(122, 22);
+            this.cmnuCmdQueryCopy.Text = "Copy";
+            this.cmnuCmdQueryCopy.Click += new System.EventHandler(this.cmnuCmdQueryCopy_Click);
+            // 
+            // cmnuCmdQueryPaste
+            // 
+            this.cmnuCmdQueryPaste.Image = ((System.Drawing.Image)(resources.GetObject("cmnuCmdQueryPaste.Image")));
+            this.cmnuCmdQueryPaste.Name = "cmnuCmdQueryPaste";
+            this.cmnuCmdQueryPaste.Size = new System.Drawing.Size(122, 22);
+            this.cmnuCmdQueryPaste.Text = "Paste";
+            this.cmnuCmdQueryPaste.Click += new System.EventHandler(this.cmnuCmdQueryPaste_Click);
+            // 
+            // cmnuCmdQuerySelectAll
+            // 
+            this.cmnuCmdQuerySelectAll.Name = "cmnuCmdQuerySelectAll";
+            this.cmnuCmdQuerySelectAll.Size = new System.Drawing.Size(122, 22);
+            this.cmnuCmdQuerySelectAll.Text = "Select All";
+            this.cmnuCmdQuerySelectAll.Click += new System.EventHandler(this.cmnuCmdQuerySelectAll_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(119, 6);
+            // 
+            // cmnuCmdQueryUndo
+            // 
+            this.cmnuCmdQueryUndo.Image = ((System.Drawing.Image)(resources.GetObject("cmnuCmdQueryUndo.Image")));
+            this.cmnuCmdQueryUndo.Name = "cmnuCmdQueryUndo";
+            this.cmnuCmdQueryUndo.Size = new System.Drawing.Size(122, 22);
+            this.cmnuCmdQueryUndo.Text = "Undo";
+            this.cmnuCmdQueryUndo.Click += new System.EventHandler(this.cmnuCmdQueryUndo_Click);
+            // 
+            // cmnuCmdQueryRedo
+            // 
+            this.cmnuCmdQueryRedo.Image = ((System.Drawing.Image)(resources.GetObject("cmnuCmdQueryRedo.Image")));
+            this.cmnuCmdQueryRedo.Name = "cmnuCmdQueryRedo";
+            this.cmnuCmdQueryRedo.Size = new System.Drawing.Size(122, 22);
+            this.cmnuCmdQueryRedo.Text = "Redo";
+            this.cmnuCmdQueryRedo.Click += new System.EventHandler(this.cmnuCmdQueryRedo_Click);
             // 
             // txtHelp
             // 
@@ -698,6 +866,7 @@
             // 
             // pageSettings
             // 
+            this.pageSettings.Controls.Add(this.gpbTags);
             this.pageSettings.Controls.Add(this.gpbTagsCount);
             this.pageSettings.Controls.Add(this.gpbTagFormatDatabase);
             this.pageSettings.Location = new System.Drawing.Point(4, 24);
@@ -707,6 +876,157 @@
             this.pageSettings.TabIndex = 3;
             this.pageSettings.Text = "Settings";
             this.pageSettings.UseVisualStyleBackColor = true;
+            // 
+            // gpbTags
+            // 
+            this.gpbTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpbTags.Controls.Add(this.tlpTags);
+            this.gpbTags.Location = new System.Drawing.Point(7, 155);
+            this.gpbTags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.gpbTags.Name = "gpbTags";
+            this.gpbTags.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
+            this.gpbTags.Size = new System.Drawing.Size(481, 245);
+            this.gpbTags.TabIndex = 12;
+            this.gpbTags.TabStop = false;
+            this.gpbTags.Text = "Tags";
+            // 
+            // tlpTags
+            // 
+            this.tlpTags.ColumnCount = 2;
+            this.tlpTags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.97345F));
+            this.tlpTags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.02655F));
+            this.tlpTags.Controls.Add(this.tlpTagsManagement, 1, 0);
+            this.tlpTags.Controls.Add(this.lstTags, 0, 0);
+            this.tlpTags.Location = new System.Drawing.Point(14, 22);
+            this.tlpTags.Name = "tlpTags";
+            this.tlpTags.RowCount = 1;
+            this.tlpTags.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpTags.Size = new System.Drawing.Size(452, 208);
+            this.tlpTags.TabIndex = 1;
+            // 
+            // tlpTagsManagement
+            // 
+            this.tlpTagsManagement.ColumnCount = 1;
+            this.tlpTagsManagement.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpTagsManagement.Controls.Add(this.btnTagnameDeleteList, 0, 5);
+            this.tlpTagsManagement.Controls.Add(this.btnTagnameDelete, 0, 4);
+            this.tlpTagsManagement.Controls.Add(this.lblTagnameAdd, 0, 0);
+            this.tlpTagsManagement.Controls.Add(this.btnTagnameAddList, 0, 3);
+            this.tlpTagsManagement.Controls.Add(this.btnTagnameAdd, 0, 2);
+            this.tlpTagsManagement.Controls.Add(this.txtTagnameAdd, 0, 1);
+            this.tlpTagsManagement.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpTagsManagement.Location = new System.Drawing.Point(256, 3);
+            this.tlpTagsManagement.Name = "tlpTagsManagement";
+            this.tlpTagsManagement.RowCount = 7;
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpTagsManagement.Size = new System.Drawing.Size(193, 202);
+            this.tlpTagsManagement.TabIndex = 1;
+            // 
+            // btnTagnameDeleteList
+            // 
+            this.btnTagnameDeleteList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnTagnameDeleteList.Location = new System.Drawing.Point(3, 168);
+            this.btnTagnameDeleteList.Name = "btnTagnameDeleteList";
+            this.btnTagnameDeleteList.Size = new System.Drawing.Size(187, 27);
+            this.btnTagnameDeleteList.TabIndex = 5;
+            this.btnTagnameDeleteList.Text = "Delete list";
+            this.btnTagnameDeleteList.UseVisualStyleBackColor = true;
+            this.btnTagnameDeleteList.Click += new System.EventHandler(this.btnTagnameDeleteList_Click);
+            // 
+            // btnTagnameDelete
+            // 
+            this.btnTagnameDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnTagnameDelete.Location = new System.Drawing.Point(3, 135);
+            this.btnTagnameDelete.Name = "btnTagnameDelete";
+            this.btnTagnameDelete.Size = new System.Drawing.Size(187, 27);
+            this.btnTagnameDelete.TabIndex = 4;
+            this.btnTagnameDelete.Text = "Delete";
+            this.btnTagnameDelete.UseVisualStyleBackColor = true;
+            this.btnTagnameDelete.Click += new System.EventHandler(this.btnTagnameDelete_Click);
+            // 
+            // lblTagnameAdd
+            // 
+            this.lblTagnameAdd.AutoSize = true;
+            this.lblTagnameAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTagnameAdd.Location = new System.Drawing.Point(3, 0);
+            this.lblTagnameAdd.Name = "lblTagnameAdd";
+            this.lblTagnameAdd.Size = new System.Drawing.Size(187, 33);
+            this.lblTagnameAdd.TabIndex = 2;
+            this.lblTagnameAdd.Text = "Tagname";
+            this.lblTagnameAdd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnTagnameAddList
+            // 
+            this.btnTagnameAddList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnTagnameAddList.Location = new System.Drawing.Point(3, 102);
+            this.btnTagnameAddList.Name = "btnTagnameAddList";
+            this.btnTagnameAddList.Size = new System.Drawing.Size(187, 27);
+            this.btnTagnameAddList.TabIndex = 3;
+            this.btnTagnameAddList.Text = "Add several";
+            this.btnTagnameAddList.UseVisualStyleBackColor = true;
+            this.btnTagnameAddList.Click += new System.EventHandler(this.btnTagnameAddList_Click);
+            // 
+            // btnTagnameAdd
+            // 
+            this.btnTagnameAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnTagnameAdd.Location = new System.Drawing.Point(3, 69);
+            this.btnTagnameAdd.Name = "btnTagnameAdd";
+            this.btnTagnameAdd.Size = new System.Drawing.Size(187, 27);
+            this.btnTagnameAdd.TabIndex = 2;
+            this.btnTagnameAdd.Text = "Add";
+            this.btnTagnameAdd.UseVisualStyleBackColor = true;
+            this.btnTagnameAdd.Click += new System.EventHandler(this.btnTagnameAdd_Click);
+            // 
+            // txtTagnameAdd
+            // 
+            this.txtTagnameAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTagnameAdd.Location = new System.Drawing.Point(3, 36);
+            this.txtTagnameAdd.Name = "txtTagnameAdd";
+            this.txtTagnameAdd.Size = new System.Drawing.Size(187, 23);
+            this.txtTagnameAdd.TabIndex = 6;
+            // 
+            // lstTags
+            // 
+            this.lstTags.ContextMenuStrip = this.cmnuLstTags;
+            this.lstTags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstTags.FormattingEnabled = true;
+            this.lstTags.ItemHeight = 15;
+            this.lstTags.Location = new System.Drawing.Point(3, 3);
+            this.lstTags.Name = "lstTags";
+            this.lstTags.Size = new System.Drawing.Size(247, 202);
+            this.lstTags.TabIndex = 1;
+            this.lstTags.SelectedIndexChanged += new System.EventHandler(this.lstTags_SelectedIndexChanged);
+            // 
+            // cmnuLstTags
+            // 
+            this.cmnuLstTags.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuUp,
+            this.cmnuDown});
+            this.cmnuLstTags.Name = "cmnuSelectQuery";
+            this.cmnuLstTags.Size = new System.Drawing.Size(106, 48);
+            // 
+            // cmnuUp
+            // 
+            this.cmnuUp.Image = ((System.Drawing.Image)(resources.GetObject("cmnuUp.Image")));
+            this.cmnuUp.Name = "cmnuUp";
+            this.cmnuUp.Size = new System.Drawing.Size(105, 22);
+            this.cmnuUp.Text = "Up";
+            this.cmnuUp.Click += new System.EventHandler(this.cmnuUp_Click);
+            // 
+            // cmnuDown
+            // 
+            this.cmnuDown.Image = ((System.Drawing.Image)(resources.GetObject("cmnuDown.Image")));
+            this.cmnuDown.Name = "cmnuDown";
+            this.cmnuDown.Size = new System.Drawing.Size(105, 22);
+            this.cmnuDown.Text = "Down";
+            this.cmnuDown.Click += new System.EventHandler(this.cmnuDown_Click);
             // 
             // gpbTagsCount
             // 
@@ -851,7 +1171,9 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmConfig_Load);
             ((System.ComponentModel.ISupportInitialize)(this.txtSelectQuery)).EndInit();
+            this.cmnuSelectQuery.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtCmdQuery)).EndInit();
+            this.cmnuCmdQuery.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtHelp)).EndInit();
             this.gbConnection.ResumeLayout(false);
             this.gbConnection.PerformLayout();
@@ -869,6 +1191,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).EndInit();
             this.gbCommand.ResumeLayout(false);
             this.pageSettings.ResumeLayout(false);
+            this.gpbTags.ResumeLayout(false);
+            this.tlpTags.ResumeLayout(false);
+            this.tlpTagsManagement.ResumeLayout(false);
+            this.tlpTagsManagement.PerformLayout();
+            this.cmnuLstTags.ResumeLayout(false);
             this.gpbTagsCount.ResumeLayout(false);
             this.gpbTagsCount.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTagCount)).EndInit();
@@ -934,5 +1261,34 @@
         private FastColoredTextBoxNS.FastColoredTextBox txtHelp;
         private Label lblCmdCode;
         private TextBox txtCmdCode;
+        private GroupBox gpbTags;
+        private TableLayoutPanel tlpTags;
+        private TableLayoutPanel tlpTagsManagement;
+        private Button btnTagnameDeleteList;
+        private Button btnTagnameDelete;
+        private Label lblTagnameAdd;
+        private Button btnTagnameAddList;
+        private Button btnTagnameAdd;
+        private ListBox lstTags;
+        private TextBox txtTagnameAdd;
+        private ContextMenuStrip cmnuSelectQuery;
+        private ToolStripMenuItem cmnuSelectQuerySelectAll;
+        private ToolStripMenuItem cmnuSelectQueryCopy;
+        private ToolStripMenuItem cmnuSelectQueryCut;
+        private ToolStripMenuItem cmnuSelectQueryPaste;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem cmnuSelectQueryUndo;
+        private ToolStripMenuItem cmnuSelectQueryRedo;
+        private ContextMenuStrip cmnuCmdQuery;
+        private ToolStripMenuItem cmnuCmdQueryCut;
+        private ToolStripMenuItem cmnuCmdQueryCopy;
+        private ToolStripMenuItem cmnuCmdQueryPaste;
+        private ToolStripMenuItem cmnuCmdQuerySelectAll;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem cmnuCmdQueryUndo;
+        private ToolStripMenuItem cmnuCmdQueryRedo;
+        private ContextMenuStrip cmnuLstTags;
+        private ToolStripMenuItem cmnuUp;
+        private ToolStripMenuItem cmnuDown;
     }
 }

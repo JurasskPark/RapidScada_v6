@@ -40,10 +40,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override void AddCmdParamWithValue(DbCommand cmd, string paramName, object value)
         {
             if (cmd == null)
+            {
                 throw new ArgumentNullException("cmd");
+            }
+                
             if (!(cmd is NpgsqlCommand))
+            {
                 throw new ArgumentException("NpgsqlCommand is required.", "cmd");
-
+            }
+               
             NpgsqlCommand pgSqlCmd = (NpgsqlCommand)cmd;
             pgSqlCmd.Parameters.AddWithValue(paramName, value);
         }
@@ -71,11 +76,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public static string BuildPgSqlConnectionString(DbConnSettings connSettings)
         {
             if (connSettings == null)
+            {
                 throw new ArgumentNullException("connSettings");
+            }
+                
 
             if (connSettings.Port == string.Empty || connSettings.Port == null)
+            {
                 connSettings.Port = DefaultPort.ToString();
-
+            }
+                
             ExtractHostAndPort(connSettings.Server, Convert.ToInt32(connSettings.Port), out string host, out int port);
             return string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4};{5}",
                 host, port, connSettings.Database, connSettings.User, connSettings.Password, connSettings.OptionalOptions);

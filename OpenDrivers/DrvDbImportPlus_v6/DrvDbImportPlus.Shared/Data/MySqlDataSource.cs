@@ -72,10 +72,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public static string BuildMySqlConnectionString(DbConnSettings connSettings)
         {
             if (connSettings == null)
+            {
                 throw new ArgumentNullException("connSettings");
-
+            }
+                
             if (connSettings.Port == string.Empty || connSettings.Port == null)
+            {
                 connSettings.Port = DefaultPort.ToString();
+            }
 
             ExtractHostAndPort(connSettings.Server, Convert.ToInt32(connSettings.Port), out string host, out int port);
 

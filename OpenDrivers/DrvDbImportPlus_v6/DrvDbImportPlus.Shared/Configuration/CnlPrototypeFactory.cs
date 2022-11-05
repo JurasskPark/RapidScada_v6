@@ -53,6 +53,25 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 ArrayLength = config.TagCount;
             }
 
+            if (config.DeviceTags.Count > 0)
+            {
+
+                int tagCnt = ArrayLength;
+                int rowCnt = config.DeviceTags.Count;
+
+                try
+                {
+
+                    for (int i = 0; i < Math.Min(tagCnt, rowCnt); i++)
+                    {
+                        group.AddCnlPrototype("DBTAG" + (i + 1).ToString() + "", config.DeviceTags[i].ToString());
+                    }
+                    groups.Add(group);
+                    return groups;
+                }
+                catch { }
+            }
+
             dataSource = DataSource.GetDataSourceType(config);
 
             if (dataSource != null)

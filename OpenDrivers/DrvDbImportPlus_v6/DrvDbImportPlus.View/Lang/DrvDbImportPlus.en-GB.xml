@@ -32,6 +32,12 @@
 	  <Phrase key="rdbKPTagsBasedRequestedTableRows">KP tags based on the list of requested table rows</Phrase>
 	  <Phrase key="gpbTagsCount">Tag count</Phrase>
 	  <Phrase key="chkAutoTagCount">Auto</Phrase>
+	  <Phrase key="gpbTags">Tags</Phrase>
+	  <Phrase key="lblTagnameAdd">Tagname</Phrase>
+	  <Phrase key="btnTagnameAdd">Add</Phrase>
+	  <Phrase key="btnTagnameAddList">Add several</Phrase>
+	  <Phrase key="btnTagnameDelete">Delete</Phrase>
+	  <Phrase key="btnTagnameDeleteList">Delete list</Phrase>  
 	  <Phrase key="btnSave">Save</Phrase>
 	  <Phrase key="btnClose">Close</Phrase>
 	  <Phrase key="pageHelp">Help</Phrase>
@@ -105,5 +111,23 @@
 		  Command example:
 		  UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum
 	  </Phrase>
+	  <Phrase key="cmnuSelectQueryCut">Cut</Phrase>
+	  <Phrase key="cmnuSelectQueryCopy">Copy</Phrase>
+	  <Phrase key="cmnuSelectQueryPaste">Paste</Phrase>
+	  <Phrase key="cmnuSelectQuerySelectAll">Select all</Phrase>
+	  <Phrase key="cmnuSelectQueryUndo">Undo</Phrase>
+	  <Phrase key="cmnuSelectQueryRedo">Redo</Phrase>
+	  <Phrase key="cmnuCmdQueryCut">Cut</Phrase>
+	  <Phrase key="cmnuCmdQueryCopy">Copy</Phrase>
+	  <Phrase key="cmnuCmdQueryPaste">Paste</Phrase>
+	  <Phrase key="cmnuCmdQuerySelectAll">Select all</Phrase>
+	  <Phrase key="cmnuCmdQueryUndo">Undo</Phrase>
+	  <Phrase key="cmnuCmdQueryRedo">Redo</Phrase>
+	  <Phrase key="cmnuUp">Up</Phrase>
+	  <Phrase key="cmnuDown">Down</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmInputBox">
+	<Phrase key="btnOk">Ok</Phrase>
+	<Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
 </DrvDbImportPlusDictionaries>
