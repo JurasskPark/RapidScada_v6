@@ -168,7 +168,6 @@
             this.txtSelectQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSelectQuery.DefaultMarkerSize = 8;
             this.txtSelectQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.txtSelectQuery.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtSelectQuery.IsReplaceMode = false;
             this.txtSelectQuery.Location = new System.Drawing.Point(8, 20);
             this.txtSelectQuery.Name = "txtSelectQuery";
@@ -273,7 +272,6 @@
             this.txtCmdQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtCmdQuery.DefaultMarkerSize = 8;
             this.txtCmdQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.txtCmdQuery.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtCmdQuery.IsReplaceMode = false;
             this.txtCmdQuery.Location = new System.Drawing.Point(12, 81);
             this.txtCmdQuery.Name = "txtCmdQuery";
@@ -375,6 +373,7 @@
             this.txtHelp.DefaultMarkerSize = 8;
             this.txtHelp.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.txtHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtHelp.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtHelp.IsReplaceMode = false;
             this.txtHelp.Location = new System.Drawing.Point(0, 0);
             this.txtHelp.Name = "txtHelp";
@@ -1047,6 +1046,11 @@
             // 
             this.numTagCount.Location = new System.Drawing.Point(14, 22);
             this.numTagCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numTagCount.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.numTagCount.Name = "numTagCount";
             this.numTagCount.Size = new System.Drawing.Size(117, 23);
             this.numTagCount.TabIndex = 8;

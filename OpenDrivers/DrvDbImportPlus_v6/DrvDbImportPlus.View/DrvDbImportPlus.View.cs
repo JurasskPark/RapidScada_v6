@@ -49,6 +49,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Автор:  Михаил Ширяев\n" +
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
+                    "Версия 6.0.0.2 (13.11.2022)\n" +
+                    "Исправлено:\n" +
+                    "[v] У элемента Количество тегов изменено максимальное значение с 100 до 65535.\n" +
                     "Версия 6.0.0.1 (05.11.2022)\n" +
                     "Исправлено:\n" +
                     "[v] В строке подключения теперь не отображается информация о настройках подключения, если это не драйвер OLEDB или ODBC.\n" +
@@ -68,6 +71,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+                    "Version 6.0.0.2 (13.11.2022)\n" +
+                    "Fixed:\n" +
+                    "[v] The maximum value of the Tags Count element has been changed from 100 to 65535.\n" +
                     "Version 6.0.0.1 (05.11.2022)\n" +
                     "Fixed:\n" +
                     "[v] The connection string now does not display information about the connection settings, unless it is an OLEDB or ODBC driver.\n" +
