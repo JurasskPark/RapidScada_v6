@@ -16,6 +16,10 @@
 - Добавлена возможность добавлять заранее статические теги в настройки, чтобы в случае отсутствия данных или записей не сдвигались номера тегов, которые приводили к коллизии данные из-за смещения.
 - Добавлена проверка значения тега, если он отсутствует в полученной таблице, то значение и статус сменяется на 0.
 
+Библиотека DrvDbImport (6.0.0.2) была исправлена и доработана:
+- У элемента Количество тегов изменено максимальное значение с 100 до 65535.
+
+
 The KpDbImport library has been improved and new functionality has been added:
 - The configuration file now encrypts not only the password, but also the connection string.
 - Added data collection via ODBC drivers.
@@ -31,6 +35,9 @@ The DrvDbImport library (6.0.0.1) has been fixed and improved:
 - Added a context menu to SQL query editors to perform the simplest actions (copy, paste, cut) and the ability to undo changes.
 - Added the ability to add static tags in advance to the settings so that if there is no data or records, the tag numbers do not shift, which led to a data collision due to the offset.
 - Added a check of the tag value, if it is not in the resulting table, then the value and status is changed to 0.
+
+The DrvDbImport library (6.0.0.2) has been fixed and improved:
+- The maximum value of the Tags Count element has been changed from 100 to 65535.
 
 Video on YouTube 
 https://www.youtube.com/watch?v=YysMbwIxhwE
