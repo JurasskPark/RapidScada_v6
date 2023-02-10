@@ -17,7 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvDbImportPlusConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ElementType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ExportCmd.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\TagCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\FirebirdDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MySqlDataSource.cs" />

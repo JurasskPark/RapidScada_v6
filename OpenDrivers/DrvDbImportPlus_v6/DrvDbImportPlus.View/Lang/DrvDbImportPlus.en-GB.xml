@@ -30,6 +30,11 @@
 	  <Phrase key="gpbTagFormatDatabase">Format of tags from the database</Phrase>
 	  <Phrase key="rdbKPTagsBasedRequestedTableColumns">KP tags based on the list of requested table columns</Phrase>
 	  <Phrase key="rdbKPTagsBasedRequestedTableRows">KP tags based on the list of requested table rows</Phrase>
+	  <Phrase key="gpbFormatData">Format of Data</Phrase>
+	  <Phrase key="rdbCurrentData">Current</Phrase>
+	  <Phrase key="rdbHistoricalData">Historical</Phrase>
+	  <Phrase key="gpbDataRelevance">Data relevance</Phrase>
+	  <Phrase key="lblDiscrepancyInSeconds">Discrepancy in seconds</Phrase>
 	  <Phrase key="gpbTagsCount">Tag count</Phrase>
 	  <Phrase key="chkAutoTagCount">Auto</Phrase>
 	  <Phrase key="gpbTags">Tags</Phrase>
@@ -66,7 +71,7 @@
 		  If each column in the data source is the value of one variable, then the query will be simple:
 		  SELECT COLUMN_1 AS TAGNAME_1, COLUMN_2 AS TAGNAME_2, COLUMN_3 AS TAGNAME_3
 		  FROM DATATABLE_NAME
-		  WHERE УСЛОВИЕ
+		  WHERE CONDITION
 
 		  If the data source in this example,
 		  +----------+--------------+----------+
@@ -85,26 +90,7 @@
 		  MAX(CASE WHEN [COLUMN_2] ='TAGNAME_2' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_2',
 		  MAX(CASE WHEN [COLUMN_2] ='TAGNAME_3' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_3'
 		  FROM DATATABLE_NAME
-		  WHERE УСЛОВИЕ
-
-		  In cases where the query is complex and consists of several tables, with the need to transmit time,
-		  then it is better to use "KP tags based on the list of requested table rows".
-		  For this mode, the sequence of columns and the values in them are important.
-		  The first column (COLUMN_1) is the name of the KP tag, the second column (COLUMN_2) is the value of the KP tag, the third
-		  column (COLUMN_3) is the date and time of the KP tag value.
-		  The table should look like this
-		  +-----------+--------------+--------------------+
-		  | COLUMN_1  | COLUMN_2     | COLUMN_3           |
-		  +-----------+--------------+--------------------+
-		  | TAGNAME_1 |        1,000 | 01.01.2000 0:00:00 |
-		  +-----------+--------------+--------------------+
-		  | TAGNAME_2 |        2,000 | 02.01.2000 0:00:00 |
-		  +-----------+--------------+--------------------+
-		  | TAGNAME_2 |        3,000 | 02.01.2000 0:00:00 |
-		  +-----------+--------------+--------------------+
-
-		  In the case when the order of the columns is mixed up, the KP will give an error and the values will not be recorded!
-		  In this mode, it is allowed if there is no third column, then the current time will be indicated.
+		  WHERE CONDITION
 
 		  Commands.
 		  The commands are defined in the KP configuration.
@@ -125,9 +111,28 @@
 	  <Phrase key="cmnuCmdQueryRedo">Redo</Phrase>
 	  <Phrase key="cmnuUp">Up</Phrase>
 	  <Phrase key="cmnuDown">Down</Phrase>
+	  <Phrase key="cmnuTagRefresh">Refresh</Phrase>
+	  <Phrase key="cmnuTagAdd">Add Tag</Phrase>
+	  <Phrase key="cmnuListTagAdd">Add list of Tags</Phrase>
+	  <Phrase key="cmnuTagChange">Change Tag</Phrase>
+	  <Phrase key="cmnuTagDelete">Delete Tag</Phrase>
+	  <Phrase key="cmnuTagAllDelete">Delete all Tags</Phrase>
+	  <Phrase key="clmTagname">Name</Phrase>
+	  <Phrase key="clmTagCode">Tag code</Phrase>
+	  <Phrase key="clmTagEnabled">Enabled</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmInputBox">
 	<Phrase key="btnOk">Ok</Phrase>
 	<Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+	<Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmTag">
+		<Phrase key="lblTagCode">Tag code</Phrase>
+		<Phrase key="lblTagname">Tagname</Phrase>
+		<Phrase key="lblType">Type</Phrase>
+		<Phrase key="lblFormat">Format</Phrase>
+		<Phrase key="lblEnabled">Enabled</Phrase>
+		<Phrase key="btnAdd">Add</Phrase>
+		<Phrase key="btnSave">Save</Phrase>
+		<Phrase key="btnClose">Close</Phrase>
+	</Dictionary>
 </DrvDbImportPlusDictionaries>

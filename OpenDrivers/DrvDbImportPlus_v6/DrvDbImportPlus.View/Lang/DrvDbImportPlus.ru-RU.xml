@@ -29,7 +29,12 @@
     <Phrase key="pageSettings">Настройки</Phrase>
     <Phrase key="gpbTagFormatDatabase">Формат тегов из базы данных</Phrase>
 	<Phrase key="rdbKPTagsBasedRequestedTableColumns">Теги КП на основе списка запрашиваемых столбцов таблицы</Phrase>
-	<Phrase key="rdbKPTagsBasedRequestedTableRows">Теги КП на основе списка запрашиваемых строк таблицы</Phrase>  
+	<Phrase key="rdbKPTagsBasedRequestedTableRows">Теги КП на основе списка запрашиваемых строк таблицы</Phrase>
+	<Phrase key="gpbFormatData">Формат данных</Phrase>
+	<Phrase key="rdbCurrentData">Текущие</Phrase>
+	<Phrase key="rdbHistoricalData">Исторические</Phrase>
+	<Phrase key="gpbDataRelevance">Актуальность данных</Phrase>
+	<Phrase key="lblDiscrepancyInSeconds">Позволенная разница в секундах</Phrase>
     <Phrase key="gpbTagsCount">Количество тегов</Phrase>
     <Phrase key="chkAutoTagCount">Авто</Phrase>
 	<Phrase key="gpbTags">Теги</Phrase>
@@ -42,11 +47,11 @@
     <Phrase key="btnClose">Закрыть</Phrase>
 	<Phrase key="pageHelp">Помощь</Phrase>  
 	<Phrase key="txtHelp">
-		На вкладке База данных необходимо задать тип базы данных и указать параметры соеднинения с БД. 
+		На вкладке База данных необходимо задать тип базы данных и указать параметры соеднинения с БД.
 		Если требуется ввести нестандартные параметры соединения, то допускается редактирование строки соединения напрямую.
 		Примеры параметров соединения можно найти на сайте https://www.connectionstrings.com.
 
-		Драйвер предполагает два формата получения данных - это "Теги КП на основе списка запрашиваемых столбцов таблицы" и 
+		Драйвер предполагает два формата получения данных - это "Теги КП на основе списка запрашиваемых столбцов таблицы" и
 		"Теги КП на основе списка запрашиваемых строк таблицы".
 		В формате "Теги КП на основе списка запрашиваемых столбцов таблицы" SQL-запрос составлен так, что в названии столбца
 		будет название тега КП, а в первой строке значение.
@@ -87,27 +92,6 @@
 		FROM DATATABLE_NAME
 		WHERE УСЛОВИЕ
 
-		В случаях, когда запрос является сложным и составляется из нескольких таблиц, с необходимостью передавать время, 
-		то лучше использоваться "Теги КП на основе списка запрашиваемых строк таблицы".
-		Для этого режима важно последовательность столбцов и значения в них.
-		Столбец первый (COLUMN_1) - это название тега КП, второй столбец (COLUMN_2) - это значение тега КП, третий 
-		столбец (COLUMN_3) - это дата и время значения тега КП.
-		Таблица должна выглядить так
-		+-----------+--------------+--------------------+
-		| COLUMN_1  | COLUMN_2     | COLUMN_3           |
-		+-----------+--------------+--------------------+
-		| TAGNAME_1 |        1,000 | 01.01.2000 0:00:00 |
-		+-----------+--------------+--------------------+
-		| TAGNAME_2 |        2,000 | 02.01.2000 0:00:00 |
-		+-----------+--------------+--------------------+
-		| TAGNAME_2 |        3,000 | 02.01.2000 0:00:00 |
-		+-----------+--------------+--------------------+
-
-		В случае, когда порядок столбцов перепутан - КП будет выдавать ошибку и значения не будут записаны!
-		В данном режиме разрешается, если третьего столбца не будет, тогда время будет указано текушее.
-		
-		
-
 		Команды.
 		Команды определяются в конфигурации КП.
 		Пример команды:
@@ -127,9 +111,30 @@
 	<Phrase key="cmnuCmdQueryRedo">Повторить</Phrase>
 	<Phrase key="cmnuUp">Поднять вверх</Phrase>
 	<Phrase key="cmnuDown">Опустить вниз</Phrase>
-  </Dictionary>
+	<Phrase key="cmnuTagRefresh">Обновить</Phrase>
+	<Phrase key="cmnuTagAdd">Добавить тег</Phrase>
+	<Phrase key="cmnuListTagAdd">Добавить список тегов</Phrase>
+	<Phrase key="cmnuTagChange">Изменить тег</Phrase>
+	<Phrase key="cmnuTagDelete">Удалить тег</Phrase>
+	<Phrase key="cmnuTagAllDelete">Удалить все теги</Phrase>
+	<Phrase key="clmTagname">Название</Phrase>
+	<Phrase key="clmTagCode">Код тега</Phrase>
+	<Phrase key="clmTagType">Тип</Phrase>
+	<Phrase key="clmTagFormat">Формат</Phrase>
+	<Phrase key="clmTagEnabled">Включен</Phrase>
+	</Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmInputBox">
 	<Phrase key="btnOk">Ок</Phrase>
 	<Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmTag">
+	<Phrase key="lblTagCode">Код тега</Phrase>
+	<Phrase key="lblTagname">Название тега</Phrase>
+	<Phrase key="lblType">Тип</Phrase>
+	<Phrase key="lblFormat">Формат</Phrase>
+	<Phrase key="lblEnabled">Включен</Phrase>
+	<Phrase key="btnAdd">Добавить</Phrase>
+	<Phrase key="btnSave">Сохранить</Phrase>
+	<Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
 </DrvDbImportPlusDictionaries>

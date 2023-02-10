@@ -15,7 +15,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public static void Init()
         {
             LocaleDict dictionary = Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmConfig");
-            ConfigDirRequired = dictionary["KpDbImportPlusDictionaries"];
+            ConfigDirRequired = dictionary["DrvDbImportPlusDictionaries"];
         }
     }
 }

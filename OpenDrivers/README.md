@@ -19,6 +19,10 @@
 Библиотека DrvDbImport (6.0.0.2) была исправлена и доработана:
 - У элемента Количество тегов изменено максимальное значение с 100 до 65535.
 
+Библиотека DrvDbImport (6.0.0.3) была исправлена и доработана:
+- Убран режим сохранения историчесих данных. Данный режим показал опасную возможность нагрузить сервер большим количеством срезов, которые могу привести к отказу сервера.
+- Изменён способ отображения, добавления, удаления и редактирования тегов.
+
 
 The KpDbImport library has been improved and new functionality has been added:
 - The configuration file now encrypts not only the password, but also the connection string.
@@ -39,10 +43,14 @@ The DrvDbImport library (6.0.0.1) has been fixed and improved:
 The DrvDbImport library (6.0.0.2) has been fixed and improved:
 - The maximum value of the Tags Count element has been changed from 100 to 65535.
 
-Video on YouTube 
-https://www.youtube.com/watch?v=YysMbwIxhwE
+The DrvDbImport library (6.0.0.3) has been fixed and improved:
+- Historical data transmission mode. This mode has shown a dangerous opportunity to load the server with a large number of slices, which can lead to server failure.
+- Changed the way tags are displayed, added, deleted, and edited.
 
-[![Video on YouTube](https://img.youtube.com/vi/YysMbwIxhwE/0.jpg)](https://www.youtube.com/watch?v=YysMbwIxhwE)
+Video on YouTube 
+https://www.youtube.com/watch?v=okdgSUFjTWg
+
+[![Video on YouTube](https://img.youtube.com/vi/okdgSUFjTWg/0.jpg)](https://www.youtube.com/watch?v=okdgSUFjTWg)
 
 
 Screenshots

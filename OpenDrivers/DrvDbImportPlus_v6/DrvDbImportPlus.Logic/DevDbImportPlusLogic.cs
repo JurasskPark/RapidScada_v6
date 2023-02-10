@@ -3,23 +3,15 @@
 
 using DrvDbImportPlus.Common.Configuration;
 using MySqlX.XDevAPI.Relational;
-using NpgsqlTypes;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus;
 using Scada.Comm.Lang;
-using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
-using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
-using static System.Windows.Forms.Design.AxImporter;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
 
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
@@ -35,19 +27,23 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// </summary>
         private enum TagType { Number, String, DateTime };
 
-        private readonly AppDirs appDirs;               // the application directories
-        private readonly string driverCode;             // the driver code
-        private readonly int deviceNum;                 // the device number
-        private readonly DrvDbImportPlusConfig config;  // the device configuration
-        private string configFileName;                  // the configuration file name
+        private readonly AppDirs appDirs;                       // the application directories
+        private readonly string driverCode;                     // the driver code
+        private readonly int deviceNum;                         // the device number
+        private readonly DrvDbImportPlusConfig config;          // the device configuration
+        private string configFileName;                          // the configuration file name
 
-        public DataSource dataSource;   // the data source
+        private List<Tag> deviceTags;                           // tags
 
-        private bool DeviceTagsBasedRequestedTableColumns; //indicating Device Tags Based on the List of Requested Table Columns
+        public DataSource dataSource;                           // the data source
+
+        private bool DeviceTagsBasedRequestedTableColumns;      // indicating Device Tags Based on the List of Requested Table Columns
+        private bool HistoricalData;                            // condition for transmitting historical data
+        private int DiscrepancyInSeconds;                       // the dead zone for the passage of which the value is considered to be poor quality
         private DataTable dtData = new DataTable("Data");
         private DataTable dtSchema = new DataTable("Schema");
 
-   
+
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -106,9 +102,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
             if (config.Load(configFileName, out string errMsg))
             {
-                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(config))
+                deviceTags = config.DeviceTags;
+
+                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags))
                 {
-                    Log.WriteLine(group.CnlPrototypes.Count.ToString());
                     DeviceTags.AddGroup(group.ToTagGroup());
                 }
             }
@@ -168,6 +165,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         public void InitDataSource(DrvDbImportPlusConfig config)
         {
             DeviceTagsBasedRequestedTableColumns = config.DeviceTagsBasedRequestedTableColumns;
+            HistoricalData = config.HistoricalData;
+            DiscrepancyInSeconds = config.DiscrepancyInSeconds;
 
             dataSource = DataSource.GetDataSourceType(config);
 
@@ -194,63 +193,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 Log.WriteLine(Locale.IsRussian ?
                       "Data source type is not set or not supported" :
                       "Тип источника данных не задан или не поддерживается");
-            }
-        }
-
-        /// 
-        /// <summary>
-        /// Sets value, status and format of the specified tag.
-        /// </summary>
-        private void SetTagData(string code, int tagIndex, object val, int stat)
-        {
-            try
-            {
-                //Log.WriteLine("code " + code.ToString() + " tagIndex " + tagIndex.ToString() + " val " + val.ToString() + " stat " + stat.ToString());
-
-                if (config.DeviceTags.Count > 0)
-                {
-                    DeviceTag deviceTag = DeviceTags[tagIndex];
-
-                    if (val is string strVal)
-                    {
-                        deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagIndex, strVal, stat); } catch { }
-                    }
-                    else if (val is DateTime dtVal)
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, stat); } catch { }
-                    }
-                    else
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.FloatNumber;
-                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), stat); } catch { }
-                    }
-                }
-                else
-                {
-                    if (val is string strVal)
-                    {
-                        try { base.DeviceData.SetUnicode(code, strVal, stat); } catch { }
-                    }
-                    else if (val is DateTime dtVal)
-                    {
-                        try { base.DeviceData.SetDateTime(code, dtVal, stat); } catch { }
-                    }
-                    else
-                    {
-                        try { base.DeviceData.Set(code, Convert.ToDouble(val), stat); } catch { }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при установке данных тега" :
-                    "Error setting tag data"));
             }
         }
 
@@ -340,55 +282,30 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 //Tag based Columns
                 if (DeviceTagsBasedRequestedTableColumns == true)
                 {
+                    #region Formation of the structure
+                    dtData = new DataTable("Data");
+
                     using (DbDataReader reader = dataSource.SelectCommand.ExecuteReader(CommandBehavior.SingleRow))
                     {
-                        if (reader.Read())
+                        if (reader.HasRows == true)
                         {
-                            Log.WriteLine(CommPhrases.ResponseOK);
-
-                            int tagCnt = DeviceTags.Count;
-                            int fieldCnt = reader.FieldCount;
-
-                            for (int i = 0, cnt = Math.Min(tagCnt, fieldCnt); i < cnt; i++)
-                            {
-                                SetTagData("DBTAG" + (i + 1).ToString() + "", i, reader[i], 1);
-                            }
-
-                            // checking the tag for up-to-date data (outdated values)
-                            for (int t = 0; t < DeviceTags.Count; t++)
-                            {
-                                DeviceTag deviceTag = (DeviceTag)DeviceTags[t];
-                                bool devicTagNotFound = true;
-                                for (int i = 0, cnt = Math.Min(tagCnt, fieldCnt); i < cnt; i++)
-                                {
-                                    if (Equals(reader.GetName(i), deviceTag.Name))
-                                    {
-                                        // the tag was found in the table
-                                        devicTagNotFound = false;
-                                    }
-                                }
-
-                                // the tag is not found in the table,
-                                // which means that the value that was before needs to be reset,
-                                // otherwise it will constantly hang,
-                                // and the status will be set to 0
-                                if (devicTagNotFound == true)
-                                {
-                                    SetTagData("DBTAG" + (deviceTag.Index + 1).ToString() + "", deviceTag.Index, 0, 0);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Log.WriteLine(Locale.IsRussian ?
-                                "Данные отсутствуют" :
-                                "No data available");
-                            InvalidateData();
+                            dtData.Load(reader);
+                            ParseDataTableData(dtData, DeviceTagsBasedRequestedTableColumns);
                         }
                     }
+                    #endregion Formation of the structure
+
+                    if (dtData.Columns.Count == 0)
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Данные отсутствуют" :
+                            "No data available");
+                        InvalidateData();
+                    }
                 }
-                else //Tag base Columns
+                else //Tag base Row
                 {
+                    #region Formation of the structure
                     dtData = new DataTable("Data");
 
                     using (DbDataReader reader = dataSource.SelectCommand.ExecuteReader(CommandBehavior.Default))
@@ -456,142 +373,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                             }
                             dtData.LoadDataRow(ColArray, true);
                         }
+
+                        ParseDataTableData(dtData, DeviceTagsBasedRequestedTableColumns);
                     }
-
-                    int tagCnt = DeviceTags.Count;
-                    int rowCnt = dtData.Rows.Count;
-
-                    // current
-                    try
-                    {
-                        Log.WriteLine(CommPhrases.ResponseOK);
-
-                        for (int i = 0; i < Math.Min(tagCnt, rowCnt); i++)
-                        {
-                            if (dtData.Rows[i][0].ToString() == string.Empty || dtData.Rows[i][0] is null)
-                            {
-                                Log.WriteLine(Locale.IsRussian ?
-                                    "Столбец номер 1 с названием тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
-                                    "Column number 1 with the tag name is empty or null. Tag number and table row number -" + (i + 1));
-                            }
-
-                            if (dtData.Rows[i][1].ToString() == string.Empty || dtData.Rows[i][1] is null)
-                            {
-                                Log.WriteLine(Locale.IsRussian ?
-                                    "Столбец номер 2 с значениям тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
-                                    "Column number 2 with the tag value is empty or null. Tag number and table row number" + (i + 1));
-                            }
-
-                            // if the driver has a list of tags to use
-                            if (config.DeviceTags.Count > 0)
-                            {
-                                try
-                                {
-                                    DeviceTag deviceTag = (DeviceTag)DeviceTags.Where(x => x.Name == dtData.Rows[i][0].ToString()).FirstOrDefault();
-                                    if (deviceTag == null)
-                                    {
-                                        Log.WriteLine(Locale.IsRussian ?
-                                       "[Текущие данные] В списке тегов конфигурации драйвера не обнаружен тег с названием '" + dtData.Rows[i][0].ToString() + "'" :
-                                       "[Current data] No tag with the name was found in the list of driver configuration tags '" + dtData.Rows[i][0].ToString() + "'");
-                                    }
-
-                                    SetTagData("DBTAG" + (deviceTag.Index + 1).ToString() + "", deviceTag.Index, dtData.Rows[i][1], 1);
-                                }
-                                catch { }
-                            }
-                            else // otherwise we insert all the values that we found in the database
-                            {
-                                SetTagData("DBTAG" + (i + 1).ToString() + "", i, dtData.Rows[i][1], 1);
-                            }
-                        }
-
-                        // checking the tag for up-to-date data (outdated values)
-                        for (int t = 0; t < DeviceTags.Count; t++)
-                        {
-                            DeviceTag deviceTag = (DeviceTag)DeviceTags[t];
-                            bool devicTagNotFound = true;
-                            for (int i = 0; i < dtData.Rows.Count; i++)
-                            {
-                                if (Equals(dtData.Rows[i][0], deviceTag.Name))
-                                {
-                                    // the tag was found in the table
-                                    devicTagNotFound = false;
-                                }
-                            }
-
-                            // the tag is not found in the table,
-                            // which means that the value that was before needs to be reset,
-                            // otherwise it will constantly hang,
-                            // and the status will be set to 0
-                            if (devicTagNotFound == true)
-                            {
-                                SetTagData("DBTAG" + (deviceTag.Index + 1).ToString() + "", deviceTag.Index, 0, 0);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.WriteLine(ex.ToString());
-                        InvalidateData();
-                    }
-
-                    // history
-                    try
-                    {
-                        for (int i = 0; i < Math.Min(tagCnt, rowCnt); i++)
-                        {
-                            //create a historical data slice
-                            if (dtData.Rows[i][1].ToString() == string.Empty || dtData.Rows[i][2] is null || dtData.Rows.Count < 3)
-                            {
-                                Log.WriteLine(Locale.IsRussian ?
-                                  "Столбец номер 3 с датой и временем тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
-                                  "Column number 3 with the date time of the tag is empty or null. Tag number and table row number - " + (i + 1));
-                            }
-                            else
-                            {
-                                // if the driver has a list of tags to use
-                                if (config.DeviceTags.Count > 0)
-                                {
-                                    try
-                                    {
-                                        DeviceTag deviceTag = (DeviceTag)DeviceTags.Where(x => x.Name == dtData.Rows[i][0].ToString()).FirstOrDefault();
-                                        if (deviceTag == null)
-                                        {
-                                            Log.WriteLine(Locale.IsRussian ?
-                                           "[Исторические данные] В списке тегов конфигурации драйвера не обнаружен тег с названием '" + dtData.Rows[i][0].ToString() + "'" :
-                                           "[Historical data] No tag with the name was found in the list of driver configuration tags '" + dtData.Rows[i][0].ToString() + "'");
-                                        }
-
-                                        DateTime dtSSlice = (DateTime)dtData.Rows[i][2];
-                                        DeviceSlice deviceSlice = new DeviceSlice(
-                                            new DateTime(dtSSlice.Year, dtSSlice.Month, dtSSlice.Day, dtSSlice.Hour, dtSSlice.Minute, dtSSlice.Second, DateTimeKind.Utc),
-                                            1, 1);
-                                        deviceSlice.DeviceTags[0] = DeviceTags["DBTAG" + (deviceTag.Index + 1).ToString() + ""];
-                                        string Descr = Locale.IsRussian ? " Значение = " : " Value = ";
-                                        deviceSlice.Descr = deviceTag.Name + Descr + dtData.Rows[i][1];
-                                        DeviceData.EnqueueSlice(deviceSlice);
-                                    }
-                                    catch { }
-                                }
-                                else // otherwise we insert all the values that we found in the database
-                                {
-
-                                    DateTime dtSSlice = (DateTime)dtData.Rows[i][2];
-                                    DeviceSlice deviceSlice = new DeviceSlice(
-                                        new DateTime(dtSSlice.Year, dtSSlice.Month, dtSSlice.Day, dtSSlice.Hour, dtSSlice.Minute, dtSSlice.Second, DateTimeKind.Utc),
-                                        1, 1);
-                                    deviceSlice.DeviceTags[0] = DeviceTags["DBTAG" + (i + 1).ToString() + ""];
-                                    string Descr = Locale.IsRussian ? " Значение = " : " Value = ";
-                                    deviceSlice.Descr = DeviceTags[i].Name + Descr + dtData.Rows[i][1];
-                                    DeviceData.EnqueueSlice(deviceSlice);
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        InvalidateData();
-                    }
+                    #endregion Formation of the structure
 
                     if (dtData.Rows.Count == 0)
                     {
@@ -609,6 +394,302 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 Log.WriteLine(string.Format(Locale.IsRussian ?
                     "Ошибка при выполнении запроса: {0}" :
                     "Error executing query: {0}", ex.Message));
+                return false;
+            }
+        }
+
+        private void ParseDataTableData(DataTable dtData, bool DeviceTagsBasedRequestedTableColumns)
+        {
+            string name = string.Empty;
+            object value = new object();
+
+            // we reset the previous usage
+            for (int c = 0; c < deviceTags.Count; c++)
+            {
+                deviceTags[c].TagVal = null;
+                deviceTags[c].TagStat = 0;
+            }
+
+            if (DeviceTagsBasedRequestedTableColumns)
+            {
+                if (dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
+                        "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
+                    return;
+                }
+
+                using (DataTableReader reader = new DataTableReader(dtData))
+                {
+                    DataTable dtSchema = reader.GetSchemaTable();
+                    DataColumnCollection columns = dtData.Columns;
+
+                    for (int cntColumns = 0; cntColumns < columns.Count; cntColumns++)
+                    {
+                        DataColumn column = columns[cntColumns];
+                        DataRow schemarow = dtSchema.Rows[cntColumns];
+                        name = string.Empty;
+
+                        try
+                        {
+                            name = columns[cntColumns].ColumnName;
+                        }
+                        catch { }
+
+                        DataRow dataTablerow = dtData.Rows[0];
+
+                        try
+                        {
+                            value = dataTablerow.ItemArray[cntColumns];
+                        }
+                        catch { }
+
+                        #region Find Tag
+                        Tag tag = (Tag)deviceTags.Where(x => x.TagName == name).FirstOrDefault();
+                        if (tag == null)
+                        {
+                            tag.TagVal = null;
+                            tag.TagStat = 0;
+                        }
+                        else
+                        {
+                            tag.TagVal = value;
+                            tag.TagStat = 1;
+                        }
+                        #endregion  Find Tag
+
+                    }
+                }
+            }
+            else
+            {
+                if (dtData.Columns.Count < 2 || dtData.Rows.Count == 0)
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
+                        "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
+                    return;
+                }
+
+                for (int i = 0; i < dtData.Rows.Count; i++)
+                {
+                    if (dtData.Rows[i][0].ToString() == string.Empty || dtData.Rows[i][0] is null)
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Столбец номер 1 с названием тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
+                            "Column number 1 with the tag name is empty or null. Tag number and table row number -" + (i + 1));
+                    }
+
+                    try
+                    {
+                        name = dtData.Rows[i][0].ToString();
+                    }
+                    catch { }
+
+
+                    if (dtData.Rows[i][1].ToString() == string.Empty || dtData.Rows[i][1] is null)
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Столбец номер 2 с значениям тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
+                            "Column number 2 with the tag value is empty or null. Tag number and table row number" + (i + 1));
+                    }
+
+                    try
+                    {
+                        value = dtData.Rows[i][1];
+                    }
+                    catch { }
+
+                    #region  Find Tag
+                    Tag tag = (Tag)deviceTags.Where(x => x.TagName == name).FirstOrDefault();
+                    if (tag == null)
+                    {
+                        tag.TagVal = null;
+                        tag.TagStat = 0;
+                    }
+                    else
+                    {
+                        tag.TagVal = value;
+                        tag.TagStat = 1;
+                    }
+                    #endregion  Find Tag
+
+                }
+            }
+
+            #region Recording current data
+
+            for (int t = 0; t < deviceTags.Count; t++)
+            {
+                if(deviceTags[t].TagEnabled == false)
+                {
+                    continue;
+                }
+
+                if (deviceTags[t].TagCode != string.Empty)
+                {
+                    SetTagData(deviceTags[t].TagCode, deviceTags[t].TagVal, deviceTags[t].TagStat);
+                }
+                else
+                {
+                    SetTagData(deviceTags.IndexOf(deviceTags[t]), deviceTags[t].TagVal, deviceTags[t].TagStat);
+                }
+            }
+
+            #endregion  Recording current data
+        }
+
+        /// <summary>
+        /// Sets value, status and format of the specified tag.
+        /// </summary>
+        private void SetTagData(int tagIndex, object tagVal, int tagStat)
+        {
+            try
+            {
+                if (DeviceTags.Count() > 0)
+                {
+                    DeviceTag deviceTag = DeviceTags[tagIndex];
+
+                    if (tagVal is string strVal)
+                    {
+                        deviceTag.DataType = TagDataType.Unicode;
+                        deviceTag.Format = TagFormat.String;
+                        try { base.DeviceData.SetUnicode(tagIndex, strVal, tagStat); } catch { }
+                    }
+                    else if (tagVal is DateTime dtVal)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.DateTime;
+                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, tagStat); } catch { }
+                    }
+                    else
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.FloatNumber;
+                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(tagVal), tagStat); } catch { }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при установке данных тега" :
+                    "Error setting tag data"));
+            }
+        }
+
+        /// <summary>
+        /// Sets value, status and format of the specified tag.
+        /// </summary>
+        private void SetTagData(string tagCode, object tagVal, int tagStat)
+        {
+            try
+            {
+                if (DeviceTags.Count() > 0)
+                {
+                    DeviceTag deviceTag = DeviceTags[tagCode];
+
+                    if (tagVal is string strVal)
+                    {
+                        deviceTag.DataType = TagDataType.Unicode;
+                        deviceTag.Format = TagFormat.String;
+                        try { base.DeviceData.SetUnicode(tagCode, strVal, tagStat); } catch { }
+                    }
+                    else if (tagVal is DateTime dtVal)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.DateTime;
+                        try { base.DeviceData.SetDateTime(tagCode, dtVal, tagStat); } catch { }
+                    }
+                    else
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.FloatNumber;
+                        try { base.DeviceData.Set(tagCode, Convert.ToDouble(tagVal), tagStat); } catch { }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при установке данных тега" :
+                    "Error setting tag data"));
+            }
+        }
+
+        /// <summary>
+        /// Converts the device slice to a general purpose slice.
+        /// </summary>
+        private bool ConvertSlice(DeviceSlice srcSlice, out Slice destSlice)
+        {
+            try
+            {
+                int srcDataLength = srcSlice.CnlData.Length;
+                int destDataLength = 0;
+                List<int> cnlNums = new List<int>(srcDataLength);
+
+                foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
+                {
+                    if (deviceTag == null)
+                    {
+                        throw new ScadaException(Locale.IsRussian ?
+                            "Неопределенные теги в срезе не допускаются." :
+                            "Undefined tags are not allowed in a slice.");
+                    }
+
+                    if (deviceTag.Cnl != null)
+                    {
+                        int tagDataLength = deviceTag.DataLength;
+
+                        for (int i = 0; i < tagDataLength; i++)
+                        {
+                            cnlNums.Add(deviceTag.Cnl.CnlNum + i);
+                        }
+
+                        destDataLength += tagDataLength;
+                    }
+                }
+
+                if (destDataLength == 0)
+                {
+                    destSlice = null;
+                    return false;
+                }
+                else if (destDataLength == srcDataLength)
+                {
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData);
+                    return true;
+                }
+                else
+                {
+                    CnlData[] destCnlData = new CnlData[destDataLength];
+                    int srcDataIndex = 0;
+                    int destDataIndex = 0;
+
+                    foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
+                    {
+                        int tagDataLength = deviceTag.DataLength;
+
+                        if (deviceTag.Cnl != null)
+                        {
+                            Array.Copy(srcSlice.CnlData, srcDataIndex, destCnlData, destDataIndex, tagDataLength);
+                            destDataIndex += tagDataLength;
+                        }
+
+                        srcDataIndex += tagDataLength;
+                    }
+
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), destCnlData);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ex, CommPhrases.DataSourceMessage, string.Format(Locale.IsRussian ?
+                    "Ошибка при конвертировании среза от устройства {0}" :
+                    "Error converting slice from the device {0}", srcSlice.DeviceNum));
+                destSlice = null;
                 return false;
             }
         }

@@ -49,6 +49,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Автор:  Михаил Ширяев\n" +
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
+                    "Версия 6.0.0.3 (10.02.2023)\n" +
+                    "Удалено:\n" +
+                    "[-] Режим передачи исторических данных. Данный режим показал опасную возможность нагрузить сервер большим количеством срезов, которые могу привести к отказу сервера.\n" +
+                    "Исправлено:\n" +
+                    "[v] Изменён способ отображения, добавления, удаления и редактирования тегов.\n" +
                     "Версия 6.0.0.2 (13.11.2022)\n" +
                     "Исправлено:\n" +
                     "[v] У элемента Количество тегов изменено максимальное значение с 100 до 65535.\n" +
@@ -71,6 +76,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+                    "Version 6.0.0.3 (10.02.2023)\n" +
+                    "Removed:\n" +
+                    "[-] Historical data transmission mode. This mode has shown a dangerous opportunity to load the server with a large number of slices, which can lead to server failure.\n" +
+                    "Fixed:\n" +
+                    "[v] Changed the way tags are displayed, added, deleted, and edited.\n" +
                     "Version 6.0.0.2 (13.11.2022)\n" +
                     "Fixed:\n" +
                     "[v] The maximum value of the Tags Count element has been changed from 100 to 65535.\n" +
@@ -104,7 +114,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
             }
                 
             DriverPhrases.Init();
-
         }
 
         /// <summary>

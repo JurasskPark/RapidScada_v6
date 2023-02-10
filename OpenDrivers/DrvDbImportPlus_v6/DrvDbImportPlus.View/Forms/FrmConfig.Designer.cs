@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConfig));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtSelectQuery = new FastColoredTextBoxNS.FastColoredTextBox();
             this.cmnuSelectQuery = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmnuSelectQueryCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,20 +93,23 @@
             this.pageSettings = new System.Windows.Forms.TabPage();
             this.gpbTags = new System.Windows.Forms.GroupBox();
             this.tlpTags = new System.Windows.Forms.TableLayoutPanel();
-            this.tlpTagsManagement = new System.Windows.Forms.TableLayoutPanel();
-            this.btnTagnameDeleteList = new System.Windows.Forms.Button();
-            this.btnTagnameDelete = new System.Windows.Forms.Button();
-            this.lblTagnameAdd = new System.Windows.Forms.Label();
-            this.btnTagnameAddList = new System.Windows.Forms.Button();
-            this.btnTagnameAdd = new System.Windows.Forms.Button();
-            this.txtTagnameAdd = new System.Windows.Forms.TextBox();
-            this.lstTags = new System.Windows.Forms.ListBox();
+            this.lstTags = new System.Windows.Forms.ListView();
+            this.clmTagname = new System.Windows.Forms.ColumnHeader();
+            this.clmTagCode = new System.Windows.Forms.ColumnHeader();
+            this.clmTagEnabled = new System.Windows.Forms.ColumnHeader();
             this.cmnuLstTags = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmnuTagRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmnuTagAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuListTagAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmnuTagChange = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmnuTagDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuTagAllDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.cmnuUp = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.gpbTagsCount = new System.Windows.Forms.GroupBox();
-            this.numTagCount = new System.Windows.Forms.NumericUpDown();
-            this.chkAutoTagCount = new System.Windows.Forms.CheckBox();
             this.gpbTagFormatDatabase = new System.Windows.Forms.GroupBox();
             this.rdbKPTagsBasedRequestedTableRows = new System.Windows.Forms.RadioButton();
             this.rdbKPTagsBasedRequestedTableColumns = new System.Windows.Forms.RadioButton();
@@ -132,10 +137,7 @@
             this.pageSettings.SuspendLayout();
             this.gpbTags.SuspendLayout();
             this.tlpTags.SuspendLayout();
-            this.tlpTagsManagement.SuspendLayout();
             this.cmnuLstTags.SuspendLayout();
-            this.gpbTagsCount.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTagCount)).BeginInit();
             this.gpbTagFormatDatabase.SuspendLayout();
             this.pageHelp.SuspendLayout();
             this.pnlBottom.SuspendLayout();
@@ -168,13 +170,14 @@
             this.txtSelectQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSelectQuery.DefaultMarkerSize = 8;
             this.txtSelectQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.txtSelectQuery.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtSelectQuery.IsReplaceMode = false;
             this.txtSelectQuery.Location = new System.Drawing.Point(8, 20);
             this.txtSelectQuery.Name = "txtSelectQuery";
             this.txtSelectQuery.Paddings = new System.Windows.Forms.Padding(0);
             this.txtSelectQuery.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.txtSelectQuery.ServiceColors = null;
-            this.txtSelectQuery.Size = new System.Drawing.Size(481, 385);
+            this.txtSelectQuery.Size = new System.Drawing.Size(632, 443);
             this.txtSelectQuery.TabIndex = 5;
             this.txtSelectQuery.WordWrap = true;
             this.txtSelectQuery.Zoom = 100;
@@ -272,13 +275,14 @@
             this.txtCmdQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtCmdQuery.DefaultMarkerSize = 8;
             this.txtCmdQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.txtCmdQuery.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtCmdQuery.IsReplaceMode = false;
             this.txtCmdQuery.Location = new System.Drawing.Point(12, 81);
             this.txtCmdQuery.Name = "txtCmdQuery";
             this.txtCmdQuery.Paddings = new System.Windows.Forms.Padding(0);
             this.txtCmdQuery.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.txtCmdQuery.ServiceColors = null;
-            this.txtCmdQuery.Size = new System.Drawing.Size(455, 229);
+            this.txtCmdQuery.Size = new System.Drawing.Size(606, 287);
             this.txtCmdQuery.TabIndex = 6;
             this.txtCmdQuery.WordWrap = true;
             this.txtCmdQuery.Zoom = 100;
@@ -373,14 +377,13 @@
             this.txtHelp.DefaultMarkerSize = 8;
             this.txtHelp.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.txtHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtHelp.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtHelp.IsReplaceMode = false;
             this.txtHelp.Location = new System.Drawing.Point(0, 0);
             this.txtHelp.Name = "txtHelp";
             this.txtHelp.Paddings = new System.Windows.Forms.Padding(0);
             this.txtHelp.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.txtHelp.ServiceColors = null;
-            this.txtHelp.Size = new System.Drawing.Size(498, 411);
+            this.txtHelp.Size = new System.Drawing.Size(649, 469);
             this.txtHelp.TabIndex = 7;
             this.txtHelp.WordWrap = true;
             this.txtHelp.Zoom = 100;
@@ -428,7 +431,7 @@
             this.gbConnection.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbConnection.Name = "gbConnection";
             this.gbConnection.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gbConnection.Size = new System.Drawing.Size(483, 328);
+            this.gbConnection.Size = new System.Drawing.Size(634, 386);
             this.gbConnection.TabIndex = 1;
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "Connection";
@@ -482,7 +485,7 @@
             this.txtConnectionString.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtConnectionString.Multiline = true;
             this.txtConnectionString.Name = "txtConnectionString";
-            this.txtConnectionString.Size = new System.Drawing.Size(452, 95);
+            this.txtConnectionString.Size = new System.Drawing.Size(603, 153);
             this.txtConnectionString.TabIndex = 9;
             this.txtConnectionString.TextChanged += new System.EventHandler(this.txtConnectionString_TextChanged);
             // 
@@ -590,7 +593,7 @@
             this.tabControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(506, 439);
+            this.tabControl.Size = new System.Drawing.Size(657, 497);
             this.tabControl.TabIndex = 0;
             // 
             // pageDatabase
@@ -601,7 +604,7 @@
             this.pageDatabase.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pageDatabase.Name = "pageDatabase";
             this.pageDatabase.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.pageDatabase.Size = new System.Drawing.Size(498, 411);
+            this.pageDatabase.Size = new System.Drawing.Size(649, 469);
             this.pageDatabase.TabIndex = 0;
             this.pageDatabase.Text = "Database";
             this.pageDatabase.UseVisualStyleBackColor = true;
@@ -616,7 +619,7 @@
             this.gbDataSourceType.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbDataSourceType.Name = "gbDataSourceType";
             this.gbDataSourceType.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gbDataSourceType.Size = new System.Drawing.Size(483, 61);
+            this.gbDataSourceType.Size = new System.Drawing.Size(634, 61);
             this.gbDataSourceType.TabIndex = 0;
             this.gbDataSourceType.TabStop = false;
             this.gbDataSourceType.Text = "Data Source Type";
@@ -640,7 +643,7 @@
             this.pageQuery.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pageQuery.Name = "pageQuery";
             this.pageQuery.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.pageQuery.Size = new System.Drawing.Size(498, 411);
+            this.pageQuery.Size = new System.Drawing.Size(649, 469);
             this.pageQuery.TabIndex = 1;
             this.pageQuery.Text = "Data Retrieval";
             this.pageQuery.UseVisualStyleBackColor = true;
@@ -661,7 +664,7 @@
             this.pageData.Location = new System.Drawing.Point(4, 24);
             this.pageData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pageData.Name = "pageData";
-            this.pageData.Size = new System.Drawing.Size(498, 411);
+            this.pageData.Size = new System.Drawing.Size(649, 469);
             this.pageData.TabIndex = 4;
             this.pageData.Text = "Data";
             this.pageData.UseVisualStyleBackColor = true;
@@ -679,29 +682,46 @@
             this.tlpPanel.RowCount = 2;
             this.tlpPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tlpPanel.Size = new System.Drawing.Size(498, 411);
+            this.tlpPanel.Size = new System.Drawing.Size(649, 469);
             this.tlpPanel.TabIndex = 10;
             // 
             // dgvData
             // 
             this.dgvData.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvData.Location = new System.Drawing.Point(4, 3);
             this.dgvData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvData.Name = "dgvData";
             this.dgvData.ReadOnly = true;
-            this.dgvData.Size = new System.Drawing.Size(490, 370);
+            this.dgvData.Size = new System.Drawing.Size(641, 428);
             this.dgvData.TabIndex = 8;
+            this.dgvData.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvData_DataError);
             // 
             // btnExecuteSQLQuery
             // 
             this.btnExecuteSQLQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExecuteSQLQuery.Location = new System.Drawing.Point(4, 379);
+            this.btnExecuteSQLQuery.Location = new System.Drawing.Point(4, 437);
             this.btnExecuteSQLQuery.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnExecuteSQLQuery.Name = "btnExecuteSQLQuery";
-            this.btnExecuteSQLQuery.Size = new System.Drawing.Size(490, 27);
+            this.btnExecuteSQLQuery.Size = new System.Drawing.Size(641, 27);
             this.btnExecuteSQLQuery.TabIndex = 9;
             this.btnExecuteSQLQuery.Text = "Execute SQL query";
             this.btnExecuteSQLQuery.UseVisualStyleBackColor = true;
@@ -715,7 +735,7 @@
             this.pageCommands.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pageCommands.Name = "pageCommands";
             this.pageCommands.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.pageCommands.Size = new System.Drawing.Size(498, 411);
+            this.pageCommands.Size = new System.Drawing.Size(649, 469);
             this.pageCommands.TabIndex = 2;
             this.pageCommands.Text = "Commands";
             this.pageCommands.UseVisualStyleBackColor = true;
@@ -737,7 +757,7 @@
             this.gbCommandParams.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbCommandParams.Name = "gbCommandParams";
             this.gbCommandParams.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gbCommandParams.Size = new System.Drawing.Size(483, 325);
+            this.gbCommandParams.Size = new System.Drawing.Size(634, 383);
             this.gbCommandParams.TabIndex = 1;
             this.gbCommandParams.TabStop = false;
             this.gbCommandParams.Text = "Command Parameters";
@@ -825,7 +845,7 @@
             this.gbCommand.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbCommand.Name = "gbCommand";
             this.gbCommand.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gbCommand.Size = new System.Drawing.Size(483, 63);
+            this.gbCommand.Size = new System.Drawing.Size(634, 63);
             this.gbCommand.TabIndex = 0;
             this.gbCommand.TabStop = false;
             this.gbCommand.Text = "Command";
@@ -866,156 +886,169 @@
             // pageSettings
             // 
             this.pageSettings.Controls.Add(this.gpbTags);
-            this.pageSettings.Controls.Add(this.gpbTagsCount);
             this.pageSettings.Controls.Add(this.gpbTagFormatDatabase);
             this.pageSettings.Location = new System.Drawing.Point(4, 24);
             this.pageSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pageSettings.Name = "pageSettings";
-            this.pageSettings.Size = new System.Drawing.Size(498, 411);
+            this.pageSettings.Size = new System.Drawing.Size(649, 469);
             this.pageSettings.TabIndex = 3;
             this.pageSettings.Text = "Settings";
             this.pageSettings.UseVisualStyleBackColor = true;
             // 
             // gpbTags
             // 
-            this.gpbTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gpbTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gpbTags.Controls.Add(this.tlpTags);
-            this.gpbTags.Location = new System.Drawing.Point(7, 155);
+            this.gpbTags.Location = new System.Drawing.Point(7, 90);
             this.gpbTags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gpbTags.Name = "gpbTags";
             this.gpbTags.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gpbTags.Size = new System.Drawing.Size(481, 245);
+            this.gpbTags.Size = new System.Drawing.Size(632, 367);
             this.gpbTags.TabIndex = 12;
             this.gpbTags.TabStop = false;
             this.gpbTags.Text = "Tags";
             // 
             // tlpTags
             // 
-            this.tlpTags.ColumnCount = 2;
-            this.tlpTags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.97345F));
-            this.tlpTags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.02655F));
-            this.tlpTags.Controls.Add(this.tlpTagsManagement, 1, 0);
+            this.tlpTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpTags.ColumnCount = 1;
+            this.tlpTags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.5955F));
             this.tlpTags.Controls.Add(this.lstTags, 0, 0);
             this.tlpTags.Location = new System.Drawing.Point(14, 22);
             this.tlpTags.Name = "tlpTags";
             this.tlpTags.RowCount = 1;
             this.tlpTags.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpTags.Size = new System.Drawing.Size(452, 208);
+            this.tlpTags.Size = new System.Drawing.Size(603, 330);
             this.tlpTags.TabIndex = 1;
-            // 
-            // tlpTagsManagement
-            // 
-            this.tlpTagsManagement.ColumnCount = 1;
-            this.tlpTagsManagement.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpTagsManagement.Controls.Add(this.btnTagnameDeleteList, 0, 5);
-            this.tlpTagsManagement.Controls.Add(this.btnTagnameDelete, 0, 4);
-            this.tlpTagsManagement.Controls.Add(this.lblTagnameAdd, 0, 0);
-            this.tlpTagsManagement.Controls.Add(this.btnTagnameAddList, 0, 3);
-            this.tlpTagsManagement.Controls.Add(this.btnTagnameAdd, 0, 2);
-            this.tlpTagsManagement.Controls.Add(this.txtTagnameAdd, 0, 1);
-            this.tlpTagsManagement.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpTagsManagement.Location = new System.Drawing.Point(256, 3);
-            this.tlpTagsManagement.Name = "tlpTagsManagement";
-            this.tlpTagsManagement.RowCount = 7;
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpTagsManagement.Size = new System.Drawing.Size(193, 202);
-            this.tlpTagsManagement.TabIndex = 1;
-            // 
-            // btnTagnameDeleteList
-            // 
-            this.btnTagnameDeleteList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnTagnameDeleteList.Location = new System.Drawing.Point(3, 168);
-            this.btnTagnameDeleteList.Name = "btnTagnameDeleteList";
-            this.btnTagnameDeleteList.Size = new System.Drawing.Size(187, 27);
-            this.btnTagnameDeleteList.TabIndex = 5;
-            this.btnTagnameDeleteList.Text = "Delete list";
-            this.btnTagnameDeleteList.UseVisualStyleBackColor = true;
-            this.btnTagnameDeleteList.Click += new System.EventHandler(this.btnTagnameDeleteList_Click);
-            // 
-            // btnTagnameDelete
-            // 
-            this.btnTagnameDelete.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnTagnameDelete.Location = new System.Drawing.Point(3, 135);
-            this.btnTagnameDelete.Name = "btnTagnameDelete";
-            this.btnTagnameDelete.Size = new System.Drawing.Size(187, 27);
-            this.btnTagnameDelete.TabIndex = 4;
-            this.btnTagnameDelete.Text = "Delete";
-            this.btnTagnameDelete.UseVisualStyleBackColor = true;
-            this.btnTagnameDelete.Click += new System.EventHandler(this.btnTagnameDelete_Click);
-            // 
-            // lblTagnameAdd
-            // 
-            this.lblTagnameAdd.AutoSize = true;
-            this.lblTagnameAdd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTagnameAdd.Location = new System.Drawing.Point(3, 0);
-            this.lblTagnameAdd.Name = "lblTagnameAdd";
-            this.lblTagnameAdd.Size = new System.Drawing.Size(187, 33);
-            this.lblTagnameAdd.TabIndex = 2;
-            this.lblTagnameAdd.Text = "Tagname";
-            this.lblTagnameAdd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnTagnameAddList
-            // 
-            this.btnTagnameAddList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnTagnameAddList.Location = new System.Drawing.Point(3, 102);
-            this.btnTagnameAddList.Name = "btnTagnameAddList";
-            this.btnTagnameAddList.Size = new System.Drawing.Size(187, 27);
-            this.btnTagnameAddList.TabIndex = 3;
-            this.btnTagnameAddList.Text = "Add several";
-            this.btnTagnameAddList.UseVisualStyleBackColor = true;
-            this.btnTagnameAddList.Click += new System.EventHandler(this.btnTagnameAddList_Click);
-            // 
-            // btnTagnameAdd
-            // 
-            this.btnTagnameAdd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnTagnameAdd.Location = new System.Drawing.Point(3, 69);
-            this.btnTagnameAdd.Name = "btnTagnameAdd";
-            this.btnTagnameAdd.Size = new System.Drawing.Size(187, 27);
-            this.btnTagnameAdd.TabIndex = 2;
-            this.btnTagnameAdd.Text = "Add";
-            this.btnTagnameAdd.UseVisualStyleBackColor = true;
-            this.btnTagnameAdd.Click += new System.EventHandler(this.btnTagnameAdd_Click);
-            // 
-            // txtTagnameAdd
-            // 
-            this.txtTagnameAdd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTagnameAdd.Location = new System.Drawing.Point(3, 36);
-            this.txtTagnameAdd.Name = "txtTagnameAdd";
-            this.txtTagnameAdd.Size = new System.Drawing.Size(187, 23);
-            this.txtTagnameAdd.TabIndex = 6;
             // 
             // lstTags
             // 
+            this.lstTags.Alignment = System.Windows.Forms.ListViewAlignment.Default;
+            this.lstTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstTags.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmTagname,
+            this.clmTagCode,
+            this.clmTagEnabled});
             this.lstTags.ContextMenuStrip = this.cmnuLstTags;
-            this.lstTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstTags.FormattingEnabled = true;
-            this.lstTags.ItemHeight = 15;
+            this.lstTags.FullRowSelect = true;
+            this.lstTags.GridLines = true;
             this.lstTags.Location = new System.Drawing.Point(3, 3);
+            this.lstTags.MultiSelect = false;
             this.lstTags.Name = "lstTags";
-            this.lstTags.Size = new System.Drawing.Size(247, 202);
-            this.lstTags.TabIndex = 1;
-            this.lstTags.SelectedIndexChanged += new System.EventHandler(this.lstTags_SelectedIndexChanged);
+            this.lstTags.Size = new System.Drawing.Size(597, 324);
+            this.lstTags.TabIndex = 2;
+            this.lstTags.UseCompatibleStateImageBehavior = false;
+            this.lstTags.View = System.Windows.Forms.View.Details;
+            this.lstTags.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstTags_KeyDown);
+            this.lstTags.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lstTags_MouseClick);
+            this.lstTags.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstTags_MouseDoubleClick);
+            // 
+            // clmTagname
+            // 
+            this.clmTagname.Text = "Name";
+            this.clmTagname.Width = 200;
+            // 
+            // clmTagCode
+            // 
+            this.clmTagCode.Text = "Tag code";
+            this.clmTagCode.Width = 200;
+            // 
+            // clmTagEnabled
+            // 
+            this.clmTagEnabled.Text = "Enabled";
+            this.clmTagEnabled.Width = 80;
             // 
             // cmnuLstTags
             // 
             this.cmnuLstTags.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuTagRefresh,
+            this.toolStripSeparator6,
+            this.cmnuTagAdd,
+            this.cmnuListTagAdd,
+            this.toolStripSeparator3,
+            this.cmnuTagChange,
+            this.toolStripSeparator4,
+            this.cmnuTagDelete,
+            this.cmnuTagAllDelete,
+            this.toolStripSeparator5,
             this.cmnuUp,
             this.cmnuDown});
             this.cmnuLstTags.Name = "cmnuSelectQuery";
-            this.cmnuLstTags.Size = new System.Drawing.Size(106, 48);
+            this.cmnuLstTags.Size = new System.Drawing.Size(155, 204);
+            // 
+            // cmnuTagRefresh
+            // 
+            this.cmnuTagRefresh.Name = "cmnuTagRefresh";
+            this.cmnuTagRefresh.Size = new System.Drawing.Size(154, 22);
+            this.cmnuTagRefresh.Text = "Refresh";
+            this.cmnuTagRefresh.Click += new System.EventHandler(this.cmnuTagRefresh_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(151, 6);
+            // 
+            // cmnuTagAdd
+            // 
+            this.cmnuTagAdd.Name = "cmnuTagAdd";
+            this.cmnuTagAdd.Size = new System.Drawing.Size(154, 22);
+            this.cmnuTagAdd.Text = "Add Tag";
+            this.cmnuTagAdd.Click += new System.EventHandler(this.cmnuTagAdd_Click);
+            // 
+            // cmnuListTagAdd
+            // 
+            this.cmnuListTagAdd.Name = "cmnuListTagAdd";
+            this.cmnuListTagAdd.Size = new System.Drawing.Size(154, 22);
+            this.cmnuListTagAdd.Text = "Add list of Tags";
+            this.cmnuListTagAdd.Click += new System.EventHandler(this.cmnuListTagAdd_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
+            // 
+            // cmnuTagChange
+            // 
+            this.cmnuTagChange.Name = "cmnuTagChange";
+            this.cmnuTagChange.Size = new System.Drawing.Size(154, 22);
+            this.cmnuTagChange.Text = "Change Tag";
+            this.cmnuTagChange.Click += new System.EventHandler(this.cmnuTagChange_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(151, 6);
+            // 
+            // cmnuTagDelete
+            // 
+            this.cmnuTagDelete.Name = "cmnuTagDelete";
+            this.cmnuTagDelete.Size = new System.Drawing.Size(154, 22);
+            this.cmnuTagDelete.Text = "Delete Tag";
+            this.cmnuTagDelete.Click += new System.EventHandler(this.cmnuTagDelete_Click);
+            // 
+            // cmnuTagAllDelete
+            // 
+            this.cmnuTagAllDelete.Name = "cmnuTagAllDelete";
+            this.cmnuTagAllDelete.Size = new System.Drawing.Size(154, 22);
+            this.cmnuTagAllDelete.Text = "Delete all Tags";
+            this.cmnuTagAllDelete.Click += new System.EventHandler(this.cmnuTagAllDelete_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(151, 6);
             // 
             // cmnuUp
             // 
             this.cmnuUp.Image = ((System.Drawing.Image)(resources.GetObject("cmnuUp.Image")));
             this.cmnuUp.Name = "cmnuUp";
-            this.cmnuUp.Size = new System.Drawing.Size(105, 22);
+            this.cmnuUp.Size = new System.Drawing.Size(154, 22);
             this.cmnuUp.Text = "Up";
             this.cmnuUp.Click += new System.EventHandler(this.cmnuUp_Click);
             // 
@@ -1023,50 +1056,9 @@
             // 
             this.cmnuDown.Image = ((System.Drawing.Image)(resources.GetObject("cmnuDown.Image")));
             this.cmnuDown.Name = "cmnuDown";
-            this.cmnuDown.Size = new System.Drawing.Size(105, 22);
+            this.cmnuDown.Size = new System.Drawing.Size(154, 22);
             this.cmnuDown.Text = "Down";
             this.cmnuDown.Click += new System.EventHandler(this.cmnuDown_Click);
-            // 
-            // gpbTagsCount
-            // 
-            this.gpbTagsCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gpbTagsCount.Controls.Add(this.numTagCount);
-            this.gpbTagsCount.Controls.Add(this.chkAutoTagCount);
-            this.gpbTagsCount.Location = new System.Drawing.Point(7, 91);
-            this.gpbTagsCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gpbTagsCount.Name = "gpbTagsCount";
-            this.gpbTagsCount.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gpbTagsCount.Size = new System.Drawing.Size(481, 58);
-            this.gpbTagsCount.TabIndex = 11;
-            this.gpbTagsCount.TabStop = false;
-            this.gpbTagsCount.Text = "Tags Count";
-            // 
-            // numTagCount
-            // 
-            this.numTagCount.Location = new System.Drawing.Point(14, 22);
-            this.numTagCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numTagCount.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numTagCount.Name = "numTagCount";
-            this.numTagCount.Size = new System.Drawing.Size(117, 23);
-            this.numTagCount.TabIndex = 8;
-            this.numTagCount.ValueChanged += new System.EventHandler(this.numTagCount_ValueChanged);
-            // 
-            // chkAutoTagCount
-            // 
-            this.chkAutoTagCount.AutoSize = true;
-            this.chkAutoTagCount.Location = new System.Drawing.Point(138, 23);
-            this.chkAutoTagCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.chkAutoTagCount.Name = "chkAutoTagCount";
-            this.chkAutoTagCount.Size = new System.Drawing.Size(52, 19);
-            this.chkAutoTagCount.TabIndex = 9;
-            this.chkAutoTagCount.Text = "Auto";
-            this.chkAutoTagCount.UseVisualStyleBackColor = true;
-            this.chkAutoTagCount.CheckedChanged += new System.EventHandler(this.chkAutoTagCount_CheckedChanged);
             // 
             // gpbTagFormatDatabase
             // 
@@ -1078,7 +1070,7 @@
             this.gpbTagFormatDatabase.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gpbTagFormatDatabase.Name = "gpbTagFormatDatabase";
             this.gpbTagFormatDatabase.Padding = new System.Windows.Forms.Padding(12, 3, 12, 12);
-            this.gpbTagFormatDatabase.Size = new System.Drawing.Size(481, 77);
+            this.gpbTagFormatDatabase.Size = new System.Drawing.Size(632, 77);
             this.gpbTagFormatDatabase.TabIndex = 7;
             this.gpbTagFormatDatabase.TabStop = false;
             this.gpbTagFormatDatabase.Text = "Format of Tags from the Database";
@@ -1115,7 +1107,7 @@
             this.pageHelp.Location = new System.Drawing.Point(4, 24);
             this.pageHelp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pageHelp.Name = "pageHelp";
-            this.pageHelp.Size = new System.Drawing.Size(498, 411);
+            this.pageHelp.Size = new System.Drawing.Size(649, 469);
             this.pageHelp.TabIndex = 5;
             this.pageHelp.Text = "Help";
             this.pageHelp.UseVisualStyleBackColor = true;
@@ -1125,17 +1117,17 @@
             this.pnlBottom.Controls.Add(this.btnClose);
             this.pnlBottom.Controls.Add(this.btnSave);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 439);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 497);
             this.pnlBottom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(506, 47);
+            this.pnlBottom.Size = new System.Drawing.Size(657, 47);
             this.pnlBottom.TabIndex = 1;
             // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(405, 7);
+            this.btnClose.Location = new System.Drawing.Point(556, 7);
             this.btnClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(88, 27);
@@ -1146,7 +1138,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(310, 7);
+            this.btnSave.Location = new System.Drawing.Point(461, 7);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 27);
@@ -1160,7 +1152,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(506, 486);
+            this.ClientSize = new System.Drawing.Size(657, 544);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pnlBottom);
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -1197,12 +1189,7 @@
             this.pageSettings.ResumeLayout(false);
             this.gpbTags.ResumeLayout(false);
             this.tlpTags.ResumeLayout(false);
-            this.tlpTagsManagement.ResumeLayout(false);
-            this.tlpTagsManagement.PerformLayout();
             this.cmnuLstTags.ResumeLayout(false);
-            this.gpbTagsCount.ResumeLayout(false);
-            this.gpbTagsCount.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTagCount)).EndInit();
             this.gpbTagFormatDatabase.ResumeLayout(false);
             this.gpbTagFormatDatabase.PerformLayout();
             this.pageHelp.ResumeLayout(false);
@@ -1251,8 +1238,6 @@
         private System.Windows.Forms.Button btnConnectionTest;
         private FastColoredTextBoxNS.FastColoredTextBox txtCmdQuery;
         private System.Windows.Forms.TabPage pageSettings;
-        private System.Windows.Forms.CheckBox chkAutoTagCount;
-        private System.Windows.Forms.NumericUpDown numTagCount;
         private System.Windows.Forms.GroupBox gpbTagFormatDatabase;
         private System.Windows.Forms.RadioButton rdbKPTagsBasedRequestedTableRows;
         private System.Windows.Forms.RadioButton rdbKPTagsBasedRequestedTableColumns;
@@ -1260,21 +1245,12 @@
         private System.Windows.Forms.TableLayoutPanel tlpPanel;
         private System.Windows.Forms.DataGridView dgvData;
         private System.Windows.Forms.Button btnExecuteSQLQuery;
-        private System.Windows.Forms.GroupBox gpbTagsCount;
         private System.Windows.Forms.TabPage pageHelp;
         private FastColoredTextBoxNS.FastColoredTextBox txtHelp;
         private Label lblCmdCode;
         private TextBox txtCmdCode;
         private GroupBox gpbTags;
         private TableLayoutPanel tlpTags;
-        private TableLayoutPanel tlpTagsManagement;
-        private Button btnTagnameDeleteList;
-        private Button btnTagnameDelete;
-        private Label lblTagnameAdd;
-        private Button btnTagnameAddList;
-        private Button btnTagnameAdd;
-        private ListBox lstTags;
-        private TextBox txtTagnameAdd;
         private ContextMenuStrip cmnuSelectQuery;
         private ToolStripMenuItem cmnuSelectQuerySelectAll;
         private ToolStripMenuItem cmnuSelectQueryCopy;
@@ -1294,5 +1270,19 @@
         private ContextMenuStrip cmnuLstTags;
         private ToolStripMenuItem cmnuUp;
         private ToolStripMenuItem cmnuDown;
+        private ListView lstTags;
+        private ColumnHeader clmTagname;
+        private ColumnHeader clmTagEnabled;
+        private ToolStripMenuItem cmnuTagAdd;
+        private ToolStripMenuItem cmnuListTagAdd;
+        private ToolStripMenuItem cmnuTagDelete;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem cmnuTagChange;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripMenuItem cmnuTagAllDelete;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripMenuItem cmnuTagRefresh;
+        private ToolStripSeparator toolStripSeparator6;
+        private ColumnHeader clmTagCode;
     }
 }

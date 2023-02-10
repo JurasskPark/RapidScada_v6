@@ -6,11 +6,12 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.Logic</RootNamespace>
-		<Version>6.0.0.2</Version>
+		<Version>6.0.0.3</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
-		<Copyright>Copyright © 2022</Copyright>
+		<Copyright>Copyright © 2023</Copyright>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

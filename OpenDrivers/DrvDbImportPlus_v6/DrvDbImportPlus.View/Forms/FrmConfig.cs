@@ -1,8 +1,11 @@
 ﻿
 using FastColoredTextBoxNS;
+using FirebirdSql.Data.FirebirdClient;
 using MySqlX.XDevAPI.Relational;
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus;
+using Scada.Comm.Drivers.DrvDbImportPlus.View.Properties;
 using Scada.Comm.Lang;
 using Scada.Data.Models;
 using Scada.Forms;
@@ -12,8 +15,10 @@ using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
 using static System.Windows.Forms.Design.AxImporter;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -25,6 +30,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
     /// </summary>
     public partial class FrmConfig : Form
     {
+
+        #region Variables
         private readonly AppDirs appDirs;               // the application directories
         private readonly string driverCode;             // the driver code
         private readonly int deviceNum;                 // the device number
@@ -35,6 +42,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         private bool cmdSelecting;                      // a command is selecting
 
         private DataSource dataSource;                  // the data source
+        private List<Tag> deviceTags;                   // tags
+        private ListViewItem selected;           // selected record tag
+        private int indexSelectTag = 0;                 // index number tag
+        #endregion Variables
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -44,6 +55,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             InitializeComponent();
         }
 
+        #region Basic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -59,8 +71,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             connChanging = false;
             cmdSelecting = false;
             dataSource = null;
+            deviceTags = new List<Tag>();
         }
 
+        /// <summary>
+        /// Loading the form
+        /// </summary>
         private void FrmConfig_Load(object sender, EventArgs e)
         {
             // translate the form
@@ -69,6 +85,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             FormTranslator.Translate(cmnuSelectQuery, GetType().FullName);
             FormTranslator.Translate(cmnuCmdQuery, GetType().FullName);
             FormTranslator.Translate(cmnuLstTags, GetType().FullName);
+            
 
             Text = string.Format(Text, deviceNum);
 
@@ -84,7 +101,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
             // display the configuration
             ConfigToControls();
+
+            // translate the listview
+            FormTranslator.Translate(lstTags, GetType().FullName);
+
             Modified = false;
+
         }
 
         private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
@@ -129,6 +151,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the configuration was modified.
+        /// </summary>
+        private void control_Changed(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
 
         /// <summary>
         /// Sets the controls according to the configuration.
@@ -147,27 +176,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             txtPassword.Text = config.DbConnSettings.Password;
             txtSelectQuery.Text = config.SelectQuery;
             txtOptionalOptions.Text = config.DbConnSettings.OptionalOptions;
-            
-            if (config.AutoTagCount)
-            {
-                numTagCount.Value = 0;
-                numTagCount.Enabled = false;
-                chkAutoTagCount.Checked = true;
-            }
-            else
-            {
-                numTagCount.SetValue(config.TagCount);
-                numTagCount.Enabled = true;
-                chkAutoTagCount.Checked = false;
-            }
-
-            foreach (string tag in config.DeviceTags)
-            {
-                if (!lstTags.Items.Contains(tag.Trim()))
-                {
-                    lstTags.Items.Add(tag.Trim());
-                }
-            }
  
             if (config.DeviceTagsBasedRequestedTableColumns)
             {
@@ -177,6 +185,58 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             {
                 rdbKPTagsBasedRequestedTableRows.Checked = true;
             }
+
+            SetListViewColumnNames();
+
+            // tags
+            deviceTags = config.DeviceTags;
+
+            if (deviceTags != null)
+            {
+                // update without flicker
+                Type type = lstTags.GetType();
+                PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
+                propertyInfo.SetValue(lstTags, true, null);
+
+                this.lstTags.BeginUpdate();
+                this.lstTags.Items.Clear();
+
+                #region Data display
+                foreach (var tmpTag in deviceTags)
+                {
+                    // inserted information
+                    this.lstTags.Items.Add(new ListViewItem()
+                    {
+                        // tag name
+                        Text = tmpTag.TagName,
+                        SubItems =
+                            {
+                                // adding tag parameters
+                                DriverUtils.NullToString(tmpTag.TagCode),
+                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tmpTag.TagEnabled))
+                            }
+                    }).Tag = tmpTag.TagID; // in tag we pass the tag id... so that we can find
+                }
+                #endregion Data display
+
+                this.lstTags.EndUpdate();
+            }
+
+            try
+            {
+                if (indexSelectTag != 0 && indexSelectTag < lstTags.Items.Count)
+                {
+                    // scroll through
+                    lstTags.EnsureVisible(indexSelectTag);
+                    lstTags.TopItem = lstTags.Items[indexSelectTag];
+                    // Making the area active
+                    lstTags.Focus();
+                    // making the desired element selected
+                    lstTags.Items[indexSelectTag].Selected = true;
+                    lstTags.Select();
+                }
+            }
+            catch { }
 
             // tune the controls represent the connection properties
             if (config.DataSourceType == DataSourceType.Undefined)
@@ -215,6 +275,116 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         }
 
         /// <summary>
+        /// Sets the column names as needed for translation.
+        /// </summary>
+        private void SetListViewColumnNames()
+        {
+            clmTagname.Name = nameof(clmTagname);
+            clmTagCode.Name = nameof(clmTagCode);
+            clmTagEnabled.Name = nameof(clmTagEnabled);
+        }
+
+        /// <summary>
+        /// Translating values to listview.
+        /// </summary>
+        public string ListViewAsDisplayStringTypeTag(TypeTag typeTag)
+        {
+            string result = string.Empty;
+            if ((int)typeTag == 0)
+            {
+                result = Locale.IsRussian ?
+                        "Текущие" :
+                        "Current";
+                return result;
+            }
+
+            if ((int)typeTag == 1)
+            {
+                 result = Locale.IsRussian ?
+                        "Исторические" :
+                        "Historical";
+                return result;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Translating values to listview.
+        /// </summary>
+        public string ListViewAsDisplayStringFormatTag(FormatTag formatTag)
+        {
+            string result = string.Empty;
+            if ((int)formatTag == 0)
+            {
+                result = Locale.IsRussian ?
+                        "Неизвестно" :
+                        "Unknown";
+                return result;
+            }
+
+            if ((int)formatTag == 1)
+            {
+                result = Locale.IsRussian ?
+                       "Как есть" :
+                       "As Is";
+                return result;
+            }
+
+            if ((int)formatTag == 2)
+            {
+                result = Locale.IsRussian ?
+                       "Минутные" :
+                       "Minute";
+                return result;
+            }
+
+            if ((int)formatTag == 3)
+            {
+                result = Locale.IsRussian ?
+                       "Часовые" :
+                       "Hourly";
+                return result;
+            }
+
+            if ((int)formatTag == 4)
+            {
+                result = Locale.IsRussian ?
+                       "Суточные" :
+                       "Dayly";
+                return result;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Translating values to listview.
+        /// </summary>
+        public string ListViewAsDisplayStringBoolean(bool boolTag)
+        {
+            string result = string.Empty;
+            if (boolTag == false)
+            {
+                result = Locale.IsRussian ?
+                        "Отключен" :
+                        "Disabled";
+                return result;
+            }
+
+            if (boolTag == true)
+            {
+                result = Locale.IsRussian ?
+                       "Включен" :
+                       "Enabled";
+                return result;
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
         /// Sets the configuration parameters according to the controls.
         /// </summary>
         private void ControlsToConfig()
@@ -229,19 +399,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             config.DbConnSettings.ConnectionString = txtConnectionString.Text == BuildConnectionsString() ? "" : txtConnectionString.Text;
             config.SelectQuery = txtSelectQuery.Text;
 
-            if (chkAutoTagCount.Checked)
-            {
-                config.AutoTagCount = true;
-                config.TagCount = 0;
-            }
-            else
-            {
-                config.AutoTagCount = false;
-                config.TagCount = Convert.ToInt32(numTagCount.Value);
-            }
-
-            config.DeviceTags = lstTags.Items.Cast<String>().ToList();
-
             if (rdbKPTagsBasedRequestedTableColumns.Checked)
             {
                 config.DeviceTagsBasedRequestedTableColumns = true;
@@ -249,6 +406,76 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             else if (rdbKPTagsBasedRequestedTableRows.Checked)
             {
                 config.DeviceTagsBasedRequestedTableColumns = false;
+            }
+
+            config.DeviceTags = deviceTags;
+        }
+
+        /// <summary>
+        /// Saving settings
+        /// </summary>
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        /// <summary>
+        /// Saving the settings by first getting the parameters from the controls, and then displaying
+        /// </summary>
+        private void Save()
+        {
+            // retrieve the configuration
+            ControlsToConfig();
+
+            // save the configuration
+            if (config.Save(configFileName, out string errMsg))
+            {
+                Modified = false;
+            }
+            else
+            {
+                ScadaUiUtils.ShowError(errMsg);
+            }
+
+            // set the control values
+            ConfigToControls();
+        }
+
+        #endregion Basic
+
+        #region Tab Database
+        /// <summary>
+        /// Choosing the type of DBMS connection method.
+        /// </summary>
+        private void cbDataSourceType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!connChanging)
+            {
+                connChanging = true;
+
+                if (cbDataSourceType.SelectedIndex == 0)
+                {
+                    gbConnection.Enabled = false;
+                    txtConnectionString.Text = "";
+                }
+                else
+                {
+                    gbConnection.Enabled = true;
+                    string connStr = BuildConnectionsString();
+
+                    if (string.IsNullOrEmpty(connStr))
+                    {
+                        EnableConnString();
+                    }
+                    else
+                    {
+                        EnableConnProps();
+                    }
+
+                }
+
+                Modified = true;
+                connChanging = false;
             }
         }
 
@@ -291,6 +518,26 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         }
 
         /// <summary>
+        /// Changing the textbox changes the connection string.
+        /// </summary>
+        private void txtConnProp_TextChanged(object sender, EventArgs e)
+        {
+            if (!connChanging)
+            {
+                string connStr = BuildConnectionsString();
+
+                if (!string.IsNullOrEmpty(connStr))
+                {
+                    connChanging = true;
+                    EnableConnProps();
+                    connChanging = false;
+                }
+
+                Modified = true;
+            }
+        }
+
+        /// <summary>
         /// Display the connection controls like enabled.
         /// </summary>
         private void EnableConnProps()
@@ -313,131 +560,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         }
 
         /// <summary>
-        /// Shows the command parameters.
+        /// Сhanges to the connection string will be displayed using the attribute.
         /// </summary>
-        private void ShowCommandParams(ExportCmd exportCmd)
-        {
-            if (exportCmd == null)
-            {
-                gbCommandParams.Enabled = false;
-                numCmdNum.Value = numCmdNum.Minimum;
-                txtCmdCode.Text = "DBTAG" + (numCmdNum.Value).ToString() + "";
-                txtName.Text = "";
-                txtCmdQuery.Text = "";
-            }
-            else
-            {
-                gbCommandParams.Enabled = true;
-                numCmdNum.SetValue(exportCmd.CmdNum);
-                txtCmdCode.Text = exportCmd.CmdCode;
-                txtName.Text = exportCmd.Name;
-                txtCmdQuery.Text = exportCmd.Query;
-            }
-        }
-
-        /// <summary>
-        /// Sort and update the command list.
-        /// </summary>
-        private void UpdateCommands()
-        {
-            try
-            {
-                cbCommand.BeginUpdate();
-                config.ExportCmds.Sort();
-                ExportCmd selectedCmd = cbCommand.SelectedItem as ExportCmd;
-
-                cbCommand.Items.Clear();
-                cbCommand.Items.AddRange(config.ExportCmds.ToArray());
-                cbCommand.SelectedIndex = config.ExportCmds.IndexOf(selectedCmd);
-            }
-            finally
-            {
-                cbCommand.EndUpdate();
-            }
-        }
-
-        /// <summary>
-        /// Update text of the selected item.
-        /// </summary>
-        private void UpdateCommandItem()
-        {
-            if (cbCommand.SelectedIndex >= 0)
-            {
-                cbCommand.Items[cbCommand.SelectedIndex] = cbCommand.SelectedItem;
-            }          
-        }
-
-        private void control_Changed(object sender, EventArgs e)
-        {
-            Modified = true;
-        }
-
-        private void cbDataSourceType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!connChanging)
-            {
-                connChanging = true;
-
-                if (cbDataSourceType.SelectedIndex == 0)
-                {
-                    gbConnection.Enabled = false;
-                    txtConnectionString.Text = "";
-                }
-                else
-                {
-                    gbConnection.Enabled = true;
-                    string connStr = BuildConnectionsString();
-
-                    if (string.IsNullOrEmpty(connStr))
-                    {
-                        EnableConnString();
-                    }   
-                    else
-                    {
-                        EnableConnProps();
-                    }
-                       
-                }
-
-                Modified = true;
-                connChanging = false;
-            }
-        }
-
-        private void txtConnProp_TextChanged(object sender, EventArgs e)
-        {
-            if (!connChanging)
-            {
-                string connStr = BuildConnectionsString();
-
-                if (!string.IsNullOrEmpty(connStr))
-                {
-                    connChanging = true;
-                    EnableConnProps();
-                    connChanging = false;
-                }
-
-                Modified = true;
-            }
-        }
-
-        private void txtSelectQuery_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!connChanging)
-            {
-                string connStr = BuildConnectionsString();
-
-                if (!string.IsNullOrEmpty(connStr))
-                {
-                    connChanging = true;
-                    EnableConnProps();
-                    connChanging = false;
-                }
-
-                Modified = true;
-            }
-        }
-
         private void txtConnectionString_TextChanged(object sender, EventArgs e)
         {
             if (!connChanging)
@@ -447,211 +571,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
         }
 
-        private void rdbKPTagsBasedRequestedTableColumns_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!connChanging)
-            {
-                Modified = true;
-            }
-        }
-
-        private void rdbKPTagsBasedRequestedTableRows_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!connChanging)
-            {
-                if (chkAutoTagCount.Checked == true)
-                {
-                    chkAutoTagCount.Checked = false;
-                }
-                Modified = true;
-            }
-        }
-
-        private void chkAutoTagCount_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdbKPTagsBasedRequestedTableRows.Checked == true)
-            {
-                numTagCount.Enabled = false;
-                chkAutoTagCount.Checked = false;
-            }
-            numTagCount.Enabled = !chkAutoTagCount.Checked;
-            Modified = true;
-        }
-
-        private void numTagCount_ValueChanged(object sender, EventArgs e)
-        {
-            Modified = true;
-        }
-
-        private void cbCommand_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!cmdSelecting)
-            {
-                cmdSelecting = true;
-                ShowCommandParams(cbCommand.SelectedItem as ExportCmd);
-                cmdSelecting = false;
-            }
-        }
-
-        private void btnCreateCommand_Click(object sender, EventArgs e)
-        {
-            // add a new command
-            ExportCmd exportCmd = new ExportCmd();
-
-            if (config.ExportCmds.Count > 0)
-            {
-                exportCmd.CmdNum = config.ExportCmds[config.ExportCmds.Count - 1].CmdNum + 1;
-            }
-                
-            config.ExportCmds.Add(exportCmd);
-            cbCommand.SelectedIndex = cbCommand.Items.Add(exportCmd);
-            Modified = true;
-        }
-
-        private void btnDeleteCommand_Click(object sender, EventArgs e)
-        {
-            // delete the selected command
-            int selectedIndex = cbCommand.SelectedIndex;
-
-            if (selectedIndex >= 0)
-            {
-                config.ExportCmds.RemoveAt(selectedIndex);
-                cbCommand.Items.RemoveAt(selectedIndex);
-
-                if (cbCommand.Items.Count > 0)
-                {
-                    cbCommand.SelectedIndex = selectedIndex >= cbCommand.Items.Count ?
-                        cbCommand.Items.Count - 1 : selectedIndex;
-                }
-                else
-                {
-                    ShowCommandParams(null);
-                }
-
-                Modified = true;
-            }
-        }
-
-        private void numCmdNum_ValueChanged(object sender, EventArgs e)
-        {
-            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
-            {
-                exportCmd.CmdNum = Convert.ToInt32(numCmdNum.Value);
-                UpdateCommands();
-                Modified = true;
-            }
-        }
-
-        private void txtCmdCode_TextChanged(object sender, EventArgs e)
-        {
-            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
-            {
-                exportCmd.CmdCode = txtCmdCode.Text;
-                UpdateCommandItem();
-                Modified = true;
-            }
-        }
-
-        private void txtName_TextChanged(object sender, EventArgs e)
-        {
-            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
-            {
-                exportCmd.Name = txtName.Text;
-                UpdateCommandItem();
-                Modified = true;
-            }
-        }
-
-        private void btnTagnameAdd_Click(object sender, EventArgs e)
-        {
-            if (!lstTags.Items.Contains(txtTagnameAdd.Text.Trim()))
-            {
-                lstTags.Items.Add(txtTagnameAdd.Text.Trim());
-                numTagCount.Value = lstTags.Items.Count;
-                Modified = true;
-            }
-        }
-
-        private void btnTagnameAddList_Click(object sender, EventArgs e)
-        {
-            FrmInputBox InputBox = new FrmInputBox();
-            InputBox.Values = string.Empty;
-            InputBox.ShowDialog();
-
-            if (InputBox.DialogResult == DialogResult.OK)
-            {
-                String[] tags = InputBox.Values.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                
-                foreach (String tag in tags)
-                {
-                    if (!lstTags.Items.Contains(tag.Trim()))
-                    {
-                        lstTags.Items.Add(tag.Trim());
-                        numTagCount.Value = lstTags.Items.Count;
-                        Modified = true;
-                    }
-                }
-            }
-        }
-
-        private void btnTagnameDelete_Click(object sender, EventArgs e)
-        {
-            if (lstTags.SelectedIndex != -1)
-            {
-                lstTags.Items.RemoveAt(lstTags.SelectedIndex);
-                numTagCount.Value = lstTags.Items.Count;
-                Modified = true;
-            }
-            else
-            {
-                MessageBox.Show(Locale.IsRussian ?
-                    "Выберите тег для удаления!" :
-                    "Select the tag to delete!");
-            }
-        }
-
-        private void btnTagnameDeleteList_Click(object sender, EventArgs e)
-        {
-            lstTags.Items.Clear();
-            numTagCount.Value = lstTags.Items.Count;
-            Modified = true;
-        }
-
-        private void lstTags_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lstTags.SelectedIndex >= 0)
-            {
-                txtTagnameAdd.Text = lstTags.SelectedItem.ToString();          
-            }
-            Modified = true;
-        }
-
-        private void txtCmdQuery_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
-            {
-                exportCmd.Query = txtCmdQuery.Text;
-                Modified = true;
-            }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            // retrieve the configuration
-            ControlsToConfig();
-
-            // save the configuration
-            if (config.Save(configFileName, out string errMsg))
-            {
-                Modified = false;
-            }          
-            else
-            {
-                ScadaUiUtils.ShowError(errMsg);
-            }
-                
-        }
-
+        /// <summary>
+        /// Сhecking the connection to the database
+        /// </summary>
         private void btnConnectionTest_Click(object sender, EventArgs e)
         {
             // retrieve the configuration
@@ -739,11 +661,39 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 }
             }
         }
+        #endregion Tab Database
 
+        #region Tab Data Retrieval
+        /// <summary>
+        /// When changing the request, we indicate that a change has occurred.
+        /// </summary>
+        private void txtSelectQuery_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!connChanging)
+            {
+                string connStr = BuildConnectionsString();
+
+                if (!string.IsNullOrEmpty(connStr))
+                {
+                    connChanging = true;
+                    EnableConnProps();
+                    connChanging = false;
+                }
+
+                Modified = true;
+            }
+        }
+
+        #endregion Tab Data Retrieval
+
+        #region Tab Data
+        /// <summary>
+        /// Execution of a request.
+        /// </summary>
         private void btnExecuteSQLQuery_Click(object sender, EventArgs e)
         {
             dataSource = DataSource.GetDataSourceType(config);
-           
+
             if (dataSource != null)
             {
                 string connStr = string.IsNullOrEmpty(config.DbConnSettings.ConnectionString) ?
@@ -770,9 +720,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                         if (rdbKPTagsBasedRequestedTableColumns.Checked == true)
                         {
                             using (DbDataReader reader = dataSource.SelectCommand.ExecuteReader(CommandBehavior.SingleRow))
-                            {             
+                            {
                                 if (reader.HasRows == true)
-                                {        
+                                {
                                     dt.Load(reader);
                                     dgvData.DataSource = dt;
                                 }
@@ -781,7 +731,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                                     MessageBox.Show(Locale.IsRussian ?
                                         "Данные отсутствуют" :
                                         "No data available");
-                                }                       
+                                }
                             }
                         }
                         else //Tag base Columns
@@ -814,125 +764,669 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
         }
 
+        /// <summary>
+        /// Cut the text.
+        /// </summary>
         private void cmnuSelectQueryCut_Click(object sender, EventArgs e)
         {
             txtSelectQuery.Cut();
         }
 
+        /// <summary>
+        /// Copy the text.
+        /// </summary>
         private void cmnuSelectQueryCopy_Click(object sender, EventArgs e)
         {
             txtSelectQuery.Copy();
         }
 
+        /// <summary>
+        /// Paste the text.
+        /// </summary>
         private void cmnuSelectQueryPaste_Click(object sender, EventArgs e)
         {
             txtSelectQuery.Paste();
         }
 
+        /// <summary>
+        /// Select the all text.
+        /// </summary>
         private void cmnuSelectQuerySelectAll_Click(object sender, EventArgs e)
         {
             txtSelectQuery.Selection.SelectAll();
         }
 
+        /// <summary>
+        /// Undo the previous action.
+        /// </summary>
         private void cmnuSelectQueryUndo_Click(object sender, EventArgs e)
         {
             if (txtSelectQuery.UndoEnabled)
             {
                 txtSelectQuery.Undo();
-            }                
+            }
         }
 
+        /// <summary>
+        /// Redo the previous action.
+        /// </summary>
         private void cmnuSelectQueryRedo_Click(object sender, EventArgs e)
         {
             if (txtSelectQuery.RedoEnabled)
             {
                 txtSelectQuery.Redo();
-            }               
+            }
         }
 
+        /// <summary>
+        /// Error handling. Disabling error messages.
+        /// </summary>
+        private void dgvData_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+        #endregion Tab Data
+
+        #region Tab Commands
+        /// <summary>
+        /// Creating a command.
+        /// </summary>
+        private void btnCreateCommand_Click(object sender, EventArgs e)
+        {
+            // add a new command
+            ExportCmd exportCmd = new ExportCmd();
+
+            if (config.ExportCmds.Count > 0)
+            {
+                exportCmd.CmdNum = config.ExportCmds[config.ExportCmds.Count - 1].CmdNum + 1;
+            }
+
+            config.ExportCmds.Add(exportCmd);
+            cbCommand.SelectedIndex = cbCommand.Items.Add(exportCmd);
+            Modified = true;
+        }
+
+        /// <summary>
+        /// Deleting a command.
+        /// </summary>
+        private void btnDeleteCommand_Click(object sender, EventArgs e)
+        {
+            // delete the selected command
+            int selectedIndex = cbCommand.SelectedIndex;
+
+            if (selectedIndex >= 0)
+            {
+                config.ExportCmds.RemoveAt(selectedIndex);
+                cbCommand.Items.RemoveAt(selectedIndex);
+
+                if (cbCommand.Items.Count > 0)
+                {
+                    cbCommand.SelectedIndex = selectedIndex >= cbCommand.Items.Count ?
+                        cbCommand.Items.Count - 1 : selectedIndex;
+                }
+                else
+                {
+                    ShowCommandParams(null);
+                }
+
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Specifying/changing the command number.
+        /// </summary>
+        private void numCmdNum_ValueChanged(object sender, EventArgs e)
+        {
+            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
+            {
+                exportCmd.CmdNum = Convert.ToInt32(numCmdNum.Value);
+                UpdateCommands();
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Specifying/changing the command code.
+        /// </summary>
+        private void txtCmdCode_TextChanged(object sender, EventArgs e)
+        {
+            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
+            {
+                exportCmd.CmdCode = txtCmdCode.Text;
+                UpdateCommandItem();
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Specifying/changing the command name.
+        /// </summary>
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
+            {
+                exportCmd.Name = txtName.Text;
+                UpdateCommandItem();
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Specifying/changing the command query.
+        /// </summary>
+        private void txtCmdQuery_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
+            {
+                exportCmd.Query = txtCmdQuery.Text;
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// After selecting a command, you need to show its properties.
+        /// </summary>
+        private void cbCommand_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!cmdSelecting)
+            {
+                cmdSelecting = true;
+                ShowCommandParams(cbCommand.SelectedItem as ExportCmd);
+                cmdSelecting = false;
+            }
+        }
+
+        /// <summary>
+        /// Shows the command parameters.
+        /// </summary>
+        private void ShowCommandParams(ExportCmd exportCmd)
+        {
+            if (exportCmd == null)
+            {
+                gbCommandParams.Enabled = false;
+                numCmdNum.Value = numCmdNum.Minimum;
+                txtCmdCode.Text = "DBTAG" + (numCmdNum.Value).ToString() + "";
+                txtName.Text = "";
+                txtCmdQuery.Text = "";
+            }
+            else
+            {
+                gbCommandParams.Enabled = true;
+                numCmdNum.SetValue(exportCmd.CmdNum);
+                txtCmdCode.Text = exportCmd.CmdCode;
+                txtName.Text = exportCmd.Name;
+                txtCmdQuery.Text = exportCmd.Query;
+            }
+        }
+
+        /// <summary>
+        /// Sort and update the command list.
+        /// </summary>
+        private void UpdateCommands()
+        {
+            try
+            {
+                cbCommand.BeginUpdate();
+                config.ExportCmds.Sort();
+                ExportCmd selectedCmd = cbCommand.SelectedItem as ExportCmd;
+
+                cbCommand.Items.Clear();
+                cbCommand.Items.AddRange(config.ExportCmds.ToArray());
+                cbCommand.SelectedIndex = config.ExportCmds.IndexOf(selectedCmd);
+            }
+            finally
+            {
+                cbCommand.EndUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Update text of the selected item.
+        /// </summary>
+        private void UpdateCommandItem()
+        {
+            if (cbCommand.SelectedIndex >= 0)
+            {
+                cbCommand.Items[cbCommand.SelectedIndex] = cbCommand.SelectedItem;
+            }          
+        }
+
+        /// <summary>
+        /// Cut the text.
+        /// </summary>
         private void cmnuCmdQueryCut_Click(object sender, EventArgs e)
         {
             txtCmdQuery.Cut();
         }
 
+        /// <summary>
+        /// Copy the text.
+        /// </summary>
         private void cmnuCmdQueryCopy_Click(object sender, EventArgs e)
         {
             txtCmdQuery.Copy();
         }
 
+        /// <summary>
+        /// Paste the text.
+        /// </summary>
         private void cmnuCmdQueryPaste_Click(object sender, EventArgs e)
         {
             txtCmdQuery.Paste();
         }
 
+        /// <summary>
+        /// Select the all text.
+        /// </summary>
         private void cmnuCmdQuerySelectAll_Click(object sender, EventArgs e)
         {
             txtCmdQuery.Selection.SelectAll();
         }
 
+        /// <summary>
+        /// Undo the previous action.
+        /// </summary>
         private void cmnuCmdQueryUndo_Click(object sender, EventArgs e)
         {
             if (txtCmdQuery.UndoEnabled)
             {
                 txtCmdQuery.Undo();
-            }     
+            }
         }
 
+        /// <summary>
+        /// Redo the previous action.
+        /// </summary>
         private void cmnuCmdQueryRedo_Click(object sender, EventArgs e)
         {
             if (txtCmdQuery.RedoEnabled)
             {
                 txtCmdQuery.Redo();
-            }    
+            }
+        }
+        #endregion Tab Commands
+
+        #region Tab Settings
+
+        /// <summary>
+        /// The first way to get data is when each tag is a separate column.
+        /// </summary>
+        private void rdbKPTagsBasedRequestedTableColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!connChanging)
+            {
+                Modified = true;
+            }
         }
 
+        /// <summary>
+        /// The second way to get data is when each tag is a separate row.
+        /// </summary>
+        private void rdbKPTagsBasedRequestedTableRows_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!connChanging)
+            {
+                Modified = true;
+            }
+        }
+
+
+        #region Tag Refresh
+        /// <summary>
+        /// Tag Refresh
+        /// </summary>
+        private void cmnuTagRefresh_Click(object sender, EventArgs e)
+        {
+            ConfigToControls();
+        }
+        #endregion Tag Refresh
+
+        #region Tag selection
+        /// <summary>
+        /// Tag selection
+        /// </summary>
+        private void lstTags_MouseClick(object sender, MouseEventArgs e)
+        {
+            TagSelect();
+        }
+
+        /// <summary>
+        /// Tag selection
+        /// </summary>
+        private void TagSelect()
+        {
+            System.Windows.Forms.ListView tmplstTags = this.lstTags;
+            if (tmplstTags.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+
+            if (deviceTags != null)
+            {
+                ListViewItem selected = tmplstTags.SelectedItems[0];
+                indexSelectTag = tmplstTags.SelectedIndices[0];
+                Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
+
+                Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+            }
+        }
+
+        #endregion Tag selection
+
+        #region Tag add
+        /// <summary>
+        /// Tag add
+        /// </summary>
+        private void cmnuTagAdd_Click(object sender, EventArgs e)
+        {
+            TagAdd();
+        }
+
+        /// <summary>
+        /// Tag add
+        /// </summary>
+        private void TagAdd()
+        {
+            try
+            {
+                Tag newTag = new Tag();
+                newTag.TagID = Guid.NewGuid();
+                newTag.TagEnabled = true;
+
+                if (DialogResult.OK == new FrmTag(1, ref newTag).ShowDialog())
+                {
+                    deviceTags.Add(newTag);
+                }
+
+                Save();
+            }
+            catch { }
+        }
+
+        #endregion Tag add
+
+        #region Tag list add
+        /// <summary>
+        /// Tag list add
+        /// </summary>
+        private void cmnuListTagAdd_Click(object sender, EventArgs e)
+        {
+            ListTagAdd();
+        }
+
+        /// <summary>
+        /// Tag list add
+        /// </summary>
+        private void ListTagAdd()
+        {
+            try
+            {
+                FrmInputBox InputBox = new FrmInputBox();
+                InputBox.Values = string.Empty;
+                InputBox.ShowDialog();
+
+                if (InputBox.DialogResult == DialogResult.OK)
+                {
+                    String[] tagsName = InputBox.Values.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (String tagName in tagsName)
+                    {
+                        Tag newTag = new Tag();
+                        newTag.TagID = Guid.NewGuid();
+                        newTag.TagCode = tagName;
+                        newTag.TagName = tagName;
+                        newTag.TagEnabled = true;
+
+                        if (!deviceTags.Contains(newTag))
+                        {
+                            deviceTags.Add(newTag);
+                        }
+                    }
+
+                    Save();
+                }
+            }
+            catch { }
+        }
+
+        #endregion Tag list add
+
+        #region Tag change
+        /// <summary>
+        /// Tag change
+        /// </summary>
+        private void lstTags_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            TagChange();
+        }
+
+        /// <summary>
+        /// Tag change
+        /// </summary>
+        private void cmnuTagChange_Click(object sender, EventArgs e)
+        {
+            TagChange();
+        }
+
+        /// <summary>
+        /// Tag change
+        /// </summary>
+        private void TagChange()
+        {
+            try
+            {
+                System.Windows.Forms.ListView tmplstTags = this.lstTags;
+                if (tmplstTags.SelectedItems.Count <= 0)
+                {
+                    return;
+                }
+
+                if (deviceTags != null)
+                {
+                    ListViewItem selected = tmplstTags.SelectedItems[0];
+                    indexSelectTag = tmplstTags.SelectedIndices[0];
+                    Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
+
+                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+
+                    FrmTag InputBox = new FrmTag(2, ref tmpTag);
+                    InputBox.ShowDialog();
+
+                    if (InputBox.DialogResult == DialogResult.OK)
+                    {
+                        Save();
+                        // scroll through
+                        tmplstTags.EnsureVisible(indexSelectTag);
+                        tmplstTags.TopItem = tmplstTags.Items[indexSelectTag];
+                        // making the area active
+                        tmplstTags.Focus();
+                        // making the desired element selected
+                        tmplstTags.Items[indexSelectTag].Selected = true;
+                        tmplstTags.Select();
+                    }
+                }
+            }
+            catch { }
+        }
+
+        #endregion Tag change
+
+        #region Tag delete
+
+        /// <summary>
+        /// Tag delete
+        /// </summary>
+        private void cmnuTagDelete_Click(object sender, EventArgs e)
+        {
+            TagDelete();
+        }
+
+        /// <summary>
+        /// Tag delete
+        /// </summary>
+        private void lstTags_KeyDown(object sender, KeyEventArgs e)
+        {
+            TagDelete();
+        }
+
+        /// <summary>
+        /// Tag delete
+        /// </summary>
+        private void TagDelete()
+        {
+            try
+            {
+                System.Windows.Forms.ListView tmplstTags = this.lstTags;
+                if (tmplstTags.SelectedItems.Count <= 0)
+                {
+                    return;
+                }
+
+                if (deviceTags != null)
+                {
+                    ListViewItem selected = tmplstTags.SelectedItems[0];
+                    Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
+
+                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    indexSelectTag = deviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
+
+                    try
+                    {
+                        if (tmplstTags.Items.Count > 0)
+                        {
+                            deviceTags.Remove(tmpTag);
+                            tmplstTags.Items.Remove(this.selected);
+                        }
+
+
+                        if (indexSelectTag >= 1)
+                        {
+                            tmplstTags.EnsureVisible(indexSelectTag - 1);
+                            tmplstTags.TopItem = tmplstTags.Items[indexSelectTag - 1];
+
+                            tmplstTags.Focus();
+
+                            tmplstTags.Items[indexSelectTag - 1].Selected = true;
+                            tmplstTags.Select();
+                        }
+                    }
+                    catch { }
+                }
+
+                Save();
+            }
+            catch { }
+        }
+
+        #endregion Tag delete
+
+        #region Tag list delete
+        /// <summary>
+        /// Tag list delete
+        /// </summary>
+        private void cmnuTagAllDelete_Click(object sender, EventArgs e)
+        {
+            ListTagDelete();
+        }
+
+        /// <summary>
+        /// Tag list delete
+        /// </summary>
+        private void ListTagDelete()
+        {
+            try
+            {
+                deviceTags.Clear();
+                Save();
+            }
+            catch { }
+        }
+
+        #endregion Tag list delete
+
+        #region Tag Up
+        /// <summary>
+        /// Tag Up
+        /// </summary>
         private void cmnuUp_Click(object sender, EventArgs e)
         {
             // an item must be selected
+            System.Windows.Forms.ListView tmplstTags = this.lstTags;
+            if (tmplstTags.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+
             if (lstTags.SelectedItems.Count > 0)
             {
-                object selected = lstTags.SelectedItem;
-                int index = lstTags.Items.IndexOf(selected);
-                int total = lstTags.Items.Count;
-                // if the item is right at the top, throw it right down to the bottom
-                if (index == 0)
+                if (deviceTags != null)
                 {
-                    lstTags.Items.Remove(selected);
-                    lstTags.Items.Insert(total - 1, selected);
-                    lstTags.SetSelected(total - 1, true);
+                    ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Up);
+
+                    ListViewItem selected = tmplstTags.SelectedItems[0];
+                    Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
+
+                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    indexSelectTag = deviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
+
+                    if (indexSelectTag == 0)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        deviceTags.Reverse(indexSelectTag - 1, 2);
+                    }
                 }
-                else // to move the selected item upwards in the listbox
-                {
-                    lstTags.Items.Remove(selected);
-                    lstTags.Items.Insert(index - 1, selected);
-                    lstTags.SetSelected(index - 1, true);
-                }
+
+                Modified = true;
             }
         }
+        #endregion Tag Up
 
+        #region Tag Down
+        /// <summary>
+        ///  Tag Down
+        /// </summary>
         private void cmnuDown_Click(object sender, EventArgs e)
         {
+            System.Windows.Forms.ListView tmplstTags = this.lstTags;
+            if (tmplstTags.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+
             // an item must be selected
             if (lstTags.SelectedItems.Count > 0)
             {
-                object selected = lstTags.SelectedItem;
-                int index = lstTags.Items.IndexOf(selected);
-                int total = lstTags.Items.Count;
-                // if the item is last in the listbox, move it all the way to the top
-                if (index == total - 1)
+                if (deviceTags != null)
                 {
-                    lstTags.Items.Remove(selected);
-                    lstTags.Items.Insert(0, selected);
-                    lstTags.SetSelected(0, true);
+                    ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Down);
+
+                    ListViewItem selected = tmplstTags.SelectedItems[0];
+                    Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
+
+                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    indexSelectTag = deviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
+
+                    if (indexSelectTag == deviceTags.Count - 1)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        deviceTags.Reverse(indexSelectTag, 2);
+                    }
                 }
-                else // to move the selected item downwards in the listbox
-                {
-                    lstTags.Items.Remove(selected);
-                    lstTags.Items.Insert(index + 1, selected);
-                    lstTags.SetSelected(index + 1, true);
-                }
+
+                Modified = true;
             }
         }
+
+        #endregion Tag Down
+
+        #endregion Tab Settings
 
 
     }
