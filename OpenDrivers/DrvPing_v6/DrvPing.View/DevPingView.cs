@@ -11,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvPing.View
     /// Implements the data source user interface.
     /// <para>Реализует пользовательский интерфейс источника данных.</para>
     /// </summary>
-    internal class DevDbImportPlusView : DeviceView
+    internal class DevPingView : DeviceView
     {
 
         private DrvPingConfig config = new DrvPingConfig();
@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvPing.View
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevDbImportPlusView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
+        public DevPingView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
             : base(parentView, lineConfig, deviceConfig)
         {
             CanShowProperties = true;

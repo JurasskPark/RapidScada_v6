@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("CodeQuality", "IDE0051:Удалите неиспользуемые закрытые члены", Justification = "<Ожидание>", Scope = "member", Target = "~F:Scada.Comm.Drivers.DrvPingLogic.Logic.DevDbImportPlusLogic.appDirs")]
+[assembly: SuppressMessage("CodeQuality", "IDE0051:Удалите неиспользуемые закрытые члены", Justification = "<Ожидание>", Scope = "member", Target = "~F:Scada.Comm.Drivers.DrvPingLogic.Logic.DevPingLogic.appDirs")]

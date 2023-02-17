@@ -38,7 +38,7 @@ namespace Scada.Comm.Drivers.DrvPing.Logic
         /// </summary>
         public override DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
         {
-            return new DevDbImportPlusLogic(CommContext, lineContext, deviceConfig);
+            return new DevPingLogic(CommContext, lineContext, deviceConfig);
         }
     }
 }

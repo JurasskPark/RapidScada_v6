@@ -15,7 +15,7 @@ namespace Scada.Comm.Drivers.DrvPingLogic.Logic
     /// Implements the device logic.
     /// <para>Реализует логику устройства.</para>
     /// </summary>
-    internal class DevDbImportPlusLogic : DeviceLogic
+    internal class DevPingLogic : DeviceLogic
     {
         /// <summary>
         /// Supported tag types.
@@ -36,7 +36,7 @@ namespace Scada.Comm.Drivers.DrvPingLogic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevDbImportPlusLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
+        public DevPingLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
             CanSendCommands = true;
@@ -237,15 +237,6 @@ namespace Scada.Comm.Drivers.DrvPingLogic.Logic
                 return false;
             }
         }
-
-
-        private void PingIPAddress(string ip, string tagCode, int tagIndex)
-        {
-            bool statusIP = NetworkInformationExtensions.Pinger(ip);
- 
-           
-        }
-
 
         /// <summary>
         /// Sets value, status and format of the specified tag.

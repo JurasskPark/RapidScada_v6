@@ -77,7 +77,7 @@ namespace Scada.Comm.Drivers.DrvPing.View
         /// </summary>
         public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
         {
-            return new DevDbImportPlusView(this, lineConfig, deviceConfig);
+            return new DevPingView(this, lineConfig, deviceConfig);
         }
     }
 }
