@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvPing.Logic", "DrvPing.Logic\DrvPing.Logic.csproj", "{92262850-51F1-42BE-A3B0-CFF11B3D0D23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvPing.View", "DrvPing.View\DrvPing.View.csproj", "{6562401B-2963-41F1-AF74-EC828FD16299}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvPing.Shared", "DrvPing.Shared\DrvPing.Shared.shproj", "{CD84A331-717C-4275-B990-231E58BE0D19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92262850-51F1-42BE-A3B0-CFF11B3D0D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92262850-51F1-42BE-A3B0-CFF11B3D0D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92262850-51F1-42BE-A3B0-CFF11B3D0D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92262850-51F1-42BE-A3B0-CFF11B3D0D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6562401B-2963-41F1-AF74-EC828FD16299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6562401B-2963-41F1-AF74-EC828FD16299}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6562401B-2963-41F1-AF74-EC828FD16299}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6562401B-2963-41F1-AF74-EC828FD16299}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD17063E-6627-4526-A328-18AEF48A0583}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvPing.Shared\DrvPing.Shared.projitems*{6562401b-2963-41f1-af74-ec828fd16299}*SharedItemsImports = 5
+		DrvPing.Shared\DrvPing.Shared.projitems*{92262850-51f1-42be-a3b0-cff11b3d0d23}*SharedItemsImports = 5
+		DrvPing.Shared\DrvPing.Shared.projitems*{cd84a331-717c-4275-b990-231e58be0d19}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

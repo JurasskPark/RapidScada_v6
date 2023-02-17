@@ -24,7 +24,7 @@
 - Изменён способ отображения, добавления, удаления и редактирования тегов.
 
 
-The KpDbImport library has been improved and new functionality has been added:
+The DrvDbImport library has been improved and new functionality has been added:
 - The configuration file now encrypts not only the password, but also the connection string.
 - Added data collection via ODBC drivers.
 - Added data collection from the Firebird DBMS.
@@ -58,3 +58,20 @@ Screenshots
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_001.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_002.png)
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_003.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_004.png)
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_005.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_006.png)
+
+2. Библиотека DrvPing (6.0.0.0)
+- Релиз
+
+
+DrvPing Library (6.0.0.0)
+- Release
+
+Video on YouTube 
+https://www.youtube.com/watch?v=BQE2QRwJ2tA
+
+[![Video on YouTube](https://img.youtube.com/vi/BQE2QRwJ2tA/0.jpg)](https://www.youtube.com/watch?v=BQE2QRwJ2tA)
+
+
+Screenshots
+
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPing_001.png) 
