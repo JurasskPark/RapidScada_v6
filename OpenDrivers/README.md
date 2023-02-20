@@ -62,6 +62,7 @@ Screenshots
 
 2. Библиотека DrvPingJP (6.0.0.0)
 - Релиз
+
 Библиотека DrvPingJP (6.0.0.1)
 - Библиотека переименована из DrvPing в DrvPingJP из-за конфликта имён.
 - Исправлены ошибки в файле перевода.
@@ -72,6 +73,7 @@ Screenshots
 
 DrvPingJP Library (6.0.0.0)
 - Release
+
 DrvPingJP Library (6.0.0.1)
 - The library was renamed from DrvPing to DrvPingJP due to a name conflict.
 - Fixed errors in the translation file.
