@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>false</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Scada.Comm.Drivers.DrvPing.Logic</RootNamespace>
+		<Version>6.0.0.1</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Rapid Software LLC</Company>
+		<Product>Rapid SCADA</Product>
+		<Copyright>Copyright © 2023</Copyright>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<Import Project="..\DrvPing.Shared\DrvPing.Shared.projitems" Label="Shared" />
+
+	<ItemGroup>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\DrvPing.Shared\dll\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\DrvPing.Shared\dll\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\DrvPing.Shared\dll\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	
+</Project>

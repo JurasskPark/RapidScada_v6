@@ -59,18 +59,32 @@ Screenshots
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_003.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_004.png)
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_005.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_006.png)
 
-2. Библиотека DrvPing (6.0.0.0)
+2. Библиотека DrvPingJP (6.0.0.0)
 - Релиз
+Библиотека DrvPingJP (6.0.0.1)
+- Библиотека переименована из DrvPing в DrvPingJP из-за конфликта имён.
+- Исправлены ошибки в файле перевода.
+- Исправлено отображение значения тега из Float в Вкл\Выкл.
+- Режим включения\отключения логов.
+- Информация о результате опроса.
+- Убраны лишние ссылки на библиотеки Windows и теперь библиотека работает на Linux.
 
-
-DrvPing Library (6.0.0.0)
+DrvPingJP Library (6.0.0.0)
 - Release
+DrvPingJP Library (6.0.0.1)
+- The library was renamed from DrvPing to DrvPingJP due to a name conflict.
+- Fixed errors in the translation file.
+- Fixed the display of the tag value from Float to On/Off.
+- The mode of enabling\disabling logs.
+- Information about the survey result.
+- Removed unnecessary links to Windows libraries and now the library runs on Linux.
 
 Video on YouTube 
 https://www.youtube.com/watch?v=BQE2QRwJ2tA
+https://www.youtube.com/watch?v=rkpGMyvKAZ0
 
 [![Video on YouTube](https://img.youtube.com/vi/BQE2QRwJ2tA/0.jpg)](https://www.youtube.com/watch?v=BQE2QRwJ2tA)
-
+[![Video on YouTube](https://img.youtube.com/vi/rkpGMyvKAZ0/0.jpg)](https://www.youtube.com/watch?v=rkpGMyvKAZ0)
 
 Screenshots
 

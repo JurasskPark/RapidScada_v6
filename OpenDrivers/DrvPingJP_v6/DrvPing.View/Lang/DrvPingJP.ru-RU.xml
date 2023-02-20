@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvPingJPDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig">
+    <Phrase key="this">Пинг JP - Свойства КП {0}</Phrase>
+	<Phrase key="pageSettings">Настройки</Phrase>
+	<Phrase key="cbLog">Записывать логи</Phrase>
+	<Phrase key="gpbTags">Теги</Phrase>
+	<Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>	
+	<Phrase key="cmnuUp">Поднять вверх</Phrase>
+	<Phrase key="cmnuDown">Опустить вниз</Phrase>
+	<Phrase key="cmnuTagRefresh">Обновить</Phrase>
+	<Phrase key="cmnuTagAdd">Добавить тег</Phrase>
+	<Phrase key="cmnuListTagAdd">Добавить список тегов</Phrase>
+	<Phrase key="cmnuTagChange">Изменить тег</Phrase>
+	<Phrase key="cmnuTagDelete">Удалить тег</Phrase>
+	<Phrase key="cmnuTagAllDelete">Удалить все теги</Phrase>
+	<Phrase key="clmTagname">Название</Phrase>
+	<Phrase key="clmTagCode">Код тега</Phrase>
+	<Phrase key="clmTagIPAddress">IP-адрес</Phrase>
+	<Phrase key="clmTagEnabled">Включен</Phrase>
+	</Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmInputBox">
+	<Phrase key="btnOk">Ок</Phrase>
+	<Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmTag">
+	<Phrase key="lblTagCode">Код тега</Phrase>
+	<Phrase key="lblTagname">Название тега</Phrase>
+	<Phrase key="lblIPAddress">IP-адрес</Phrase>
+	<Phrase key="lblEnabled">Включен</Phrase>
+	<Phrase key="btnAdd">Добавить</Phrase>
+	<Phrase key="btnSave">Сохранить</Phrase>
+	<Phrase key="btnClose">Закрыть</Phrase>
+  </Dictionary>
+</DrvPingJPDictionaries>
