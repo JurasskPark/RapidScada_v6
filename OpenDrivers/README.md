@@ -62,6 +62,7 @@ Screenshots
 
 2. Библиотека DrvPingJP (6.0.0.0)
 - Релиз
+
 Библиотека DrvPingJP (6.0.0.1)
 - Библиотека переименована из DrvPing в DrvPingJP из-за конфликта имён.
 - Исправлены ошибки в файле перевода.
@@ -70,8 +71,13 @@ Screenshots
 - Информация о результате опроса.
 - Убраны лишние ссылки на библиотеки Windows и теперь библиотека работает на Linux.
 
+Библиотека DrvPingJP (6.0.0.2)
+- Исправлены ошибка в логе, когда устройство не отвечает - информация об этом не записывалась.
+- Добавлен функционал по добавлению каналов через Мастер.
+
 DrvPingJP Library (6.0.0.0)
 - Release
+
 DrvPingJP Library (6.0.0.1)
 - The library was renamed from DrvPing to DrvPingJP due to a name conflict.
 - Fixed errors in the translation file.
@@ -79,6 +85,10 @@ DrvPingJP Library (6.0.0.1)
 - The mode of enabling\disabling logs.
 - Information about the survey result.
 - Removed unnecessary links to Windows libraries and now the library runs on Linux.
+
+DrvPingJP Library (6.0.0.2)
+- Fixed an error in the log when the device does not respond - information about this was not recorded.
+- Added functionality for adding channels through the Wizard.
 
 Video on YouTube 
 https://www.youtube.com/watch?v=BQE2QRwJ2tA

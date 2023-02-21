@@ -13,10 +13,10 @@ namespace Scada.Comm.Drivers.DrvPingJP
         public static bool Pinger(string hostAddress, out string result)
         {
             result = string.Empty;
-            string bufferLength = string.Format(Locale.IsRussian ? "число байт" : "bytes");
-            string rundtripTime = string.Format(Locale.IsRussian ? "время" : "time");
-            string rundtripTimeFormat = string.Format(Locale.IsRussian ? "мс" : "ms");
-            string noResponse = string.Format(Locale.IsRussian ? "Заданный узел недоступен." : "The specified node is unavailable.");
+            string bufferLength = Locale.IsRussian ? "число байт" : "bytes";
+            string rundtripTime = Locale.IsRussian ? "время" : "time";
+            string rundtripTimeFormat = Locale.IsRussian ? "мс" : "ms";
+            string noResponse = Locale.IsRussian ? "Заданный узел недоступен." : "The specified node is unavailable.";
             try
             {
                 // if the IP has passed for validity, then we ping
@@ -39,14 +39,14 @@ namespace Scada.Comm.Drivers.DrvPingJP
                         }
                         else
                         {
+                            result += "" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
+                            result += " " + hostAddress.ToString() + ":";
+                            result += $@" {noResponse}";
                             return false;
                         }
                     }
                     catch
                     {
-                        result += "" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-                        result += " " + hostAddress.ToString();
-                        result += $@" {noResponse}";
                         return false;
                     }
                 }
@@ -73,7 +73,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                             else
                             {
                                 result += "" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-                                result += " " + hostAddress.ToString();
+                                result += " " + hostAddress.ToString() + ":";
                                 result += $@" {noResponse}";
                                 return false;
                             }

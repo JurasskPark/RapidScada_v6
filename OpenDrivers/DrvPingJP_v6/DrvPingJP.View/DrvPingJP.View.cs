@@ -3,10 +3,8 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.ComponentModel;
 using Scada.Forms;
 using Scada.Lang;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Scada.Comm.Drivers.DrvPingJP.View
 {
@@ -48,6 +46,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                 return Locale.IsRussian ?
                     "Автор: Юрий Прадиус\n" +
                     "Проверка доступности сетевых устройств.\n\n" +
+                    "Версия 6.0.0.2 (21.02.2023)\n" +
+                    "[v] Исправлены ошибка в логе, когда устройство не отвечает - информация об этом не записывалась.\n" +
+                    "[+] Добавлен функционал по добавленю каналов через Мастер.\n" +
                     "Версия 6.0.0.1 (21.02.2023)\n" +
                     "[v] Библиотека переименована из DrvPing в DrvPingJP из-за конфликта имён.\n" +
                     "[v] Исправлены ошибки в файле перевода.\n" +
@@ -60,6 +61,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                     :
                     "Author: Yuri Pradius\n" +
                     "Checking the availability of network devices.\n\n" +
+                    "Version 6.0.0.2 (02/21/2023)\n" +
+                    "[v] Fixed an error in the log when the device does not respond - information about this was not recorded.\n" +
+                    "[+] Added functionality for adding channels through the Wizard.\n" +
                     "Version 6.0.0.1 (02/21/2023)\n" +
                     "[v] The library was renamed from DrvPing to DrvPingJP due to a name conflict.\n" +
                     "[v] Fixed errors in the translation file.\n" +

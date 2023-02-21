@@ -7,25 +7,25 @@
 		<UseWindowsForms>false</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvPing.Logic</RootNamespace>
-		<Version>6.0.0.1</Version>
+		<Version>6.0.0.2</Version>
 		<Authors>Yuriy Pradius</Authors>
-		<Company>Rapid Software LLC</Company>
+		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>
 		<Copyright>Copyright © 2023</Copyright>
 		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
-	<Import Project="..\DrvPing.Shared\DrvPing.Shared.projitems" Label="Shared" />
+	<Import Project="..\DrvPingJP.Shared\DrvPing.Shared.projitems" Label="Shared" />
 
 	<ItemGroup>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\DrvPing.Shared\dll\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\DrvPing.Shared\dll\ScadaCommon.dll</HintPath>
+	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\DrvPing.Shared\dll\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 	

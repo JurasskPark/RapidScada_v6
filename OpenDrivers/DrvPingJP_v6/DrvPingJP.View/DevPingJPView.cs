@@ -4,6 +4,9 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvPingJP.View.Forms;
+using Scada.Data.Const;
+using Scada.Data.Models;
+using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvPingJP.View
 {
@@ -56,7 +59,45 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            return CnlPrototypeFactory.GetCnlPrototypeGroups(config.DeviceTags).GetCnlPrototypes();
+            string configFileName = Path.Combine(AppDirs.ConfigDir, DrvPingJPConfig.GetFileName(DeviceNum));
+
+            // load a configuration
+            if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
+            {
+                ScadaUiUtils.ShowError(errMsg);
+            }
+
+            List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
+
+            for (int index = 0; index < config.DeviceTags.Count; ++index)
+            {
+                Tag tmpTag = config.DeviceTags[index];
+                int indexTag = config.DeviceTags.IndexOf(config.DeviceTags[index]);
+
+                // create channel for element
+                bool isBool = tmpTag.TagEnabled;
+
+                int eventMask = new EventMask
+                {
+                    Enabled = true,
+                    DataChange = isBool,
+                    StatusChange = !isBool,
+                    Command = !isBool
+                }.Value;
+
+                cnlPrototypes.Add(new CnlPrototype
+                {
+                    Active = tmpTag.TagEnabled,
+                    Name = tmpTag.TagName,
+                    CnlTypeID = CnlTypeID.Input,
+                    TagNum = indexTag + 1,
+                    TagCode = tmpTag.TagCode,
+                    FormatCode = FormatCode.OffOn,
+                    EventMask = eventMask
+                });
+            }
+            
+            return cnlPrototypes;
         }
 
     }

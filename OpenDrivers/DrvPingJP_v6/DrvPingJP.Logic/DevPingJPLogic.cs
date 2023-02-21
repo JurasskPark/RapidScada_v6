@@ -4,6 +4,8 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvPingJP;
+using Scada.Data.Const;
+using Scada.Data.Models;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
@@ -311,6 +313,5 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                     "Error setting tag data"));
             }
         }
-
     }
 }
