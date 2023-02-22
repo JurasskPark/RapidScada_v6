@@ -3,10 +3,9 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.ComponentModel;
 using Scada.Forms;
 using Scada.Lang;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View
 {
@@ -49,6 +48,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Автор:  Михаил Ширяев\n" +
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
+                    "Версия 6.0.0.4 (23.02.2023)\n" +
+                    "[+] Добавлен функционал по добавленю каналов через Мастер.\n" +
+                    "[v] Исправлены ошибки в файле перевода.\n" +
                     "Версия 6.0.0.3 (10.02.2023)\n" +
                     "Удалено:\n" +
                     "[-] Режим передачи исторических данных. Данный режим показал опасную возможность нагрузить сервер большим количеством срезов, которые могу привести к отказу сервера.\n" +
@@ -76,6 +78,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+                    "Version 6.0.0.4 (02/23/2023)\n" +
+                    "[+] Added functionality for adding channels through the Wizard.\n" +
+                    "[v] Fixed errors in the translation file.\n" +
                     "Version 6.0.0.3 (10.02.2023)\n" +
                     "Removed:\n" +
                     "[-] Historical data transmission mode. This mode has shown a dangerous opportunity to load the server with a large number of slices, which can lead to server failure.\n" +

@@ -1,26 +1,12 @@
 ﻿
 using FastColoredTextBoxNS;
-using FirebirdSql.Data.FirebirdClient;
-using MySqlX.XDevAPI.Relational;
-using Scada.Comm.Config;
-using Scada.Comm.Devices;
-using Scada.Comm.Drivers.DrvDbImportPlus;
-using Scada.Comm.Drivers.DrvDbImportPlus.View.Properties;
 using Scada.Comm.Lang;
-using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
-using System;
 using System.Data;
 using System.Data.Common;
-using System.Drawing;
-using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
 using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
-using static System.Windows.Forms.Design.AxImporter;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 {
@@ -202,6 +188,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 this.lstTags.Items.Clear();
 
                 #region Data display
+
                 foreach (var tmpTag in deviceTags)
                 {
                     // inserted information
@@ -213,6 +200,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                             {
                                 // adding tag parameters
                                 DriverUtils.NullToString(tmpTag.TagCode),
+                                DriverUtils.NullToString(ListViewAsDisplayStringFormatTag((FormatTag)tmpTag.TagFormat)),
                                 DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tmpTag.TagEnabled))
                             }
                     }).Tag = tmpTag.TagID; // in tag we pass the tag id... so that we can find
@@ -281,32 +269,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         {
             clmTagname.Name = nameof(clmTagname);
             clmTagCode.Name = nameof(clmTagCode);
+            clmTagFormat.Name = nameof(clmTagFormat);
             clmTagEnabled.Name = nameof(clmTagEnabled);
-        }
-
-        /// <summary>
-        /// Translating values to listview.
-        /// </summary>
-        public string ListViewAsDisplayStringTypeTag(TypeTag typeTag)
-        {
-            string result = string.Empty;
-            if ((int)typeTag == 0)
-            {
-                result = Locale.IsRussian ?
-                        "Текущие" :
-                        "Current";
-                return result;
-            }
-
-            if ((int)typeTag == 1)
-            {
-                 result = Locale.IsRussian ?
-                        "Исторические" :
-                        "Historical";
-                return result;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -318,40 +282,24 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             if ((int)formatTag == 0)
             {
                 result = Locale.IsRussian ?
-                        "Неизвестно" :
-                        "Unknown";
+                        "Float" :
+                        "Float";
                 return result;
             }
 
             if ((int)formatTag == 1)
             {
                 result = Locale.IsRussian ?
-                       "Как есть" :
-                       "As Is";
+                       "Дата и время" :
+                       "DateTime";
                 return result;
             }
 
             if ((int)formatTag == 2)
             {
                 result = Locale.IsRussian ?
-                       "Минутные" :
-                       "Minute";
-                return result;
-            }
-
-            if ((int)formatTag == 3)
-            {
-                result = Locale.IsRussian ?
-                       "Часовые" :
-                       "Hourly";
-                return result;
-            }
-
-            if ((int)formatTag == 4)
-            {
-                result = Locale.IsRussian ?
-                       "Суточные" :
-                       "Dayly";
+                       "Строка" :
+                       "String";
                 return result;
             }
 
@@ -1132,6 +1080,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             {
                 Tag newTag = new Tag();
                 newTag.TagID = Guid.NewGuid();
+                newTag.TagFormat = FormatTag.Float;
                 newTag.TagEnabled = true;
 
                 if (DialogResult.OK == new FrmTag(1, ref newTag).ShowDialog())
@@ -1173,9 +1122,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     foreach (String tagName in tagsName)
                     {
                         Tag newTag = new Tag();
-                        newTag.TagID = Guid.NewGuid();
-                        newTag.TagCode = tagName;
+                        newTag.TagID = Guid.NewGuid();      
                         newTag.TagName = tagName;
+                        newTag.TagCode = tagName;
+                        newTag.TagFormat = FormatTag.Float;
                         newTag.TagEnabled = true;
 
                         if (!deviceTags.Contains(newTag))
@@ -1364,7 +1314,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 {
                     ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Up);
 
-                    ListViewItem selected = tmplstTags.SelectedItems[0];
+                    selected = tmplstTags.SelectedItems[0];
                     Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
 
                     Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
@@ -1404,7 +1354,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 {
                     ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Down);
 
-                    ListViewItem selected = tmplstTags.SelectedItems[0];
+                    selected = tmplstTags.SelectedItems[0];
                     Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
 
                     Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));

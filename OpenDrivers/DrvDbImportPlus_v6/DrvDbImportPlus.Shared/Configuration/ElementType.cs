@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DrvDbImportPlus.Common.Configuration
+﻿namespace DrvDbImportPlus.Common.Configuration
 {
     public class ElementType
     {

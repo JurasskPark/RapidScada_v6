@@ -119,6 +119,7 @@
 	  <Phrase key="cmnuTagAllDelete">Delete all Tags</Phrase>
 	  <Phrase key="clmTagname">Name</Phrase>
 	  <Phrase key="clmTagCode">Tag code</Phrase>
+	  <Phrase key="clmTagFormat">Tag format</Phrase>
 	  <Phrase key="clmTagEnabled">Enabled</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmInputBox">
@@ -128,7 +129,6 @@
 	<Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmTag">
 		<Phrase key="lblTagCode">Tag code</Phrase>
 		<Phrase key="lblTagname">Tagname</Phrase>
-		<Phrase key="lblType">Type</Phrase>
 		<Phrase key="lblFormat">Format</Phrase>
 		<Phrase key="lblEnabled">Enabled</Phrase>
 		<Phrase key="btnAdd">Add</Phrase>

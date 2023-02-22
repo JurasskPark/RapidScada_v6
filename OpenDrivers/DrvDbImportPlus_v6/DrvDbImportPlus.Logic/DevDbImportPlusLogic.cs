@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using DrvDbImportPlus.Common.Configuration;
-using MySqlX.XDevAPI.Relational;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus;
@@ -11,7 +10,6 @@ using Scada.Data.Models;
 using Scada.Lang;
 using System.Data;
 using System.Data.Common;
-using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
 
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic

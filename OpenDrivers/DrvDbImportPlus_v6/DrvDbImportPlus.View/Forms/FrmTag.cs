@@ -1,16 +1,5 @@
 ﻿using Scada.Forms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 {
@@ -63,6 +52,17 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         {
             txtTagCode.Text = tmpTag.TagCode;
             txtTagname.Text = tmpTag.TagName;
+
+            try
+            {
+                cbTagFormat.Items.AddRange(Enum.GetNames(typeof(Tag.FormatTag)));
+                if (tmpTag.TagFormat != null)
+                {
+                    cbTagFormat.SelectedIndex = cbTagFormat.FindString(tmpTag.TagFormat.ToString());
+                }
+            }
+            catch { }
+
             ckbTagEnabled.Checked = tmpTag.TagEnabled;
 
             // translate the form
@@ -77,6 +77,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             tmpTag.TagID = Guid.NewGuid();
             tmpTag.TagName = txtTagname.Text;
             tmpTag.TagCode = txtTagCode.Text;
+            tmpTag.TagFormat = (FormatTag)cbTagFormat.SelectedIndex;
             tmpTag.TagEnabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
@@ -90,6 +91,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         {
             tmpTag.TagName = txtTagname.Text;
             tmpTag.TagCode = txtTagCode.Text;
+            tmpTag.TagFormat = (FormatTag)cbTagFormat.SelectedIndex;
             tmpTag.TagEnabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;

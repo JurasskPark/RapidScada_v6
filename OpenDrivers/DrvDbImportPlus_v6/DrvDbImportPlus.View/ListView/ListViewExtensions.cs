@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Scada.Comm.Drivers.DrvDbImportPlus.View
+﻿namespace Scada.Comm.Drivers.DrvDbImportPlus.View
 {
-        public enum MoveDirection { Up = -1, Down = 1 };
+    public enum MoveDirection { Up = -1, Down = 1 };
         public static class ListViewExtensions
         {
             /// <summary>

@@ -2,17 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Devices;
-using Scada.Comm.Lang;
-using Scada.Config;
-using Scada.Data.Const;
 using Scada.Lang;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Data;
-using System.Security.Principal;
-using Scada.Data.Models;
-using DrvDbImportPlus.Common.Configuration;
-using Scada.Data.Entities;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {

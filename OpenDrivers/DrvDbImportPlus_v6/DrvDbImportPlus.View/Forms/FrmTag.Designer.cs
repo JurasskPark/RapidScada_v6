@@ -37,6 +37,8 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtTagCode = new System.Windows.Forms.TextBox();
             this.lblTagCode = new System.Windows.Forms.Label();
+            this.lblFormat = new System.Windows.Forms.Label();
+            this.cbTagFormat = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblTagname
@@ -58,7 +60,7 @@
             // ckbTagEnabled
             // 
             this.ckbTagEnabled.AutoSize = true;
-            this.ckbTagEnabled.Location = new System.Drawing.Point(165, 70);
+            this.ckbTagEnabled.Location = new System.Drawing.Point(165, 98);
             this.ckbTagEnabled.Name = "ckbTagEnabled";
             this.ckbTagEnabled.Size = new System.Drawing.Size(15, 14);
             this.ckbTagEnabled.TabIndex = 4;
@@ -67,7 +69,7 @@
             // lblEnabled
             // 
             this.lblEnabled.AutoSize = true;
-            this.lblEnabled.Location = new System.Drawing.Point(12, 69);
+            this.lblEnabled.Location = new System.Drawing.Point(12, 97);
             this.lblEnabled.Name = "lblEnabled";
             this.lblEnabled.Size = new System.Drawing.Size(49, 15);
             this.lblEnabled.TabIndex = 7;
@@ -77,7 +79,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(302, 92);
+            this.btnClose.Location = new System.Drawing.Point(302, 129);
             this.btnClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(88, 27);
@@ -89,7 +91,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(206, 92);
+            this.btnSave.Location = new System.Drawing.Point(206, 129);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 27);
@@ -101,7 +103,7 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(206, 92);
+            this.btnAdd.Location = new System.Drawing.Point(206, 129);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(88, 27);
@@ -126,11 +128,31 @@
             this.lblTagCode.TabIndex = 12;
             this.lblTagCode.Text = "Tag code";
             // 
+            // lblFormat
+            // 
+            this.lblFormat.AutoSize = true;
+            this.lblFormat.Location = new System.Drawing.Point(12, 72);
+            this.lblFormat.Name = "lblFormat";
+            this.lblFormat.Size = new System.Drawing.Size(45, 15);
+            this.lblFormat.TabIndex = 15;
+            this.lblFormat.Text = "Format";
+            // 
+            // cbTagFormat
+            // 
+            this.cbTagFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTagFormat.FormattingEnabled = true;
+            this.cbTagFormat.Location = new System.Drawing.Point(165, 69);
+            this.cbTagFormat.Name = "cbTagFormat";
+            this.cbTagFormat.Size = new System.Drawing.Size(225, 23);
+            this.cbTagFormat.TabIndex = 14;
+            // 
             // FrmTag
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 131);
+            this.ClientSize = new System.Drawing.Size(400, 168);
+            this.Controls.Add(this.lblFormat);
+            this.Controls.Add(this.cbTagFormat);
             this.Controls.Add(this.txtTagCode);
             this.Controls.Add(this.lblTagCode);
             this.Controls.Add(this.btnClose);
@@ -163,5 +185,7 @@
         private Button btnAdd;
         private TextBox txtTagCode;
         private Label lblTagCode;
+        private Label lblFormat;
+        private ComboBox cbTagFormat;
     }
 }

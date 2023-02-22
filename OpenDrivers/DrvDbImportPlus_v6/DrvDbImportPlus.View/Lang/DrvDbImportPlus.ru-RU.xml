@@ -119,7 +119,6 @@
 	<Phrase key="cmnuTagAllDelete">Удалить все теги</Phrase>
 	<Phrase key="clmTagname">Название</Phrase>
 	<Phrase key="clmTagCode">Код тега</Phrase>
-	<Phrase key="clmTagType">Тип</Phrase>
 	<Phrase key="clmTagFormat">Формат</Phrase>
 	<Phrase key="clmTagEnabled">Включен</Phrase>
 	</Dictionary>
@@ -130,7 +129,6 @@
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmTag">
 	<Phrase key="lblTagCode">Код тега</Phrase>
 	<Phrase key="lblTagname">Название тега</Phrase>
-	<Phrase key="lblType">Тип</Phrase>
 	<Phrase key="lblFormat">Формат</Phrase>
 	<Phrase key="lblEnabled">Включен</Phrase>
 	<Phrase key="btnAdd">Добавить</Phrase>

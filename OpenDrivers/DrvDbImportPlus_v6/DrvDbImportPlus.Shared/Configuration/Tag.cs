@@ -1,14 +1,4 @@
-﻿using Scada.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Net;
-using System.Text;
-using System.Threading.Channels;
-using System.Xml.Linq;
-using System.Xml;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Collections;
+﻿using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
@@ -20,9 +10,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
         }
 
-        #region Группа тегов
+        #region Tag Group
 
-        //ID группы тегов
+        //ID of the tag group
         private Guid groupTagID;
         public Guid GroupTagID
         {
@@ -30,7 +20,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             set { groupTagID = value; }
         }
 
-        //Название группы тегов
+        //Tag group name
         private string groupTagName;
         public string GroupTagName
         {
@@ -38,9 +28,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             set { groupTagName = value; }
         }
 
-        #endregion Группа тегов
+        #endregion Tag Group
 
-        #region Список тегов
+        #region List of tags
 
         private List<Tag> listTag;
         public List<Tag> ListTag
@@ -49,8 +39,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             set { listTag = value; }
         }
 
-        #endregion Список тегов
-
+        #endregion List of tags
     }
 
     public class Tag
@@ -60,17 +49,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
         }
 
-        public Tag(string tagCode, string tagName, object tagType, object tagFormat, bool tagEnabled)
+        public Tag(string tagName, string tagCode, object tagFormat, bool tagEnabled)
         {
-            this.TagCode = tagCode;
             this.TagName = tagName;
+            this.TagCode = tagCode;       
+            this.TagFormat = tagFormat;
             this.TagEnabled = tagEnabled;
         }
 
-        public Tag(string tagCode, string tagName, object tagType, object tagFormat, bool tagEnabled, object tagVal = null, int tagStat = 0)
+        public Tag(string tagName, string tagCode, object tagFormat, bool tagEnabled, object tagVal = null, int tagStat = 0)
         {
-            this.TagCode = tagCode;
             this.TagName = tagName;
+            this.TagCode = tagCode;
+            this.TagFormat = tagFormat;
             this.TagEnabled = tagEnabled;
             this.TagVal = tagVal;
             this.TagStat = tagStat;
@@ -85,6 +76,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             set { tagID = value; }
         }
 
+        private string tagName;
+        public string TagName
+        {
+            get { return tagName; }
+            set { tagName = value; }
+        }
+
         private string tagCode;
         public string TagCode
         {
@@ -92,11 +90,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             set { tagCode = value; }
         }
 
-        private string tagName;
-        public string TagName
+        private object tagFormat;
+        public object TagFormat
         {
-            get { return tagName; }
-            set { tagName = value; }
+            set { tagFormat = value; }
+            get { return tagFormat; }
         }
 
         private bool tagEnabled;
@@ -127,22 +125,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             get { return tagDatetime; }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public enum TypeTag
-        {
-            Current = 0,
-            Historical = 1,
-        }
-
         public enum FormatTag
         {
-            Unknown = 0,
-            AsIs = 1,
-            Minute = 2,
-            Hourly = 3,
-            Dayly = 4,
+            Float = 0,
+            DateTime = 1,
+            String = 2
         }
 
         #endregion Tag
@@ -160,6 +147,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             TagID = DriverUtils.StringToGuid(xmlNode.GetChildAsString("ID"));
             TagName = xmlNode.GetChildAsString("Name");
             TagCode = xmlNode.GetChildAsString("Code");
+            TagFormat = (FormatTag)xmlNode.GetChildAsInt("Format");
             TagEnabled = xmlNode.GetChildAsBool("Enable");
         }
 
@@ -176,9 +164,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             xmlElem.AppendElem("ID", TagID);
             xmlElem.AppendElem("Name", TagName);
             xmlElem.AppendElem("Code", TagCode);
+            xmlElem.AppendElem("Format", (int)TagFormat);
             xmlElem.AppendElem("Enable", TagEnabled);
         }
 
     }
-
 }

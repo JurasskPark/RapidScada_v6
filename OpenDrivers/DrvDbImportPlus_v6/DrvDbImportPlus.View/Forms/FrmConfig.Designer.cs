@@ -117,6 +117,7 @@
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.clmTagFormat = new System.Windows.Forms.ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)(this.txtSelectQuery)).BeginInit();
             this.cmnuSelectQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtCmdQuery)).BeginInit();
@@ -170,6 +171,7 @@
             this.txtSelectQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSelectQuery.DefaultMarkerSize = 8;
             this.txtSelectQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.txtSelectQuery.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtSelectQuery.IsReplaceMode = false;
             this.txtSelectQuery.Location = new System.Drawing.Point(8, 20);
             this.txtSelectQuery.Name = "txtSelectQuery";
@@ -274,6 +276,7 @@
             this.txtCmdQuery.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtCmdQuery.DefaultMarkerSize = 8;
             this.txtCmdQuery.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.txtCmdQuery.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtCmdQuery.IsReplaceMode = false;
             this.txtCmdQuery.Location = new System.Drawing.Point(12, 81);
             this.txtCmdQuery.Name = "txtCmdQuery";
@@ -375,7 +378,6 @@
             this.txtHelp.DefaultMarkerSize = 8;
             this.txtHelp.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.txtHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtHelp.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtHelp.IsReplaceMode = false;
             this.txtHelp.Location = new System.Drawing.Point(0, 0);
             this.txtHelp.Name = "txtHelp";
@@ -933,6 +935,7 @@
             this.lstTags.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmTagname,
             this.clmTagCode,
+            this.clmTagFormat,
             this.clmTagEnabled});
             this.lstTags.ContextMenuStrip = this.cmnuLstTags;
             this.lstTags.FullRowSelect = true;
@@ -979,26 +982,26 @@
             this.cmnuUp,
             this.cmnuDown});
             this.cmnuLstTags.Name = "cmnuSelectQuery";
-            this.cmnuLstTags.Size = new System.Drawing.Size(181, 226);
+            this.cmnuLstTags.Size = new System.Drawing.Size(155, 204);
             // 
             // cmnuTagRefresh
             // 
             this.cmnuTagRefresh.Image = ((System.Drawing.Image)(resources.GetObject("cmnuTagRefresh.Image")));
             this.cmnuTagRefresh.Name = "cmnuTagRefresh";
-            this.cmnuTagRefresh.Size = new System.Drawing.Size(180, 22);
+            this.cmnuTagRefresh.Size = new System.Drawing.Size(154, 22);
             this.cmnuTagRefresh.Text = "Refresh";
             this.cmnuTagRefresh.Click += new System.EventHandler(this.cmnuTagRefresh_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(151, 6);
             // 
             // cmnuTagAdd
             // 
             this.cmnuTagAdd.Image = ((System.Drawing.Image)(resources.GetObject("cmnuTagAdd.Image")));
             this.cmnuTagAdd.Name = "cmnuTagAdd";
-            this.cmnuTagAdd.Size = new System.Drawing.Size(180, 22);
+            this.cmnuTagAdd.Size = new System.Drawing.Size(154, 22);
             this.cmnuTagAdd.Text = "Add Tag";
             this.cmnuTagAdd.Click += new System.EventHandler(this.cmnuTagAdd_Click);
             // 
@@ -1006,33 +1009,33 @@
             // 
             this.cmnuListTagAdd.Image = ((System.Drawing.Image)(resources.GetObject("cmnuListTagAdd.Image")));
             this.cmnuListTagAdd.Name = "cmnuListTagAdd";
-            this.cmnuListTagAdd.Size = new System.Drawing.Size(180, 22);
+            this.cmnuListTagAdd.Size = new System.Drawing.Size(154, 22);
             this.cmnuListTagAdd.Text = "Add list of Tags";
             this.cmnuListTagAdd.Click += new System.EventHandler(this.cmnuListTagAdd_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
             // 
             // cmnuTagChange
             // 
             this.cmnuTagChange.Image = ((System.Drawing.Image)(resources.GetObject("cmnuTagChange.Image")));
             this.cmnuTagChange.Name = "cmnuTagChange";
-            this.cmnuTagChange.Size = new System.Drawing.Size(180, 22);
+            this.cmnuTagChange.Size = new System.Drawing.Size(154, 22);
             this.cmnuTagChange.Text = "Change Tag";
             this.cmnuTagChange.Click += new System.EventHandler(this.cmnuTagChange_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(151, 6);
             // 
             // cmnuTagDelete
             // 
             this.cmnuTagDelete.Image = ((System.Drawing.Image)(resources.GetObject("cmnuTagDelete.Image")));
             this.cmnuTagDelete.Name = "cmnuTagDelete";
-            this.cmnuTagDelete.Size = new System.Drawing.Size(180, 22);
+            this.cmnuTagDelete.Size = new System.Drawing.Size(154, 22);
             this.cmnuTagDelete.Text = "Delete Tag";
             this.cmnuTagDelete.Click += new System.EventHandler(this.cmnuTagDelete_Click);
             // 
@@ -1040,20 +1043,20 @@
             // 
             this.cmnuTagAllDelete.Image = ((System.Drawing.Image)(resources.GetObject("cmnuTagAllDelete.Image")));
             this.cmnuTagAllDelete.Name = "cmnuTagAllDelete";
-            this.cmnuTagAllDelete.Size = new System.Drawing.Size(180, 22);
+            this.cmnuTagAllDelete.Size = new System.Drawing.Size(154, 22);
             this.cmnuTagAllDelete.Text = "Delete all Tags";
             this.cmnuTagAllDelete.Click += new System.EventHandler(this.cmnuTagAllDelete_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(151, 6);
             // 
             // cmnuUp
             // 
             this.cmnuUp.Image = ((System.Drawing.Image)(resources.GetObject("cmnuUp.Image")));
             this.cmnuUp.Name = "cmnuUp";
-            this.cmnuUp.Size = new System.Drawing.Size(180, 22);
+            this.cmnuUp.Size = new System.Drawing.Size(154, 22);
             this.cmnuUp.Text = "Up";
             this.cmnuUp.Click += new System.EventHandler(this.cmnuUp_Click);
             // 
@@ -1061,7 +1064,7 @@
             // 
             this.cmnuDown.Image = ((System.Drawing.Image)(resources.GetObject("cmnuDown.Image")));
             this.cmnuDown.Name = "cmnuDown";
-            this.cmnuDown.Size = new System.Drawing.Size(180, 22);
+            this.cmnuDown.Size = new System.Drawing.Size(154, 22);
             this.cmnuDown.Text = "Down";
             this.cmnuDown.Click += new System.EventHandler(this.cmnuDown_Click);
             // 
@@ -1151,6 +1154,11 @@
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // clmTagFormat
+            // 
+            this.clmTagFormat.Text = "Tag Format";
+            this.clmTagFormat.Width = 110;
             // 
             // FrmConfig
             // 
@@ -1289,5 +1297,6 @@
         private ToolStripMenuItem cmnuTagRefresh;
         private ToolStripSeparator toolStripSeparator6;
         private ColumnHeader clmTagCode;
+        private ColumnHeader clmTagFormat;
     }
 }

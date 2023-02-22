@@ -4,6 +4,9 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus.View.Forms;
+using Scada.Data.Const;
+using Scada.Data.Models;
+using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View
 {
@@ -48,7 +51,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
         /// </summary>
         public override PollingOptions GetPollingOptions()
         {
-            return new PollingOptions(10000, 200);
+            return new PollingOptions(0, 0) { Period = new TimeSpan(0, 0, 0, 5) };
         }
 
         /// <summary>
@@ -56,7 +59,59 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            return CnlPrototypeFactory.GetCnlPrototypeGroups(config.DeviceTags).GetCnlPrototypes();
+            string configFileName = Path.Combine(AppDirs.ConfigDir, DrvDbImportPlusConfig.GetFileName(DeviceNum));
+
+            // load a configuration
+            if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
+            {
+                ScadaUiUtils.ShowError(errMsg);
+            }
+
+            List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
+
+            for (int index = 0; index < config.DeviceTags.Count; ++index)
+            {
+                Tag tmpTag = config.DeviceTags[index];
+                int indexTag = config.DeviceTags.IndexOf(config.DeviceTags[index]);
+
+                // create channel for element
+                bool isBool = tmpTag.TagEnabled;
+
+                int eventMask = new EventMask
+                {
+                    Enabled = true,
+                    DataChange = isBool,
+                    StatusChange = !isBool,
+                    Command = !isBool
+                }.Value;
+
+                string tmpTagformat = string.Empty;
+                switch(tmpTag.TagFormat.ToString())
+                {
+                    case "Float":
+                        tmpTagformat = FormatCode.G;
+                        break;
+                    case "DateTime":
+                        tmpTagformat = FormatCode.DateTime;
+                        break;
+                    case "String":
+                        tmpTagformat = FormatCode.String;
+                        break;
+                }
+
+                cnlPrototypes.Add(new CnlPrototype
+                {
+                    Active = tmpTag.TagEnabled,
+                    Name = tmpTag.TagName,
+                    CnlTypeID = CnlTypeID.Input,
+                    TagNum = indexTag + 1,
+                    TagCode = tmpTag.TagCode,
+                    FormatCode = tmpTagformat,
+                    EventMask = eventMask
+                });
+            }
+
+            return cnlPrototypes;
         }
 
     }
