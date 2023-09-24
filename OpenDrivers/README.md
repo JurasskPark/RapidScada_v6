@@ -1,7 +1,9 @@
 	Драйвера для Rapid SCADA.
 	Drivers  for Rapid SCADA.
+
+
 	
-	### DrvDbImportPlusPlus
+### DrvDbImportPlusPlus
 	
 Библиотека DrvDbImportPlus (6.0.0.5)
 - Исправлен режим подключения к MySQL.
@@ -70,17 +72,17 @@ DrvDbImportPlus library (6.0.0.0)
 Video on YouTube 
 https://www.youtube.com/watch?v=cZMksoblUgo
 
-[![Video on YouTube](https://www.youtube.com/watch?v=cZMksoblUgo/0.jpg)](https://www.youtube.com/watch?v=cZMksoblUgo)
-
+[![Video on YouTube](https://www.youtube.com/vi/cZMksoblUgo/0.jpg)](https://www.youtube.com/watch?v=cZMksoblUgo)
 
 Screenshots
 
-![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_001.png) ![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_002.png)
-![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_003.png) ![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_004.png)
-![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_005.png) ![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_006.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_001.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_002.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_003.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_004.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_005.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlusPlus_006.png)
 
 	
-	### DrvPingJP
+	
+### DrvPingJP
 
 Библиотека DrvPingJP (6.0.0.2)
 - Исправлены ошибка в логе, когда устройство не отвечает - информация об этом не записывалась.
@@ -123,4 +125,4 @@ https://www.youtube.com/watch?v=rkpGMyvKAZ0
 
 Screenshots
 
-![DrvDbImportPlusPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPing_001.png) 
+![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPing_001.png) 
