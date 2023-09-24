@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
-		<EnableDynamicLoading>true</EnableDynamicLoading>
-		<Nullable>disable</Nullable>
-		<UseWindowsForms>true</UseWindowsForms>
+		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.Logic</RootNamespace>
-		<Version>6.0.0.4</Version>
+		<Version>6.0.0.5</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
 		<Copyright>Copyright © 2023</Copyright>
 		<LangVersion>preview</LangVersion>
+		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

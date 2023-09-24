@@ -29,6 +29,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
         private DataSource dataSource;                  // the data source
         private List<Tag> deviceTags;                   // tags
+        public List<Tag> DeviceTags
+        {
+            get { return deviceTags; }
+            set { deviceTags = value; }
+        }
+
         private ListViewItem selected;           // selected record tag
         private int indexSelectTag = 0;                 // index number tag
         #endregion Variables
@@ -49,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
-            this.deviceNum = deviceNum;   
+            this.deviceNum = deviceNum;
             this.driverCode = DriverUtils.DriverCode;
             config = new DrvDbImportPlusConfig();
             configFileName = Path.Combine(appDirs.ConfigDir, DrvDbImportPlusConfig.GetFileName(deviceNum));
@@ -71,7 +77,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             FormTranslator.Translate(cmnuSelectQuery, GetType().FullName);
             FormTranslator.Translate(cmnuCmdQuery, GetType().FullName);
             FormTranslator.Translate(cmnuLstTags, GetType().FullName);
-            
+
 
             Text = string.Format(Text, deviceNum);
 
@@ -162,7 +168,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             txtPassword.Text = config.DbConnSettings.Password;
             txtSelectQuery.Text = config.SelectQuery;
             txtOptionalOptions.Text = config.DbConnSettings.OptionalOptions;
- 
+
+            ckbWriteDriverLog.Checked = config.WriteLogDriver;
+
             if (config.DeviceTagsBasedRequestedTableColumns)
             {
                 rdbKPTagsBasedRequestedTableColumns.Checked = true;
@@ -175,9 +183,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             SetListViewColumnNames();
 
             // tags
-            deviceTags = config.DeviceTags;
+            DeviceTags = config.DeviceTags;
 
-            if (deviceTags != null)
+            if (DeviceTags != null)
             {
                 // update without flicker
                 Type type = lstTags.GetType();
@@ -189,7 +197,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
                 #region Data display
 
-                foreach (var tmpTag in deviceTags)
+                foreach (var tmpTag in DeviceTags)
                 {
                     // inserted information
                     this.lstTags.Items.Add(new ListViewItem()
@@ -255,11 +263,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             {
                 cbCommand.SelectedIndex = 0;
             }
-       
+
             ShowCommandParams(cbCommand.SelectedItem as ExportCmd);
 
             connChanging = false;
             cmdSelecting = false;
+            Modified = false;
         }
 
         /// <summary>
@@ -347,6 +356,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             config.DbConnSettings.ConnectionString = txtConnectionString.Text == BuildConnectionsString() ? "" : txtConnectionString.Text;
             config.SelectQuery = txtSelectQuery.Text;
 
+            config.WriteLogDriver = ckbWriteDriverLog.Checked;
+
             if (rdbKPTagsBasedRequestedTableColumns.Checked)
             {
                 config.DeviceTagsBasedRequestedTableColumns = true;
@@ -356,7 +367,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 config.DeviceTagsBasedRequestedTableColumns = false;
             }
 
-            config.DeviceTags = deviceTags;
+            config.DeviceTags = DeviceTags;
         }
 
         /// <summary>
@@ -365,6 +376,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         private void btnSave_Click(object sender, EventArgs e)
         {
             Save();
+
+            // set the control values
+            ConfigToControls();
         }
 
         /// <summary>
@@ -384,9 +398,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             {
                 ScadaUiUtils.ShowError(errMsg);
             }
-
-            // set the control values
-            ConfigToControls();
         }
 
         #endregion Basic
@@ -443,7 +454,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 Password = txtPassword.Text,
                 OptionalOptions = txtOptionalOptions.Text
             };
-            
+
             switch (dataSourceType)
             {
                 case DataSourceType.MSSQL:
@@ -937,7 +948,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             if (cbCommand.SelectedIndex >= 0)
             {
                 cbCommand.Items[cbCommand.SelectedIndex] = cbCommand.SelectedItem;
-            }          
+            }
         }
 
         /// <summary>
@@ -998,14 +1009,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         #region Tab Settings
 
         /// <summary>
+        /// Write Driver Log
+        /// </summary>
+        private void ckbWriteDriverLog_CheckedChanged(object sender, EventArgs e)
+        {
+             Modified = true;
+        }
+
+        /// <summary>
         /// The first way to get data is when each tag is a separate column.
         /// </summary>
         private void rdbKPTagsBasedRequestedTableColumns_CheckedChanged(object sender, EventArgs e)
         {
-            if (!connChanging)
-            {
-                Modified = true;
-            }
+             Modified = true;
         }
 
         /// <summary>
@@ -1013,12 +1029,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void rdbKPTagsBasedRequestedTableRows_CheckedChanged(object sender, EventArgs e)
         {
-            if (!connChanging)
-            {
-                Modified = true;
-            }
+             Modified = true;
         }
-
 
         #region Tag Refresh
         /// <summary>
@@ -1085,10 +1097,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
                 if (DialogResult.OK == new FrmTag(1, ref newTag).ShowDialog())
                 {
-                    deviceTags.Add(newTag);
+                    DeviceTags.Add(newTag);
+                    ConfigToControls();
                 }
 
-                Save();
+                Modified = true;
             }
             catch { }
         }
@@ -1122,19 +1135,20 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     foreach (String tagName in tagsName)
                     {
                         Tag newTag = new Tag();
-                        newTag.TagID = Guid.NewGuid();      
+                        newTag.TagID = Guid.NewGuid();
                         newTag.TagName = tagName;
                         newTag.TagCode = tagName;
                         newTag.TagFormat = FormatTag.Float;
                         newTag.TagEnabled = true;
 
-                        if (!deviceTags.Contains(newTag))
+                        if (!DeviceTags.Contains(newTag))
                         {
-                            deviceTags.Add(newTag);
+                            DeviceTags.Add(newTag);
+                            ConfigToControls();
                         }
                     }
 
-                    Save();
+                    Modified = true;
                 }
             }
             catch { }
@@ -1172,20 +1186,23 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     return;
                 }
 
-                if (deviceTags != null)
+                if (DeviceTags != null)
                 {
                     ListViewItem selected = tmplstTags.SelectedItems[0];
                     indexSelectTag = tmplstTags.SelectedIndices[0];
                     Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
 
-                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    Tag tmpTag = DeviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
 
                     FrmTag InputBox = new FrmTag(2, ref tmpTag);
                     InputBox.ShowDialog();
 
                     if (InputBox.DialogResult == DialogResult.OK)
                     {
-                        Save();
+                        // refresh
+                        ConfigToControls();
+
+                        Modified = true;
                         // scroll through
                         tmplstTags.EnsureVisible(indexSelectTag);
                         tmplstTags.TopItem = tmplstTags.Items[indexSelectTag];
@@ -1233,22 +1250,24 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     return;
                 }
 
-                if (deviceTags != null)
+                if (DeviceTags != null)
                 {
                     ListViewItem selected = tmplstTags.SelectedItems[0];
                     Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
 
-                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
-                    indexSelectTag = deviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
+                    Tag tmpTag = DeviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    indexSelectTag = DeviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
 
                     try
                     {
                         if (tmplstTags.Items.Count > 0)
                         {
-                            deviceTags.Remove(tmpTag);
+                            DeviceTags.Remove(tmpTag);
                             tmplstTags.Items.Remove(this.selected);
                         }
 
+                        // refresh
+                        ConfigToControls();
 
                         if (indexSelectTag >= 1)
                         {
@@ -1264,7 +1283,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     catch { }
                 }
 
-                Save();
+                Modified = true;
             }
             catch { }
         }
@@ -1287,8 +1306,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         {
             try
             {
-                deviceTags.Clear();
-                Save();
+                System.Windows.Forms.ListView tmplstTags = this.lstTags;
+
+                if (DeviceTags.Count > 0)
+                {
+                    DeviceTags.Clear();
+                    tmplstTags.Items.Clear();
+
+                    Modified = true;
+                }
             }
             catch { }
         }
@@ -1310,15 +1336,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
             if (lstTags.SelectedItems.Count > 0)
             {
-                if (deviceTags != null)
+                if (DeviceTags != null)
                 {
                     ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Up);
 
                     selected = tmplstTags.SelectedItems[0];
                     Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
 
-                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
-                    indexSelectTag = deviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
+                    Tag tmpTag = DeviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    indexSelectTag = DeviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
 
                     if (indexSelectTag == 0)
                     {
@@ -1326,7 +1352,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     }
                     else
                     {
-                        deviceTags.Reverse(indexSelectTag - 1, 2);
+                        DeviceTags.Reverse(indexSelectTag - 1, 2);
                     }
                 }
 
@@ -1357,8 +1383,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     selected = tmplstTags.SelectedItems[0];
                     Guid SelectTagID = DriverUtils.StringToGuid(selected.Tag.ToString());
 
-                    Tag tmpTag = deviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
-                    indexSelectTag = deviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
+                    Tag tmpTag = DeviceTags.Find((Predicate<Tag>)(r => r.TagID == SelectTagID));
+                    indexSelectTag = DeviceTags.IndexOf(deviceTags.Where(n => n.TagID == SelectTagID).FirstOrDefault());
 
                     if (indexSelectTag == deviceTags.Count - 1)
                     {
@@ -1366,7 +1392,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     }
                     else
                     {
-                        deviceTags.Reverse(indexSelectTag, 2);
+                        DeviceTags.Reverse(indexSelectTag, 2);
                     }
                 }
 
@@ -1377,7 +1403,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         #endregion Tag Down
 
         #endregion Tab Settings
-
 
     }
 }

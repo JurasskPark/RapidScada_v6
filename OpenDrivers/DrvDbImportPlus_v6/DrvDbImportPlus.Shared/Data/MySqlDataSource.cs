@@ -81,6 +81,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 connSettings.Port = DefaultPort.ToString();
             }
 
+            if(connSettings.OptionalOptions == string.Empty || connSettings.OptionalOptions == null)
+            {
+                connSettings.OptionalOptions = "None";
+            }
+
             ExtractHostAndPort(connSettings.Server, Convert.ToInt32(connSettings.Port), out string host, out int port);
 
             return new MySqlConnectionStringBuilder()
@@ -89,7 +94,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 Port = Convert.ToUInt32(connSettings.Port),
                 Database = connSettings.Database,
                 UserID = connSettings.User,
-                Password = connSettings.Password
+                Password = connSettings.Password,
+                SslMode = (MySqlSslMode)Enum.Parse(typeof(MySqlSslMode), connSettings.OptionalOptions),
+                PersistSecurityInfo = true,
             }
             .ToString();
         }

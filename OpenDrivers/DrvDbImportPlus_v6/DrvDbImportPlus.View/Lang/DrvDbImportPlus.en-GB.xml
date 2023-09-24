@@ -27,16 +27,10 @@
 	  <Phrase key="pageData">Data</Phrase>
 	  <Phrase key="lblCmdQuery">Run SQL query</Phrase>
 	  <Phrase key="pageSettings">Settings</Phrase>
+	  <Phrase key="ckbWriteDriverLog">Log the result of a query from the database (debugging)</Phrase>
 	  <Phrase key="gpbTagFormatDatabase">Format of tags from the database</Phrase>
-	  <Phrase key="rdbKPTagsBasedRequestedTableColumns">KP tags based on the list of requested table columns</Phrase>
-	  <Phrase key="rdbKPTagsBasedRequestedTableRows">KP tags based on the list of requested table rows</Phrase>
-	  <Phrase key="gpbFormatData">Format of Data</Phrase>
-	  <Phrase key="rdbCurrentData">Current</Phrase>
-	  <Phrase key="rdbHistoricalData">Historical</Phrase>
-	  <Phrase key="gpbDataRelevance">Data relevance</Phrase>
-	  <Phrase key="lblDiscrepancyInSeconds">Discrepancy in seconds</Phrase>
-	  <Phrase key="gpbTagsCount">Tag count</Phrase>
-	  <Phrase key="chkAutoTagCount">Auto</Phrase>
+	  <Phrase key="rdbKPTagsBasedRequestedTableColumns">Tags based on the list of requested table columns</Phrase>
+	  <Phrase key="rdbKPTagsBasedRequestedTableRows">Tags based on the list of requested table rows</Phrase>
 	  <Phrase key="gpbTags">Tags</Phrase>
 	  <Phrase key="lblTagnameAdd">Tagname</Phrase>
 	  <Phrase key="btnTagnameAdd">Add</Phrase>
@@ -51,8 +45,8 @@
 		  If you need to enter non-standard connection parameters, you can edit the connection string directly.
 		  Examples of connection parameters can be found on the website https://www.connectionstrings.com .
 
-		  The driver assumes two formats for receiving data - these are "KP tags based on the list of requested table columns" and
-		  "KP tags based on the list of requested table rows".
+		  The driver assumes two formats for receiving data - these are "Tags based on the list of requested table columns" and
+		  "Tags based on the list of requested table rows".
 		  In the format "KP tags based on the list of requested table columns", the SQL query is compiled so that in the column name
 		  there will be the name of the KP tag, and in the first line the value.
 
@@ -92,8 +86,17 @@
 		  FROM DATATABLE_NAME
 		  WHERE CONDITION
 
+		  MySQL.
+		  MySQL has a feature in SSL mode. For it, you need to specify whether to use SSL or not.
+		  There are several options, but specify only one. They are equivalent in value. You only need to use one word.
+		  1) None or Disabled
+		  2) Preferred or Prefered
+		  3) Required
+		  4) VerifyCA
+		  5) VerifyFull
+
 		  Commands.
-		  The commands are defined in the KP configuration.
+		  The commands are defined in the configuration.
 		  Command example:
 		  UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum
 	  </Phrase>

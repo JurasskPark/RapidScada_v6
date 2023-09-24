@@ -48,6 +48,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Автор:  Михаил Ширяев\n" +
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
+                    "Версия 6.0.0.5 (21.09.2023)\n" +
+                    "[v] Исправлен режим подключения к MySQL.\n" +
+                    "[v] Исправлены мелкие недочеты в коде и незначительные ошибки.\n" +
                     "Версия 6.0.0.4 (23.02.2023)\n" +
                     "[+] Добавлен функционал по добавлению каналов через Мастер.\n" +
                     "[v] Исправлены ошибки в файле перевода.\n" +
@@ -78,6 +81,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+                    "Version 6.0.0.5 (09/21/2023)\n" +
+                    "[v] Fixed MySQL connection mode.\n" +
+                    "[v] Minor bugs in the code and minor errors have been fixed.\n" +
                     "Version 6.0.0.4 (02/23/2023)\n" +
                     "[+] Added functionality for adding channels through the Wizard.\n" +
                     "[v] Fixed errors in the translation file.\n" +

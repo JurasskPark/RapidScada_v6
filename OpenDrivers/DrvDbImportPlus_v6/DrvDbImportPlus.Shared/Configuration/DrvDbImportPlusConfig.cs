@@ -53,14 +53,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public bool DeviceTagsBasedRequestedTableColumns { get; set; }
 
         /// <summary>
-        /// Gets or sets a value Historical Data.
+        /// Gets or sets a value Log Driver.
         /// </summary>
-        public bool HistoricalData { get; set; }
+        public bool WriteLogDriver { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value Discrepancy in Seconds.
-        /// </summary>
-        public int DiscrepancyInSeconds { get; set; }
 
         /// <summary>
         /// Sets the default values.
@@ -74,10 +70,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             SelectQuery = "";
             DeviceTags = new List<Tag>();
             DeviceTagsBasedRequestedTableColumns = true;
-            DiscrepancyInSeconds = 0;
+            WriteLogDriver = true;
             ExportCmds = new List<ExportCmd>();
         }
-
 
         /// <summary>
         /// Loads the configuration from the specified file.
@@ -104,6 +99,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 try { DbConnSettings.LoadFromXml(rootElem.SelectSingleNode("DbConnSettings")); } catch { DbConnSettings = new DbConnSettings(); }
                 try { SelectQuery = rootElem.GetChildAsString("SelectQuery"); } catch { SelectQuery = ""; }
                 try { DeviceTagsBasedRequestedTableColumns = rootElem.GetChildAsBool("DeviceTagsBasedRequestedTableColumns"); } catch { DeviceTagsBasedRequestedTableColumns = true; }
+                try { WriteLogDriver = rootElem.GetChildAsBool("WriteLogDriver"); } catch {  WriteLogDriver = true; }
                 try
                 {
                     if (rootElem.SelectSingleNode("DeviceTags") is XmlNode exportDeviceTagsNode)
@@ -160,6 +156,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 try { DbConnSettings.SaveToXml(rootElem.AppendElem("DbConnSettings")); } catch { }
                 try { rootElem.AppendElem("SelectQuery", SelectQuery); } catch { }
                 try { rootElem.AppendElem("DeviceTagsBasedRequestedTableColumns", DeviceTagsBasedRequestedTableColumns); } catch { }
+                try { rootElem.AppendElem("WriteLogDriver", WriteLogDriver); } catch { }
                 try
                 {
                     XmlElement exportDeviceTagsElem = rootElem.AppendElem("DeviceTags");
@@ -187,40 +184,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 errMsg = CommPhrases.SaveDriverConfigError + ":" + Environment.NewLine + ex.Message;
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Calculates tag count based on the SQL-query.
-        /// </summary>
-        public int CalcTagCount()
-        {
-            int tagCount = 0;
-
-            if (!string.IsNullOrEmpty(SelectQuery))
-            {
-                if (DeviceTagsBasedRequestedTableColumns)
-                {
-                    // count the number of words between select and from separated by commas
-                    int selectInd = SelectQuery.IndexOf("select", StringComparison.OrdinalIgnoreCase);
-                    int fromInd = SelectQuery.IndexOf("from", StringComparison.OrdinalIgnoreCase);
-
-                    if (selectInd >= 0)
-                    {
-                        if (fromInd < 0)
-                            fromInd = SelectQuery.Length - 1;
-
-                        for (int i = selectInd + "select".Length; i < fromInd; i++)
-                        {
-                            if (SelectQuery[i] == ',')
-                                tagCount++;
-                        }
-
-                        tagCount++;
-                    }
-                }
-            }
-
-            return tagCount;
         }
 
         /// <summary>

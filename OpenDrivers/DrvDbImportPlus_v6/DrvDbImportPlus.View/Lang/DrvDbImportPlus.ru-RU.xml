@@ -27,16 +27,10 @@
     <Phrase key="pageData">Данные</Phrase>
     <Phrase key="btnExecuteSQLQuery">Выполнить SQL-запрос</Phrase>
     <Phrase key="pageSettings">Настройки</Phrase>
+	<Phrase key="ckbWriteDriverLog">Записывать в лог результат запроса из базы данных (отладка)</Phrase>
     <Phrase key="gpbTagFormatDatabase">Формат тегов из базы данных</Phrase>
-	<Phrase key="rdbKPTagsBasedRequestedTableColumns">Теги КП на основе списка запрашиваемых столбцов таблицы</Phrase>
-	<Phrase key="rdbKPTagsBasedRequestedTableRows">Теги КП на основе списка запрашиваемых строк таблицы</Phrase>
-	<Phrase key="gpbFormatData">Формат данных</Phrase>
-	<Phrase key="rdbCurrentData">Текущие</Phrase>
-	<Phrase key="rdbHistoricalData">Исторические</Phrase>
-	<Phrase key="gpbDataRelevance">Актуальность данных</Phrase>
-	<Phrase key="lblDiscrepancyInSeconds">Позволенная разница в секундах</Phrase>
-    <Phrase key="gpbTagsCount">Количество тегов</Phrase>
-    <Phrase key="chkAutoTagCount">Авто</Phrase>
+	<Phrase key="rdbKPTagsBasedRequestedTableColumns">Теги на основе списка запрашиваемых столбцов таблицы</Phrase>
+	<Phrase key="rdbKPTagsBasedRequestedTableRows">Теги на основе списка запрашиваемых строк таблицы</Phrase>
 	<Phrase key="gpbTags">Теги</Phrase>
 	<Phrase key="lblTagnameAdd">Название тега</Phrase>
 	<Phrase key="btnTagnameAdd">Добавить</Phrase>
@@ -51,10 +45,10 @@
 		Если требуется ввести нестандартные параметры соединения, то допускается редактирование строки соединения напрямую.
 		Примеры параметров соединения можно найти на сайте https://www.connectionstrings.com.
 
-		Драйвер предполагает два формата получения данных - это "Теги КП на основе списка запрашиваемых столбцов таблицы" и
-		"Теги КП на основе списка запрашиваемых строк таблицы".
+		Драйвер предполагает два формата получения данных - это "Теги на основе списка запрашиваемых столбцов таблицы" и
+		"Теги на основе списка запрашиваемых строк таблицы".
 		В формате "Теги КП на основе списка запрашиваемых столбцов таблицы" SQL-запрос составлен так, что в названии столбца
-		будет название тега КП, а в первой строке значение.
+		будет название тега, а в первой строке значение.
 
 		Пример, данна таблица
 
@@ -92,8 +86,17 @@
 		FROM DATATABLE_NAME
 		WHERE УСЛОВИЕ
 
+		MySQL.
+		У MySQl есть особенность в режиме SSL. Для него нужно указывать использовать SSL или нет.
+		Есть несколько вариантов, но указывать только один. По значению они равнозначны. Использовать нужно только одно слово.
+		1) None or Disabled
+		2) Preferred or Prefered
+		3) Required
+		4) VerifyCA
+		5) VerifyFull
+
 		Команды.
-		Команды определяются в конфигурации КП.
+		Команды определяются в конфигурации.
 		Пример команды:
 		UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum
 	</Phrase>

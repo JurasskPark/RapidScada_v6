@@ -2,15 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using DrvDbImportPlus.Common.Configuration;
+using MySqlX.XDevAPI.Relational;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus;
 using Scada.Comm.Lang;
+using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Lang;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-
+using System.Text;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 {
@@ -35,9 +40,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
         public DataSource dataSource;                           // the data source
 
-        private bool DeviceTagsBasedRequestedTableColumns;      // indicating Device Tags Based on the List of Requested Table Columns
-        private bool HistoricalData;                            // condition for transmitting historical data
-        private int DiscrepancyInSeconds;                       // the dead zone for the passage of which the value is considered to be poor quality
+        private bool deviceTagsBasedRequestedTableColumns;      // indicating Device Tags Based on the List of Requested Table Columns
+        private bool writeLogDriver;                            // write driver log
+
         private DataTable dtData = new DataTable("Data");
         private DataTable dtSchema = new DataTable("Schema");
 
@@ -61,7 +66,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
             dataSource = null;
 
-            DeviceTagsBasedRequestedTableColumns = true;
+            deviceTagsBasedRequestedTableColumns = true;
+            writeLogDriver = true;
         }
 
 
@@ -122,7 +128,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
             LastRequestOK = false;
 
-
             if (ValidateDataSource() && ValidateCommand(dataSource.SelectCommand))
             {
                 // request data
@@ -162,9 +167,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// </summary>
         public void InitDataSource(DrvDbImportPlusConfig config)
         {
-            DeviceTagsBasedRequestedTableColumns = config.DeviceTagsBasedRequestedTableColumns;
-            HistoricalData = config.HistoricalData;
-            DiscrepancyInSeconds = config.DiscrepancyInSeconds;
+            deviceTagsBasedRequestedTableColumns = config.DeviceTagsBasedRequestedTableColumns;
+            writeLogDriver = config.WriteLogDriver;
 
             dataSource = DataSource.GetDataSourceType(config);
 
@@ -273,12 +277,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             try
             {
-                Log.WriteLine(Locale.IsRussian ?
+                LogDriver(Locale.IsRussian ?
                     "Запрос данных" :
                     "Data request");
 
                 //Tag based Columns
-                if (DeviceTagsBasedRequestedTableColumns == true)
+                if (deviceTagsBasedRequestedTableColumns == true)
                 {
                     #region Formation of the structure
                     dtData = new DataTable("Data");
@@ -288,18 +292,18 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                         if (reader.HasRows == true)
                         {
                             dtData.Load(reader);
-                            ParseDataTableData(dtData, DeviceTagsBasedRequestedTableColumns);
+                            ParseDataTable(dtData, deviceTagsBasedRequestedTableColumns);
                         }
                     }
-                    #endregion Formation of the structure
 
                     if (dtData.Columns.Count == 0)
                     {
-                        Log.WriteLine(Locale.IsRussian ?
+                        LogDriver(Locale.IsRussian ?
                             "Данные отсутствуют" :
                             "No data available");
                         InvalidateData();
                     }
+                    #endregion Formation of the structure
                 }
                 else //Tag base Row
                 {
@@ -347,10 +351,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
                             if (columnName == string.Empty || columnName == "" || dataType == null)
                             {
-                                Log.WriteLine(Locale.IsRussian ?
+                                LogDriver(Locale.IsRussian ?
                                 "Не удалось определить формат данных у столбца таблицы. Информация о столбце таблицы: " :
                                 "The data format of the table column could not be determined. Information about the table column: ");
-                                Log.WriteLine("Column Number = " + cntRow + ", Column Name = " + columnName + ", Size = " + columnSize + ", Data Type = " + dataTypeName + ".");
+                                LogDriver("Column Number = " + cntRow + ", Column Name = " + columnName + ", Size = " + columnSize + ", Data Type = " + dataTypeName + ".");
                             }
 
                             if (!columns.Contains(columnName.ToString()))
@@ -372,323 +376,218 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                             dtData.LoadDataRow(ColArray, true);
                         }
 
-                        ParseDataTableData(dtData, DeviceTagsBasedRequestedTableColumns);
+                        ParseDataTable(dtData, deviceTagsBasedRequestedTableColumns);
+
                     }
-                    #endregion Formation of the structure
 
                     if (dtData.Rows.Count == 0)
                     {
-                        Log.WriteLine(Locale.IsRussian ?
+                        LogDriver(Locale.IsRussian ?
                             "Данные отсутствуют" :
                             "No data available");
                         InvalidateData();
                     }
+                    #endregion Formation of the structure
                 }
 
                 return true;
             }
             catch (Exception ex)
             {
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Ошибка при выполнении запроса: {0}" :
                     "Error executing query: {0}", ex.Message));
                 return false;
             }
         }
 
-        private void ParseDataTableData(DataTable dtData, bool DeviceTagsBasedRequestedTableColumns)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dtData">DataTable</param>
+        /// <param name="DeviceTagsBasedRequestedTableColumns">Tag based Columns or Row</param>
+        private void ParseDataTable(DataTable dtData, bool DeviceTagsBasedRequestedTableColumns)
         {
+            LogDriver(PrintDataTable(dtData));
+
             string name = string.Empty;
             object value = new object();
 
-            // we reset the previous usage
-            for (int c = 0; c < deviceTags.Count; c++)
+            Dictionary<object, object> tableResult = new Dictionary<object, object>();
+            List<DeviceTag> findDeviceTags = DeviceTags.ToList();
+
+            for (int index = 0; index < findDeviceTags.Count; ++index)
             {
-                deviceTags[c].TagVal = null;
-                deviceTags[c].TagStat = 0;
-            }
+                DeviceTag findTag = findDeviceTags[index];
+                Tag tmpTag = deviceTags.Where(r => r.TagCode == findTag.Code).FirstOrDefault();
 
-            if (DeviceTagsBasedRequestedTableColumns)
-            {
-                if (dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
-                        "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
-                    return;
-                }
-
-                using (DataTableReader reader = new DataTableReader(dtData))
-                {
-                    DataTable dtSchema = reader.GetSchemaTable();
-                    DataColumnCollection columns = dtData.Columns;
-
-                    for (int cntColumns = 0; cntColumns < columns.Count; cntColumns++)
-                    {
-                        DataColumn column = columns[cntColumns];
-                        DataRow schemarow = dtSchema.Rows[cntColumns];
-                        name = string.Empty;
-
-                        try
-                        {
-                            name = columns[cntColumns].ColumnName;
-                        }
-                        catch { }
-
-                        DataRow dataTablerow = dtData.Rows[0];
-
-                        try
-                        {
-                            value = dataTablerow.ItemArray[cntColumns];
-                        }
-                        catch { }
-
-                        #region Find Tag
-                        Tag tag = (Tag)deviceTags.Where(x => x.TagName == name).FirstOrDefault();
-                        if (tag == null)
-                        {
-                            tag.TagVal = null;
-                            tag.TagStat = 0;
-                        }
-                        else
-                        {
-                            tag.TagVal = value;
-                            tag.TagStat = 1;
-                        }
-                        #endregion  Find Tag
-
-                    }
-                }
-            }
-            else
-            {
-                if (dtData.Columns.Count < 2 || dtData.Rows.Count == 0)
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
-                        "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
-                    return;
-                }
-
-                for (int i = 0; i < dtData.Rows.Count; i++)
-                {
-                    if (dtData.Rows[i][0].ToString() == string.Empty || dtData.Rows[i][0] is null)
-                    {
-                        Log.WriteLine(Locale.IsRussian ?
-                            "Столбец номер 1 с названием тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
-                            "Column number 1 with the tag name is empty or null. Tag number and table row number -" + (i + 1));
-                    }
-
-                    try
-                    {
-                        name = dtData.Rows[i][0].ToString();
-                    }
-                    catch { }
-
-
-                    if (dtData.Rows[i][1].ToString() == string.Empty || dtData.Rows[i][1] is null)
-                    {
-                        Log.WriteLine(Locale.IsRussian ?
-                            "Столбец номер 2 с значениям тега пустой или равен null. Номер тега и номер строки таблицы - " + (i + 1) :
-                            "Column number 2 with the tag value is empty or null. Tag number and table row number" + (i + 1));
-                    }
-
-                    try
-                    {
-                        value = dtData.Rows[i][1];
-                    }
-                    catch { }
-
-                    #region  Find Tag
-                    Tag tag = (Tag)deviceTags.Where(x => x.TagName == name).FirstOrDefault();
-                    if (tag == null)
-                    {
-                        tag.TagVal = null;
-                        tag.TagStat = 0;
-                    }
-                    else
-                    {
-                        tag.TagVal = value;
-                        tag.TagStat = 1;
-                    }
-                    #endregion  Find Tag
-
-                }
-            }
-
-            #region Recording current data
-
-            for (int t = 0; t < deviceTags.Count; t++)
-            {
-                if(deviceTags[t].TagEnabled == false)
+                if (tmpTag == null || tmpTag.TagEnabled == false)
                 {
                     continue;
                 }
 
-                if (deviceTags[t].TagCode != string.Empty)
+                #region Type Data
+                if (DeviceTagsBasedRequestedTableColumns)
                 {
-                    SetTagData(deviceTags[t].TagCode, deviceTags[t].TagVal, deviceTags[t].TagStat);
+                    if (dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
+                    {
+                        LogDriver(Locale.IsRussian ?
+                            "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
+                            "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
+                        return;
+                    }
+
+                    using (DataTableReader reader = new DataTableReader(dtData))
+                    {
+                        DataTable dtSchema = reader.GetSchemaTable();
+                        DataColumnCollection columns = dtData.Columns;
+
+                        for (int cntColumns = 0; cntColumns < columns.Count; cntColumns++)
+                        {
+                            DataColumn column = columns[cntColumns];
+                            DataRow schemarow = dtSchema.Rows[cntColumns];
+                            name = string.Empty;
+
+                            try
+                            {
+                                name = columns[cntColumns].ColumnName;
+                            }
+                            catch { }
+
+                            DataRow dataTablerow = dtData.Rows[0];
+
+                            try
+                            {
+                                value = dataTablerow.ItemArray[cntColumns];
+                            }
+                            catch { }
+
+                            if (!tableResult.TryGetValue(name, out object existingKey))
+                            {
+                                // Create if not exists in dictionary
+                                tableResult.Add(name, value);
+                            }                           
+                        }
+                    }
                 }
                 else
                 {
-                    SetTagData(deviceTags.IndexOf(deviceTags[t]), deviceTags[t].TagVal, deviceTags[t].TagStat);
-                }
-            }
+                    if (dtData.Columns.Count < 2 || dtData.Rows.Count == 0)
+                    {
+                        LogDriver(Locale.IsRussian ?
+                            "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
+                            "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
+                        return;
+                    }
 
-            #endregion  Recording current data
+                    for (int i = 0; i < dtData.Rows.Count; i++)
+                    {
+                        try
+                        {
+                            name = dtData.Rows[i][0].ToString();
+                        }
+                        catch { }
+
+                        try
+                        {
+                            value = dtData.Rows[i][1];
+                        }
+                        catch { }
+
+                        if (!tableResult.TryGetValue(name, out object existingKey))
+                        {
+                            // Create if not exists in dictionary
+                            tableResult.Add(name, value);
+                        }
+                    }
+                }
+
+                object findValue = tableResult.Where(x => x.Key.ToString() == findTag.Code).FirstOrDefault().Value;
+                SetTagData(findTag, findValue);
+
+                #endregion Type Data
+            }
         }
 
         /// <summary>
+        /// Generates a textual representation of the data of <paramref name="table"/>.
+        /// </summary>
+        /// <param name="table">The table to print.</param>
+        /// <returns>A textual representation of the data of <paramref name="table"/>.</returns>
+        public static String PrintDataTable(DataTable table)
+        {
+            String GetCellValueAsString(DataRow row, DataColumn column)
+            {
+                var cellValue = row[column];
+                var cellValueAsString = cellValue is null or DBNull ? "{null}" : cellValue.ToString();
+
+                return cellValueAsString;
+            }
+
+            var columnWidths = new Dictionary<DataColumn, Int32>();
+
+            foreach (DataColumn column in table.Columns)
+            {
+                columnWidths.Add(column, column.ColumnName.Length);
+            }
+
+            foreach (DataRow row in table.Rows)
+            {
+                foreach (DataColumn column in table.Columns)
+                {
+                    columnWidths[column] = Math.Max(columnWidths[column], GetCellValueAsString(row, column).Length);
+                }
+            }
+
+            var resultBuilder = new StringBuilder();
+
+            resultBuilder.Append("| ");
+
+            foreach (DataColumn column in table.Columns)
+            {
+                resultBuilder.Append(column.ColumnName.PadRight(columnWidths[column]));
+                resultBuilder.Append(" | ");
+            }
+
+            resultBuilder.AppendLine();
+
+            foreach (DataRow row in table.Rows)
+            {
+                resultBuilder.Append("| ");
+
+                foreach (DataColumn column in table.Columns)
+                {
+                    resultBuilder.Append(GetCellValueAsString(row, column).PadRight(columnWidths[column]));
+                    resultBuilder.Append(" | ");
+                }
+
+                resultBuilder.AppendLine();
+            }
+
+            return resultBuilder.ToString();
+        }
+    
+        /// <summary>
         /// Sets value, status and format of the specified tag.
         /// </summary>
-        private void SetTagData(int tagIndex, object tagVal, int tagStat)
+        private void SetTagData(DeviceTag deviceTag, object val)
         {
             try
             {
-                if (DeviceTags.Count() > 0)
+                if (val == DBNull.Value || val == null)
                 {
-                    DeviceTag deviceTag = DeviceTags[tagIndex];
-
-                    if (tagVal is string strVal)
-                    {
-                        deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagIndex, strVal, tagStat); } catch { }
-                    }
-                    else if (tagVal is DateTime dtVal)
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, tagStat); } catch { }
-                    }
-                    else
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.FloatNumber;
-                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(tagVal), tagStat); } catch { }
-                    }
+                    DeviceData.Invalidate(deviceTag.Index);
                 }
+                else
+                {
+                    DeviceData.Set(deviceTag, val, CnlStatusID.Defined);
+                }                 
             }
             catch (Exception ex)
             {
                 Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при установке данных тега" :
-                    "Error setting tag data"));
-            }
-        }
-
-        /// <summary>
-        /// Sets value, status and format of the specified tag.
-        /// </summary>
-        private void SetTagData(string tagCode, object tagVal, int tagStat)
-        {
-            try
-            {
-                if (DeviceTags.Count() > 0)
-                {
-                    DeviceTag deviceTag = DeviceTags[tagCode];
-
-                    if (tagVal is string strVal)
-                    {
-                        deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagCode, strVal, tagStat); } catch { }
-                    }
-                    else if (tagVal is DateTime dtVal)
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagCode, dtVal, tagStat); } catch { }
-                    }
-                    else
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.FloatNumber;
-                        try { base.DeviceData.Set(tagCode, Convert.ToDouble(tagVal), tagStat); } catch { }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при установке данных тега" :
-                    "Error setting tag data"));
-            }
-        }
-
-        /// <summary>
-        /// Converts the device slice to a general purpose slice.
-        /// </summary>
-        private bool ConvertSlice(DeviceSlice srcSlice, out Slice destSlice)
-        {
-            try
-            {
-                int srcDataLength = srcSlice.CnlData.Length;
-                int destDataLength = 0;
-                List<int> cnlNums = new List<int>(srcDataLength);
-
-                foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
-                {
-                    if (deviceTag == null)
-                    {
-                        throw new ScadaException(Locale.IsRussian ?
-                            "Неопределенные теги в срезе не допускаются." :
-                            "Undefined tags are not allowed in a slice.");
-                    }
-
-                    if (deviceTag.Cnl != null)
-                    {
-                        int tagDataLength = deviceTag.DataLength;
-
-                        for (int i = 0; i < tagDataLength; i++)
-                        {
-                            cnlNums.Add(deviceTag.Cnl.CnlNum + i);
-                        }
-
-                        destDataLength += tagDataLength;
-                    }
-                }
-
-                if (destDataLength == 0)
-                {
-                    destSlice = null;
-                    return false;
-                }
-                else if (destDataLength == srcDataLength)
-                {
-                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData);
-                    return true;
-                }
-                else
-                {
-                    CnlData[] destCnlData = new CnlData[destDataLength];
-                    int srcDataIndex = 0;
-                    int destDataIndex = 0;
-
-                    foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
-                    {
-                        int tagDataLength = deviceTag.DataLength;
-
-                        if (deviceTag.Cnl != null)
-                        {
-                            Array.Copy(srcSlice.CnlData, srcDataIndex, destCnlData, destDataIndex, tagDataLength);
-                            destDataIndex += tagDataLength;
-                        }
-
-                        srcDataIndex += tagDataLength;
-                    }
-
-                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), destCnlData);
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(ex, CommPhrases.DataSourceMessage, string.Format(Locale.IsRussian ?
-                    "Ошибка при конвертировании среза от устройства {0}" :
-                    "Error converting slice from the device {0}", srcSlice.DeviceNum));
-                destSlice = null;
-                return false;
+                    "Ошибка при установке данных тега \"{0}\"" :
+                    "Error setting \"{0}\" tag data", deviceTag.Code));
             }
         }
 
@@ -776,5 +675,20 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
         }
 
+        /// <summary>
+        /// Log Write Driver
+        /// </summary>
+        /// <param name="text">Message</param>
+        private void LogDriver(string text)
+        {
+            if(text == string.Empty || text == "" || text == null)
+            {
+                return;
+            }
+            if (writeLogDriver)
+            {
+                Log.WriteLine(text);
+            }
+        }
     }
 }
