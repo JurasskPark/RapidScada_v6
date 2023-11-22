@@ -126,3 +126,10 @@ https://www.youtube.com/watch?v=rkpGMyvKAZ0
 Screenshots
 
 ![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPing_001.png) 
+
+
+
+
+## SAST Tools
+
+[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
