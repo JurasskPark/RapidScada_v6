@@ -5,6 +5,9 @@
 	
 ### DrvDbImportPlus
 	
+Библиотека DrvDbImportPlus (6.0.0.6)
+- Добавлен функционал по отображению и округлению значения на количество знаков после запятой.
+
 Библиотека DrvDbImportPlus (6.0.0.5)
 - Исправлен режим подключения к MySQL.
 - Исправлены мелкие недочеты в коде и незначительные ошибки.
@@ -37,6 +40,9 @@
 - Реализован новый режим сбора данных, когда в первом столбце - название тега, во втором - значение тега, в третьем - время значения. (Работает историческая запись данных через срез.)
 
 ---------------------------------------------------------------------------
+
+DrvDbImportPlus library (6.0.0.6)
+- Added functionality for displaying and rounding values by the number of decimal places.
 
 DrvDbImportPlus library (6.0.0.5)
 - Fixed MySQL connection mode.
@@ -71,9 +77,10 @@ DrvDbImportPlus library (6.0.0.0)
 
 Video on YouTube 
 https://www.youtube.com/watch?v=cZMksoblUgo
+https://www.youtube.com/watch?v=TFZfBMuRMVU
 
 [![Video on YouTube](https://img.youtube.com/vi/cZMksoblUgo/0.jpg)](https://www.youtube.com/watch?v=cZMksoblUgo)
-
+[![Video on YouTube](https://img.youtube.com/vi/TFZfBMuRMVU/0.jpg)](https://www.youtube.com/watch?v=TFZfBMuRMVU)
 Screenshots
 
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_001.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_002.png)

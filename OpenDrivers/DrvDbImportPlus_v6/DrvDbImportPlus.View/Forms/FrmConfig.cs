@@ -312,6 +312,22 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 return result;
             }
 
+            if ((int)formatTag == 3)
+            {
+                result = Locale.IsRussian ?
+                       "Целое число" :
+                       "Integer";
+                return result;
+            }
+
+            if ((int)formatTag == 4)
+            {
+                result = Locale.IsRussian ?
+                       "Логическое значение" :
+                       "Boolean";
+                return result;
+            }
+
             return result;
         }
 
@@ -1093,6 +1109,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 Tag newTag = new Tag();
                 newTag.TagID = Guid.NewGuid();
                 newTag.TagFormat = FormatTag.Float;
+                newTag.NumberDecimalPlaces = 3;
                 newTag.TagEnabled = true;
 
                 if (DialogResult.OK == new FrmTag(1, ref newTag).ShowDialog())
@@ -1138,6 +1155,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                         newTag.TagID = Guid.NewGuid();
                         newTag.TagName = tagName;
                         newTag.TagCode = tagName;
+                        newTag.NumberDecimalPlaces = 3;
                         newTag.TagFormat = FormatTag.Float;
                         newTag.TagEnabled = true;
 

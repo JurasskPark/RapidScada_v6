@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using Oracle.ManagedDataAccess.Types;
+using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
@@ -129,7 +130,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         {
             Float = 0,
             DateTime = 1,
-            String = 2
+            String = 2,
+            Integer = 3,
+            Boolean = 4
+        }
+
+        private int numberDecimalPlaces;
+        public int NumberDecimalPlaces
+        {
+            set { numberDecimalPlaces = value; }
+            get { return numberDecimalPlaces; }
         }
 
         #endregion Tag
@@ -148,6 +158,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             TagName = xmlNode.GetChildAsString("Name");
             TagCode = xmlNode.GetChildAsString("Code");
             TagFormat = (FormatTag)xmlNode.GetChildAsInt("Format");
+            NumberDecimalPlaces = xmlNode.GetChildAsInt("NumberDecimalPlaces");
             TagEnabled = xmlNode.GetChildAsBool("Enable");
         }
 
@@ -165,6 +176,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             xmlElem.AppendElem("Name", TagName);
             xmlElem.AppendElem("Code", TagCode);
             xmlElem.AppendElem("Format", (int)TagFormat);
+            xmlElem.AppendElem("NumberDecimalPlaces", (int)NumberDecimalPlaces);
             xmlElem.AppendElem("Enable", TagEnabled);
         }
 

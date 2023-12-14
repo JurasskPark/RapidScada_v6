@@ -48,6 +48,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Автор:  Михаил Ширяев\n" +
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
+                    "Версия 6.0.0.6 (14.12.2023)\n" +
+                    "[+] Добавлен функционал по отображению и округлению значения на количество знаков после запятой.\n" +
                     "Версия 6.0.0.5 (21.09.2023)\n" +
                     "[v] Исправлен режим подключения к MySQL.\n" +
                     "[v] Исправлены мелкие недочеты в коде и незначительные ошибки.\n" +
@@ -81,28 +83,30 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+                    "Version 6.0.0.6 (12/14/2023)\n" +
+                    "[+] Added functionality for displaying and rounding values by the number of decimal places.\n" +
                     "Version 6.0.0.5 (09/21/2023)\n" +
                     "[v] Fixed MySQL connection mode.\n" +
                     "[v] Minor bugs in the code and minor errors have been fixed.\n" +
                     "Version 6.0.0.4 (02/23/2023)\n" +
                     "[+] Added functionality for adding channels through the Wizard.\n" +
                     "[v] Fixed errors in the translation file.\n" +
-                    "Version 6.0.0.3 (10.02.2023)\n" +
+                    "Version 6.0.0.3 (02/10/2023)\n" +
                     "Removed:\n" +
                     "[-] Historical data transmission mode. This mode has shown a dangerous opportunity to load the server with a large number of slices, which can lead to server failure.\n" +
                     "Fixed:\n" +
                     "[v] Changed the way tags are displayed, added, deleted, and edited.\n" +
-                    "Version 6.0.0.2 (13.11.2022)\n" +
+                    "Version 6.0.0.2 (11/13/2022)\n" +
                     "Fixed:\n" +
                     "[v] The maximum value of the Tags Count element has been changed from 100 to 65535.\n" +
-                    "Version 6.0.0.1 (05.11.2022)\n" +
+                    "Version 6.0.0.1 (11/05/2022)\n" +
                     "Fixed:\n" +
                     "[v] The connection string now does not display information about the connection settings, unless it is an OLEDB or ODBC driver.\n" +
                     "[v] Field blocking mode is enabled depending on the type of connection usage.\n" +
                     "Added:\n" +
                     "[+] Context menu to SQL Query editors.\n" +
                     "[+] Added the ability to add static tags in advance to the settings so that in the absence of data, the tag numbers do not shift.\n" +
-                    "Version 5.1.1.1 (05.09.2022)\n" +
+                    "Version 5.1.1.1 (09/05/2022)\n" +
                     "Added:\n" +
                     "[+] Connection via ODBC.\n" +
                     "[+] Connecting to the Firebird database.\n" +

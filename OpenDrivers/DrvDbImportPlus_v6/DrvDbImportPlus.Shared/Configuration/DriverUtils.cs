@@ -105,22 +105,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <exception cref="Exception"></exception>
         public static DateTime CalculateTriggerTime(DateTime currentTime, TimeSpan processTime, ScheduleMode scheduleMode)
         {
-            string errMsgParametr1 = Locale.IsRussian ?
-                "Параметр 1 - текущее время (currentTime) не может быть нулевым!" :
-                "Parameter 1 - (currentTime) cannot be zero!";
-            string errMsgParametr2 = Locale.IsRussian ?
-                "Параметр 2 - время процесса (processTime) не может быть нулевым!" :
-                "Parameter 2 - (processTime) cannot be zero!";
-
-            if (currentTime == null)
-            {
-                throw new Exception(errMsgParametr1);
-            }
-            if (processTime == null)
-            {
-                throw new Exception(errMsgParametr2);
-            }
-
             DateTime nextTime = new DateTime();
             nextTime = currentTime;
 

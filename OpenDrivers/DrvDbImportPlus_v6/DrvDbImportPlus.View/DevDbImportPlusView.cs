@@ -89,13 +89,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                 switch(tmpTag.TagFormat.ToString())
                 {
                     case "Float":
-                        tmpTagformat = FormatCode.G;
+                        tmpTagformat = "N" + tmpTag.NumberDecimalPlaces;
                         break;
                     case "DateTime":
                         tmpTagformat = FormatCode.DateTime;
                         break;
                     case "String":
                         tmpTagformat = FormatCode.String;
+                        break;
+                    case "Integer":
+                        tmpTagformat = FormatCode.N0;
+                        break;
+                    case "Boolean":
+                        tmpTagformat = FormatCode.OffOn;
                         break;
                 }
 

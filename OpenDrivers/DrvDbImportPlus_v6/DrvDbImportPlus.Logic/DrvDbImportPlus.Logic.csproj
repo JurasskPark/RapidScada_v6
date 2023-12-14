@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.Logic</RootNamespace>
-		<Version>6.0.0.5</Version>
+		<Version>6.0.0.6</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
@@ -29,13 +29,13 @@
 	    <HintPath>..\DrvDbImportPlus.Shared\lib\Oracle.ManagedDataAccess.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\..\..\SCADA_6\ScadaComm\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\SCADA_6\ScadaComm\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\..\..\SCADA_6\ScadaComm\ScadaCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\SCADA_6\ScadaComm\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\..\..\SCADA_6\ScadaComm\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\..\..\..\SCADA_6\ScadaComm\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	  <Reference Include="System.Data.Odbc">
 	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.Odbc.dll</HintPath>

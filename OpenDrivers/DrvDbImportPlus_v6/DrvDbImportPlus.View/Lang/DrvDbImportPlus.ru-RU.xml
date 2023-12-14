@@ -133,6 +133,7 @@
 	<Phrase key="lblTagCode">Код тега</Phrase>
 	<Phrase key="lblTagname">Название тега</Phrase>
 	<Phrase key="lblFormat">Формат</Phrase>
+	<Phrase key="lblNumberOfDecimalPlaces">Кол-во знаков после запятой</Phrase>
 	<Phrase key="lblEnabled">Включен</Phrase>
 	<Phrase key="btnAdd">Добавить</Phrase>
 	<Phrase key="btnSave">Сохранить</Phrase>

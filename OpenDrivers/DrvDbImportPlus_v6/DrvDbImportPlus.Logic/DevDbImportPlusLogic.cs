@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using DrvDbImportPlus.Common.Configuration;
+using Microsoft.SqlServer.Server;
 using MySqlX.XDevAPI.Relational;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 {
@@ -62,12 +64,18 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             string shortFileName = DrvDbImportPlusConfig.GetFileName(deviceNum);
             configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
 
-            config = new DrvDbImportPlusConfig();
-
             dataSource = null;
 
             deviceTagsBasedRequestedTableColumns = true;
             writeLogDriver = true;
+
+            // load configuration
+            config = new DrvDbImportPlusConfig();
+            if (!config.Load(configFileName, out string errMsg))
+            {
+                dataSource = null;
+                LogDriver(errMsg);
+            }
         }
 
 
@@ -76,19 +84,29 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            // load configuration
-            DrvDbImportPlusConfig config = new DrvDbImportPlusConfig();
+            base.OnCommLineStart();
 
-            if (config.Load(configFileName, out string errMsg))
+            LogDriver(Locale.IsRussian ?
+                       "Запуск драйвера" :
+                       "Running the driver");
+
+            if (config != null)
             {
                 InitDataSource(config);
                 CanSendCommands = config.ExportCmds.Count > 0;
             }
-            else
-            {
-                dataSource = null;
-                Log.WriteLine(errMsg);
-            }
+        }
+
+        /// <summary>
+        /// Performs actions after stopping the device on the communication line.
+        /// </summary>
+        public override void OnCommLineTerminate()
+        {
+            base.OnCommLineTerminate();
+
+            LogDriver(Locale.IsRussian ?
+                       "Останов драйвера" :
+                       "Stopping the driver");
         }
 
         /// <summary>
@@ -98,7 +116,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             if (config == null)
             {
-                Log.WriteLine(Locale.IsRussian ?
+                LogDriver(Locale.IsRussian ?
                        "Количество тегов не было получено т.к. конфигурационный файл не был загружен" :
                        "The number of tags was not received because the configuration file was not loaded");
                 return;
@@ -115,7 +133,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
             else
             {
-                Log.WriteLine(errMsg);
+                LogDriver(errMsg);
             }
         }
 
@@ -181,7 +199,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 if (string.IsNullOrEmpty(connStr))
                 {
                     dataSource = null;
-                    Log.WriteLine(Locale.IsRussian ?
+                    LogDriver(Locale.IsRussian ?
                         "Соединение не определено" :
                         "Connection is undefined");
                 }
@@ -192,7 +210,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
             else
             {
-                Log.WriteLine(Locale.IsRussian ?
+                LogDriver(Locale.IsRussian ?
                       "Data source type is not set or not supported" :
                       "Тип источника данных не задан или не поддерживается");
             }
@@ -205,7 +223,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             if (dataSource == null)
             {
-                Log.WriteLine(Locale.IsRussian ?
+                LogDriver(Locale.IsRussian ?
                     "Нормальное взаимодействие с КП невозможно, т.к. источник данных не определён" :
                     "Normal device communication is impossible because data source is undefined");
                 return false;
@@ -223,7 +241,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             if (dbCommand == null)
             {
-                Log.WriteLine(Locale.IsRussian ?
+                LogDriver(Locale.IsRussian ?
                     "Нормальное взаимодействие с КП невозможно, т.к. SQL-команда не определена" :
                     "Normal device communication is impossible because SQL command is undefined");
                 return false;
@@ -246,7 +264,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Ошибка при соединении с БД: {0}" :
                     "Error connecting to DB: {0}", ex.Message));
                 return false;
@@ -264,7 +282,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Ошибка при разъединении с БД: {0}" :
                     "Error disconnecting from DB: {0}", ex.Message));
             }
@@ -408,57 +426,96 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// <param name="DeviceTagsBasedRequestedTableColumns">Tag based Columns or Row</param>
         private void ParseDataTable(DataTable dtData, bool DeviceTagsBasedRequestedTableColumns)
         {
-            LogDriver(PrintDataTable(dtData));
-
-            string name = string.Empty;
-            object value = new object();
-
-            Dictionary<object, object> tableResult = new Dictionary<object, object>();
-            List<DeviceTag> findDeviceTags = DeviceTags.ToList();
-
-            for (int index = 0; index < findDeviceTags.Count; ++index)
+            try
             {
-                DeviceTag findTag = findDeviceTags[index];
-                Tag tmpTag = deviceTags.Where(r => r.TagCode == findTag.Code).FirstOrDefault();
+                LogDriver(PrintDataTable(dtData));
 
-                if (tmpTag == null || tmpTag.TagEnabled == false)
-                {
-                    continue;
-                }
+                string name = string.Empty;
+                object value = new object();
+                int findNumberDecimalPlaces = 3;
 
-                #region Type Data
-                if (DeviceTagsBasedRequestedTableColumns)
+                Dictionary<object, object> tableResult = new Dictionary<object, object>();
+                List<DeviceTag> findDeviceTags = DeviceTags.ToList();
+
+                for (int index = 0; index < findDeviceTags.Count; ++index)
                 {
-                    if (dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
+                    DeviceTag findTag = findDeviceTags[index];
+                    Tag tmpTag = deviceTags.Where(r => r.TagCode == findTag.Code).FirstOrDefault();
+
+                    if (tmpTag == null || tmpTag.TagEnabled == false)
                     {
-                        LogDriver(Locale.IsRussian ?
-                            "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
-                            "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
-                        return;
+                        continue;
                     }
 
-                    using (DataTableReader reader = new DataTableReader(dtData))
+                    findNumberDecimalPlaces = tmpTag.NumberDecimalPlaces;
+                    Tag.FormatTag tmpFormat = (Tag.FormatTag)Enum.Parse(typeof(Tag.FormatTag), tmpTag.TagFormat.ToString());
+                    findTag.SetFormat(ConvertFormat(tmpFormat));
+
+                    #region Type Data
+                    if (DeviceTagsBasedRequestedTableColumns)
                     {
-                        DataTable dtSchema = reader.GetSchemaTable();
-                        DataColumnCollection columns = dtData.Columns;
-
-                        for (int cntColumns = 0; cntColumns < columns.Count; cntColumns++)
+                        if (dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
                         {
-                            DataColumn column = columns[cntColumns];
-                            DataRow schemarow = dtSchema.Rows[cntColumns];
-                            name = string.Empty;
+                            LogDriver(Locale.IsRussian ?
+                                "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
+                                "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
+                            return;
+                        }
 
+                        using (DataTableReader reader = new DataTableReader(dtData))
+                        {
+                            DataTable dtSchema = reader.GetSchemaTable();
+                            DataColumnCollection columns = dtData.Columns;
+
+                            for (int cntColumns = 0; cntColumns < columns.Count; cntColumns++)
+                            {
+                                DataColumn column = columns[cntColumns];
+                                DataRow schemarow = dtSchema.Rows[cntColumns];
+                                name = string.Empty;
+
+                                try
+                                {
+                                    name = columns[cntColumns].ColumnName;
+                                }
+                                catch { }
+
+                                DataRow dataTablerow = dtData.Rows[0];
+
+                                try
+                                {
+                                    value = dataTablerow.ItemArray[cntColumns];
+                                }
+                                catch { }
+
+                                if (!tableResult.TryGetValue(name, out object existingKey))
+                                {
+                                    // Create if not exists in dictionary
+                                    tableResult.Add(name, value);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (dtData.Columns.Count < 2 || dtData.Rows.Count == 0)
+                        {
+                            LogDriver(Locale.IsRussian ?
+                                "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
+                                "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
+                            return;
+                        }
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
                             try
                             {
-                                name = columns[cntColumns].ColumnName;
+                                name = dtData.Rows[i][0].ToString();
                             }
                             catch { }
 
-                            DataRow dataTablerow = dtData.Rows[0];
-
                             try
                             {
-                                value = dataTablerow.ItemArray[cntColumns];
+                                value = dtData.Rows[i][1];
                             }
                             catch { }
 
@@ -466,46 +523,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                             {
                                 // Create if not exists in dictionary
                                 tableResult.Add(name, value);
-                            }                           
+                            }
                         }
                     }
+
+                    object findValue = tableResult.Where(x => x.Key.ToString() == findTag.Code).FirstOrDefault().Value;
+                    SetTagData(findTag, findValue, findNumberDecimalPlaces);
+
+                    #endregion Type Data
                 }
-                else
-                {
-                    if (dtData.Columns.Count < 2 || dtData.Rows.Count == 0)
-                    {
-                        LogDriver(Locale.IsRussian ?
-                            "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
-                            "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
-                        return;
-                    }
-
-                    for (int i = 0; i < dtData.Rows.Count; i++)
-                    {
-                        try
-                        {
-                            name = dtData.Rows[i][0].ToString();
-                        }
-                        catch { }
-
-                        try
-                        {
-                            value = dtData.Rows[i][1];
-                        }
-                        catch { }
-
-                        if (!tableResult.TryGetValue(name, out object existingKey))
-                        {
-                            // Create if not exists in dictionary
-                            tableResult.Add(name, value);
-                        }
-                    }
-                }
-
-                object findValue = tableResult.Where(x => x.Key.ToString() == findTag.Code).FirstOrDefault().Value;
-                SetTagData(findTag, findValue);
-
-                #endregion Type Data
+            }
+            catch (Exception ex)
+            {
+                LogDriver(ex.ToString());
             }
         }
 
@@ -570,7 +600,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// <summary>
         /// Sets value, status and format of the specified tag.
         /// </summary>
-        private void SetTagData(DeviceTag deviceTag, object val)
+        private void SetTagData(DeviceTag deviceTag, object val, int numberDecimalPlaces = 3)
         {
             try
             {
@@ -580,7 +610,41 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 }
                 else
                 {
-                    DeviceData.Set(deviceTag, val, CnlStatusID.Defined);
+                    if (val is string strVal)
+                    {
+                        deviceTag.DataType = TagDataType.Unicode;
+                        deviceTag.Format = TagFormat.String;
+                        try { base.DeviceData.SetUnicode(deviceTag.Index, strVal, CnlStatusID.Defined); } catch { }
+                    }
+                    else if (val is DateTime dtVal)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.DateTime;
+                        try { base.DeviceData.SetDateTime(deviceTag.Index, dtVal, CnlStatusID.Defined); } catch { }
+                    }
+                    else if (deviceTag.Format == TagFormat.OffOn && Convert.ToBoolean(val) is Boolean bolVal)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.OffOn;
+                        try { base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined); } catch { }
+                    }
+                    else if (val is Int32 intVal)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.IntNumber;
+                        try { base.DeviceData.Set(deviceTag, Convert.ToInt32(val), CnlStatusID.Defined); } catch { }
+                    }
+                    else if (val is Int64 int64Val)
+                    {
+                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.Format = TagFormat.IntNumber;
+                        try { base.DeviceData.SetInt64(deviceTag.Index, Convert.ToInt64(val), CnlStatusID.Defined); } catch { }
+                    }
+                    else
+                    {
+                        deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString()); ;
+                        try { base.DeviceData.Set(deviceTag.Index, Math.Round(Convert.ToDouble(val), numberDecimalPlaces), CnlStatusID.Defined); } catch { }
+                    }
                 }                 
             }
             catch (Exception ex)
@@ -589,6 +653,30 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     "Ошибка при установке данных тега \"{0}\"" :
                     "Error setting \"{0}\" tag data", deviceTag.Code));
             }
+        }
+
+        /// <summary>
+        /// Converts data to scadа formats from tag format.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static TagFormat ConvertFormat(Tag.FormatTag format)
+        {
+            TagFormat tagFormat = TagFormat.FloatNumber;
+            switch (format)
+            {
+                case Tag.FormatTag.Float:
+                    return tagFormat = TagFormat.FloatNumber;
+                case Tag.FormatTag.Integer:
+                    return tagFormat = TagFormat.IntNumber;
+                case Tag.FormatTag.DateTime:
+                    return tagFormat = TagFormat.DateTime;
+                case Tag.FormatTag.String:
+                    return tagFormat = TagFormat.String;
+                case Tag.FormatTag.Boolean:
+                    return tagFormat = TagFormat.OffOn;
+            }
+            return tagFormat;
         }
 
         /// <summary>
@@ -602,16 +690,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             {
                 LastRequestOK = false;
 
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Получена команда. " :
                     "Command received. "));
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Номер команды (@cmdNum): " + cmd.CmdNum :
                     "Command number (@cmdNum): " + cmd.CmdNum));
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Код команды (@cmdCode): " + cmd.CmdCode :
                     "Command code (@cmdCode): " + cmd.CmdCode));
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Значение команды (@cmdVal): " + cmd.CmdVal :
                     "Command value (@cmdVal): " + cmd.CmdVal));
 
@@ -644,7 +732,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 else
                 {
                     LastRequestOK = false;
-                    Log.WriteLine(CommPhrases.InvalidCommand);
+                    LogDriver(CommPhrases.InvalidCommand);
                 }
             }
 
@@ -659,16 +747,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             try
             {
-                Log.WriteLine(Locale.IsRussian ?
+                LogDriver(Locale.IsRussian ?
                     "Запрос на изменение данных" :
                     "Data modification request");
-                Log.WriteLine(dbCommand.CommandText);
+                LogDriver(dbCommand.CommandText);
                 dbCommand.ExecuteNonQuery();
                 return true;
             }
             catch (Exception ex)
             {
-                Log.WriteLine(string.Format(Locale.IsRussian ?
+                LogDriver(string.Format(Locale.IsRussian ?
                     "Ошибка при отправке команды БД: {0}" :
                     "Error sending command to the database: {0}", ex.Message));
                 return false;

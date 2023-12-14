@@ -133,6 +133,7 @@
 		<Phrase key="lblTagCode">Tag code</Phrase>
 		<Phrase key="lblTagname">Tagname</Phrase>
 		<Phrase key="lblFormat">Format</Phrase>
+		<Phrase key="lblNumberOfDecimalPlaces">Number of decimal places</Phrase>
 		<Phrase key="lblEnabled">Enabled</Phrase>
 		<Phrase key="btnAdd">Add</Phrase>
 		<Phrase key="btnSave">Save</Phrase>
