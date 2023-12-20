@@ -5,12 +5,12 @@
 	
 ### ExtTrendJP
 	
-Библиотека ExtTrendJP (6.1.1.1)
+Библиотека ExtTrendJP (6.1.1.2)
 - Релиз.
 
 ---------------------------------------------------------------------------
 
-ExtTrendJP  library (6.1.1.1)
+ExtTrendJP  library (6.1.1.2)
 - Release.
 
 
