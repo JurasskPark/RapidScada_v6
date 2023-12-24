@@ -4,6 +4,7 @@
 
 	
 ### ExtTrendJP
+<<<<<<< HEAD
 
 Библиотека ExtTrendJP (6.1.1.3)
 - Исправление небольших недочетов и ошибки с изменением свойств архива.
@@ -11,16 +12,24 @@
 - Исправлена ошибка по отсчету времени.
 - Исправлена ошибка в изображении О программе и Splash формы.
 Библиотека ExtTrendJP (6.1.1.1)
+=======
+	
+Библиотека ExtTrendJP (6.1.1.2)
+>>>>>>> 514d48e2b02fb032e777394680d75670c65b9e73
 - Релиз.
 
 ---------------------------------------------------------------------------
 
+<<<<<<< HEAD
 ExtTrendJP  library (6.1.1.3)
 - Correction of minor bugs and errors with changing archive properties.
 ExtTrendJP  library (6.1.1.2)
 - Fixed a bug in the time countdown.
 - Fixed a bug in the About and Splash form image.
 ExtTrendJP  library (6.1.1.1)
+=======
+ExtTrendJP  library (6.1.1.2)
+>>>>>>> 514d48e2b02fb032e777394680d75670c65b9e73
 - Release.
 
 
