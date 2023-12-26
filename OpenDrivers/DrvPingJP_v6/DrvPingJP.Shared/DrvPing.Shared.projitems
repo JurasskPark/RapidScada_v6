@@ -10,13 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverDictonary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverPhrases.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvPingConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\DnsResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\DnsResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ping\NetworkInformationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ping\NetworkInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\PingResponse.cs" />
   </ItemGroup>
 </Project>

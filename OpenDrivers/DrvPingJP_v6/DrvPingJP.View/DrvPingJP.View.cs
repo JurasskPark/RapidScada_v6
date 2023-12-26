@@ -1,7 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-using Scada.Comm.Config;
+﻿using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Forms;
 using Scada.Lang;
@@ -46,6 +43,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                 return Locale.IsRussian ?
                     "Автор: Юрий Прадиус\n" +
                     "Проверка доступности сетевых устройств.\n\n" +
+					"Версия 6.1.0.0 (26.12.2023)\n" +
+                    "[v] Исправлены пересмотрен подход в коде проекта.\n" +
+					"[v] Исправлены мелкие ошибки и недочеты.\n" +
+                    "[+] Добавлен асинхронный режим пинга.\n" +
                     "Версия 6.0.0.2 (21.02.2023)\n" +
                     "[v] Исправлены ошибка в логе, когда устройство не отвечает - информация об этом не записывалась.\n" +
                     "[+] Добавлен функционал по добавленю каналов через Мастер.\n" +
@@ -61,6 +62,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                     :
                     "Author: Yuri Pradius\n" +
                     "Checking the availability of network devices.\n\n" +
+					"Version 6.1.0.0 (12/26/2023)\n" +
+                    "[v] Fixed revised approach in the project code.\n" +
+					"[v] Minor bugs and shortcomings have been fixed.\n" +
+                    "[+] Added asynchronous ping mode.\n" +
                     "Version 6.0.0.2 (02/21/2023)\n" +
                     "[v] Fixed an error in the log when the device does not respond - information about this was not recorded.\n" +
                     "[+] Added functionality for adding channels through the Wizard.\n" +

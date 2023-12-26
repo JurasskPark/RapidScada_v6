@@ -1,7 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-using Scada.Comm.Devices;
+﻿using Scada.Comm.Devices;
 using Scada.Comm.Lang;
 using Scada.Lang;
 using System.Xml;
@@ -26,6 +23,11 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// Log
         /// </summary>
         public bool Log { get; set; }
+
+        /// <summary>
+        /// Mode (Synchronous / Asynchronous)
+        /// </summary>
+        public int Mode { get; set; }
 
         /// <summary>
         /// Gets or sets tag names as a list.
@@ -68,6 +70,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 try
                 {
                     try { Log = rootElem.GetChildAsBool("Log"); } catch { Log = false; }
+                    try { Mode = rootElem.GetChildAsInt("Mode"); } catch { Mode = 0; }
                     if (rootElem.SelectSingleNode("DeviceTags") is XmlNode exportDeviceTagsNode)
                     {
                         foreach (XmlNode exportDeviceTagNode in exportDeviceTagsNode.SelectNodes("Tag"))
@@ -107,6 +110,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 xmlDoc.AppendChild(rootElem);
 
                 try { rootElem.AppendElem("Log", Log); } catch { }
+                try { rootElem.AppendElem("Mode", Mode); } catch { }
                 try
                 {
                     XmlElement exportDeviceTagsElem = rootElem.AppendElem("DeviceTags");

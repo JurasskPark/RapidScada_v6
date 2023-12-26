@@ -6,7 +6,7 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvPing.View</RootNamespace>
-		<Version>6.0.0.2</Version>
+		<Version>6.1.0.0</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>

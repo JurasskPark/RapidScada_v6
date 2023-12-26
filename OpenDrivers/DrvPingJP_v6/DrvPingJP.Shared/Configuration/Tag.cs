@@ -50,19 +50,21 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         }
 
-        public Tag(string tagCode, string tagName, string tagIPAddress,  bool tagEnabled)
+        public Tag(string tagCode, string tagName, string tagIPAddress, int tagTimeout, bool tagEnabled)
         {
             this.TagCode = tagCode;
             this.TagName = tagName;
             this.TagIPAddress = tagIPAddress;
+            this.TagTimeout = tagTimeout;
             this.TagEnabled = tagEnabled;          
         }
 
-        public Tag(string tagCode, string tagName, string tagIPAddress, bool tagEnabled, object tagVal = null, int tagStat = 0)
+        public Tag(string tagCode, string tagName, string tagIPAddress, int tagTimeout, bool tagEnabled, int tagVal = 0, int tagStat = 0)
         {
             this.TagCode = tagCode;
             this.TagName = tagName;
             this.TagIPAddress = tagIPAddress;
+            this.TagTimeout = tagTimeout;
             this.TagEnabled = tagEnabled;
             this.TagVal = tagVal;
             this.TagStat = tagStat;
@@ -98,6 +100,13 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { tagIPAddress = value; }
         }
 
+        private int tagTimeout;
+        public int TagTimeout
+        {
+            get { return tagTimeout; }
+            set { tagTimeout = value; }
+        }
+
         private bool tagEnabled;
         public bool TagEnabled
         {
@@ -105,8 +114,8 @@ namespace Scada.Comm.Drivers.DrvPingJP
             get { return tagEnabled; }
         }
 
-        private object tagVal;
-        public object TagVal
+        private int tagVal;
+        public int TagVal
         {
             set { tagVal = value; }
             get { return tagVal; }
@@ -142,6 +151,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
             TagName = xmlNode.GetChildAsString("Name");
             TagCode = xmlNode.GetChildAsString("Code");
             TagIPAddress = xmlNode.GetChildAsString("IPAddress");
+            TagTimeout = xmlNode.GetChildAsInt("Timeout");
             TagEnabled = xmlNode.GetChildAsBool("Enable");
         }
 
@@ -159,6 +169,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
             xmlElem.AppendElem("Name", TagName);
             xmlElem.AppendElem("Code", TagCode);
             xmlElem.AppendElem("IPAddress", TagIPAddress);
+            xmlElem.AppendElem("Timeout", TagTimeout);
             xmlElem.AppendElem("Enable", TagEnabled);
         }
 

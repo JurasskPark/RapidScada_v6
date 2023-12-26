@@ -3,7 +3,11 @@
   <Dictionary key="Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig">
 	  <Phrase key="this">Ping JP - Device {0} Properties</Phrase>
 	  <Phrase key="pageSettings">Settings</Phrase>
-	  <Phrase key="cbLog">Write logs</Phrase> 
+	  <Phrase key="gbLog">Log</Phrase>
+	  <Phrase key="cbLog">Write logs</Phrase>
+	  <Phrase key="gbMode">Mode</Phrase>
+	  <Phrase key="rdbPingSync">Synchronous</Phrase>
+	  <Phrase key="rdbPingAsync">Asynchronous</Phrase>
 	  <Phrase key="gpbTags">Tags</Phrase>	  
 	  <Phrase key="btnSave">Save</Phrase>
 	  <Phrase key="btnClose">Close</Phrase>
@@ -28,6 +32,7 @@
 		<Phrase key="lblTagCode">Tag code</Phrase>
 		<Phrase key="lblTagname">Tagname</Phrase>
 		<Phrase key="lblIPAddress">IP address</Phrase>
+		<Phrase key="lblTimeout">Timeout</Phrase>
 		<Phrase key="lblEnabled">Enabled</Phrase>
 		<Phrase key="btnAdd">Add</Phrase>
 		<Phrase key="btnSave">Save</Phrase>

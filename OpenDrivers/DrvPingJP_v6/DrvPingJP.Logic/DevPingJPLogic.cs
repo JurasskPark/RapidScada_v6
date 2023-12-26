@@ -1,12 +1,10 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
+﻿using DrvOPCClassicJP.Shared;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvPingJP;
-using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
+using System.Linq.Expressions;
 
 namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
 {
@@ -24,13 +22,14 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         private readonly AppDirs appDirs;                       // the application directories
         private readonly string driverCode;                     // the driver code
         private readonly int deviceNum;                         // the device number
-        private readonly DrvPingJPConfig config;                  // the device configuration
-        private string configFileName;                          // the configuration file name
-        private bool wrtiteLog;                                 // write log
+        private readonly string configFileName;                 // the configuration file name
+        private readonly DrvPingJPConfig config;                // the device configuration  
+        private readonly NetworkInformation networkInformation; // network (ping)
+        private readonly bool writeLog;                         // write log
+        private readonly int pingMode;                          // type ping
         private List<Tag> deviceTags;                           // tags
+        private ushort countError;                              // count error
 
-
-        private CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -40,14 +39,33 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         {
             CanSendCommands = true;
             ConnectionRequired = false;
+            writeLog = false;
 
             this.deviceNum = deviceConfig.DeviceNum;
             this.driverCode = DriverUtils.DriverCode;
+
+            this.networkInformation = new NetworkInformation();
+            this.networkInformation.OnDebug = new NetworkInformation.DebugData(DebugerLog);
+            this.networkInformation.OnDebugTag = new NetworkInformation.DebugTag(DebugerTag);
+            this.networkInformation.OnDebugTags = new NetworkInformation.DebugTags(DebugerTags);
+
             string shortFileName = DrvPingJPConfig.GetFileName(deviceNum);
             configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
-            wrtiteLog = false;
+            
+            // load configuration
             config = new DrvPingJPConfig();
+            if (config.Load(configFileName, out string errMsg))
+            {
+                writeLog = config.Log;
+                pingMode = config.Mode;
+                deviceTags = config.DeviceTags;
+            }
+            else
+            {
+                DebugerLog(errMsg);
+            }
         }
+
 
 
         /// <summary>
@@ -55,36 +73,23 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            // load configuration
-            DrvPingJPConfig config = new DrvPingJPConfig();
-
-            if (config.Load(configFileName, out string errMsg))
-            {
-                wrtiteLog = config.Log;
-            }
-            else
-            {
-                Log.WriteLine(errMsg);
-            }
+            DebugerLog("[Driver " + driverCode + "]");
+            DebugerLog("[" + DriverDictonary.StartDriver + "]");
+            DebugerLog("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
+            DebugerLog("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
+            DebugerLog("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
         }
 
+
+        /// <summary>
+        /// Performs actions when terminating a communication line.
+        /// </summary>
         public override void OnCommLineTerminate()
         {
-            try
+            if(config.Mode == 1)
             {
-                Thread.Sleep(100);
-                // after a time delay, we cancel the task
-                cancelTokenSource.Cancel();
-
-                // we are waiting for the completion of the task
-                Thread.Sleep(100);
+                networkInformation.StopPingSynchronous();
             }
-            finally
-            {
-                cancelTokenSource.Dispose();
-            }
-
-            base.OnCommLineTerminate();
         }
 
         /// <summary>
@@ -94,24 +99,13 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         {
             if (config == null)
             {
-                Log.WriteLine(Locale.IsRussian ?
-                       "Количество тегов не было получено т.к. конфигурационный файл не был загружен" :
-                       "The number of tags was not received because the configuration file was not loaded");
+                DebugerLog(DriverDictonary.ProjectNo);
                 return;
             }
 
-            if (config.Load(configFileName, out string errMsg))
+            foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags))
             {
-                deviceTags = config.DeviceTags;
-
-                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags))
-                {
-                    DeviceTags.AddGroup(group.ToTagGroup());
-                }
-            }
-            else
-            {
-                Log.WriteLine(errMsg);
+                DeviceTags.AddGroup(group.ToTagGroup());
             }
         }
 
@@ -133,13 +127,14 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                 {
                     LastRequestOK = true;
                 }
-
+ 
                 FinishRequest();
                 tryNum++;
             }
 
             if (!LastRequestOK && !IsTerminated)
             {
+                networkInformation.StopPingSynchronous();
                 InvalidateData();
             }
 
@@ -149,6 +144,28 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             FinishSession();
         }
 
+        #region ReInitializingOPCserver
+
+        private void ReinitializingDriver()
+        {
+            try
+            {
+                TeleCommand cmd = new TeleCommand();
+                cmd.CreationTime = DateTime.Now;
+                cmd.CommandID = ScadaUtils.GenerateUniqueID(DateTime.Now);
+                cmd.CmdVal = LineContext.CommLineNum;
+                cmd.CmdCode = CommCmdCode.RestartLine;
+                CommContext.SendCommand(cmd, DriverDictonary.RestartLine);
+            }
+            catch (Exception ex)
+            {
+                DebugerLog(ex.Message.ToString());
+            }
+        }
+        #endregion ReInitializingOPCserver
+
+        #region  Request
+
         /// <summary>
         /// Requests data from the database.
         /// </summary>
@@ -156,85 +173,146 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         {
             try
             {
-                for (int index = 0; index < deviceTags.Count; ++index)
+                #region Ping
+                if (pingMode == 0)
                 {
-                    Tag tmpTag = deviceTags[index];
-                    int indexTag = deviceTags.IndexOf(deviceTags[index]);
-
-                    if (tmpTag == null || tmpTag.TagEnabled == false)
-                    {
-                        continue;
-                    }
-
-                    #region Ping
-                    if (tmpTag.TagEnabled == true)
-                    {
-                        try
-                        {
-                            CancellationToken token = cancelTokenSource.Token;
-
-                            Task task = new Task(() =>
-                            {
-                                bool statusIP = NetworkInformationExtensions.Pinger(tmpTag.TagIPAddress, out string result);
-
-                                if (wrtiteLog && result != string.Empty)
-                                {
-                                    Log.WriteLine(result);
-                                }
-
-                                if (statusIP)
-                                {
-                                    if (tmpTag.TagCode != string.Empty)
-                                    {
-                                        SetTagData(tmpTag.TagCode, 1, 1);
-                                    }
-                                    else
-                                    {
-                                        SetTagData(indexTag, 1, 1);
-                                    }
-                                }
-                                else
-                                {
-                                    if (tmpTag.TagCode != string.Empty)
-                                    {
-                                        SetTagData(tmpTag.TagCode, 0, 1);
-                                    }
-                                    else
-                                    {
-                                        SetTagData(indexTag, 0, 1);
-                                    }
-                                }
-
-                                if (token.IsCancellationRequested)
-                                {
-                                    token.ThrowIfCancellationRequested(); // generating an exception
-                                }
-
-                            }, token);
-
-                            try
-                            {
-                                task.Start();
-                            }
-                            catch { }
-
-                        }
-                        catch { }
-                    }
-                    #endregion Ping
-
+                    #region Synchronous
+                    networkInformation.RunPingSynchronous(deviceTags);
+                    return true;
+                    #endregion Synchronous
                 }
-
+                else if (pingMode == 1)
+                {
+                    #region Asynchronous
+                    networkInformation.RunPingAsynchronous(deviceTags);
+                    return true;
+                    #endregion Asynchronous
+                }
+                #endregion Ping 
                 return true;
             }
             catch (Exception ex)
             {
-                Log.WriteLine(string.Format(Locale.IsRussian ?
-                    "Ошибка при выполнении: {0}" :
-                    "Error executing: {0}", ex.Message));
+                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
                 return false;
             }
         }
+
+        #endregion  Request
+
+        #region Debug Log
+        /// <summary>
+        /// Getting logs
+        /// </summary>
+        public void DebugerLog(string text)
+        {
+            try
+            {
+                if (text == string.Empty)
+                {
+                    return;
+                }
+
+                if (writeLog)
+                {
+                    Log.WriteLine(text);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                ReinitializingDriver();
+            }
+        }
+        #endregion Debug Log
+
+        #region Debug Tag
+        public void DebugerTag(Tag tag)
+        {
+            try
+            {
+                if (tag == null)
+                {
+                    countError++;
+                    DebugerLog(DriverDictonary.ErrorCount + " " + DriverUtils.NullToString(countError));
+                    if (countError >= 10)
+                    {
+                        ReinitializingDriver();
+                    }
+                    return;
+                }
+
+                int indexTag = deviceTags.IndexOf(tag);
+
+                if (tag.TagEnabled == true) // enabled
+                {
+                    if (tag.TagCode != string.Empty)
+                    {
+                        SetTagData(tag.TagCode, tag.TagVal, tag.TagStat);
+                    }
+                    else
+                    {
+                        SetTagData(indexTag, tag.TagVal, tag.TagStat);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                ReinitializingDriver();
+            }
+        }
+        #endregion Debug Tag
+
+        #region Debug Tags
+        public void DebugerTags(List<Tag> tags)
+        {
+            try
+            {
+                if (tags == null || tags.Count == 0)
+                {
+                    countError++;
+                    DebugerLog(DriverDictonary.ErrorCount + " " + DriverUtils.NullToString(countError));
+                    if (countError >= 10)
+                    {
+                        ReinitializingDriver();
+                    }
+                    return;
+                }
+
+                for (int index = 0; index < tags.Count; index++)
+                {
+
+                    Tag tmpTag = tags[index];
+                    int indexTag = deviceTags.IndexOf(tags[index]);
+
+                    if (tmpTag == null || tmpTag.TagEnabled == false || indexTag < 0)
+                    {
+                        continue;
+                    }
+
+                    if (tmpTag.TagEnabled == true) // enabled
+                    {
+                        if (tmpTag.TagCode != string.Empty)
+                        {
+                            SetTagData(tmpTag.TagCode, tmpTag.TagVal, tmpTag.TagStat);
+                        }
+                        else
+                        {
+                            SetTagData(indexTag, tmpTag.TagVal, tmpTag.TagStat);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                ReinitializingDriver();
+            }
+        }
+        #endregion Debug Tags
+
+        #region Set Tag Data
 
         /// <summary>
         /// Sets value, status and format of the specified tag.
@@ -269,9 +347,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при установке данных тега" :
-                    "Error setting tag data"));
+                Log.WriteInfo(ex.BuildErrorMessage(DriverDictonary.ErrorSetData));
             }
         }
 
@@ -308,10 +384,12 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при установке данных тега" :
-                    "Error setting tag data"));
+                Log.WriteInfo(ex.BuildErrorMessage(DriverDictonary.ErrorSetData));
             }
         }
+
+        #endregion Set Tag Data
+
     }
 }
+

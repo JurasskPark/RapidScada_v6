@@ -1,7 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-using Scada.Comm.Config;
+﻿using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvPingJP.View.Forms;
 using Scada.Data.Const;
@@ -51,7 +48,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
         /// </summary>
         public override PollingOptions GetPollingOptions()
         {
-            return new PollingOptions(0, 0);
+            return new PollingOptions(0, 0) { Period = new TimeSpan(0, 0, 0, 1) };
         }
 
         /// <summary>
