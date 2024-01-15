@@ -91,6 +91,14 @@ Screenshots
 	
 ### DrvPingJP
 
+Библиотека DrvPingJP (6.1.0.1)
+- Исправлена ошибка записи информации в пустой список.
+
+Библиотека DrvPingJP (6.1.0.0)
+- Исправлены пересмотрен подход в коде проекта.
+- Исправлены мелкие ошибки и недочеты.
+- Добавлен асинхронный режим пинга.
+
 Библиотека DrvPingJP (6.0.0.2)
 - Исправлены ошибка в логе, когда устройство не отвечает - информация об этом не записывалась.
 - Добавлен функционал по добавлению каналов через Мастер.
@@ -107,6 +115,14 @@ Screenshots
 - Релиз
 
 ---------------------------------------------------------------------------
+
+DrvPingJP Library (6.1.0.1)
+- Fixed a bug in writing information to an empty list.
+
+DrvPingJP Library (6.1.0.0)
+- Fixed revised approach in the project code.
+- Minor bugs and shortcomings have been fixed.
+- Added asynchronous ping mode.
 
 DrvPingJP library (6.0.0.2)
 - Fixed an error in the log when the device does not respond - information about this was not recorded.

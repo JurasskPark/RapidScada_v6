@@ -43,7 +43,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                 return Locale.IsRussian ?
                     "Автор: Юрий Прадиус\n" +
                     "Проверка доступности сетевых устройств.\n\n" +
-					"Версия 6.1.0.0 (26.12.2023)\n" +
+                    "Версия 6.1.0.1 (16.01.2024)\n" +
+                    "[v] Исправлена ошибка записи информации в пустой список. \n" +
+                    "Версия 6.1.0.0 (26.12.2023)\n" +
                     "[v] Исправлены пересмотрен подход в коде проекта.\n" +
 					"[v] Исправлены мелкие ошибки и недочеты.\n" +
                     "[+] Добавлен асинхронный режим пинга.\n" +
@@ -62,7 +64,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                     :
                     "Author: Yuri Pradius\n" +
                     "Checking the availability of network devices.\n\n" +
-					"Version 6.1.0.0 (12/26/2023)\n" +
+                    "Version 6.1.0.1 (01/16/2023)\n" +
+                    "[v] Fixed a bug in writing information to an empty list.\n" +
+                    "Version 6.1.0.0 (12/26/2023)\n" +
                     "[v] Fixed revised approach in the project code.\n" +
 					"[v] Minor bugs and shortcomings have been fixed.\n" +
                     "[+] Added asynchronous ping mode.\n" +

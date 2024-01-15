@@ -463,6 +463,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     this.lstTags.EndUpdate();
                     #endregion Data display
 
+                    tmrTimer.Start();
                     Modified = true;
                 }
             }
@@ -531,6 +532,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
                             this.lstTags.EndUpdate();
                             #endregion Data display
+
+                            tmrTimer.Start();
 
                             Modified = true;
                         }
@@ -662,7 +665,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                         {
                             tmplstTags.Items.Remove(this.selected);
                         }
-
+    
                         if (indexSelectTag >= 1)
                         {
                             // scroll through
@@ -678,6 +681,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     catch { }
                 }
 
+                if (tmplstTags.Items.Count == 0)
+                {
+                    tmrTimer.Stop();
+                }
                 Modified = true;
             }
             catch { }
@@ -703,6 +710,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             {
                 lstTags.Items.Clear();
                 Modified = true;
+
+                tmrTimer.Stop();
             }
             catch { }
         }
@@ -937,6 +946,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     for (int index = 0; index < tags.Count; index++)
                     {
                         ListViewItem TagItem = lstTags.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Text == tags[index].TagName);
+
+                        if (TagItem == null)
+                        {
+                            continue;
+                        }
+
                         Tag tmpTag = (Tag)TagItem.Tag;
                        
                         if (tmpTag == null || tmpTag.TagID != tags[index].TagID)
@@ -1003,6 +1018,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                 for (int index = 0; index < tags.Count; index++)
                 {
                     ListViewItem TagItem = lstTags.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Text == tags[index].TagName);
+
+                    if (TagItem == null)
+                    {
+                        continue;
+                    }
+
                     Tag tmpTag = (Tag)TagItem.Tag;
 
                     if (tmpTag == null || tmpTag.TagID != tags[index].TagID)
