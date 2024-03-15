@@ -91,6 +91,10 @@ Screenshots
 	
 ### DrvPingJP
 
+Библиотека DrvPingJP (6.1.0.2)
+- Изменены иконки на форме
+- При запуске драйвера пишется информация о нём.
+
 Библиотека DrvPingJP (6.1.0.1)
 - Исправлена ошибка записи информации в пустой список.
 
@@ -115,6 +119,10 @@ Screenshots
 - Релиз
 
 ---------------------------------------------------------------------------
+
+DrvPingJP Library (6.1.0.2)
+- Changed icons on the form
+- When the driver is launched, information about it is written.
 
 DrvPingJP Library (6.1.0.1)
 - Fixed a bug in writing information to an empty list.
