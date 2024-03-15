@@ -267,13 +267,13 @@
             // 
             cmnuLstTags.Items.AddRange(new ToolStripItem[] { cmnuTagAdd, cmnuListTagAdd, cmnuSeparator01, cmnuTagChange, cmnuSeparator02, cmnuTagDelete, cmnuTagAllDelete, cmnuSeparator03, cmnuUp, cmnuDown });
             cmnuLstTags.Name = "cmnuSelectQuery";
-            cmnuLstTags.Size = new Size(181, 198);
+            cmnuLstTags.Size = new Size(155, 176);
             // 
             // cmnuTagAdd
             // 
             cmnuTagAdd.Image = (Image)resources.GetObject("cmnuTagAdd.Image");
             cmnuTagAdd.Name = "cmnuTagAdd";
-            cmnuTagAdd.Size = new Size(180, 22);
+            cmnuTagAdd.Size = new Size(154, 22);
             cmnuTagAdd.Text = "Add Tag";
             cmnuTagAdd.Click += cmnuTagAdd_Click;
             // 
@@ -281,7 +281,7 @@
             // 
             cmnuListTagAdd.Image = (Image)resources.GetObject("cmnuListTagAdd.Image");
             cmnuListTagAdd.Name = "cmnuListTagAdd";
-            cmnuListTagAdd.Size = new Size(180, 22);
+            cmnuListTagAdd.Size = new Size(154, 22);
             cmnuListTagAdd.Text = "Add list of Tags";
             cmnuListTagAdd.Click += cmnuListTagAdd_Click;
             // 
@@ -294,7 +294,7 @@
             // 
             cmnuTagChange.Image = (Image)resources.GetObject("cmnuTagChange.Image");
             cmnuTagChange.Name = "cmnuTagChange";
-            cmnuTagChange.Size = new Size(180, 22);
+            cmnuTagChange.Size = new Size(154, 22);
             cmnuTagChange.Text = "Change Tag";
             cmnuTagChange.Click += cmnuTagChange_Click;
             // 
@@ -307,7 +307,7 @@
             // 
             cmnuTagDelete.Image = (Image)resources.GetObject("cmnuTagDelete.Image");
             cmnuTagDelete.Name = "cmnuTagDelete";
-            cmnuTagDelete.Size = new Size(180, 22);
+            cmnuTagDelete.Size = new Size(154, 22);
             cmnuTagDelete.Text = "Delete Tag";
             cmnuTagDelete.Click += cmnuTagDelete_Click;
             // 
@@ -315,7 +315,7 @@
             // 
             cmnuTagAllDelete.Image = (Image)resources.GetObject("cmnuTagAllDelete.Image");
             cmnuTagAllDelete.Name = "cmnuTagAllDelete";
-            cmnuTagAllDelete.Size = new Size(180, 22);
+            cmnuTagAllDelete.Size = new Size(154, 22);
             cmnuTagAllDelete.Text = "Delete all Tags";
             cmnuTagAllDelete.Click += cmnuTagAllDelete_Click;
             // 
@@ -328,7 +328,7 @@
             // 
             cmnuUp.Image = (Image)resources.GetObject("cmnuUp.Image");
             cmnuUp.Name = "cmnuUp";
-            cmnuUp.Size = new Size(180, 22);
+            cmnuUp.Size = new Size(154, 22);
             cmnuUp.Text = "Up";
             cmnuUp.Click += cmnuUp_Click;
             // 
@@ -336,7 +336,7 @@
             // 
             cmnuDown.Image = (Image)resources.GetObject("cmnuDown.Image");
             cmnuDown.Name = "cmnuDown";
-            cmnuDown.Size = new Size(180, 22);
+            cmnuDown.Size = new Size(154, 22);
             cmnuDown.Text = "Down";
             cmnuDown.Click += cmnuDown_Click;
             // 

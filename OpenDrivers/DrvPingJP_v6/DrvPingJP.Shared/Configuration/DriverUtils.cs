@@ -16,6 +16,11 @@ namespace Scada.Comm.Drivers.DrvPingJP
         public const string DriverCode = "DrvPingJP";
 
         /// <summary>
+        /// The driver version.
+        /// </summary>
+        public const string Version = "6.1.0.2";
+
+        /// <summary>
         /// The default filename of the configuration.
         /// </summary>
         public const string DefaultConfigFileName = DriverCode + ".xml";

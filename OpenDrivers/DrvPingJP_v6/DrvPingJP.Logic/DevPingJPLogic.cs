@@ -5,6 +5,7 @@ using Scada.Comm.Drivers.DrvPingJP;
 using Scada.Data.Models;
 using Scada.Lang;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
 {
@@ -74,6 +75,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         public override void OnCommLineStart()
         {
             DebugerLog("[Driver " + driverCode + "]");
+            DebugerLog("[Version " + DriverUtils.Version + "]");
             DebugerLog("[" + DriverDictonary.StartDriver + "]");
             DebugerLog("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
             DebugerLog("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
@@ -324,6 +326,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                 if (DeviceTags.Count() > 0)
                 {
                     DeviceTag deviceTag = DeviceTags[tagIndex];
+                    
 
                     if (tagVal is string strVal)
                     {
