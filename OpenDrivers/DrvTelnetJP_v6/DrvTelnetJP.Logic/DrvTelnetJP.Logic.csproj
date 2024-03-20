@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>false</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Scada.Comm.Drivers.DrvTelnetJP.Logic</RootNamespace>
+		<Version>6.0.0.0</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Community Rapid Software</Company>
+		<Product>Rapid SCADA</Product>
+		<Copyright>Copyright © 2024</Copyright>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\..\..\_LIB\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\..\..\_LIB\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\..\..\_LIB\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<Import Project="..\DrvTelnetJP.Shared\DrvTelnet.Shared.projitems" Label="Shared" />
+	
+</Project>

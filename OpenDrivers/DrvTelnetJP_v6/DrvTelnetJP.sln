@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvTelnetJP.Console", "DrvTelnetJP.Console\DrvTelnetJP.Console.csproj", "{31497233-90E9-4ABD-B60A-CCD6514F4556}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvTelnetJP.Logic", "DrvTelnetJP.Logic\DrvTelnetJP.Logic.csproj", "{4EF7E5AC-537F-452B-A35F-17B8B2A6D29E}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvTelnetJP.Shared", "DrvTelnetJP.Shared\DrvTelnetJP.Shared.shproj", "{CD84A331-717C-4275-B990-231E58BE0D19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvTelnetJP.View", "DrvTelnetJP.View\DrvTelnetJP.View.csproj", "{A089579C-EFF8-434F-AF23-A2FDFBA224E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvTelnetJP.WinForm", "DrvTelnetJP.WinForm\DrvTelnetJP.WinForm.csproj", "{27644ED4-1402-4959-8D56-D0F07DF4B60F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31497233-90E9-4ABD-B60A-CCD6514F4556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31497233-90E9-4ABD-B60A-CCD6514F4556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31497233-90E9-4ABD-B60A-CCD6514F4556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31497233-90E9-4ABD-B60A-CCD6514F4556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EF7E5AC-537F-452B-A35F-17B8B2A6D29E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EF7E5AC-537F-452B-A35F-17B8B2A6D29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EF7E5AC-537F-452B-A35F-17B8B2A6D29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EF7E5AC-537F-452B-A35F-17B8B2A6D29E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A089579C-EFF8-434F-AF23-A2FDFBA224E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A089579C-EFF8-434F-AF23-A2FDFBA224E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A089579C-EFF8-434F-AF23-A2FDFBA224E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A089579C-EFF8-434F-AF23-A2FDFBA224E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27644ED4-1402-4959-8D56-D0F07DF4B60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27644ED4-1402-4959-8D56-D0F07DF4B60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27644ED4-1402-4959-8D56-D0F07DF4B60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27644ED4-1402-4959-8D56-D0F07DF4B60F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD17063E-6627-4526-A328-18AEF48A0583}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvTelnetJP.Shared\DrvTelnet.Shared.projitems*{4ef7e5ac-537f-452b-a35f-17b8b2a6d29e}*SharedItemsImports = 5
+		DrvTelnetJP.Shared\DrvTelnet.Shared.projitems*{a089579c-eff8-434f-af23-a2fdfba224e7}*SharedItemsImports = 5
+		DrvTelnetJP.Shared\DrvTelnet.Shared.projitems*{cd84a331-717c-4275-b990-231e58be0d19}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

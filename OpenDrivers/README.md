@@ -158,7 +158,19 @@ Screenshots
 ![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPing_001.png) 
 
 
+### DrvTelnetJP
 
+Библиотека DrvTelnetJP (6.0.0.0)
+- Релиз
+
+---------------------------------------------------------------------------
+
+DrvTelnetJP Library (6.0.0.0)
+- Release
+
+Screenshots
+
+![DrvTelnetJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvTelnetJP_001.png) 
 
 ## SAST Tools
 
