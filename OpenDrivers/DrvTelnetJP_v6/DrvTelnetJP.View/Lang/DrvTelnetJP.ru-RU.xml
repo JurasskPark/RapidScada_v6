@@ -21,7 +21,7 @@
 	<Phrase key="cmnuTagAllDelete">Удалить все теги</Phrase>
 	<Phrase key="clmTagname">Название</Phrase>
 	<Phrase key="clmTagCode">Код тега</Phrase>
-	<Phrase key="clmTagIPAddress">IP-адрес</Phrase>
+	<Phrase key="clmTagIPAddressPort">IP-адрес : Порт</Phrase>
 	<Phrase key="clmTagEnabled">Включен</Phrase>
 	</Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvTelnetJP.View.Forms.FrmInputBox">

@@ -21,7 +21,7 @@
 	  <Phrase key="cmnuTagAllDelete">Delete all Tags</Phrase>
 	  <Phrase key="clmTagname">Name</Phrase>
 	  <Phrase key="clmTagCode">Tag code</Phrase>
-	  <Phrase key="clmTagIPAddress">IP Address</Phrase>	  
+	  <Phrase key="clmTagIPAddressPort">IP Address : Port</Phrase>	  
 	  <Phrase key="clmTagEnabled">Enabled</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvTelnetJP.View.Forms.FrmInputBox">
