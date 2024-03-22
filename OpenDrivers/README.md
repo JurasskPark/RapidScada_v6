@@ -168,6 +168,8 @@ Screenshots
 DrvTelnetJP Library (6.0.0.0)
 - Release
 
+[![Video on YouTube](https://img.youtube.com/vi/TGCN7rIGmP8/0.jpg)](https://www.youtube.com/watch?v=TGCN7rIGmP8)
+
 Screenshots
 
 ![DrvTelnetJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvTelnetJP_001.png) 
