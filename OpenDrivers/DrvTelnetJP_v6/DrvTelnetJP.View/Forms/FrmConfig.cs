@@ -386,6 +386,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
                 // create tag
                 Tag newTag = new Tag();
                 newTag.TagID = Guid.NewGuid();
+                newTag.TagPort = 1;
                 newTag.TagTimeout = 1000;
                 newTag.TagEnabled = true;
                 // create form
@@ -457,11 +458,15 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
 
                     foreach (String tagName in tagsName)
                     {
+                        string tmpIP = DriverUtils.IPAddressNoPort(tagName);
+                        string tmpPort = DriverUtils.PortNoIPAddress(tagName);
+
                         Tag newTag = new Tag();
                         newTag.TagID = Guid.NewGuid();
                         newTag.TagCode = tagName;
                         newTag.TagName = tagName;
-                        newTag.TagIPAddress = tagName;
+                        newTag.TagIPAddress = tmpIP;
+                        newTag.TagPort = Convert.ToInt32(tmpPort);
                         newTag.TagTimeout = 1000;
                         newTag.TagEnabled = true;
 
@@ -560,7 +565,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
                         selected.Text = frmTag.Tag.TagName;
                         selected.SubItems[0].Text = frmTag.Tag.TagName;
                         selected.SubItems[1].Text = DriverUtils.NullToString(frmTag.Tag.TagCode);
-                        selected.SubItems[2].Text = DriverUtils.NullToString(frmTag.Tag.TagIPAddress);
+                        selected.SubItems[2].Text = DriverUtils.NullToString(frmTag.Tag.TagIPAddress + ":" + frmTag.Tag.TagPort);
                         selected.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(frmTag.Tag.TagEnabled));
                         selected.Tag = frmTag.Tag;
 

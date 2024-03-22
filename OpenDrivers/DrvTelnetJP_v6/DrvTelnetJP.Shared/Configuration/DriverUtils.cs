@@ -18,7 +18,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.0.0.0";
+        public const string Version = "6.0.0.1";
 
         /// <summary>
         /// The default filename of the configuration.
@@ -106,6 +106,60 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
             // the expression specified in the constructor System.Text.RegularExpressions.Regex.
             // if yes, we return true, if not, false
             return IpMatch.IsMatch(Address);
+        }
+
+        public static string IPAddressNoPort(string address)
+        {
+            // if the IP passes the validity test
+            if (IsIpAddress(address) == true)
+            {
+                return address;
+            }
+            else if (IsIpAddress(address) == false) // if the IP did not pass the validity test, then let's try to remove the port
+            {
+                // parse IP
+                String[] IP = address.Split(new String[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+
+                // we sort through what we got (Port or IP)
+                foreach (string addressTrue in IP)
+                {
+                    // if you come across an IP that is true
+                    if (IsIpAddress(addressTrue) == true)
+                    {
+                        return addressTrue;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static string PortNoIPAddress(string address)
+        {
+            // if the IP passes the validity test
+            if (IsIpAddress(address) == true)
+            {
+                // we do nothing
+            }
+            else if (IsIpAddress(address) == false) //Если IP не прошёл на валидатность, то попробуем удалить порт
+            {
+                // parse IP
+                String[] IP = address.Split(new String[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+
+                // we sort through what we got (Port or IP)
+                foreach (string portTrue in IP)
+                {
+                    // if the IP passes the validity test
+                    if (IsIpAddress(portTrue) == true)
+                    {
+                        // we do nothing
+                    }
+                    else
+                    {
+                        return portTrue;
+                    }
+                }
+            }
+            return null;
         }
     }
 }

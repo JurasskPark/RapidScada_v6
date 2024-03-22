@@ -75,6 +75,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
             Tag.TagName = txtTagname.Text;
             Tag.TagCode = txtTagCode.Text;
             Tag.TagIPAddress = txtIPAddress.Text;
+            Tag.TagPort = Convert.ToInt32(nudPort.Value);
             Tag.TagTimeout = Convert.ToInt32(nudTimeout.Value);
             Tag.TagEnabled = ckbTagEnabled.Checked;
 
