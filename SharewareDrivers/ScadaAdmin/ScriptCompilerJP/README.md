@@ -3,7 +3,7 @@
 
 
 	
-### ExtSNMPJP
+### ExtScriptCompilerJP
 
 Библиотека ExtScriptCompilerJP (6.1.1.6)
 - Релиз.
