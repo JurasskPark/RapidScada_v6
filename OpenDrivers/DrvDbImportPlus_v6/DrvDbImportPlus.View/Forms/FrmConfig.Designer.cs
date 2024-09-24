@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConfig));
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             txtSelectQuery = new FastColoredTextBoxNS.FastColoredTextBox();
             cmnuSelectQuery = new ContextMenuStrip(components);
             cmnuSelectQueryCut = new ToolStripMenuItem();
@@ -113,6 +113,7 @@
             cmnuUp = new ToolStripMenuItem();
             cmnuDown = new ToolStripMenuItem();
             gpbTagFormatDatabase = new GroupBox();
+            button1 = new Button();
             rdbKPTagsBasedRequestedTableRows = new RadioButton();
             rdbKPTagsBasedRequestedTableColumns = new RadioButton();
             pageHelp = new TabPage();
@@ -148,24 +149,38 @@
             // txtSelectQuery
             // 
             txtSelectQuery.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtSelectQuery.AutoCompleteBracketsList = new char[] { '(', ')', '{', '}', '[', ']', '"', '"', '\'', '\'' };
+            txtSelectQuery.AutoCompleteBracketsList = new char[]
+    {
+    '(',
+    ')',
+    '{',
+    '}',
+    '[',
+    ']',
+    '"',
+    '"',
+    '\'',
+    '\''
+    };
             txtSelectQuery.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
-            txtSelectQuery.AutoScrollMinSize = new Size(0, 14);
+            txtSelectQuery.AutoScrollMinSize = new Size(0, 22);
             txtSelectQuery.BackBrush = null;
             txtSelectQuery.BorderStyle = BorderStyle.FixedSingle;
-            txtSelectQuery.CharHeight = 14;
-            txtSelectQuery.CharWidth = 8;
+            txtSelectQuery.CharHeight = 22;
+            txtSelectQuery.CharWidth = 12;
             txtSelectQuery.ContextMenuStrip = cmnuSelectQuery;
             txtSelectQuery.Cursor = Cursors.IBeam;
             txtSelectQuery.DefaultMarkerSize = 8;
             txtSelectQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            txtSelectQuery.Hotkeys = resources.GetString("txtSelectQuery.Hotkeys");
             txtSelectQuery.IsReplaceMode = false;
-            txtSelectQuery.Location = new Point(8, 20);
+            txtSelectQuery.Location = new Point(11, 33);
+            txtSelectQuery.Margin = new Padding(4, 5, 4, 5);
             txtSelectQuery.Name = "txtSelectQuery";
             txtSelectQuery.Paddings = new Padding(0);
             txtSelectQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
             txtSelectQuery.ServiceColors = null;
-            txtSelectQuery.Size = new Size(632, 481);
+            txtSelectQuery.Size = new Size(902, 800);
             txtSelectQuery.TabIndex = 5;
             txtSelectQuery.WordWrap = true;
             txtSelectQuery.Zoom = 100;
@@ -173,15 +188,16 @@
             // 
             // cmnuSelectQuery
             // 
+            cmnuSelectQuery.ImageScalingSize = new Size(24, 24);
             cmnuSelectQuery.Items.AddRange(new ToolStripItem[] { cmnuSelectQueryCut, cmnuSelectQueryCopy, cmnuSelectQueryPaste, cmnuSelectQuerySelectAll, toolStripSeparator1, cmnuSelectQueryUndo, cmnuSelectQueryRedo });
             cmnuSelectQuery.Name = "cmnuSelectQuery";
-            cmnuSelectQuery.Size = new Size(123, 142);
+            cmnuSelectQuery.Size = new Size(164, 202);
             // 
             // cmnuSelectQueryCut
             // 
             cmnuSelectQueryCut.Image = (Image)resources.GetObject("cmnuSelectQueryCut.Image");
             cmnuSelectQueryCut.Name = "cmnuSelectQueryCut";
-            cmnuSelectQueryCut.Size = new Size(122, 22);
+            cmnuSelectQueryCut.Size = new Size(163, 32);
             cmnuSelectQueryCut.Text = "Cut";
             cmnuSelectQueryCut.Click += cmnuSelectQueryCut_Click;
             // 
@@ -189,7 +205,7 @@
             // 
             cmnuSelectQueryCopy.Image = (Image)resources.GetObject("cmnuSelectQueryCopy.Image");
             cmnuSelectQueryCopy.Name = "cmnuSelectQueryCopy";
-            cmnuSelectQueryCopy.Size = new Size(122, 22);
+            cmnuSelectQueryCopy.Size = new Size(163, 32);
             cmnuSelectQueryCopy.Text = "Copy";
             cmnuSelectQueryCopy.Click += cmnuSelectQueryCopy_Click;
             // 
@@ -197,27 +213,27 @@
             // 
             cmnuSelectQueryPaste.Image = (Image)resources.GetObject("cmnuSelectQueryPaste.Image");
             cmnuSelectQueryPaste.Name = "cmnuSelectQueryPaste";
-            cmnuSelectQueryPaste.Size = new Size(122, 22);
+            cmnuSelectQueryPaste.Size = new Size(163, 32);
             cmnuSelectQueryPaste.Text = "Paste";
             cmnuSelectQueryPaste.Click += cmnuSelectQueryPaste_Click;
             // 
             // cmnuSelectQuerySelectAll
             // 
             cmnuSelectQuerySelectAll.Name = "cmnuSelectQuerySelectAll";
-            cmnuSelectQuerySelectAll.Size = new Size(122, 22);
+            cmnuSelectQuerySelectAll.Size = new Size(163, 32);
             cmnuSelectQuerySelectAll.Text = "Select All";
             cmnuSelectQuerySelectAll.Click += cmnuSelectQuerySelectAll_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(119, 6);
+            toolStripSeparator1.Size = new Size(160, 6);
             // 
             // cmnuSelectQueryUndo
             // 
             cmnuSelectQueryUndo.Image = (Image)resources.GetObject("cmnuSelectQueryUndo.Image");
             cmnuSelectQueryUndo.Name = "cmnuSelectQueryUndo";
-            cmnuSelectQueryUndo.Size = new Size(122, 22);
+            cmnuSelectQueryUndo.Size = new Size(163, 32);
             cmnuSelectQueryUndo.Text = "Undo";
             cmnuSelectQueryUndo.Click += cmnuSelectQueryUndo_Click;
             // 
@@ -225,31 +241,45 @@
             // 
             cmnuSelectQueryRedo.Image = (Image)resources.GetObject("cmnuSelectQueryRedo.Image");
             cmnuSelectQueryRedo.Name = "cmnuSelectQueryRedo";
-            cmnuSelectQueryRedo.Size = new Size(122, 22);
+            cmnuSelectQueryRedo.Size = new Size(163, 32);
             cmnuSelectQueryRedo.Text = "Redo";
             cmnuSelectQueryRedo.Click += cmnuSelectQueryRedo_Click;
             // 
             // txtCmdQuery
             // 
             txtCmdQuery.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtCmdQuery.AutoCompleteBracketsList = new char[] { '(', ')', '{', '}', '[', ']', '"', '"', '\'', '\'' };
+            txtCmdQuery.AutoCompleteBracketsList = new char[]
+    {
+    '(',
+    ')',
+    '{',
+    '}',
+    '[',
+    ']',
+    '"',
+    '"',
+    '\'',
+    '\''
+    };
             txtCmdQuery.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
-            txtCmdQuery.AutoScrollMinSize = new Size(0, 14);
+            txtCmdQuery.AutoScrollMinSize = new Size(0, 22);
             txtCmdQuery.BackBrush = null;
             txtCmdQuery.BorderStyle = BorderStyle.FixedSingle;
-            txtCmdQuery.CharHeight = 14;
-            txtCmdQuery.CharWidth = 8;
+            txtCmdQuery.CharHeight = 22;
+            txtCmdQuery.CharWidth = 12;
             txtCmdQuery.ContextMenuStrip = cmnuCmdQuery;
             txtCmdQuery.Cursor = Cursors.IBeam;
             txtCmdQuery.DefaultMarkerSize = 8;
             txtCmdQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            txtCmdQuery.Hotkeys = resources.GetString("txtCmdQuery.Hotkeys");
             txtCmdQuery.IsReplaceMode = false;
-            txtCmdQuery.Location = new Point(12, 81);
+            txtCmdQuery.Location = new Point(17, 135);
+            txtCmdQuery.Margin = new Padding(4, 5, 4, 5);
             txtCmdQuery.Name = "txtCmdQuery";
             txtCmdQuery.Paddings = new Padding(0);
             txtCmdQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
             txtCmdQuery.ServiceColors = null;
-            txtCmdQuery.Size = new Size(606, 325);
+            txtCmdQuery.Size = new Size(865, 540);
             txtCmdQuery.TabIndex = 6;
             txtCmdQuery.WordWrap = true;
             txtCmdQuery.Zoom = 100;
@@ -257,15 +287,16 @@
             // 
             // cmnuCmdQuery
             // 
+            cmnuCmdQuery.ImageScalingSize = new Size(24, 24);
             cmnuCmdQuery.Items.AddRange(new ToolStripItem[] { cmnuCmdQueryCut, cmnuCmdQueryCopy, cmnuCmdQueryPaste, cmnuCmdQuerySelectAll, toolStripSeparator2, cmnuCmdQueryUndo, cmnuCmdQueryRedo });
             cmnuCmdQuery.Name = "cmnuSelectQuery";
-            cmnuCmdQuery.Size = new Size(123, 142);
+            cmnuCmdQuery.Size = new Size(164, 202);
             // 
             // cmnuCmdQueryCut
             // 
             cmnuCmdQueryCut.Image = (Image)resources.GetObject("cmnuCmdQueryCut.Image");
             cmnuCmdQueryCut.Name = "cmnuCmdQueryCut";
-            cmnuCmdQueryCut.Size = new Size(122, 22);
+            cmnuCmdQueryCut.Size = new Size(163, 32);
             cmnuCmdQueryCut.Text = "Cut";
             cmnuCmdQueryCut.Click += cmnuCmdQueryCut_Click;
             // 
@@ -273,7 +304,7 @@
             // 
             cmnuCmdQueryCopy.Image = (Image)resources.GetObject("cmnuCmdQueryCopy.Image");
             cmnuCmdQueryCopy.Name = "cmnuCmdQueryCopy";
-            cmnuCmdQueryCopy.Size = new Size(122, 22);
+            cmnuCmdQueryCopy.Size = new Size(163, 32);
             cmnuCmdQueryCopy.Text = "Copy";
             cmnuCmdQueryCopy.Click += cmnuCmdQueryCopy_Click;
             // 
@@ -281,27 +312,27 @@
             // 
             cmnuCmdQueryPaste.Image = (Image)resources.GetObject("cmnuCmdQueryPaste.Image");
             cmnuCmdQueryPaste.Name = "cmnuCmdQueryPaste";
-            cmnuCmdQueryPaste.Size = new Size(122, 22);
+            cmnuCmdQueryPaste.Size = new Size(163, 32);
             cmnuCmdQueryPaste.Text = "Paste";
             cmnuCmdQueryPaste.Click += cmnuCmdQueryPaste_Click;
             // 
             // cmnuCmdQuerySelectAll
             // 
             cmnuCmdQuerySelectAll.Name = "cmnuCmdQuerySelectAll";
-            cmnuCmdQuerySelectAll.Size = new Size(122, 22);
+            cmnuCmdQuerySelectAll.Size = new Size(163, 32);
             cmnuCmdQuerySelectAll.Text = "Select All";
             cmnuCmdQuerySelectAll.Click += cmnuCmdQuerySelectAll_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(119, 6);
+            toolStripSeparator2.Size = new Size(160, 6);
             // 
             // cmnuCmdQueryUndo
             // 
             cmnuCmdQueryUndo.Image = (Image)resources.GetObject("cmnuCmdQueryUndo.Image");
             cmnuCmdQueryUndo.Name = "cmnuCmdQueryUndo";
-            cmnuCmdQueryUndo.Size = new Size(122, 22);
+            cmnuCmdQueryUndo.Size = new Size(163, 32);
             cmnuCmdQueryUndo.Text = "Undo";
             cmnuCmdQueryUndo.Click += cmnuCmdQueryUndo_Click;
             // 
@@ -309,31 +340,45 @@
             // 
             cmnuCmdQueryRedo.Image = (Image)resources.GetObject("cmnuCmdQueryRedo.Image");
             cmnuCmdQueryRedo.Name = "cmnuCmdQueryRedo";
-            cmnuCmdQueryRedo.Size = new Size(122, 22);
+            cmnuCmdQueryRedo.Size = new Size(163, 32);
             cmnuCmdQueryRedo.Text = "Redo";
             cmnuCmdQueryRedo.Click += cmnuCmdQueryRedo_Click;
             // 
             // txtHelp
             // 
-            txtHelp.AutoCompleteBracketsList = new char[] { '(', ')', '{', '}', '[', ']', '"', '"', '\'', '\'' };
+            txtHelp.AutoCompleteBracketsList = new char[]
+    {
+    '(',
+    ')',
+    '{',
+    '}',
+    '[',
+    ']',
+    '"',
+    '"',
+    '\'',
+    '\''
+    };
             txtHelp.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
-            txtHelp.AutoScrollMinSize = new Size(0, 14);
+            txtHelp.AutoScrollMinSize = new Size(0, 22);
             txtHelp.BackBrush = null;
             txtHelp.BorderStyle = BorderStyle.FixedSingle;
-            txtHelp.CharHeight = 14;
-            txtHelp.CharWidth = 8;
+            txtHelp.CharHeight = 22;
+            txtHelp.CharWidth = 12;
             txtHelp.Cursor = Cursors.IBeam;
             txtHelp.DefaultMarkerSize = 8;
             txtHelp.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             txtHelp.Dock = DockStyle.Fill;
-            txtHelp.Font = new Font("Courier New", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtHelp.Font = new Font("Courier New", 9.75F);
+            txtHelp.Hotkeys = resources.GetString("txtHelp.Hotkeys");
             txtHelp.IsReplaceMode = false;
             txtHelp.Location = new Point(0, 0);
+            txtHelp.Margin = new Padding(4, 5, 4, 5);
             txtHelp.Name = "txtHelp";
             txtHelp.Paddings = new Padding(0);
             txtHelp.SelectionColor = Color.FromArgb(60, 0, 0, 255);
             txtHelp.ServiceColors = null;
-            txtHelp.Size = new Size(649, 507);
+            txtHelp.Size = new Size(931, 854);
             txtHelp.TabIndex = 7;
             txtHelp.WordWrap = true;
             txtHelp.Zoom = 100;
@@ -342,11 +387,11 @@
             // 
             cbDataSourceType.DropDownStyle = ComboBoxStyle.DropDownList;
             cbDataSourceType.FormattingEnabled = true;
-            cbDataSourceType.Items.AddRange(new object[] { "<Choose database type>", "Microsoft SQL Server", "Oracle", "PostgreSQL", "MySQL", "OLE DB", "ODBC", "Firebird" });
-            cbDataSourceType.Location = new Point(15, 22);
-            cbDataSourceType.Margin = new Padding(4, 3, 4, 3);
+            cbDataSourceType.Items.AddRange(new object[] { "<Choose database type>", "Microsoft SQL Server", "Oracle", "PostgreSQL", "MySQL", "Firebird" });
+            cbDataSourceType.Location = new Point(21, 37);
+            cbDataSourceType.Margin = new Padding(6, 5, 6, 5);
             cbDataSourceType.Name = "cbDataSourceType";
-            cbDataSourceType.Size = new Size(272, 23);
+            cbDataSourceType.Size = new Size(387, 33);
             cbDataSourceType.TabIndex = 0;
             cbDataSourceType.SelectedIndexChanged += cbDataSourceType_SelectedIndexChanged;
             // 
@@ -367,40 +412,40 @@
             gbConnection.Controls.Add(lblDatabase);
             gbConnection.Controls.Add(txtServer);
             gbConnection.Controls.Add(lblServer);
-            gbConnection.Location = new Point(7, 75);
-            gbConnection.Margin = new Padding(4, 3, 4, 3);
+            gbConnection.Location = new Point(10, 125);
+            gbConnection.Margin = new Padding(6, 5, 6, 5);
             gbConnection.Name = "gbConnection";
-            gbConnection.Padding = new Padding(12, 3, 12, 12);
-            gbConnection.Size = new Size(634, 424);
+            gbConnection.Padding = new Padding(17, 5, 17, 20);
+            gbConnection.Size = new Size(906, 707);
             gbConnection.TabIndex = 1;
             gbConnection.TabStop = false;
             gbConnection.Text = "Connection";
             // 
             // txtOptionalOptions
             // 
-            txtOptionalOptions.Location = new Point(15, 172);
-            txtOptionalOptions.Margin = new Padding(4, 3, 4, 3);
+            txtOptionalOptions.Location = new Point(21, 287);
+            txtOptionalOptions.Margin = new Padding(6, 5, 6, 5);
             txtOptionalOptions.Name = "txtOptionalOptions";
-            txtOptionalOptions.Size = new Size(452, 23);
+            txtOptionalOptions.Size = new Size(644, 31);
             txtOptionalOptions.TabIndex = 13;
             txtOptionalOptions.TextChanged += txtConnProp_TextChanged;
             // 
             // lblOptionalOptions
             // 
             lblOptionalOptions.AutoSize = true;
-            lblOptionalOptions.Location = new Point(12, 153);
-            lblOptionalOptions.Margin = new Padding(4, 0, 4, 0);
+            lblOptionalOptions.Location = new Point(17, 255);
+            lblOptionalOptions.Margin = new Padding(6, 0, 6, 0);
             lblOptionalOptions.Name = "lblOptionalOptions";
-            lblOptionalOptions.Size = new Size(98, 15);
+            lblOptionalOptions.Size = new Size(150, 25);
             lblOptionalOptions.TabIndex = 12;
             lblOptionalOptions.Text = "Optional Options";
             // 
             // txtPort
             // 
-            txtPort.Location = new Point(245, 37);
-            txtPort.Margin = new Padding(4, 3, 4, 3);
+            txtPort.Location = new Point(350, 62);
+            txtPort.Margin = new Padding(6, 5, 6, 5);
             txtPort.Name = "txtPort";
-            txtPort.Size = new Size(222, 23);
+            txtPort.Size = new Size(315, 31);
             txtPort.TabIndex = 11;
             txtPort.TextChanged += txtConnProp_TextChanged;
             // 
@@ -408,40 +453,40 @@
             // 
             lblPort.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblPort.AutoSize = true;
-            lblPort.Location = new Point(241, 18);
-            lblPort.Margin = new Padding(4, 0, 4, 0);
+            lblPort.Location = new Point(344, 30);
+            lblPort.Margin = new Padding(6, 0, 6, 0);
             lblPort.Name = "lblPort";
-            lblPort.Size = new Size(29, 15);
+            lblPort.Size = new Size(44, 25);
             lblPort.TabIndex = 10;
             lblPort.Text = "Port";
             // 
             // txtConnectionString
             // 
             txtConnectionString.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtConnectionString.Location = new Point(15, 217);
-            txtConnectionString.Margin = new Padding(4, 3, 4, 3);
+            txtConnectionString.Location = new Point(21, 362);
+            txtConnectionString.Margin = new Padding(6, 5, 6, 5);
             txtConnectionString.Multiline = true;
             txtConnectionString.Name = "txtConnectionString";
-            txtConnectionString.Size = new Size(603, 191);
+            txtConnectionString.Size = new Size(860, 316);
             txtConnectionString.TabIndex = 9;
             txtConnectionString.TextChanged += txtConnectionString_TextChanged;
             // 
             // lblConnectionString
             // 
             lblConnectionString.AutoSize = true;
-            lblConnectionString.Location = new Point(12, 198);
-            lblConnectionString.Margin = new Padding(4, 0, 4, 0);
+            lblConnectionString.Location = new Point(17, 330);
+            lblConnectionString.Margin = new Padding(6, 0, 6, 0);
             lblConnectionString.Name = "lblConnectionString";
-            lblConnectionString.Size = new Size(102, 15);
+            lblConnectionString.Size = new Size(152, 25);
             lblConnectionString.TabIndex = 8;
             lblConnectionString.Text = "Connection string";
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(245, 127);
-            txtPassword.Margin = new Padding(4, 3, 4, 3);
+            txtPassword.Location = new Point(350, 212);
+            txtPassword.Margin = new Padding(6, 5, 6, 5);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(222, 23);
+            txtPassword.Size = new Size(315, 31);
             txtPassword.TabIndex = 7;
             txtPassword.UseSystemPasswordChar = true;
             txtPassword.TextChanged += txtConnProp_TextChanged;
@@ -450,57 +495,57 @@
             // 
             lblPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(241, 108);
-            lblPassword.Margin = new Padding(4, 0, 4, 0);
+            lblPassword.Location = new Point(344, 180);
+            lblPassword.Margin = new Padding(6, 0, 6, 0);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(57, 15);
+            lblPassword.Size = new Size(87, 25);
             lblPassword.TabIndex = 6;
             lblPassword.Text = "Password";
             // 
             // txtUser
             // 
-            txtUser.Location = new Point(15, 127);
-            txtUser.Margin = new Padding(4, 3, 4, 3);
+            txtUser.Location = new Point(21, 212);
+            txtUser.Margin = new Padding(6, 5, 6, 5);
             txtUser.Name = "txtUser";
-            txtUser.Size = new Size(222, 23);
+            txtUser.Size = new Size(315, 31);
             txtUser.TabIndex = 5;
             txtUser.TextChanged += txtConnProp_TextChanged;
             // 
             // lblUser
             // 
             lblUser.AutoSize = true;
-            lblUser.Location = new Point(12, 108);
-            lblUser.Margin = new Padding(4, 0, 4, 0);
+            lblUser.Location = new Point(17, 180);
+            lblUser.Margin = new Padding(6, 0, 6, 0);
             lblUser.Name = "lblUser";
-            lblUser.Size = new Size(30, 15);
+            lblUser.Size = new Size(47, 25);
             lblUser.TabIndex = 4;
             lblUser.Text = "User";
             // 
             // txtDatabase
             // 
-            txtDatabase.Location = new Point(15, 82);
-            txtDatabase.Margin = new Padding(4, 3, 4, 3);
+            txtDatabase.Location = new Point(21, 137);
+            txtDatabase.Margin = new Padding(6, 5, 6, 5);
             txtDatabase.Name = "txtDatabase";
-            txtDatabase.Size = new Size(452, 23);
+            txtDatabase.Size = new Size(644, 31);
             txtDatabase.TabIndex = 3;
             txtDatabase.TextChanged += txtConnProp_TextChanged;
             // 
             // lblDatabase
             // 
             lblDatabase.AutoSize = true;
-            lblDatabase.Location = new Point(12, 63);
-            lblDatabase.Margin = new Padding(4, 0, 4, 0);
+            lblDatabase.Location = new Point(17, 105);
+            lblDatabase.Margin = new Padding(6, 0, 6, 0);
             lblDatabase.Name = "lblDatabase";
-            lblDatabase.Size = new Size(55, 15);
+            lblDatabase.Size = new Size(86, 25);
             lblDatabase.TabIndex = 2;
             lblDatabase.Text = "Database";
             // 
             // txtServer
             // 
-            txtServer.Location = new Point(15, 37);
-            txtServer.Margin = new Padding(4, 3, 4, 3);
+            txtServer.Location = new Point(21, 62);
+            txtServer.Margin = new Padding(6, 5, 6, 5);
             txtServer.Name = "txtServer";
-            txtServer.Size = new Size(222, 23);
+            txtServer.Size = new Size(315, 31);
             txtServer.TabIndex = 1;
             txtServer.TextChanged += txtConnProp_TextChanged;
             // 
@@ -508,10 +553,10 @@
             // 
             lblServer.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblServer.AutoSize = true;
-            lblServer.Location = new Point(12, 18);
-            lblServer.Margin = new Padding(4, 0, 4, 0);
+            lblServer.Location = new Point(17, 30);
+            lblServer.Margin = new Padding(6, 0, 6, 0);
             lblServer.Name = "lblServer";
-            lblServer.Size = new Size(39, 15);
+            lblServer.Size = new Size(61, 25);
             lblServer.TabIndex = 0;
             lblServer.Text = "Server";
             // 
@@ -525,21 +570,21 @@
             tabControl.Controls.Add(pageHelp);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Location = new Point(0, 0);
-            tabControl.Margin = new Padding(4, 3, 4, 3);
+            tabControl.Margin = new Padding(6, 5, 6, 5);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(657, 535);
+            tabControl.Size = new Size(939, 892);
             tabControl.TabIndex = 0;
             // 
             // pageDatabase
             // 
             pageDatabase.Controls.Add(gbDataSourceType);
             pageDatabase.Controls.Add(gbConnection);
-            pageDatabase.Location = new Point(4, 24);
-            pageDatabase.Margin = new Padding(4, 3, 4, 3);
+            pageDatabase.Location = new Point(4, 34);
+            pageDatabase.Margin = new Padding(6, 5, 6, 5);
             pageDatabase.Name = "pageDatabase";
-            pageDatabase.Padding = new Padding(4, 3, 4, 3);
-            pageDatabase.Size = new Size(649, 507);
+            pageDatabase.Padding = new Padding(6, 5, 6, 5);
+            pageDatabase.Size = new Size(931, 854);
             pageDatabase.TabIndex = 0;
             pageDatabase.Text = "Database";
             pageDatabase.UseVisualStyleBackColor = true;
@@ -549,21 +594,21 @@
             gbDataSourceType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gbDataSourceType.Controls.Add(btnConnectionTest);
             gbDataSourceType.Controls.Add(cbDataSourceType);
-            gbDataSourceType.Location = new Point(7, 7);
-            gbDataSourceType.Margin = new Padding(4, 3, 4, 3);
+            gbDataSourceType.Location = new Point(10, 12);
+            gbDataSourceType.Margin = new Padding(6, 5, 6, 5);
             gbDataSourceType.Name = "gbDataSourceType";
-            gbDataSourceType.Padding = new Padding(12, 3, 12, 12);
-            gbDataSourceType.Size = new Size(634, 61);
+            gbDataSourceType.Padding = new Padding(17, 5, 17, 20);
+            gbDataSourceType.Size = new Size(906, 102);
             gbDataSourceType.TabIndex = 0;
             gbDataSourceType.TabStop = false;
             gbDataSourceType.Text = "Data Source Type";
             // 
             // btnConnectionTest
             // 
-            btnConnectionTest.Location = new Point(298, 21);
-            btnConnectionTest.Margin = new Padding(4, 3, 4, 3);
+            btnConnectionTest.Location = new Point(426, 33);
+            btnConnectionTest.Margin = new Padding(6, 5, 6, 5);
             btnConnectionTest.Name = "btnConnectionTest";
-            btnConnectionTest.Size = new Size(170, 27);
+            btnConnectionTest.Size = new Size(243, 45);
             btnConnectionTest.TabIndex = 3;
             btnConnectionTest.Text = "Testing connection...";
             btnConnectionTest.UseVisualStyleBackColor = true;
@@ -573,11 +618,11 @@
             // 
             pageQuery.Controls.Add(lblSelectQuery);
             pageQuery.Controls.Add(txtSelectQuery);
-            pageQuery.Location = new Point(4, 24);
-            pageQuery.Margin = new Padding(4, 3, 4, 3);
+            pageQuery.Location = new Point(4, 34);
+            pageQuery.Margin = new Padding(6, 5, 6, 5);
             pageQuery.Name = "pageQuery";
-            pageQuery.Padding = new Padding(4, 3, 4, 3);
-            pageQuery.Size = new Size(649, 507);
+            pageQuery.Padding = new Padding(6, 5, 6, 5);
+            pageQuery.Size = new Size(931, 854);
             pageQuery.TabIndex = 1;
             pageQuery.Text = "Data Retrieval";
             pageQuery.UseVisualStyleBackColor = true;
@@ -585,20 +630,20 @@
             // lblSelectQuery
             // 
             lblSelectQuery.AutoSize = true;
-            lblSelectQuery.Location = new Point(4, 5);
-            lblSelectQuery.Margin = new Padding(4, 0, 4, 0);
+            lblSelectQuery.Location = new Point(6, 8);
+            lblSelectQuery.Margin = new Padding(6, 0, 6, 0);
             lblSelectQuery.Name = "lblSelectQuery";
-            lblSelectQuery.Size = new Size(28, 15);
+            lblSelectQuery.Size = new Size(44, 25);
             lblSelectQuery.TabIndex = 0;
             lblSelectQuery.Text = "SQL";
             // 
             // pageData
             // 
             pageData.Controls.Add(tlpPanel);
-            pageData.Location = new Point(4, 24);
-            pageData.Margin = new Padding(4, 3, 4, 3);
+            pageData.Location = new Point(4, 34);
+            pageData.Margin = new Padding(6, 5, 6, 5);
             pageData.Name = "pageData";
-            pageData.Size = new Size(649, 507);
+            pageData.Size = new Size(931, 854);
             pageData.TabIndex = 4;
             pageData.Text = "Data";
             pageData.UseVisualStyleBackColor = true;
@@ -611,50 +656,51 @@
             tlpPanel.Controls.Add(btnExecuteSQLQuery, 0, 1);
             tlpPanel.Dock = DockStyle.Fill;
             tlpPanel.Location = new Point(0, 0);
-            tlpPanel.Margin = new Padding(4, 3, 4, 3);
+            tlpPanel.Margin = new Padding(6, 5, 6, 5);
             tlpPanel.Name = "tlpPanel";
             tlpPanel.RowCount = 2;
             tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tlpPanel.Size = new Size(649, 507);
+            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            tlpPanel.Size = new Size(931, 854);
             tlpPanel.TabIndex = 10;
             // 
             // dgvData
             // 
             dgvData.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Window;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvData.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvData.DefaultCellStyle = dataGridViewCellStyle2;
             dgvData.Dock = DockStyle.Fill;
-            dgvData.Location = new Point(4, 3);
-            dgvData.Margin = new Padding(4, 3, 4, 3);
+            dgvData.Location = new Point(6, 5);
+            dgvData.Margin = new Padding(6, 5, 6, 5);
             dgvData.Name = "dgvData";
             dgvData.ReadOnly = true;
-            dgvData.Size = new Size(641, 466);
+            dgvData.RowHeadersWidth = 62;
+            dgvData.Size = new Size(919, 786);
             dgvData.TabIndex = 8;
             dgvData.DataError += dgvData_DataError;
             // 
             // btnExecuteSQLQuery
             // 
             btnExecuteSQLQuery.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btnExecuteSQLQuery.Location = new Point(4, 475);
-            btnExecuteSQLQuery.Margin = new Padding(4, 3, 4, 3);
+            btnExecuteSQLQuery.Location = new Point(6, 801);
+            btnExecuteSQLQuery.Margin = new Padding(6, 5, 6, 5);
             btnExecuteSQLQuery.Name = "btnExecuteSQLQuery";
-            btnExecuteSQLQuery.Size = new Size(641, 27);
+            btnExecuteSQLQuery.Size = new Size(919, 45);
             btnExecuteSQLQuery.TabIndex = 9;
             btnExecuteSQLQuery.Text = "Execute SQL query";
             btnExecuteSQLQuery.UseVisualStyleBackColor = true;
@@ -664,11 +710,11 @@
             // 
             pageCommands.Controls.Add(gbCommandParams);
             pageCommands.Controls.Add(gbCommand);
-            pageCommands.Location = new Point(4, 24);
-            pageCommands.Margin = new Padding(4, 3, 4, 3);
+            pageCommands.Location = new Point(4, 34);
+            pageCommands.Margin = new Padding(6, 5, 6, 5);
             pageCommands.Name = "pageCommands";
-            pageCommands.Padding = new Padding(4, 3, 4, 3);
-            pageCommands.Size = new Size(649, 507);
+            pageCommands.Padding = new Padding(6, 5, 6, 5);
+            pageCommands.Size = new Size(931, 854);
             pageCommands.TabIndex = 2;
             pageCommands.Text = "Commands";
             pageCommands.UseVisualStyleBackColor = true;
@@ -684,11 +730,11 @@
             gbCommandParams.Controls.Add(numCmdNum);
             gbCommandParams.Controls.Add(lblCmdNum);
             gbCommandParams.Controls.Add(txtCmdQuery);
-            gbCommandParams.Location = new Point(7, 77);
-            gbCommandParams.Margin = new Padding(4, 3, 4, 3);
+            gbCommandParams.Location = new Point(10, 128);
+            gbCommandParams.Margin = new Padding(6, 5, 6, 5);
             gbCommandParams.Name = "gbCommandParams";
-            gbCommandParams.Padding = new Padding(12, 3, 12, 12);
-            gbCommandParams.Size = new Size(634, 421);
+            gbCommandParams.Padding = new Padding(17, 5, 17, 20);
+            gbCommandParams.Size = new Size(906, 702);
             gbCommandParams.TabIndex = 1;
             gbCommandParams.TabStop = false;
             gbCommandParams.Text = "Command Parameters";
@@ -696,68 +742,68 @@
             // lblCmdCode
             // 
             lblCmdCode.AutoSize = true;
-            lblCmdCode.Location = new Point(127, 18);
-            lblCmdCode.Margin = new Padding(4, 0, 4, 0);
+            lblCmdCode.Location = new Point(181, 30);
+            lblCmdCode.Margin = new Padding(6, 0, 6, 0);
             lblCmdCode.Name = "lblCmdCode";
-            lblCmdCode.Size = new Size(93, 15);
+            lblCmdCode.Size = new Size(140, 25);
             lblCmdCode.TabIndex = 8;
             lblCmdCode.Text = "Command code";
             // 
             // txtCmdCode
             // 
-            txtCmdCode.Location = new Point(127, 37);
-            txtCmdCode.Margin = new Padding(4, 3, 4, 3);
+            txtCmdCode.Location = new Point(181, 62);
+            txtCmdCode.Margin = new Padding(6, 5, 6, 5);
             txtCmdCode.Name = "txtCmdCode";
-            txtCmdCode.Size = new Size(106, 23);
+            txtCmdCode.Size = new Size(150, 31);
             txtCmdCode.TabIndex = 7;
             txtCmdCode.TextChanged += txtCmdCode_TextChanged;
             // 
             // lblCmdQuery
             // 
             lblCmdQuery.AutoSize = true;
-            lblCmdQuery.Location = new Point(12, 63);
-            lblCmdQuery.Margin = new Padding(4, 0, 4, 0);
+            lblCmdQuery.Location = new Point(17, 105);
+            lblCmdQuery.Margin = new Padding(6, 0, 6, 0);
             lblCmdQuery.Name = "lblCmdQuery";
-            lblCmdQuery.Size = new Size(28, 15);
+            lblCmdQuery.Size = new Size(44, 25);
             lblCmdQuery.TabIndex = 4;
             lblCmdQuery.Text = "SQL";
             // 
             // txtName
             // 
-            txtName.Location = new Point(241, 37);
-            txtName.Margin = new Padding(4, 3, 4, 3);
+            txtName.Location = new Point(344, 62);
+            txtName.Margin = new Padding(6, 5, 6, 5);
             txtName.Name = "txtName";
-            txtName.Size = new Size(226, 23);
+            txtName.Size = new Size(321, 31);
             txtName.TabIndex = 3;
             txtName.TextChanged += txtName_TextChanged;
             // 
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(241, 18);
-            lblName.Margin = new Padding(4, 0, 4, 0);
+            lblName.Location = new Point(344, 30);
+            lblName.Margin = new Padding(6, 0, 6, 0);
             lblName.Name = "lblName";
-            lblName.Size = new Size(39, 15);
+            lblName.Size = new Size(59, 25);
             lblName.TabIndex = 2;
             lblName.Text = "Name";
             // 
             // numCmdNum
             // 
-            numCmdNum.Location = new Point(15, 37);
-            numCmdNum.Margin = new Padding(4, 3, 4, 3);
+            numCmdNum.Location = new Point(21, 62);
+            numCmdNum.Margin = new Padding(6, 5, 6, 5);
             numCmdNum.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             numCmdNum.Name = "numCmdNum";
-            numCmdNum.Size = new Size(106, 23);
+            numCmdNum.Size = new Size(151, 31);
             numCmdNum.TabIndex = 1;
             numCmdNum.ValueChanged += numCmdNum_ValueChanged;
             // 
             // lblCmdNum
             // 
             lblCmdNum.AutoSize = true;
-            lblCmdNum.Location = new Point(12, 18);
-            lblCmdNum.Margin = new Padding(4, 0, 4, 0);
+            lblCmdNum.Location = new Point(17, 30);
+            lblCmdNum.Margin = new Padding(6, 0, 6, 0);
             lblCmdNum.Name = "lblCmdNum";
-            lblCmdNum.Size = new Size(109, 15);
+            lblCmdNum.Size = new Size(163, 25);
             lblCmdNum.TabIndex = 0;
             lblCmdNum.Text = "Command number";
             // 
@@ -767,11 +813,11 @@
             gbCommand.Controls.Add(cbCommand);
             gbCommand.Controls.Add(btnDeleteCommand);
             gbCommand.Controls.Add(btnCreateCommand);
-            gbCommand.Location = new Point(7, 7);
-            gbCommand.Margin = new Padding(4, 3, 4, 3);
+            gbCommand.Location = new Point(10, 12);
+            gbCommand.Margin = new Padding(6, 5, 6, 5);
             gbCommand.Name = "gbCommand";
-            gbCommand.Padding = new Padding(12, 3, 12, 12);
-            gbCommand.Size = new Size(634, 63);
+            gbCommand.Padding = new Padding(17, 5, 17, 20);
+            gbCommand.Size = new Size(906, 105);
             gbCommand.TabIndex = 0;
             gbCommand.TabStop = false;
             gbCommand.Text = "Command";
@@ -780,19 +826,19 @@
             // 
             cbCommand.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCommand.FormattingEnabled = true;
-            cbCommand.Location = new Point(15, 23);
-            cbCommand.Margin = new Padding(4, 3, 4, 3);
+            cbCommand.Location = new Point(21, 38);
+            cbCommand.Margin = new Padding(6, 5, 6, 5);
             cbCommand.Name = "cbCommand";
-            cbCommand.Size = new Size(263, 23);
+            cbCommand.Size = new Size(374, 33);
             cbCommand.TabIndex = 0;
             cbCommand.SelectedIndexChanged += cbCommand_SelectedIndexChanged;
             // 
             // btnDeleteCommand
             // 
-            btnDeleteCommand.Location = new Point(380, 22);
-            btnDeleteCommand.Margin = new Padding(4, 3, 4, 3);
+            btnDeleteCommand.Location = new Point(543, 37);
+            btnDeleteCommand.Margin = new Padding(6, 5, 6, 5);
             btnDeleteCommand.Name = "btnDeleteCommand";
-            btnDeleteCommand.Size = new Size(88, 27);
+            btnDeleteCommand.Size = new Size(126, 45);
             btnDeleteCommand.TabIndex = 2;
             btnDeleteCommand.Text = "Delete";
             btnDeleteCommand.UseVisualStyleBackColor = true;
@@ -800,10 +846,10 @@
             // 
             // btnCreateCommand
             // 
-            btnCreateCommand.Location = new Point(286, 22);
-            btnCreateCommand.Margin = new Padding(4, 3, 4, 3);
+            btnCreateCommand.Location = new Point(409, 37);
+            btnCreateCommand.Margin = new Padding(6, 5, 6, 5);
             btnCreateCommand.Name = "btnCreateCommand";
-            btnCreateCommand.Size = new Size(88, 27);
+            btnCreateCommand.Size = new Size(126, 45);
             btnCreateCommand.TabIndex = 1;
             btnCreateCommand.Text = "Create";
             btnCreateCommand.UseVisualStyleBackColor = true;
@@ -814,10 +860,10 @@
             pageSettings.Controls.Add(ckbWriteDriverLog);
             pageSettings.Controls.Add(gpbTags);
             pageSettings.Controls.Add(gpbTagFormatDatabase);
-            pageSettings.Location = new Point(4, 24);
-            pageSettings.Margin = new Padding(4, 3, 4, 3);
+            pageSettings.Location = new Point(4, 34);
+            pageSettings.Margin = new Padding(6, 5, 6, 5);
             pageSettings.Name = "pageSettings";
-            pageSettings.Size = new Size(649, 507);
+            pageSettings.Size = new Size(931, 854);
             pageSettings.TabIndex = 3;
             pageSettings.Text = "Settings";
             pageSettings.UseVisualStyleBackColor = true;
@@ -825,9 +871,10 @@
             // ckbWriteDriverLog
             // 
             ckbWriteDriverLog.AutoSize = true;
-            ckbWriteDriverLog.Location = new Point(24, 12);
+            ckbWriteDriverLog.Location = new Point(34, 20);
+            ckbWriteDriverLog.Margin = new Padding(4, 5, 4, 5);
             ckbWriteDriverLog.Name = "ckbWriteDriverLog";
-            ckbWriteDriverLog.Size = new Size(322, 19);
+            ckbWriteDriverLog.Size = new Size(486, 29);
             ckbWriteDriverLog.TabIndex = 13;
             ckbWriteDriverLog.Text = "Log the result of a query from the database (debugging)";
             ckbWriteDriverLog.UseVisualStyleBackColor = true;
@@ -837,11 +884,11 @@
             // 
             gpbTags.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gpbTags.Controls.Add(tlpTags);
-            gpbTags.Location = new Point(7, 120);
-            gpbTags.Margin = new Padding(4, 3, 4, 3);
+            gpbTags.Location = new Point(10, 200);
+            gpbTags.Margin = new Padding(6, 5, 6, 5);
             gpbTags.Name = "gpbTags";
-            gpbTags.Padding = new Padding(12, 3, 12, 12);
-            gpbTags.Size = new Size(632, 375);
+            gpbTags.Padding = new Padding(17, 5, 17, 20);
+            gpbTags.Size = new Size(903, 625);
             gpbTags.TabIndex = 12;
             gpbTags.TabStop = false;
             gpbTags.Text = "Tags";
@@ -852,11 +899,12 @@
             tlpTags.ColumnCount = 1;
             tlpTags.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 73.5955F));
             tlpTags.Controls.Add(lstTags, 0, 0);
-            tlpTags.Location = new Point(14, 22);
+            tlpTags.Location = new Point(20, 37);
+            tlpTags.Margin = new Padding(4, 5, 4, 5);
             tlpTags.Name = "tlpTags";
             tlpTags.RowCount = 1;
             tlpTags.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpTags.Size = new Size(603, 338);
+            tlpTags.Size = new Size(861, 563);
             tlpTags.TabIndex = 1;
             // 
             // lstTags
@@ -867,10 +915,11 @@
             lstTags.ContextMenuStrip = cmnuLstTags;
             lstTags.FullRowSelect = true;
             lstTags.GridLines = true;
-            lstTags.Location = new Point(3, 3);
+            lstTags.Location = new Point(4, 5);
+            lstTags.Margin = new Padding(4, 5, 4, 5);
             lstTags.MultiSelect = false;
             lstTags.Name = "lstTags";
-            lstTags.Size = new Size(597, 332);
+            lstTags.Size = new Size(853, 553);
             lstTags.TabIndex = 2;
             lstTags.UseCompatibleStateImageBehavior = false;
             lstTags.View = System.Windows.Forms.View.Details;
@@ -900,28 +949,29 @@
             // 
             // cmnuLstTags
             // 
+            cmnuLstTags.ImageScalingSize = new Size(24, 24);
             cmnuLstTags.Items.AddRange(new ToolStripItem[] { cmnuTagRefresh, toolStripSeparator6, cmnuTagAdd, cmnuListTagAdd, toolStripSeparator3, cmnuTagChange, toolStripSeparator4, cmnuTagDelete, cmnuTagAllDelete, toolStripSeparator5, cmnuUp, cmnuDown });
             cmnuLstTags.Name = "cmnuSelectQuery";
-            cmnuLstTags.Size = new Size(181, 226);
+            cmnuLstTags.Size = new Size(216, 284);
             // 
             // cmnuTagRefresh
             // 
             cmnuTagRefresh.Image = (Image)resources.GetObject("cmnuTagRefresh.Image");
             cmnuTagRefresh.Name = "cmnuTagRefresh";
-            cmnuTagRefresh.Size = new Size(180, 22);
+            cmnuTagRefresh.Size = new Size(215, 32);
             cmnuTagRefresh.Text = "Refresh";
             cmnuTagRefresh.Click += cmnuTagRefresh_Click;
             // 
             // toolStripSeparator6
             // 
             toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(177, 6);
+            toolStripSeparator6.Size = new Size(212, 6);
             // 
             // cmnuTagAdd
             // 
             cmnuTagAdd.Image = (Image)resources.GetObject("cmnuTagAdd.Image");
             cmnuTagAdd.Name = "cmnuTagAdd";
-            cmnuTagAdd.Size = new Size(180, 22);
+            cmnuTagAdd.Size = new Size(215, 32);
             cmnuTagAdd.Text = "Add Tag";
             cmnuTagAdd.Click += cmnuTagAdd_Click;
             // 
@@ -929,33 +979,33 @@
             // 
             cmnuListTagAdd.Image = (Image)resources.GetObject("cmnuListTagAdd.Image");
             cmnuListTagAdd.Name = "cmnuListTagAdd";
-            cmnuListTagAdd.Size = new Size(180, 22);
+            cmnuListTagAdd.Size = new Size(215, 32);
             cmnuListTagAdd.Text = "Add list of Tags";
             cmnuListTagAdd.Click += cmnuListTagAdd_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(177, 6);
+            toolStripSeparator3.Size = new Size(212, 6);
             // 
             // cmnuTagChange
             // 
             cmnuTagChange.Image = (Image)resources.GetObject("cmnuTagChange.Image");
             cmnuTagChange.Name = "cmnuTagChange";
-            cmnuTagChange.Size = new Size(180, 22);
+            cmnuTagChange.Size = new Size(215, 32);
             cmnuTagChange.Text = "Change Tag";
             cmnuTagChange.Click += cmnuTagChange_Click;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(177, 6);
+            toolStripSeparator4.Size = new Size(212, 6);
             // 
             // cmnuTagDelete
             // 
             cmnuTagDelete.Image = (Image)resources.GetObject("cmnuTagDelete.Image");
             cmnuTagDelete.Name = "cmnuTagDelete";
-            cmnuTagDelete.Size = new Size(180, 22);
+            cmnuTagDelete.Size = new Size(215, 32);
             cmnuTagDelete.Text = "Delete Tag";
             cmnuTagDelete.Click += cmnuTagDelete_Click;
             // 
@@ -963,20 +1013,20 @@
             // 
             cmnuTagAllDelete.Image = (Image)resources.GetObject("cmnuTagAllDelete.Image");
             cmnuTagAllDelete.Name = "cmnuTagAllDelete";
-            cmnuTagAllDelete.Size = new Size(180, 22);
+            cmnuTagAllDelete.Size = new Size(215, 32);
             cmnuTagAllDelete.Text = "Delete all Tags";
             cmnuTagAllDelete.Click += cmnuTagAllDelete_Click;
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(177, 6);
+            toolStripSeparator5.Size = new Size(212, 6);
             // 
             // cmnuUp
             // 
             cmnuUp.Image = (Image)resources.GetObject("cmnuUp.Image");
             cmnuUp.Name = "cmnuUp";
-            cmnuUp.Size = new Size(180, 22);
+            cmnuUp.Size = new Size(215, 32);
             cmnuUp.Text = "Up";
             cmnuUp.Click += cmnuUp_Click;
             // 
@@ -984,31 +1034,42 @@
             // 
             cmnuDown.Image = (Image)resources.GetObject("cmnuDown.Image");
             cmnuDown.Name = "cmnuDown";
-            cmnuDown.Size = new Size(180, 22);
+            cmnuDown.Size = new Size(215, 32);
             cmnuDown.Text = "Down";
             cmnuDown.Click += cmnuDown_Click;
             // 
             // gpbTagFormatDatabase
             // 
             gpbTagFormatDatabase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            gpbTagFormatDatabase.Controls.Add(button1);
             gpbTagFormatDatabase.Controls.Add(rdbKPTagsBasedRequestedTableRows);
             gpbTagFormatDatabase.Controls.Add(rdbKPTagsBasedRequestedTableColumns);
-            gpbTagFormatDatabase.Location = new Point(7, 37);
-            gpbTagFormatDatabase.Margin = new Padding(4, 3, 4, 3);
+            gpbTagFormatDatabase.Location = new Point(10, 62);
+            gpbTagFormatDatabase.Margin = new Padding(6, 5, 6, 5);
             gpbTagFormatDatabase.Name = "gpbTagFormatDatabase";
-            gpbTagFormatDatabase.Padding = new Padding(12, 3, 12, 12);
-            gpbTagFormatDatabase.Size = new Size(632, 77);
+            gpbTagFormatDatabase.Padding = new Padding(17, 5, 17, 20);
+            gpbTagFormatDatabase.Size = new Size(903, 128);
             gpbTagFormatDatabase.TabIndex = 7;
             gpbTagFormatDatabase.TabStop = false;
             gpbTagFormatDatabase.Text = "Format of Tags from the Database";
             // 
+            // button1
+            // 
+            button1.Location = new Point(719, 49);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 2;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // rdbKPTagsBasedRequestedTableRows
             // 
             rdbKPTagsBasedRequestedTableRows.AutoSize = true;
-            rdbKPTagsBasedRequestedTableRows.Location = new Point(15, 48);
-            rdbKPTagsBasedRequestedTableRows.Margin = new Padding(4, 3, 4, 3);
+            rdbKPTagsBasedRequestedTableRows.Location = new Point(21, 80);
+            rdbKPTagsBasedRequestedTableRows.Margin = new Padding(6, 5, 6, 5);
             rdbKPTagsBasedRequestedTableRows.Name = "rdbKPTagsBasedRequestedTableRows";
-            rdbKPTagsBasedRequestedTableRows.Size = new Size(263, 19);
+            rdbKPTagsBasedRequestedTableRows.Size = new Size(401, 29);
             rdbKPTagsBasedRequestedTableRows.TabIndex = 1;
             rdbKPTagsBasedRequestedTableRows.TabStop = true;
             rdbKPTagsBasedRequestedTableRows.Text = "Tags based on the list of requested table rows";
@@ -1018,10 +1079,10 @@
             // rdbKPTagsBasedRequestedTableColumns
             // 
             rdbKPTagsBasedRequestedTableColumns.AutoSize = true;
-            rdbKPTagsBasedRequestedTableColumns.Location = new Point(15, 22);
-            rdbKPTagsBasedRequestedTableColumns.Margin = new Padding(4, 3, 4, 3);
+            rdbKPTagsBasedRequestedTableColumns.Location = new Point(21, 37);
+            rdbKPTagsBasedRequestedTableColumns.Margin = new Padding(6, 5, 6, 5);
             rdbKPTagsBasedRequestedTableColumns.Name = "rdbKPTagsBasedRequestedTableColumns";
-            rdbKPTagsBasedRequestedTableColumns.Size = new Size(284, 19);
+            rdbKPTagsBasedRequestedTableColumns.Size = new Size(430, 29);
             rdbKPTagsBasedRequestedTableColumns.TabIndex = 0;
             rdbKPTagsBasedRequestedTableColumns.TabStop = true;
             rdbKPTagsBasedRequestedTableColumns.Text = "Tags based on the list of requested table columns";
@@ -1031,10 +1092,10 @@
             // pageHelp
             // 
             pageHelp.Controls.Add(txtHelp);
-            pageHelp.Location = new Point(4, 24);
-            pageHelp.Margin = new Padding(4, 3, 4, 3);
+            pageHelp.Location = new Point(4, 34);
+            pageHelp.Margin = new Padding(6, 5, 6, 5);
             pageHelp.Name = "pageHelp";
-            pageHelp.Size = new Size(649, 507);
+            pageHelp.Size = new Size(931, 854);
             pageHelp.TabIndex = 5;
             pageHelp.Text = "Help";
             pageHelp.UseVisualStyleBackColor = true;
@@ -1044,20 +1105,20 @@
             pnlBottom.Controls.Add(btnClose);
             pnlBottom.Controls.Add(btnSave);
             pnlBottom.Dock = DockStyle.Bottom;
-            pnlBottom.Location = new Point(0, 535);
-            pnlBottom.Margin = new Padding(4, 3, 4, 3);
+            pnlBottom.Location = new Point(0, 892);
+            pnlBottom.Margin = new Padding(6, 5, 6, 5);
             pnlBottom.Name = "pnlBottom";
-            pnlBottom.Size = new Size(657, 47);
+            pnlBottom.Size = new Size(939, 78);
             pnlBottom.TabIndex = 1;
             // 
             // btnClose
             // 
             btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnClose.DialogResult = DialogResult.Cancel;
-            btnClose.Location = new Point(556, 7);
-            btnClose.Margin = new Padding(4, 3, 4, 3);
+            btnClose.Location = new Point(794, 12);
+            btnClose.Margin = new Padding(6, 5, 6, 5);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(88, 27);
+            btnClose.Size = new Size(126, 45);
             btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
@@ -1065,10 +1126,10 @@
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSave.Location = new Point(461, 7);
-            btnSave.Margin = new Padding(4, 3, 4, 3);
+            btnSave.Location = new Point(659, 12);
+            btnSave.Margin = new Padding(6, 5, 6, 5);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(88, 27);
+            btnSave.Size = new Size(126, 45);
             btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
@@ -1076,20 +1137,20 @@
             // 
             // FrmConfig
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnClose;
-            ClientSize = new Size(657, 582);
+            ClientSize = new Size(939, 970);
             Controls.Add(tabControl);
             Controls.Add(pnlBottom);
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(6, 5, 6, 5);
             MinimizeBox = false;
-            MinimumSize = new Size(522, 525);
+            MinimumSize = new Size(736, 838);
             Name = "FrmConfig";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "DB Import Plus - Device {0} Properties";
+            Text = "DB Import Plus - Device {0} Properties Version {1}";
             FormClosing += FrmConfig_FormClosing;
             Load += FrmConfig_Load;
             ((System.ComponentModel.ISupportInitialize)txtSelectQuery).EndInit();
@@ -1212,5 +1273,6 @@
         private ColumnHeader clmTagCode;
         private ColumnHeader clmTagFormat;
         private CheckBox ckbWriteDriverLog;
+        private Button button1;
     }
 }

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.Logic</RootNamespace>
-		<Version>6.0.0.6</Version>
+		<Version>6.3.0.0</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
@@ -14,6 +14,15 @@
 		<LangVersion>preview</LangVersion>
 		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.1" />
+	  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+	  <PackageReference Include="MySql.Data" Version="9.0.0" />
+	  <PackageReference Include="Npgsql" Version="8.0.4" />
+	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.1" />
+	  <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Reference Include="FirebirdSql.Data.FirebirdClient">
@@ -29,13 +38,13 @@
 	    <HintPath>..\DrvDbImportPlus.Shared\lib\Oracle.ManagedDataAccess.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\..\..\..\SCADA_6\ScadaComm\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\..\..\..\SCADA_6\ScadaComm\ScadaCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\..\..\..\SCADA_6\ScadaComm\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	  <Reference Include="System.Data.Odbc">
 	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.Odbc.dll</HintPath>

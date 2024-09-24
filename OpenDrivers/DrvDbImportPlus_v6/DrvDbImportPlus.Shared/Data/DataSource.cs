@@ -183,10 +183,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     return dataSource = new PgSqlDataSource();
                 case DataSourceType.MySQL:
                     return dataSource = new MySqlDataSource();
-                case DataSourceType.OLEDB:
-                    return dataSource = new OleDbDataSource();
-                case DataSourceType.ODBC:
-                    return dataSource = new OdbcDataSource();
+                //case DataSourceType.OLEDB:
+                    //return dataSource = new OleDbDataSource();
+                //case DataSourceType.ODBC:
+                    //return dataSource = new OdbcDataSource();
                 case DataSourceType.Firebird:
                     return dataSource = new FirebirdDataSource();
                 default:

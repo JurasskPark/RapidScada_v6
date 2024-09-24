@@ -20,9 +20,27 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public const string DriverCode = "DrvDbImportPlus";
 
         /// <summary>
+        /// The driver version.
+        /// </summary>
+        public const string Version = "6.0.0.8";
+
+        /// <summary>
         /// The default filename of the configuration.
         /// </summary>
         public const string DefaultConfigFileName = DriverCode + ".xml";
+
+        /// <summary>
+        /// Gets the short name of the device configuration file.
+        /// </summary>
+        public static string GetFileName(int deviceNum)
+        {
+            return $"{DriverCode}_{deviceNum:D3}.xml";
+        }
+
+        public static string GetFileName()
+        {
+            return $"{DriverCode}.xml";
+        }
 
         /// <summary>
         /// Writes an configuration file depending on operating system.

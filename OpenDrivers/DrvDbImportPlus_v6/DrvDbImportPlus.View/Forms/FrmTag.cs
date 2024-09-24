@@ -78,6 +78,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         private void cbTagFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
             FormatTag value = (FormatTag)cbTagFormat.SelectedIndex;
+            lblNumberOfDecimalPlaces.Visible = true;
+            lblMaxNumberCharactersInWord.Visible = false;
+            nudNumberOfDecimalPlaces.Maximum = 16;
             switch (value) 
             {
                 case FormatTag.Float:
@@ -96,8 +99,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     nudNumberOfDecimalPlaces.Value = 0;
                     break;
                 case FormatTag.String:
-                    nudNumberOfDecimalPlaces.Enabled = false;
+                    lblNumberOfDecimalPlaces.Visible = false;
+                    lblMaxNumberCharactersInWord.Visible = true;
+                    nudNumberOfDecimalPlaces.Enabled = true;
                     nudNumberOfDecimalPlaces.Value = 0;
+                    nudNumberOfDecimalPlaces.Maximum = 300;
                     break;
             }
         }

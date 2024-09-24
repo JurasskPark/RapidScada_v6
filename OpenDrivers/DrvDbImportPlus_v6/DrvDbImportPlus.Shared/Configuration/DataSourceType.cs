@@ -14,8 +14,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         Oracle,
         PostgreSQL,
         MySQL,
-        OLEDB,
-        ODBC,
+        //OLEDB,
+        //ODBC,
         Firebird
     }
 }

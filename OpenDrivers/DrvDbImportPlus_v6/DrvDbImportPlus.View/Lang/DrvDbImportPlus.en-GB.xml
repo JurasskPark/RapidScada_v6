@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvDbImportPlusDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmConfig">
-	  <Phrase key="this">DB Import Plus - Device {0} Properties</Phrase>
+	  <Phrase key="this">DB Import Plus - Device {0} Properties Version {1}</Phrase>
 	  <Phrase key="pageDatabase">Database</Phrase>
 	  <Phrase key="gbDataSourceType">Data Source Type</Phrase>
 	  <Phrase key="gbConnection">Connection</Phrase>
@@ -134,6 +134,7 @@
 		<Phrase key="lblTagname">Tagname</Phrase>
 		<Phrase key="lblFormat">Format</Phrase>
 		<Phrase key="lblNumberOfDecimalPlaces">Number of decimal places</Phrase>
+		<Phrase key="lblMaxNumberCharactersInWord">Maximum number of characters in word</Phrase>
 		<Phrase key="lblEnabled">Enabled</Phrase>
 		<Phrase key="btnAdd">Add</Phrase>
 		<Phrase key="btnSave">Save</Phrase>

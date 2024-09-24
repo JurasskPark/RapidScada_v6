@@ -12,11 +12,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DataSourceType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DbConnSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverDictonary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverPhrases.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvDbImportPlusConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ElementType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ExportCmd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\HexOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\FirebirdDataSource.cs" />

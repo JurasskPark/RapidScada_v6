@@ -3,6 +3,7 @@
 
 using Scada.Comm.Devices;
 using Scada.Lang;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
@@ -20,14 +21,32 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         {
             List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
             string nameTagGroup = Locale.IsRussian ? "Теги" : "Tags";
+            string nameTagGroupString = Locale.IsRussian ? "Строковые теги" : "String tags";
             CnlPrototypeGroup group = new CnlPrototypeGroup(nameTagGroup);
+            CnlPrototypeGroup groupString = new CnlPrototypeGroup(nameTagGroupString);
 
             for (int i = 0; i < deviceTags.Count; i++)
             {
-                group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName);
+                if ((Tag.FormatTag)deviceTags[i].TagFormat == Tag.FormatTag.String)
+                {
+                    int maxlen = Convert.ToInt32(Math.Ceiling((decimal)deviceTags[i].NumberDecimalPlaces / (decimal)4));
+
+                    //groupString.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName);//.Configure(cnl => cnl.DataLen = maxlen);
+
+                    for (int j = 0; j < maxlen; j++)
+                    {
+                        groupString.AddCnlPrototype(deviceTags[i].TagCode + @$"[{j}]", deviceTags[i].TagName + @$"[{j}]");
+                    }
+                }
+                else
+                {
+                    group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName);
+                }           
             }
         
             groups.Add(group);
+            groups.Add(groupString);
+        
             return groups;      
         }
 

@@ -13,11 +13,15 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Queues;
 using Scada.Lang;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 {
@@ -89,6 +93,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             LogDriver(Locale.IsRussian ?
                        "Запуск драйвера" :
                        "Running the driver");
+
+            LogDriver("[Driver " + driverCode + "]");
+            LogDriver("[Version " + DriverUtils.Version + "]");
+            LogDriver("[" + DriverDictonary.StartDriver + "]");
+            LogDriver("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
+            LogDriver("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
+            LogDriver("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
 
             if (config != null)
             {
@@ -528,6 +539,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     }
 
                     object findValue = tableResult.Where(x => x.Key.ToString() == findTag.Code).FirstOrDefault().Value;
+
+                    Log.WriteLine(@$"{findTag} {findValue} {findNumberDecimalPlaces}");
                     SetTagData(findTag, findValue, findNumberDecimalPlaces);
 
                     #endregion Type Data
@@ -544,9 +557,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// </summary>
         /// <param name="table">The table to print.</param>
         /// <returns>A textual representation of the data of <paramref name="table"/>.</returns>
-        public static String PrintDataTable(DataTable table)
+        public static System.String PrintDataTable(DataTable table)
         {
-            String GetCellValueAsString(DataRow row, DataColumn column)
+            System.String GetCellValueAsString(DataRow row, DataColumn column)
             {
                 var cellValue = row[column];
                 var cellValueAsString = cellValue is null or DBNull ? "{null}" : cellValue.ToString();
@@ -612,9 +625,60 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 {
                     if (val is string strVal)
                     {
-                        deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(deviceTag.Index, strVal, CnlStatusID.Defined); } catch { }
+                        try
+                        {
+                            LogDriver("######################");
+
+                            //deviceTag.DataType = TagDataType.Unicode;
+                            //deviceTag.Format = new TagFormat(TagFormatType.String, "String");
+                            //int maxlen = Convert.ToInt32(Math.Ceiling((decimal)numberDecimalPlaces / (decimal)4));
+                            ////deviceTag.DataLen = maxlen;
+
+                            //IEnumerable<string> enumVal = Split(val.ToString(), 4);
+                            //List<string> lstVal = enumVal.ToList();
+
+                            //double[] arrWords = new double[DeviceTags[deviceTag.Code].DataLength];
+
+                            //for (int j = 0; j < maxlen; j++)
+                            //{
+                            //    DeviceData.SetUnicode(deviceTag.Code + @$"[{j}]", lstVal[j].ToString(), CnlStatusID.Defined);
+                            //}
+
+
+                            //for (int i = 0; i < arrWords.Length - 1; i++)
+                            //{
+                            //    string s = lstVal[i].ToString();
+                            //    byte[] buf = new byte[8];
+                            //    int len = Math.Min(4, s.Length);
+                            //    Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
+                            //    double word = BitConverter.ToDouble(buf, 0);
+                            //    arrWords[i] = word;
+
+
+                            //}
+
+
+
+                            //DeviceData.SetDoubleArray(deviceTag.Code, arrWords, CnlStatusID.Defined);
+
+                            LogDriver("######################");
+                            //LogDriver(@$"maxlen = {maxlen}");
+                            LogDriver(@$"deviceTag.DataLen = {deviceTag.DataLen}");
+                            LogDriver(@$"deviceTag.Index = {deviceTag.Index}");
+                            LogDriver(@$"deviceTag.Code = {deviceTag.Code}");
+                            LogDriver(@$"deviceTag.DataLength = {deviceTag.DataLength}");
+
+                            //for (int i = 0; i < arrWords.Length - 1; i++)
+                            //{
+                            //    string s = lstVal[i].ToString();
+                            //    DeviceData.SetUnicode(deviceTag.Code + @$"[{i}]", s, CnlStatusID.Defined);
+                            //}
+                        }
+                        catch (Exception e) 
+                        {
+                            LogDriver(e.Message.ToString());
+                        }
+
                     }
                     else if (val is DateTime dtVal)
                     {
@@ -622,7 +686,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                         deviceTag.Format = TagFormat.DateTime;
                         try { base.DeviceData.SetDateTime(deviceTag.Index, dtVal, CnlStatusID.Defined); } catch { }
                     }
-                    else if (deviceTag.Format == TagFormat.OffOn && Convert.ToBoolean(val) is Boolean bolVal)
+                    else if (deviceTag.Format == TagFormat.OffOn && Convert.ToBoolean(val) is System.Boolean bolVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
@@ -642,7 +706,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     }
                     else
                     {
-                        deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString()); ;
+                        deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString()); 
                         try { base.DeviceData.Set(deviceTag.Index, Math.Round(Convert.ToDouble(val), numberDecimalPlaces), CnlStatusID.Defined); } catch { }
                     }
                 }                 
@@ -775,7 +839,26 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
             if (writeLogDriver)
             {
-                Log.WriteLine(text);
+                Log.WriteAction(text);
+            }
+        }
+
+        /// <summary>
+        /// Devides a word into parts of a certain lenght
+        /// </summary>
+        /// <param name="s">word</param>
+        /// <param name="length">certain lenght</param>
+        /// <returns></returns>
+        static IEnumerable<string> Split(string s, int length)
+        {
+            int i;
+            for (i = 0; i + length < s.Length; i += length)
+            {
+                yield return s.Substring(i, length);
+            }
+            if (i != s.Length)
+            {
+                yield return s.Substring(i, s.Length - i);
             }
         }
     }

@@ -4,6 +4,7 @@
 using Npgsql;
 using System.Data.Common;
 
+
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
     /// <summary>
@@ -87,7 +88,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             }
                 
             ExtractHostAndPort(connSettings.Server, Convert.ToInt32(connSettings.Port), out string host, out int port);
-            return string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4};{5}",
+            return string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4};{5};",
                 host, port, connSettings.Database, connSettings.User, connSettings.Password, connSettings.OptionalOptions);
         }
     }

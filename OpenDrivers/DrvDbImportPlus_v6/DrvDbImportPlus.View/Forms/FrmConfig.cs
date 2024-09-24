@@ -1,12 +1,15 @@
 ﻿
 using FastColoredTextBoxNS;
+using Scada.Comm.Devices;
 using Scada.Comm.Lang;
+using Scada.Data.Const;
 using Scada.Forms;
 using Scada.Lang;
 using System.Data;
 using System.Data.Common;
 using System.Reflection;
 using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
+
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 {
@@ -26,6 +29,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         private bool modified;                          // the configuration was modified
         private bool connChanging;                      // connection settings are changing
         private bool cmdSelecting;                      // a command is selecting
+        private bool isRussian;                         // launage
+
 
         private DataSource dataSource;                  // the data source
         private List<Tag> deviceTags;                   // tags
@@ -35,7 +40,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             set { deviceTags = value; }
         }
 
-        private ListViewItem selected;           // selected record tag
+        private ListViewItem selected;                  // selected record tag
         private int indexSelectTag = 0;                 // index number tag
         #endregion Variables
 
@@ -66,6 +71,57 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             deviceTags = new List<Tag>();
         }
 
+        public FrmConfig(string configDriver, bool languageRussian = false) : this()
+        {
+            this.deviceNum = 0;
+            this.driverCode = DriverUtils.DriverCode;
+            config = new DrvDbImportPlusConfig();
+            configFileName = Path.Combine(configDriver);
+            modified = false;
+            connChanging = false;
+            cmdSelecting = false;
+            dataSource = null;
+            deviceTags = new List<Tag>();
+        }
+
+        public void LoadLanguage(string languageDir, bool IsRussian = false)
+        {
+            // load translate
+            this.isRussian = IsRussian;
+
+            string culture = "en-GB";
+            string EnglishCultureName = "en-GB";
+            string RussianCultureName = "ru-RU";
+            if (!IsRussian)
+            {
+                culture = EnglishCultureName;
+            }
+            else
+            {
+                culture = RussianCultureName;
+            }
+
+            string languageFile = Path.Combine(languageDir + $@"Lang\", DriverUtils.DriverCode + "." + culture + ".xml");
+            if (!File.Exists(languageFile))
+            {
+                MessageBox.Show(languageFile, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            Locale.LoadDictionaries(languageFile, out string errMsg);
+
+            // load translate the form
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmConfig");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmInputBox");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmTag");
+
+            DriverPhrases.Init();
+
+            if (errMsg != string.Empty)
+            {
+                MessageBox.Show(errMsg, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         /// <summary>
         /// Loading the form
         /// </summary>
@@ -79,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             FormTranslator.Translate(cmnuLstTags, GetType().FullName);
 
 
-            Text = string.Format(Text, deviceNum);
+            Text = string.Format(Text, deviceNum, DriverUtils.Version);
 
             // load a configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
@@ -481,10 +537,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     return PgSqlDataSource.BuildPgSqlConnectionString(connSettings);
                 case DataSourceType.MySQL:
                     return MySqlDataSource.BuildMySqlConnectionString(connSettings);
-                case DataSourceType.OLEDB:
-                    return OleDbDataSource.BuildOleDbConnectionString(connSettings);
-                case DataSourceType.ODBC:
-                    return OdbcDataSource.BuildOdbcConnectionString(connSettings);
+                //case DataSourceType.OLEDB:
+                    //return OleDbDataSource.BuildOleDbConnectionString(connSettings);
+                //case DataSourceType.ODBC:
+                    //return OdbcDataSource.BuildOdbcConnectionString(connSettings);
                 case DataSourceType.Firebird:
                     return FirebirdDataSource.BuildFbConnectionString(connSettings);
                 default:
@@ -587,12 +643,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 case DataSourceType.MySQL:
                     dataSource = new MySqlDataSource();
                     break;
-                case DataSourceType.OLEDB:
-                    dataSource = new OleDbDataSource();
-                    break;
-                case DataSourceType.ODBC:
-                    dataSource = new OdbcDataSource();
-                    break;
+                //case DataSourceType.OLEDB:
+                    //dataSource = new OleDbDataSource();
+                    //break;
+                //case DataSourceType.ODBC:
+                    //dataSource = new OdbcDataSource();
+                    //break;
                 case DataSourceType.Firebird:
                     dataSource = new FirebirdDataSource();
                     break;
@@ -1029,7 +1085,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void ckbWriteDriverLog_CheckedChanged(object sender, EventArgs e)
         {
-             Modified = true;
+            Modified = true;
         }
 
         /// <summary>
@@ -1037,7 +1093,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void rdbKPTagsBasedRequestedTableColumns_CheckedChanged(object sender, EventArgs e)
         {
-             Modified = true;
+            Modified = true;
         }
 
         /// <summary>
@@ -1045,7 +1101,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void rdbKPTagsBasedRequestedTableRows_CheckedChanged(object sender, EventArgs e)
         {
-             Modified = true;
+            Modified = true;
         }
 
         #region Tag Refresh
@@ -1422,5 +1478,41 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
         #endregion Tab Settings
 
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string sv = "Оченьдлиннаяфамилиянасорокзнаковаж А.А.";
+            IEnumerable<string> enumVal = Split(sv, 4);
+            List<string> lstVal = enumVal.ToList();
+
+            double[] arrWords = new double[lstVal.Count];
+
+            for (int i = 0; i < lstVal.Count; i++)
+            {
+                string s = lstVal[i].ToString();
+                //byte[] buf = new byte[8];
+                //int len = Math.Min(4, s.Length);
+                //Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
+                //double word = BitConverter.ToDouble(buf, 0);
+                //arrWords[i] = word;
+                //DeviceData.SetUnicode(deviceTag.Index + i, s, CnlStatusID.Defined);
+            }
+
+
+            CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags);
+        }
+
+        static IEnumerable<string> Split(string s, int length)
+        {
+            int i;
+            for (i = 0; i + length < s.Length; i += length)
+            {
+                yield return s.Substring(i, length);
+            }
+            if (i != s.Length)
+            {
+                yield return s.Substring(i, s.Length - i);
+            }
+        }
     }
 }

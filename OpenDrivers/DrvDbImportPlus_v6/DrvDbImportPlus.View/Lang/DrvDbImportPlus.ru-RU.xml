@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvDbImportPlusDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmConfig">
-    <Phrase key="this">Импорт из БД Плюс - Свойства КП {0}</Phrase>
+    <Phrase key="this">Импорт из БД Плюс - Свойства драйвера {0} Версия {1}</Phrase>
     <Phrase key="pageDatabase">База данных</Phrase>
     <Phrase key="gbDataSourceType">Тип источника данных</Phrase>
     <Phrase key="gbConnection">Соединение</Phrase>
@@ -134,6 +134,7 @@
 	<Phrase key="lblTagname">Название тега</Phrase>
 	<Phrase key="lblFormat">Формат</Phrase>
 	<Phrase key="lblNumberOfDecimalPlaces">Кол-во знаков после запятой</Phrase>
+	  <Phrase key="lblMaxNumberCharactersInWord">Максимальное кол-во знаков в слове</Phrase>
 	<Phrase key="lblEnabled">Включен</Phrase>
 	<Phrase key="btnAdd">Добавить</Phrase>
 	<Phrase key="btnSave">Сохранить</Phrase>
