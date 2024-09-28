@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConfig));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             txtSelectQuery = new FastColoredTextBoxNS.FastColoredTextBox();
             cmnuSelectQuery = new ContextMenuStrip(components);
             cmnuSelectQueryCut = new ToolStripMenuItem();
@@ -113,7 +113,6 @@
             cmnuUp = new ToolStripMenuItem();
             cmnuDown = new ToolStripMenuItem();
             gpbTagFormatDatabase = new GroupBox();
-            button1 = new Button();
             rdbKPTagsBasedRequestedTableRows = new RadioButton();
             rdbKPTagsBasedRequestedTableColumns = new RadioButton();
             pageHelp = new TabPage();
@@ -172,6 +171,7 @@
             txtSelectQuery.Cursor = Cursors.IBeam;
             txtSelectQuery.DefaultMarkerSize = 8;
             txtSelectQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            txtSelectQuery.Font = new Font("Courier New", 9.75F);
             txtSelectQuery.Hotkeys = resources.GetString("txtSelectQuery.Hotkeys");
             txtSelectQuery.IsReplaceMode = false;
             txtSelectQuery.Location = new Point(11, 33);
@@ -271,6 +271,7 @@
             txtCmdQuery.Cursor = Cursors.IBeam;
             txtCmdQuery.DefaultMarkerSize = 8;
             txtCmdQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            txtCmdQuery.Font = new Font("Courier New", 9.75F);
             txtCmdQuery.Hotkeys = resources.GetString("txtCmdQuery.Hotkeys");
             txtCmdQuery.IsReplaceMode = false;
             txtCmdQuery.Location = new Point(17, 135);
@@ -369,7 +370,6 @@
             txtHelp.DefaultMarkerSize = 8;
             txtHelp.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             txtHelp.Dock = DockStyle.Fill;
-            txtHelp.Font = new Font("Courier New", 9.75F);
             txtHelp.Hotkeys = resources.GetString("txtHelp.Hotkeys");
             txtHelp.IsReplaceMode = false;
             txtHelp.Location = new Point(0, 0);
@@ -667,23 +667,23 @@
             // dgvData
             // 
             dgvData.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvData.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvData.DefaultCellStyle = dataGridViewCellStyle6;
             dgvData.Dock = DockStyle.Fill;
             dgvData.Location = new Point(6, 5);
             dgvData.Margin = new Padding(6, 5, 6, 5);
@@ -940,12 +940,12 @@
             // clmTagFormat
             // 
             clmTagFormat.Text = "Format";
-            clmTagFormat.Width = 110;
+            clmTagFormat.Width = 220;
             // 
             // clmTagEnabled
             // 
             clmTagEnabled.Text = "Enabled";
-            clmTagEnabled.Width = 80;
+            clmTagEnabled.Width = 100;
             // 
             // cmnuLstTags
             // 
@@ -1041,7 +1041,6 @@
             // gpbTagFormatDatabase
             // 
             gpbTagFormatDatabase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            gpbTagFormatDatabase.Controls.Add(button1);
             gpbTagFormatDatabase.Controls.Add(rdbKPTagsBasedRequestedTableRows);
             gpbTagFormatDatabase.Controls.Add(rdbKPTagsBasedRequestedTableColumns);
             gpbTagFormatDatabase.Location = new Point(10, 62);
@@ -1052,16 +1051,6 @@
             gpbTagFormatDatabase.TabIndex = 7;
             gpbTagFormatDatabase.TabStop = false;
             gpbTagFormatDatabase.Text = "Format of Tags from the Database";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(719, 49);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 2;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // rdbKPTagsBasedRequestedTableRows
             // 
@@ -1122,6 +1111,7 @@
             btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // btnSave
             // 
@@ -1273,6 +1263,5 @@
         private ColumnHeader clmTagCode;
         private ColumnHeader clmTagFormat;
         private CheckBox ckbWriteDriverLog;
-        private Button button1;
     }
 }

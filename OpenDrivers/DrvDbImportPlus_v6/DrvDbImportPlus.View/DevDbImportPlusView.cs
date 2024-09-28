@@ -68,53 +68,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
             }
 
             List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
+            List<CnlPrototypeGroup> cnlPrototypeGroups = CnlPrototypeFactory.GetCnlPrototypeGroups(config.DeviceTags);
+            cnlPrototypes = cnlPrototypeGroups.GetCnlPrototypes();
 
-            for (int index = 0; index < config.DeviceTags.Count; ++index)
+            for (int i = 0; i < cnlPrototypes.Count; i++)
             {
-                Tag tmpTag = config.DeviceTags[index];
-                int indexTag = config.DeviceTags.IndexOf(config.DeviceTags[index]);
-
-                // create channel for element
-                bool isBool = tmpTag.TagEnabled;
-
-                int eventMask = new EventMask
-                {
-                    Enabled = true,
-                    DataChange = isBool,
-                    StatusChange = !isBool,
-                    Command = !isBool
-                }.Value;
-
-                string tmpTagformat = string.Empty;
-                switch(tmpTag.TagFormat.ToString())
-                {
-                    case "Float":
-                        tmpTagformat = "N" + tmpTag.NumberDecimalPlaces;
-                        break;
-                    case "DateTime":
-                        tmpTagformat = FormatCode.DateTime;
-                        break;
-                    case "String":
-                        tmpTagformat = FormatCode.String;
-                        break;
-                    case "Integer":
-                        tmpTagformat = FormatCode.N0;
-                        break;
-                    case "Boolean":
-                        tmpTagformat = FormatCode.OffOn;
-                        break;
-                }
-
-                cnlPrototypes.Add(new CnlPrototype
-                {
-                    Active = tmpTag.TagEnabled,
-                    Name = tmpTag.TagName,
-                    CnlTypeID = CnlTypeID.Input,
-                    TagNum = indexTag + 1,
-                    TagCode = tmpTag.TagCode,
-                    FormatCode = tmpTagformat,
-                    EventMask = eventMask
-                });
+                cnlPrototypes[i].TagNum = i + 1;
             }
 
             return cnlPrototypes;

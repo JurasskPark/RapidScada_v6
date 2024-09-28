@@ -12,6 +12,9 @@
 		<Product>Rapid SCADA</Product>
 		<Copyright>Copyright © 2023</Copyright>
 		<LangVersion>preview</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	</PropertyGroup>
 
 	<Import Project="..\DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems" Label="Shared" />

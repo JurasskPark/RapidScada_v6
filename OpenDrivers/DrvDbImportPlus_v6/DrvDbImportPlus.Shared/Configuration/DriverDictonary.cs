@@ -5,6 +5,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
     public static class DriverDictonary
     {
         public static string StartDriver = Locale.IsRussian? "Запуск драйвера" : "Launching the driver";
+        public static string Driver = Locale.IsRussian ? "Драйвер" : "Driver";
+        public static string Version = Locale.IsRussian ? "Версия" : "Version";
         public static string Timeout = Locale.IsRussian ? "Таймаут" : "Timeout";
         public static string Delay = Locale.IsRussian ? "Пауза" : "Delay";
         public static string Period = Locale.IsRussian? "Период" : "Period";

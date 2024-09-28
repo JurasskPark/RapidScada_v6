@@ -25,18 +25,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="FirebirdSql.Data.FirebirdClient">
-	    <HintPath>..\DrvDbImportPlus.Shared\lib\FirebirdSql.Data.FirebirdClient.dll</HintPath>
-	  </Reference>
-	  <Reference Include="MySql.Data">
-	    <HintPath>..\DrvDbImportPlus.Shared\lib\MySql.Data.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Npgsql">
-	    <HintPath>..\DrvDbImportPlus.Shared\lib\Npgsql.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Oracle.ManagedDataAccess">
-	    <HintPath>..\DrvDbImportPlus.Shared\lib\Oracle.ManagedDataAccess.dll</HintPath>
-	  </Reference>
 	  <Reference Include="ScadaCommCommon">
 	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommCommon.dll</HintPath>
 	  </Reference>
@@ -45,12 +33,6 @@
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
 	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.Log.dll</HintPath>
-	  </Reference>
-	  <Reference Include="System.Data.Odbc">
-	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.Odbc.dll</HintPath>
-	  </Reference>
-	  <Reference Include="System.Data.OleDb">
-	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.OleDb.dll</HintPath>
 	  </Reference>
 	  <Reference Include="System.Data.SqlClient">
 	    <HintPath>..\DrvDbImportPlus.Shared\lib\System.Data.SqlClient.dll</HintPath>

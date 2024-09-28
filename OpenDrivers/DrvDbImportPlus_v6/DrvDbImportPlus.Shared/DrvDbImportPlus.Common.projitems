@@ -18,7 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvDbImportPlusConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ElementType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ExportCmd.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\HexOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\FirebirdDataSource.cs" />
@@ -28,8 +27,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\OraDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\PgSqlDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SqlDataSource.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)lib\" />
   </ItemGroup>
 </Project>

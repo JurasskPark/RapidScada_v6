@@ -6,16 +6,10 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	<Version>6.0.0.1</Version>
-	<Authors>Yuriy Pradius</Authors>
-	<Company>Community Rapid Software</Company>
-	<Product>Rapid SCADA</Product>
-	<Copyright>Copyright © 2024</Copyright>
-	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DrvTelnetJP.View\DrvTelnetJP.View.csproj" />
+    <ProjectReference Include="..\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" />
   </ItemGroup>
 
 </Project>

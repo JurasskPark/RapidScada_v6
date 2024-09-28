@@ -48,6 +48,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Автор:  Михаил Ширяев\n" +
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
+                    "Версия 6.3.0.0 (29.09.2024)\n" +
+                    "[+] Переход на библиотеки RapidScada 6.3.0.0 и переход на Net Core 8.0.\n" +
+                    "[+] Добавлена возможность у строковых данных указывать длину, по которой будут автоматически генерировать теги.\n" +
+                    "[v] Обновление бибилотек на более свежие версии Net Core 8.0.\n" +
+                    "[v] Подправление интерфейс под ноутбуки и некоторые недочеты.\n" +
+                    "[-] Удаление источников данных ODBC и OLEDB по причине неактуальности и невозможности использования. \n" +
                     "Версия 6.0.0.6 (14.12.2023)\n" +
                     "[+] Добавлен функционал по отображению и округлению значения на количество знаков после запятой.\n" +
                     "Версия 6.0.0.5 (21.09.2023)\n" +
@@ -83,6 +89,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+                    "Version 6.3.0.0 (09/29/2024)\n" +
+                    "[+] Transition to RapidScada 6.3.0.0 libraries and transition to Net Core 8.0.\n" +
+                    "[+] Added the ability to specify the length of string data that will automatically generate tags.\n" +
+                    "[v] Updating the libraries to newer versions of Net Core 8.0.\n" +
+                    "[v] Improvements to the interface for laptops and some shortcomings.\n" +
+                    "[-] Removal of ODBC and OLEDB data sources due to irrelevance and unusability. \n" +
                     "Version 6.0.0.6 (12/14/2023)\n" +
                     "[+] Added functionality for displaying and rounding values by the number of decimal places.\n" +
                     "Version 6.0.0.5 (09/21/2023)\n" +

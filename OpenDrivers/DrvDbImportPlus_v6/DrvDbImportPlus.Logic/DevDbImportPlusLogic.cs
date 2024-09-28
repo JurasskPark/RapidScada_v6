@@ -2,26 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using DrvDbImportPlus.Common.Configuration;
-using Microsoft.SqlServer.Server;
-using MySqlX.XDevAPI.Relational;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
-using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Queues;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 {
@@ -90,12 +81,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             base.OnCommLineStart();
 
-            LogDriver(Locale.IsRussian ?
-                       "Запуск драйвера" :
-                       "Running the driver");
+            LogDriver(DriverDictonary.StartDriver);
 
-            LogDriver("[Driver " + driverCode + "]");
-            LogDriver("[Version " + DriverUtils.Version + "]");
+            LogDriver("[" + DriverDictonary.Driver + " " + driverCode + "]");
+            LogDriver("[" + DriverDictonary.Version + " " + DriverUtils.Version + "]");
             LogDriver("[" + DriverDictonary.StartDriver + "]");
             LogDriver("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
             LogDriver("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
@@ -448,10 +437,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 Dictionary<object, object> tableResult = new Dictionary<object, object>();
                 List<DeviceTag> findDeviceTags = DeviceTags.ToList();
 
-                for (int index = 0; index < findDeviceTags.Count; ++index)
-                {
+                for (int index = 0; index < findDeviceTags.Count - 1; ++index)
+                {     
                     DeviceTag findTag = findDeviceTags[index];
-                    Tag tmpTag = deviceTags.Where(r => r.TagCode == findTag.Code).FirstOrDefault();
+                    string findCode = findTag.Code;
+                    string findTagname = findTag.Name;
+
+                    if (findTag.DataType == TagDataType.Unicode)
+                    {
+                        findCode = findTag.Code.Substring(0, findTag.Code.LastIndexOf('['));
+                        findTagname = findTag.Name.Substring(0, findTag.Name.LastIndexOf('['));
+                    }
+
+                    Tag tmpTag = deviceTags.Where(r => r.TagCode == findCode).FirstOrDefault();
 
                     if (tmpTag == null || tmpTag.TagEnabled == false)
                     {
@@ -461,7 +459,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     findNumberDecimalPlaces = tmpTag.NumberDecimalPlaces;
                     Tag.FormatTag tmpFormat = (Tag.FormatTag)Enum.Parse(typeof(Tag.FormatTag), tmpTag.TagFormat.ToString());
                     findTag.SetFormat(ConvertFormat(tmpFormat));
-
+                    
                     #region Type Data
                     if (DeviceTagsBasedRequestedTableColumns)
                     {
@@ -538,9 +536,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                         }
                     }
 
-                    object findValue = tableResult.Where(x => x.Key.ToString() == findTag.Code).FirstOrDefault().Value;
+                    object findValue = tableResult.Where(x => x.Key.ToString() == findTagname).FirstOrDefault().Value;
 
-                    Log.WriteLine(@$"{findTag} {findValue} {findNumberDecimalPlaces}");
                     SetTagData(findTag, findValue, findNumberDecimalPlaces);
 
                     #endregion Type Data
@@ -583,7 +580,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
 
             var resultBuilder = new StringBuilder();
-
+            resultBuilder.AppendLine();
             resultBuilder.Append("| ");
 
             foreach (DataColumn column in table.Columns)
@@ -623,62 +620,66 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 }
                 else
                 {
-                    if (val is string strVal)
+                    if (val is string strVal && deviceTag.DataType == TagDataType.Unicode)
                     {
                         try
                         {
-                            LogDriver("######################");
+                            deviceTag.DataType = TagDataType.Unicode;
+                            deviceTag.Format = new TagFormat(TagFormatType.String, "String");
+                            int maxlen = Convert.ToInt32(Math.Ceiling((decimal)numberDecimalPlaces / (decimal)4));
 
-                            //deviceTag.DataType = TagDataType.Unicode;
-                            //deviceTag.Format = new TagFormat(TagFormatType.String, "String");
-                            //int maxlen = Convert.ToInt32(Math.Ceiling((decimal)numberDecimalPlaces / (decimal)4));
-                            ////deviceTag.DataLen = maxlen;
+                            IEnumerable<string> enumVal = Split(val.ToString(), 4);
+                            List<string> lstVal = enumVal.ToList();
+                            double[] arrWords = new double[maxlen];
+                            string[] arrVal = new string[maxlen];
+                            string[] words = new string[maxlen];
 
-                            //IEnumerable<string> enumVal = Split(val.ToString(), 4);
-                            //List<string> lstVal = enumVal.ToList();
+                            for (int i = 0; i <= lstVal.Count - 1; i++)
+                            {
+                                words[i] = lstVal[i].ToString();
+                            }
 
-                            //double[] arrWords = new double[DeviceTags[deviceTag.Code].DataLength];
+                            for (int i = 0; i <= words.Length - 1; i++)
+                            {
+                                if (words[i] == string.Empty || words[i] == null)
+                                {
+                                    words[i] = " ";
+                                }
+                            }
 
-                            //for (int j = 0; j < maxlen; j++)
-                            //{
-                            //    DeviceData.SetUnicode(deviceTag.Code + @$"[{j}]", lstVal[j].ToString(), CnlStatusID.Defined);
-                            //}
-
-
-                            //for (int i = 0; i < arrWords.Length - 1; i++)
-                            //{
-                            //    string s = lstVal[i].ToString();
-                            //    byte[] buf = new byte[8];
-                            //    int len = Math.Min(4, s.Length);
-                            //    Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
-                            //    double word = BitConverter.ToDouble(buf, 0);
-                            //    arrWords[i] = word;
-
-
-                            //}
-
-
-
-                            //DeviceData.SetDoubleArray(deviceTag.Code, arrWords, CnlStatusID.Defined);
-
-                            LogDriver("######################");
-                            //LogDriver(@$"maxlen = {maxlen}");
-                            LogDriver(@$"deviceTag.DataLen = {deviceTag.DataLen}");
-                            LogDriver(@$"deviceTag.Index = {deviceTag.Index}");
-                            LogDriver(@$"deviceTag.Code = {deviceTag.Code}");
-                            LogDriver(@$"deviceTag.DataLength = {deviceTag.DataLength}");
-
-                            //for (int i = 0; i < arrWords.Length - 1; i++)
-                            //{
-                            //    string s = lstVal[i].ToString();
-                            //    DeviceData.SetUnicode(deviceTag.Code + @$"[{i}]", s, CnlStatusID.Defined);
-                            //}
+                            for (int i = 0; i <= arrWords.Length - 1; i++)
+                            {
+                                string s = words[i];
+                                byte[] buf = new byte[8];
+                                int len = Math.Min(4, s.Length);
+                                Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
+                                double word = BitConverter.ToDouble(buf, 0);
+                                arrWords[i] = word;
+                            }
+                            if (!deviceTag.Code.Contains("[") && !deviceTag.Code.Contains("]"))
+                            {
+                                DeviceData.SetDoubleArray(deviceTag.Code, arrWords, CnlStatusID.Defined);
+                            }
+                            else
+                            {
+                                int indexArrWords = Convert.ToInt32(deviceTag.Code.Split('[', ']')[1]);
+                                DeviceData.SetUnicode(deviceTag.Index, words[indexArrWords], CnlStatusID.Defined);
+                            }                          
                         }
                         catch (Exception e) 
                         {
                             LogDriver(e.Message.ToString());
                         }
 
+                    }
+                    else if (val is string strVal2 && deviceTag.DataType == TagDataType.Double)
+                    {
+                        deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString());
+                        try { base.DeviceData.Set(deviceTag.Index, Math.Round(DriverUtils.StringToDouble(val.ToString()), numberDecimalPlaces), CnlStatusID.Defined); }
+                        catch (Exception e)
+                        {
+                            LogDriver(e.Message.ToString());
+                        }
                     }
                     else if (val is DateTime dtVal)
                     {

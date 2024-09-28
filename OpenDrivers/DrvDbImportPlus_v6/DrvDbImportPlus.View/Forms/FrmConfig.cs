@@ -2,7 +2,7 @@
 using FastColoredTextBoxNS;
 using Scada.Comm.Devices;
 using Scada.Comm.Lang;
-using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Forms;
 using Scada.Lang;
 using System.Data;
@@ -472,6 +472,15 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
         }
 
+        /// <summary>
+        /// Close form
+        /// </summary>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
         #endregion Basic
 
         #region Tab Database
@@ -538,9 +547,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 case DataSourceType.MySQL:
                     return MySqlDataSource.BuildMySqlConnectionString(connSettings);
                 //case DataSourceType.OLEDB:
-                    //return OleDbDataSource.BuildOleDbConnectionString(connSettings);
+                //return OleDbDataSource.BuildOleDbConnectionString(connSettings);
                 //case DataSourceType.ODBC:
-                    //return OdbcDataSource.BuildOdbcConnectionString(connSettings);
+                //return OdbcDataSource.BuildOdbcConnectionString(connSettings);
                 case DataSourceType.Firebird:
                     return FirebirdDataSource.BuildFbConnectionString(connSettings);
                 default:
@@ -644,11 +653,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     dataSource = new MySqlDataSource();
                     break;
                 //case DataSourceType.OLEDB:
-                    //dataSource = new OleDbDataSource();
-                    //break;
+                //dataSource = new OleDbDataSource();
+                //break;
                 //case DataSourceType.ODBC:
-                    //dataSource = new OdbcDataSource();
-                    //break;
+                //dataSource = new OdbcDataSource();
+                //break;
                 case DataSourceType.Firebird:
                     dataSource = new FirebirdDataSource();
                     break;
@@ -1478,41 +1487,5 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
         #endregion Tab Settings
 
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string sv = "Оченьдлиннаяфамилиянасорокзнаковаж А.А.";
-            IEnumerable<string> enumVal = Split(sv, 4);
-            List<string> lstVal = enumVal.ToList();
-
-            double[] arrWords = new double[lstVal.Count];
-
-            for (int i = 0; i < lstVal.Count; i++)
-            {
-                string s = lstVal[i].ToString();
-                //byte[] buf = new byte[8];
-                //int len = Math.Min(4, s.Length);
-                //Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
-                //double word = BitConverter.ToDouble(buf, 0);
-                //arrWords[i] = word;
-                //DeviceData.SetUnicode(deviceTag.Index + i, s, CnlStatusID.Defined);
-            }
-
-
-            CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags);
-        }
-
-        static IEnumerable<string> Split(string s, int length)
-        {
-            int i;
-            for (i = 0; i + length < s.Length; i += length)
-            {
-                yield return s.Substring(i, length);
-            }
-            if (i != s.Length)
-            {
-                yield return s.Substring(i, s.Length - i);
-            }
-        }
     }
 }

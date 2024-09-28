@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>disable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -16,16 +16,16 @@
 
 	<ItemGroup>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\..\..\_LIB\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\..\..\_LIB\ScadaCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Forms">
-	    <HintPath>..\..\..\_LIB\ScadaCommon.Forms.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.Forms.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\..\..\_LIB\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

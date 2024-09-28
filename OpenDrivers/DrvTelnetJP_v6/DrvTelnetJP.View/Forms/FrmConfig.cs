@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
 {
