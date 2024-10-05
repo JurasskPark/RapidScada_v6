@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -18,7 +20,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.1.0.2";
+        public const string Version = "6.3.0.0";
 
         /// <summary>
         /// The default filename of the configuration.
@@ -107,5 +109,126 @@ namespace Scada.Comm.Drivers.DrvPingJP
             // if yes, we return true, if not, false
             return IpMatch.IsMatch(Address);
         }
+
+        #region Float String
+
+        public static bool FloatAsTrue(string s)
+        {
+            s = FloatPuttingInOrder(s);
+            if (s.LastIndexOf(".") != -1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static float FloatAsFloat(string s)
+        {
+            return float.Parse(FloatPuttingInOrder(s), CultureInfo.InvariantCulture);
+        }
+
+        public static int FloatToInteger(string s)
+        {
+            string[] parts = FloatPuttingInOrder(s).Split('.');
+            return Convert.ToInt32(parts[0]);
+        }
+
+        public static int FloatToFractionalNumber(string s)
+        {
+            string[] parts = FloatPuttingInOrder(s).Split('.');
+            if (parts.Length == 1)
+            {
+                return 0;
+            }
+            return Convert.ToInt32(parts[1]);
+        }
+
+        public static int FloatToFractionalNumber(string s, out int startBit, out int endBit, out int countBit)
+        {
+            startBit = 0;
+            endBit = 0;
+            countBit = 0;
+
+            string[] parts = FloatPuttingInOrder(s).Split('.');
+            if (parts.Length == 1)
+            {
+                return Convert.ToInt32(parts[0]);
+            }
+            string[] parts2 = parts[1].Split("-");
+            if (parts2.Length == 1)
+            {
+                startBit = Convert.ToInt32(parts[1]);
+                countBit = 1;
+                return Convert.ToInt32(parts[0]);
+            }
+            startBit = Convert.ToInt32(parts2[0]);
+            endBit = Convert.ToInt32(parts2[1]);
+            countBit = endBit - startBit;
+            return Convert.ToInt32(parts[0]);
+        }
+
+        private static string FloatPuttingInOrder(string s)
+        {
+            s = s.Replace(",", ".").Trim();
+            return s;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        struct FloatUnion
+        {
+            [FieldOffset(0)]
+            public float value;
+
+            [FieldOffset(0)]
+            public int binary;
+        }
+
+        public static bool IsNaN(float f)
+        {
+            FloatUnion union = new FloatUnion();
+            union.value = f;
+
+            return ((union.binary & 0x7F800000) == 0x7F800000) && ((union.binary & 0x007FFFFF) != 0);
+        }
+
+        #endregion Float String
+
+        #region Double String
+
+        public static double DoubleAsDouble(string s)
+        {
+            try
+            {
+                return double.Parse(DoublePuttingInOrder(s), CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                return double.NaN;
+            }
+        }
+
+        private static string DoublePuttingInOrder(string s)
+        {
+            s = s.Replace(",", ".").Trim();
+            return s;
+        }
+
+        public static double StringToDouble(string s) // Позволяет в строке вводить дробные числа с ,(запятой) или .(точкой)
+        {
+            double result = 1;
+            if (!double.TryParse(s, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.GetCultureInfo("ru-RU"), out result))
+            {
+                if (!double.TryParse(s, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.GetCultureInfo("en-US"), out result))
+                {
+                    return 1;
+                }
+            }
+            return result;
+        }
+
+        #endregion Double String
     }
 }

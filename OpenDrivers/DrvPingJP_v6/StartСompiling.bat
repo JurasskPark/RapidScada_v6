@@ -1,10 +1,10 @@
 @ECHO OFF
+cd /d "%~dp0"
 ===================
 ECHO TASKKILL ScadaAdmin
 taskkill /im ScadaAdmin.exe /F
 ===================
 ECHO BUILDING...
-
 set msbuild="C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe"
 ===================
 ECHO COMPILE...

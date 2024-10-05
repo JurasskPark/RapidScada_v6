@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<Nullable>disable</Nullable>
 		<UseWindowsForms>false</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvPing.Logic</RootNamespace>
-		<Version>6.1.0.2</Version>
+		<Version>6.1.0.3</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>

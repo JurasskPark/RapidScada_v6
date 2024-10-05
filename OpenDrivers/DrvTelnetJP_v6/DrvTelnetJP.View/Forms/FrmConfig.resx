@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -139,7 +139,7 @@
   <data name="cmnuListTagAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAAiNJREFUOE+dk8tPE1EUxs/OR6LR4OMf4D9wIQZdGzfEROPGx8oE7E6NQalQWyi1
+        vQAADr0BR/uQrQAAAiNJREFUOE+dk8tPE1EUxs/OR6LR4OMf4D9wIQZdGzfEROPGx8oE7E6NQalQWyi1
         ZWgHbZUCbYxGXZi4MFJ8oNWEVEJqQsS40SJDBzRS044wbYMtn/fcKUpjgISTfDn33pzfd8+5k6Et9sEn
         e13PsNs5hF3OmMhry6oZAjPM0h6xiI5nEX6fkepbR8t1zDBLOxwxxFIm9kc+o07owDriGq5lhlnaenUQ
         Gw1mabP9qdxok1+ga5NIT08JTUNPp6HrepXS4kzTNEylUpJh9q/B3KyOGlsc8VfD8Pq60dF5HW3X2nGl
@@ -183,7 +183,7 @@
   <data name="cmnuTagAllDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAAjFJREFUOE+dk11IU2EYx89dH1AU9nFZlBddFgpOEcGbkEKCMI1qFlRU3kRFgt9N
+        vQAADr0BR/uQrQAAAjFJREFUOE+dk11IU2EYx89dH1AU9nFZlBddFgpOEcGbkEKCMI1qFlRU3kRFgt9N
         Xbo55yyllthdRbeR08KSbqTaBIkoMCfOLY0cbEvPNue2X+97NssRJviHP897Xp7f/zzvezjKlrqBF3ub
         h9htGGSXwSHq/53qGUQyklX2iMXj8QD2Mb/mR+t4pU8yklV2NDlwuFXy+r+hE85fx7JH9kpGssrW+gE2
         Kskqm+teag+eqUl8nim8M9PCM/i8Xnw+X4a9Ys/j8TDtdmuMZP8EzM/6yKoaYeTNMCZzJ61322m800JN

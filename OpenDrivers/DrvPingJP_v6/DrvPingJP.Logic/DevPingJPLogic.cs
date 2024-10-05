@@ -1,9 +1,9 @@
-﻿using DrvOPCClassicJP.Shared;
-using Scada.Comm.Config;
+﻿using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvPingJP;
 using Scada.Data.Models;
 using Scada.Lang;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -50,6 +50,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             this.networkInformation.OnDebugTag = new NetworkInformation.DebugTag(DebugerTag);
             this.networkInformation.OnDebugTags = new NetworkInformation.DebugTags(DebugerTags);
 
+
             string shortFileName = DrvPingJPConfig.GetFileName(deviceNum);
             configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
             
@@ -80,8 +81,8 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             DebugerLog("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
             DebugerLog("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
             DebugerLog("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
+            DebugerLog("[" + DriverDictonary.CulturеName + "][" + DriverUtils.NullToString(CultureInfo.CurrentCulture.Name) + "]");
         }
-
 
         /// <summary>
         /// Performs actions when terminating a communication line.

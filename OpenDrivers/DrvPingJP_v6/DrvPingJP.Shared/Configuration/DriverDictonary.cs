@@ -1,6 +1,6 @@
 ﻿using Scada.Lang;
 
-namespace DrvOPCClassicJP.Shared
+namespace Scada.Comm.Drivers.DrvPingJP
 {
     public static class DriverDictonary
     {
@@ -8,6 +8,7 @@ namespace DrvOPCClassicJP.Shared
         public static string Timeout = Locale.IsRussian ? "Таймаут" : "Timeout";
         public static string Delay = Locale.IsRussian ? "Пауза" : "Delay";
         public static string Period = Locale.IsRussian? "Период" : "Period";
+        public static string CulturеName = Locale.IsRussian ? "Название культуры" : "Culturе Name";
 
         public static string ProjectName = Locale.IsRussian ? "Проект" : "Project";
         public static string ProjectNo = Locale.IsRussian ?

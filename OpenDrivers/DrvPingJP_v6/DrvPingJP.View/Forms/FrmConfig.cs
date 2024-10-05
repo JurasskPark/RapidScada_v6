@@ -1,17 +1,16 @@
 ﻿using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 {
     /// <summary>
     /// Device configuration form.
-    /// <para>Форма настройки конфигурации КП.</para>
+    /// <para>Форма настройки конфигурации.</para>
     /// </summary>
     public partial class FrmConfig : Form
     {
@@ -93,7 +92,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(cmnuLstTags, GetType().FullName);
 
-            Text = string.Format(Text, deviceNum);
+            Text = string.Format(Text, deviceNum, DriverUtils.Version);
 
             // load a configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))

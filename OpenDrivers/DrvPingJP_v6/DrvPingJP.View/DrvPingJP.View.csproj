@@ -1,17 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>disable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvPing.View</RootNamespace>
-		<Version>6.1.0.2</Version>
+		<Version>6.1.0.3</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>
 		<Copyright>Copyright © 2024</Copyright>
 		<LangVersion>preview</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	</PropertyGroup>
 
 	<ItemGroup>

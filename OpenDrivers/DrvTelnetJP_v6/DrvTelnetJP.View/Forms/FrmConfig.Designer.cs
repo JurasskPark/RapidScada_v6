@@ -215,12 +215,12 @@
             // clmTagIPAddressPort
             // 
             clmTagIPAddressPort.Text = "IP Address : Port";
-            clmTagIPAddressPort.Width = 110;
+            clmTagIPAddressPort.Width = 250;
             // 
             // clmTagEnabled
             // 
             clmTagEnabled.Text = "Enabled";
-            clmTagEnabled.Width = 80;
+            clmTagEnabled.Width = 100;
             // 
             // cmnuLstTags
             // 
@@ -356,7 +356,7 @@
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Telnet JP - Device {0} Properties";
+            Text = "Telnet JP - Device {0} Properties Version {1}";
             FormClosing += FrmConfig_FormClosing;
             Load += FrmConfig_Load;
             Shown += FrmConfig_Shown;

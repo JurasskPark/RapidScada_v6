@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+	<RootNamespace>DrvPingJP.Console</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrvPingJP.Logic\DrvPingJP.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\..\..\..\..\..\SCADA_6\ScadaAdmin\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\..\..\..\SCADA_6\ScadaComm\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\..\..\..\SCADA_6\ScadaComm\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="..\DrvPingJP.Shared\DrvPing.Shared.projitems" Label="Shared" />
+
+</Project>

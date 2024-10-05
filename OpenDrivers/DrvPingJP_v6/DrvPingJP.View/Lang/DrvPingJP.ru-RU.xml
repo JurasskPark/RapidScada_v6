@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvPingJPDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig">
-    <Phrase key="this">Пинг JP - Свойства драйвера {0}</Phrase>
+    <Phrase key="this">Пинг JP - Свойства драйвера {0} Версия {1}</Phrase>
 	<Phrase key="pageSettings">Настройки</Phrase>
 	<Phrase key="gbLog">Лог</Phrase>
 	<Phrase key="cbLog">Записывать логи</Phrase>

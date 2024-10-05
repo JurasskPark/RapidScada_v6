@@ -43,6 +43,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                 return Locale.IsRussian ?
                     "Автор: Юрий Прадиус\n" +
                     "Проверка доступности сетевых устройств.\n\n" +
+                    "Версия 6.3.0.0 (05.10.2024)\n" +
+                    "[v] Переход с Net Core 6.0 на 8.0. \n" +
                     "Версия 6.1.0.2 (15.03.2024)\n" +
                     "[v] Изменены иконки на форме. \n" +
                     "Версия 6.1.0.1 (16.01.2024)\n" +
@@ -66,6 +68,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                     :
                     "Author: Yuri Pradius\n" +
                     "Checking the availability of network devices.\n\n" +
+                    "Version 6.3.0.0 (09/10/2024)\n" +
+                    "[v] Switching from Net Core 6.0 to 8.0. \n" +
                     "Version 6.1.0.2 (03/15/2024)\n" +
                     "[v] Changed icons on the form.\n" +
                     "Version 6.1.0.1 (01/16/2023)\n" +

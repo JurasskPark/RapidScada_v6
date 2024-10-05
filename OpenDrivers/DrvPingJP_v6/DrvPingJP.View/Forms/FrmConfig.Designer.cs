@@ -122,10 +122,10 @@
             tabControl.Controls.Add(pageSettings);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Location = new Point(0, 0);
-            tabControl.Margin = new Padding(4, 3, 4, 3);
+            tabControl.Margin = new Padding(6, 5, 6, 5);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(657, 497);
+            tabControl.Size = new Size(939, 829);
             tabControl.TabIndex = 0;
             // 
             // pageSettings
@@ -133,10 +133,10 @@
             pageSettings.Controls.Add(gbMode);
             pageSettings.Controls.Add(gbLog);
             pageSettings.Controls.Add(gpbTags);
-            pageSettings.Location = new Point(4, 24);
-            pageSettings.Margin = new Padding(4, 3, 4, 3);
+            pageSettings.Location = new Point(4, 34);
+            pageSettings.Margin = new Padding(6, 5, 6, 5);
             pageSettings.Name = "pageSettings";
-            pageSettings.Size = new Size(649, 469);
+            pageSettings.Size = new Size(931, 791);
             pageSettings.TabIndex = 3;
             pageSettings.Text = "Settings";
             pageSettings.UseVisualStyleBackColor = true;
@@ -146,9 +146,11 @@
             gbMode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gbMode.Controls.Add(rdbPingAsync);
             gbMode.Controls.Add(rdbPingSync);
-            gbMode.Location = new Point(323, 3);
+            gbMode.Location = new Point(461, 5);
+            gbMode.Margin = new Padding(4, 5, 4, 5);
             gbMode.Name = "gbMode";
-            gbMode.Size = new Size(316, 48);
+            gbMode.Padding = new Padding(4, 5, 4, 5);
+            gbMode.Size = new Size(451, 80);
             gbMode.TabIndex = 17;
             gbMode.TabStop = false;
             gbMode.Text = "Mode";
@@ -156,9 +158,10 @@
             // rdbPingAsync
             // 
             rdbPingAsync.AutoSize = true;
-            rdbPingAsync.Location = new Point(116, 22);
+            rdbPingAsync.Location = new Point(166, 37);
+            rdbPingAsync.Margin = new Padding(4, 5, 4, 5);
             rdbPingAsync.Name = "rdbPingAsync";
-            rdbPingAsync.Size = new Size(101, 19);
+            rdbPingAsync.Size = new Size(150, 29);
             rdbPingAsync.TabIndex = 15;
             rdbPingAsync.TabStop = true;
             rdbPingAsync.Text = "Asynchronous";
@@ -168,9 +171,10 @@
             // rdbPingSync
             // 
             rdbPingSync.AutoSize = true;
-            rdbPingSync.Location = new Point(16, 22);
+            rdbPingSync.Location = new Point(23, 37);
+            rdbPingSync.Margin = new Padding(4, 5, 4, 5);
             rdbPingSync.Name = "rdbPingSync";
-            rdbPingSync.Size = new Size(94, 19);
+            rdbPingSync.Size = new Size(139, 29);
             rdbPingSync.TabIndex = 14;
             rdbPingSync.TabStop = true;
             rdbPingSync.Text = "Synchronous";
@@ -180,9 +184,11 @@
             // gbLog
             // 
             gbLog.Controls.Add(cbLog);
-            gbLog.Location = new Point(7, 3);
+            gbLog.Location = new Point(10, 5);
+            gbLog.Margin = new Padding(4, 5, 4, 5);
             gbLog.Name = "gbLog";
-            gbLog.Size = new Size(307, 48);
+            gbLog.Padding = new Padding(4, 5, 4, 5);
+            gbLog.Size = new Size(439, 80);
             gbLog.TabIndex = 16;
             gbLog.TabStop = false;
             gbLog.Text = "Log";
@@ -190,9 +196,10 @@
             // cbLog
             // 
             cbLog.AutoSize = true;
-            cbLog.Location = new Point(17, 22);
+            cbLog.Location = new Point(24, 37);
+            cbLog.Margin = new Padding(4, 5, 4, 5);
             cbLog.Name = "cbLog";
-            cbLog.Size = new Size(79, 19);
+            cbLog.Size = new Size(119, 29);
             cbLog.TabIndex = 13;
             cbLog.Text = "Write logs";
             cbLog.UseVisualStyleBackColor = true;
@@ -202,11 +209,11 @@
             // 
             gpbTags.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gpbTags.Controls.Add(tlpTags);
-            gpbTags.Location = new Point(7, 57);
-            gpbTags.Margin = new Padding(4, 3, 4, 3);
+            gpbTags.Location = new Point(10, 95);
+            gpbTags.Margin = new Padding(6, 5, 6, 5);
             gpbTags.Name = "gpbTags";
-            gpbTags.Padding = new Padding(12, 3, 12, 12);
-            gpbTags.Size = new Size(632, 400);
+            gpbTags.Padding = new Padding(17, 5, 17, 20);
+            gpbTags.Size = new Size(903, 668);
             gpbTags.TabIndex = 12;
             gpbTags.TabStop = false;
             gpbTags.Text = "Tags";
@@ -217,11 +224,12 @@
             tlpTags.ColumnCount = 1;
             tlpTags.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 73.5955F));
             tlpTags.Controls.Add(lstTags, 0, 0);
-            tlpTags.Location = new Point(14, 22);
+            tlpTags.Location = new Point(20, 37);
+            tlpTags.Margin = new Padding(4, 5, 4, 5);
             tlpTags.Name = "tlpTags";
             tlpTags.RowCount = 1;
             tlpTags.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpTags.Size = new Size(603, 363);
+            tlpTags.Size = new Size(861, 606);
             tlpTags.TabIndex = 1;
             // 
             // lstTags
@@ -232,10 +240,11 @@
             lstTags.ContextMenuStrip = cmnuLstTags;
             lstTags.FullRowSelect = true;
             lstTags.GridLines = true;
-            lstTags.Location = new Point(3, 3);
+            lstTags.Location = new Point(4, 5);
+            lstTags.Margin = new Padding(4, 5, 4, 5);
             lstTags.MultiSelect = false;
             lstTags.Name = "lstTags";
-            lstTags.Size = new Size(597, 357);
+            lstTags.Size = new Size(853, 596);
             lstTags.TabIndex = 2;
             lstTags.UseCompatibleStateImageBehavior = false;
             lstTags.View = System.Windows.Forms.View.Details;
@@ -265,15 +274,16 @@
             // 
             // cmnuLstTags
             // 
+            cmnuLstTags.ImageScalingSize = new Size(24, 24);
             cmnuLstTags.Items.AddRange(new ToolStripItem[] { cmnuTagAdd, cmnuListTagAdd, cmnuSeparator01, cmnuTagChange, cmnuSeparator02, cmnuTagDelete, cmnuTagAllDelete, cmnuSeparator03, cmnuUp, cmnuDown });
             cmnuLstTags.Name = "cmnuSelectQuery";
-            cmnuLstTags.Size = new Size(155, 176);
+            cmnuLstTags.Size = new Size(216, 246);
             // 
             // cmnuTagAdd
             // 
             cmnuTagAdd.Image = (Image)resources.GetObject("cmnuTagAdd.Image");
             cmnuTagAdd.Name = "cmnuTagAdd";
-            cmnuTagAdd.Size = new Size(154, 22);
+            cmnuTagAdd.Size = new Size(215, 32);
             cmnuTagAdd.Text = "Add Tag";
             cmnuTagAdd.Click += cmnuTagAdd_Click;
             // 
@@ -281,33 +291,33 @@
             // 
             cmnuListTagAdd.Image = (Image)resources.GetObject("cmnuListTagAdd.Image");
             cmnuListTagAdd.Name = "cmnuListTagAdd";
-            cmnuListTagAdd.Size = new Size(154, 22);
+            cmnuListTagAdd.Size = new Size(215, 32);
             cmnuListTagAdd.Text = "Add list of Tags";
             cmnuListTagAdd.Click += cmnuListTagAdd_Click;
             // 
             // cmnuSeparator01
             // 
             cmnuSeparator01.Name = "cmnuSeparator01";
-            cmnuSeparator01.Size = new Size(177, 6);
+            cmnuSeparator01.Size = new Size(212, 6);
             // 
             // cmnuTagChange
             // 
             cmnuTagChange.Image = (Image)resources.GetObject("cmnuTagChange.Image");
             cmnuTagChange.Name = "cmnuTagChange";
-            cmnuTagChange.Size = new Size(154, 22);
+            cmnuTagChange.Size = new Size(215, 32);
             cmnuTagChange.Text = "Change Tag";
             cmnuTagChange.Click += cmnuTagChange_Click;
             // 
             // cmnuSeparator02
             // 
             cmnuSeparator02.Name = "cmnuSeparator02";
-            cmnuSeparator02.Size = new Size(177, 6);
+            cmnuSeparator02.Size = new Size(212, 6);
             // 
             // cmnuTagDelete
             // 
             cmnuTagDelete.Image = (Image)resources.GetObject("cmnuTagDelete.Image");
             cmnuTagDelete.Name = "cmnuTagDelete";
-            cmnuTagDelete.Size = new Size(154, 22);
+            cmnuTagDelete.Size = new Size(215, 32);
             cmnuTagDelete.Text = "Delete Tag";
             cmnuTagDelete.Click += cmnuTagDelete_Click;
             // 
@@ -315,20 +325,20 @@
             // 
             cmnuTagAllDelete.Image = (Image)resources.GetObject("cmnuTagAllDelete.Image");
             cmnuTagAllDelete.Name = "cmnuTagAllDelete";
-            cmnuTagAllDelete.Size = new Size(154, 22);
+            cmnuTagAllDelete.Size = new Size(215, 32);
             cmnuTagAllDelete.Text = "Delete all Tags";
             cmnuTagAllDelete.Click += cmnuTagAllDelete_Click;
             // 
             // cmnuSeparator03
             // 
             cmnuSeparator03.Name = "cmnuSeparator03";
-            cmnuSeparator03.Size = new Size(177, 6);
+            cmnuSeparator03.Size = new Size(212, 6);
             // 
             // cmnuUp
             // 
             cmnuUp.Image = (Image)resources.GetObject("cmnuUp.Image");
             cmnuUp.Name = "cmnuUp";
-            cmnuUp.Size = new Size(154, 22);
+            cmnuUp.Size = new Size(215, 32);
             cmnuUp.Text = "Up";
             cmnuUp.Click += cmnuUp_Click;
             // 
@@ -336,7 +346,7 @@
             // 
             cmnuDown.Image = (Image)resources.GetObject("cmnuDown.Image");
             cmnuDown.Name = "cmnuDown";
-            cmnuDown.Size = new Size(154, 22);
+            cmnuDown.Size = new Size(215, 32);
             cmnuDown.Text = "Down";
             cmnuDown.Click += cmnuDown_Click;
             // 
@@ -345,20 +355,20 @@
             pnlBottom.Controls.Add(btnClose);
             pnlBottom.Controls.Add(btnSave);
             pnlBottom.Dock = DockStyle.Bottom;
-            pnlBottom.Location = new Point(0, 497);
-            pnlBottom.Margin = new Padding(4, 3, 4, 3);
+            pnlBottom.Location = new Point(0, 829);
+            pnlBottom.Margin = new Padding(6, 5, 6, 5);
             pnlBottom.Name = "pnlBottom";
-            pnlBottom.Size = new Size(657, 47);
+            pnlBottom.Size = new Size(939, 78);
             pnlBottom.TabIndex = 1;
             // 
             // btnClose
             // 
             btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnClose.DialogResult = DialogResult.Cancel;
-            btnClose.Location = new Point(556, 7);
-            btnClose.Margin = new Padding(4, 3, 4, 3);
+            btnClose.Location = new Point(794, 12);
+            btnClose.Margin = new Padding(6, 5, 6, 5);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(88, 27);
+            btnClose.Size = new Size(126, 45);
             btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
@@ -367,10 +377,10 @@
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSave.Location = new Point(461, 7);
-            btnSave.Margin = new Padding(4, 3, 4, 3);
+            btnSave.Location = new Point(659, 12);
+            btnSave.Margin = new Padding(6, 5, 6, 5);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(88, 27);
+            btnSave.Size = new Size(126, 45);
             btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
@@ -383,21 +393,21 @@
             // 
             // FrmConfig
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnClose;
-            ClientSize = new Size(657, 544);
+            ClientSize = new Size(939, 907);
             Controls.Add(tabControl);
             Controls.Add(pnlBottom);
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(6, 5, 6, 5);
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new Size(673, 583);
+            MinimumSize = new Size(952, 934);
             Name = "FrmConfig";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Ping JP - Device {0} Properties";
+            Text = "Ping JP - Device {0} Properties Version {1}";
             FormClosing += FrmConfig_FormClosing;
             Load += FrmConfig_Load;
             Shown += FrmConfig_Shown;

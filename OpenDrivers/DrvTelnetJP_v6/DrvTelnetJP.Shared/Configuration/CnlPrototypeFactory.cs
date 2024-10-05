@@ -22,7 +22,9 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
 
             for (int i = 0; i < deviceTags.Count; i++)
             {
-                group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).SetFormat(FormatCode.OffOn);
+                bool tmpTagEnable = deviceTags[i].TagEnabled;
+
+                group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).SetFormat(FormatCode.OffOn).Configure(cnl => cnl.Active = tmpTagEnable);
             }
         
             groups.Add(group);

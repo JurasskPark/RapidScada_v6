@@ -67,6 +67,9 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
             deviceTags = new List<Tag>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public FrmConfig(string configFileName)
             : this()
         {
