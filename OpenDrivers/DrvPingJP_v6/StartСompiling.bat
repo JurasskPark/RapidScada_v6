@@ -30,9 +30,9 @@ NET STOP ScadaServer6
 taskkill /IM ScadaServerWkr.exe /F
 ===================
 ECHO COPYING FILES...
-IF EXIST ".\DrvPingJP.Logic\bin\Release\net6.0-windows\*.dll" COPY ".\DrvPingJP.Logic\bin\Release\net6.0-windows\*.dll" "C:\SCADA_6\ScadaComm\Drv\*.dll" /Y
-IF EXIST ".\DrvPingJP.View\bin\Release\net6.0-windows\*.dll" COPY ".\DrvPingJP.View\bin\Release\net6.0-windows\*.dll" "C:\SCADA_6\ScadaAdmin\Lib\*.dll" /Y
-IF EXIST ".\DrvPingJP.View\bin\Release\net6.0-windows\Lang\*.xml" COPY ".\DrvPingJP.View\bin\Release\net6.0-windows\Lang\*.xml" "C:\SCADA_6\ScadaAdmin\Lang\*.xml" /Y
+IF EXIST ".\DrvPingJP.Logic\bin\Release\net8.0\*.dll" COPY ".\DrvPingJP.Logic\bin\Release\net8.0\*.dll" "C:\Program Files\SCADA\ScadaComm\Drv\*.dll" /Y
+IF EXIST ".\DrvPingJP.View\bin\Release\net8.0-windows\*.dll" COPY ".\DrvPingJP.View\bin\Release\net8.0-windows\*.dll" "C:\Program Files\SCADA\ScadaAdmin\Lib\*.dll" /Y
+IF EXIST ".\DrvPingJP.View\bin\Release\net8.0-windows\Lang\*.xml" COPY ".\DrvPingJP.View\bin\Release\net8.0-windows\Lang\*.xml" "C:\Program Files\SCADA\ScadaAdmin\Lang\*.xml" /Y
 ===================
 ECHO SERVICE START
 NET START ScadaAgent6
@@ -40,7 +40,7 @@ NET START ScadaComm6
 NET START ScadaServer6
 ===================
 ECHO START APP
-"C:\SCADA_6\ScadaAdmin\ScadaAdmin.exe"
+"C:\Program Files\SCADA\ScadaAdmin\ScadaAdmin.exe"
 
 
 

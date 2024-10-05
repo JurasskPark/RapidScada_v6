@@ -19,16 +19,16 @@
 
 	<ItemGroup>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommon.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Forms">
-	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommon.Forms.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.Forms.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\DrvPingJP.Shared\dll\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
