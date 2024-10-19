@@ -5,6 +5,10 @@
 	
 ### ExtTrendJP
 
+Библиотека ExtTrendJP (6.3.0.1)
+- Исправление ошибок в графическом оформлении библиотеки.
+Библиотека ExtTrendJP (6.3.0.0)
+- Переход с Net Core 6.0 на Net Core 8.0.
 Библиотека ExtTrendJP (6.1.1.3)
 - Исправление небольших недочетов и ошибки с изменением свойств архива.
 Библиотека ExtTrendJP (6.1.1.2)
@@ -14,6 +18,10 @@
 - Релиз.
 ---------------------------------------------------------------------------
 
+ExtTrendJP Library (6.3.0.1)
+- Correction of errors in the library's graphic design.
+ExtTrendJP Library (6.3.0.0)
+- Migration from Net Core 6.0 to Net Core 8.0.
 ExtTrendJP  library (6.1.1.3)
 - Correction of minor bugs and errors with changing archive properties.
 ExtTrendJP  library (6.1.1.2)
