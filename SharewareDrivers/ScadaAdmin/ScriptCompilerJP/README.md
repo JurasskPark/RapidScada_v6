@@ -4,11 +4,15 @@
 
 	
 ### ExtScriptCompilerJP
-
+Библиотека ExtScriptCompilerJP (6.3.0.1)
+- Переход с Net Core 6.0 на Net Core 8.0.
+- Добавлена возможность добавлять библиотеки и прописывать необходимые пространства имен.
 Библиотека ExtScriptCompilerJP (6.1.1.6)
 - Релиз.
 ---------------------------------------------------------------------------
-
+ExtScriptCompilerJP library (6.3.0.1)
+- Migration from Net Core 6.0 to Net Core 8.0.
+- Added the ability to add libraries and register the necessary namespaces.
 ExtScriptCompilerJP library (6.1.1.6)
 - Release.
 
