@@ -4,6 +4,9 @@
 
 	
 ### ExtScriptCompilerJP
+Библиотека ExtScriptCompilerJP (6.3.0.4)
+- Добавлена подсветка ошибки и указания номера строки.
+
 Библиотека ExtScriptCompilerJP (6.3.0.3)
 - Добавлено отображение параметров в методах.
 - Исправлены ошибки и недочеты.
@@ -15,6 +18,9 @@
 Библиотека ExtScriptCompilerJP (6.1.1.6)
 - Релиз.
 ---------------------------------------------------------------------------
+ExtScriptCompilerJP library (6.3.0.4)
+- Added error highlighting and line number indication.
+
 ExtScriptCompilerJP library (6.3.0.3)
 - Added parameter mapping in methods.
 - Fixed bugs and bugs.
@@ -32,3 +38,4 @@ Screenshots
 ![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_000.png)
 ![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_001.png)
 ![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_002.png)
+![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_003.png)
