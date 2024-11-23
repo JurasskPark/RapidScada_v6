@@ -68,7 +68,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
             }
 
             List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
-            List<CnlPrototypeGroup> cnlPrototypeGroups = CnlPrototypeFactory.GetCnlPrototypeGroups(config.DeviceTags);
+            List<CnlPrototypeGroup> cnlPrototypeGroups = CnlPrototypeFactory.GetCnlPrototypeGroups(config.DeviceTags, config.ExportCmds);
             cnlPrototypes = cnlPrototypeGroups.GetCnlPrototypes();
 
             for (int i = 0; i < cnlPrototypes.Count; i++)

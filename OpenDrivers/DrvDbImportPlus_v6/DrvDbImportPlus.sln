@@ -9,40 +9,26 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDbImportPlus.Shared", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImportPlus.View", "DrvDbImportPlus.View\DrvDbImportPlus.View.csproj", "{2F7C2995-B033-4DF2-9FD2-512A074B17C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImportPlus.Winform", "..\..\..\..\..\GitHub\RapidScada_v6\OpenDrivers\DrvDbImportPlus_v6\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj", "{8041868C-7BFF-4681-A7FF-A89085EEF97A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImportPlus.Winform", "DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj", "{E81A6350-33BA-43F6-B018-47757A2F0F4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|x86.ActiveCfg = Debug|x86
-		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|x86.Build.0 = Debug|x86
 		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|x86.ActiveCfg = Release|Any CPU
-		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|x86.Build.0 = Release|Any CPU
 		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|x86.Build.0 = Debug|Any CPU
 		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|x86.ActiveCfg = Release|Any CPU
-		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|x86.Build.0 = Release|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Debug|x86.Build.0 = Debug|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Release|x86.ActiveCfg = Release|Any CPU
-		{8041868C-7BFF-4681-A7FF-A89085EEF97A}.Release|x86.Build.0 = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,7 +39,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{2f7c2995-b033-4df2-9fd2-512a074b17c6}*SharedItemsImports = 5
 		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{71cbb5f0-d4e7-45f2-bcd9-24bc4f2a37a2}*SharedItemsImports = 5
-		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{8041868c-7bff-4681-a7ff-a89085eef97a}*SharedItemsImports = 5
 		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{9181751b-7e14-4a27-aac0-8ae7df4698a7}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Data.Common;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
@@ -50,13 +50,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
             SqlCommand sqlCmd = (SqlCommand)cmd;
             sqlCmd.Parameters.AddWithValue(paramName, value);
-            //IDbDataParameter dp;
-            //dp = cmd.CreateParameter();
-            //dp.ParameterName = paramName;
-            //dp.Value = value;
-            //cmd.Parameters.Add(dp);
 
-            //SqlCommand sqlCmd = (SqlCommand)cmd;
         }
 
         /// <summary>

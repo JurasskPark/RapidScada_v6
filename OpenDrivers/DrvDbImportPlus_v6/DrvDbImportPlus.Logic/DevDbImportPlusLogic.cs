@@ -13,6 +13,8 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 {
@@ -34,6 +36,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         private string configFileName;                          // the configuration file name
 
         private List<Tag> deviceTags;                           // tags
+        private List<ExportCmd> deviceCommands;                 // commands
 
         public DataSource dataSource;                           // the data source
 
@@ -81,10 +84,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             base.OnCommLineStart();
 
-            LogDriver(DriverDictonary.StartDriver);
+            LogDriver(Locale.IsRussian ?
+                       "Запуск драйвера" :
+                       "Running the driver");
 
-            LogDriver("[" + DriverDictonary.Driver + " " + driverCode + "]");
-            LogDriver("[" + DriverDictonary.Version + " " + DriverUtils.Version + "]");
+            LogDriver("[Driver " + driverCode + "]");
+            LogDriver("[Version " + DriverUtils.Version + "]");
             LogDriver("[" + DriverDictonary.StartDriver + "]");
             LogDriver("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
             LogDriver("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
@@ -125,8 +130,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             if (config.Load(configFileName, out string errMsg))
             {
                 deviceTags = config.DeviceTags;
+                deviceCommands = config.ExportCmds;
 
-                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags))
+                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags, deviceCommands))
                 {
                     DeviceTags.AddGroup(group.ToTagGroup());
                 }
@@ -420,7 +426,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         }
 
         /// <summary>
-        /// 
+        /// Parsing a table to search for tags
         /// </summary>
         /// <param name="dtData">DataTable</param>
         /// <param name="DeviceTagsBasedRequestedTableColumns">Tag based Columns or Row</param>
@@ -442,7 +448,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     DeviceTag findTag = findDeviceTags[index];
                     string findCode = findTag.Code;
                     string findTagname = findTag.Name;
-
+                   
                     if (findTag.DataType == TagDataType.Unicode)
                     {
                         findCode = findTag.Code.Substring(0, findTag.Code.LastIndexOf('['));
@@ -543,10 +549,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     #endregion Type Data
                 }
             }
-            catch (Exception ex)
-            {
-                LogDriver(ex.ToString());
-            }
+            catch { }
         }
 
         /// <summary>
@@ -580,7 +583,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
 
             var resultBuilder = new StringBuilder();
-            resultBuilder.AppendLine();
+
             resultBuilder.Append("| ");
 
             foreach (DataColumn column in table.Columns)
@@ -614,6 +617,17 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         {
             try
             {
+                LogDriver("##########");
+                LogDriver(string.Format(Locale.IsRussian ? "Тип данных: {0}" : "Data type: {0}", deviceTag.DataType.ToString()));
+                LogDriver(string.Format(Locale.IsRussian ? "Значение: {0}" : "Value: {0}", val.ToString()));
+                LogDriver(string.Format(Locale.IsRussian ? "Количество знаков после запятой или количество букв в слове: {0}" : "The number of decimal places or the number of letters in a word: {0}", numberDecimalPlaces.ToString()));     
+                LogDriver(string.Format(Locale.IsRussian ? "Номер индекса: {0}" : "Index number: {0}", deviceTag.Index.ToString()));
+                LogDriver(string.Format(Locale.IsRussian ? "Код тега: {0}" : "Tag code: {0}", deviceTag.Code));
+                LogDriver(string.Format(Locale.IsRussian ? "Длина данных: {0}" : "Data length: {0}", deviceTag.DataLength.ToString()));
+                LogDriver(string.Format(Locale.IsRussian ? "Количество элементов данных, хранящихся в значении тега: {0}" : "Data elements stored in the tag value: {0}", deviceTag.DataLen.ToString()));
+
+                LogDriver("##########");
+
                 if (val == DBNull.Value || val == null)
                 {
                     DeviceData.Invalidate(deviceTag.Index);
@@ -638,8 +652,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                             {
                                 words[i] = lstVal[i].ToString();
                             }
-
-                            for (int i = 0; i <= words.Length - 1; i++)
+                            
+                            for(int i = 0; i <= words.Length - 1; i++)
                             {
                                 if (words[i] == string.Empty || words[i] == null)
                                 {
@@ -656,15 +670,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                                 double word = BitConverter.ToDouble(buf, 0);
                                 arrWords[i] = word;
                             }
-                            if (!deviceTag.Code.Contains("[") && !deviceTag.Code.Contains("]"))
-                            {
-                                DeviceData.SetDoubleArray(deviceTag.Code, arrWords, CnlStatusID.Defined);
-                            }
-                            else
-                            {
-                                int indexArrWords = Convert.ToInt32(deviceTag.Code.Split('[', ']')[1]);
-                                DeviceData.SetUnicode(deviceTag.Index, words[indexArrWords], CnlStatusID.Defined);
-                            }                          
+
+                            int indexArrWords = Convert.ToInt32(deviceTag.Code.Split('[', ']')[1]);
+     
+                            DeviceData.SetUnicode(deviceTag.Index, words[indexArrWords], CnlStatusID.Defined);
                         }
                         catch (Exception e) 
                         {
@@ -755,36 +764,75 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             {
                 LastRequestOK = false;
 
-                LogDriver(string.Format(Locale.IsRussian ?
+                // Log regardless of whether logging is enabled or not
+                Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Получена команда. " :
                     "Command received. "));
-                LogDriver(string.Format(Locale.IsRussian ?
+                Log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Дата: " + cmd.CreationTime.ToString() :
+                    "Date: " + cmd.CreationTime.ToString()));
+                Log.WriteAction(string.Format(Locale.IsRussian ?
+                   "Пользователь ID: " + cmd.UserID.ToString() :
+                   "User ID: " + cmd.UserID.ToString()));
+                Log.WriteAction(string.Format(Locale.IsRussian ?
+                   "Номер устройства: " + cmd.DeviceNum.ToString() :
+                   "Device number: " + cmd.DeviceNum.ToString()));
+                Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Номер команды (@cmdNum): " + cmd.CmdNum :
                     "Command number (@cmdNum): " + cmd.CmdNum));
-                LogDriver(string.Format(Locale.IsRussian ?
+                Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Код команды (@cmdCode): " + cmd.CmdCode :
                     "Command code (@cmdCode): " + cmd.CmdCode));
-                LogDriver(string.Format(Locale.IsRussian ?
+                Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Значение команды (@cmdVal): " + cmd.CmdVal :
                     "Command value (@cmdVal): " + cmd.CmdVal));
+                Log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Значение команды (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData) :
+                    "Command value (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData)));
 
                 DbCommand dbCommand;
 
-                if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand) ||
-                    dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand) ||
-                    dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand))
+                if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand) || dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand) ||
+                    dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand) || dataSource.ExportCommandsCode.TryGetValue("", out dbCommand)
+                    )
                 {
                     if (ValidateDataSource() && ValidateCommand(dbCommand))
                     {
-                        dataSource.SetCmdParam(dbCommand, "cmdVal", (object)cmd.CmdVal);
-                        dataSource.SetCmdParam(dbCommand, "cmdCode", (object)cmd.CmdCode);
+                        if (cmd.CmdDataIsEmpty)
+                        {
+                            dataSource.SetCmdParam(dbCommand, "cmdVal", (object)cmd.CmdVal);
+                        }
+                        else
+                        {
+                            dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
+                        }
+
+                        if(!String.IsNullOrEmpty(cmd.CmdCode))
+                        {
+                            dataSource.SetCmdParam(dbCommand, "cmdCode", (object)cmd.CmdCode);
+                        }
+
                         dataSource.SetCmdParam(dbCommand, "cmdNum", (object)cmd.CmdNum);
+
                         int tryNum = 0;
 
                         while (RequestNeeded(ref tryNum))
                         {
                             if (Connect() && SendDbCommand(dbCommand))
                             {
+                                List<DeviceTag> findDeviceTags = DeviceTags.ToList();
+                                DeviceTag findTag = findDeviceTags.Find(t => t.Code == cmd.CmdCode);
+
+                                if (cmd.CmdDataIsEmpty)
+                                {
+                                    DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
+                                }
+                                else
+                                {
+                                    findTag.DataType = TagDataType.Unicode;
+                                    DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
+                                }
+                               
                                 LastRequestOK = true;
                             }
                                 
@@ -816,15 +864,18 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     "Запрос на изменение данных" :
                     "Data modification request");
                 LogDriver(dbCommand.CommandText);
-                dbCommand.ExecuteNonQuery();
+                int countChange = dbCommand.ExecuteNonQuery();
+                LogDriver(Locale.IsRussian ?
+                    @$"Изменено записей {countChange}" :
+                    @$"Changed rows {countChange}");
                 return true;
             }
             catch (Exception ex)
             {
                 LogDriver(string.Format(Locale.IsRussian ?
                     "Ошибка при отправке команды БД: {0}" :
-                    "Error sending command to the database: {0}", ex.Message));
-                return false;
+                    "Error sending command to the database: {0}", ex.ToString()));
+                return true;
             }
         }
 

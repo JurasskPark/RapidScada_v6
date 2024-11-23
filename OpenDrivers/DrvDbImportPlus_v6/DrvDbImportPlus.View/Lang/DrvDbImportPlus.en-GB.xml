@@ -86,6 +86,11 @@
 		  FROM DATATABLE_NAME
 		  WHERE CONDITION
 
+		  MS SQL.
+		  In connection with the transition to the Microsoft.Data.SqlClient library pay attention to using the connection for remote work!
+		  You may need to add a condition in the Additional Parameters field in the connection string
+		  Stored security information=True;Trusted Server Certificate=True;
+
 		  MySQL.
 		  MySQL has a feature in SSL mode. For it, you need to specify whether to use SSL or not.
 		  There are several options, but specify only one. They are equivalent in value. You only need to use one word.
@@ -97,8 +102,19 @@
 
 		  Commands.
 		  The commands are defined in the configuration.
+
+		  Inversion 6.3.0.1, it is now possible to write string values command .
+		  If a command is created, a command tag with a length of 20 tags will be automatically generated in the communicator driver.
+		  This size assumes that 80 characters will be enough for any string value.
+		  It is forbidden to create other tags at these addresses! There will be data distortion!
+
 		  Command example:
-		  UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum
+		  INSERT INTO DATATABLE_NAME
+		  (COLUMN_1, COLUMN_2, COLUMN_3)
+		  VALUES
+		  ('TAGNAME00001', @cmdVal, GETDATE());
+
+		  UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum;
 	  </Phrase>
 	  <Phrase key="cmnuSelectQueryCut">Cut</Phrase>
 	  <Phrase key="cmnuSelectQueryCopy">Copy</Phrase>

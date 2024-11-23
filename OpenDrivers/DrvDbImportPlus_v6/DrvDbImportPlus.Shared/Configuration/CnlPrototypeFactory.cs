@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Devices;
-using Scada.Data.Const;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
@@ -17,61 +16,55 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Gets the grouped channel prototypes.
         /// </summary>
-        public static List<CnlPrototypeGroup> GetCnlPrototypeGroups(List<Tag> deviceTags)
+        public static List<CnlPrototypeGroup> GetCnlPrototypeGroups(List<Tag> deviceTags, List<ExportCmd> deviceCommands)
         {
             List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
-            string nameTagGroup = Locale.IsRussian ? "Теги" : "Tags";
-            string nameTagGroupString = Locale.IsRussian ? "Строковые теги" : "String tags";
+
+            string nameTagGroup = Locale.IsRussian ? "Теги" : "Tags";          
             CnlPrototypeGroup group = new CnlPrototypeGroup(nameTagGroup);
+
+            string nameTagGroupString = Locale.IsRussian ? "Строковые теги" : "String tags";
             CnlPrototypeGroup groupString = new CnlPrototypeGroup(nameTagGroupString);
+
+            string nameTagGroupCommand = Locale.IsRussian ? "Командные теги" : "Command tags";
+            CnlPrototypeGroup groupCommand = new CnlPrototypeGroup(nameTagGroupCommand);
 
             for (int i = 0; i < deviceTags.Count; i++)
             {
-                bool tmpTagEnable = deviceTags[i].TagEnabled;
-                string tmpTagFormat = string.Empty;
-                int tmpTagDataTypeId = 0;
-                switch (deviceTags[i].TagFormat.ToString())
-                {
-                    case "Float":
-                        tmpTagFormat = "N" + deviceTags[i].NumberDecimalPlaces;
-                        tmpTagDataTypeId = 0;
-                        break;
-                    case "DateTime":
-                        tmpTagFormat = FormatCode.DateTime;
-                        tmpTagDataTypeId = 0;
-                        break;
-                    case "String":
-                        tmpTagFormat = FormatCode.String;
-                        tmpTagDataTypeId = 3;
-                        break;
-                    case "Integer":
-                        tmpTagFormat = FormatCode.N0;
-                        tmpTagDataTypeId = 0;
-                        break;
-                    case "Boolean":
-                        tmpTagFormat = FormatCode.OffOn;
-                        tmpTagDataTypeId = 0;
-                        break;
-                }
-
                 if ((Tag.FormatTag)deviceTags[i].TagFormat == Tag.FormatTag.String)
                 {
                     int maxlen = Convert.ToInt32(Math.Ceiling((decimal)deviceTags[i].NumberDecimalPlaces / (decimal)4));
 
+                    groupString.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).Configure(cnl => cnl.DataLen = maxlen);
+
                     for (int j = 0; j < maxlen; j++)
                     {
-                        groupString.AddCnlPrototype(deviceTags[i].TagCode + @$"[{j}]", deviceTags[i].TagName + @$"[{j}]").Configure(cnl => cnl.DataTypeID = tmpTagDataTypeId).Configure(cnl => cnl.DataLen = 1).Configure(cnl => cnl.Active = tmpTagEnable);
+                        groupString.AddCnlPrototype(deviceTags[i].TagCode + @$"[{j}]", deviceTags[i].TagName + @$"[{j}]").Configure(cnl => cnl.DataTypeID = 3); // unicode
                     }
                 }
                 else
                 {
-                    group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).Configure(cnl => cnl.DataTypeID = tmpTagDataTypeId).Configure(cnl => cnl.SetFormat(tmpTagFormat)).Configure(cnl => cnl.DataLen = 1).Configure(cnl => cnl.Active = tmpTagEnable);
+                    group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName);
                 }           
             }
-        
+
+            for (int i = 0; i < deviceCommands.Count; i++)
+            {
+                groupCommand.AddCnlPrototype(deviceCommands[i].CmdCode, deviceCommands[i].Name).Configure(cnl => cnl.DataTypeID = 3).Configure(cnl => cnl.DataLen = 20);
+            }
+            
             groups.Add(group);
-            groups.Add(groupString);
-        
+
+            if(groupString != null && groupString.CnlPrototypes.Count > 0)
+            {
+                groups.Add(groupString);
+            }
+
+            if (groupCommand != null && groupCommand.CnlPrototypes.Count > 0)
+            {
+                groups.Add(groupCommand);
+            }
+
             return groups;      
         }
 

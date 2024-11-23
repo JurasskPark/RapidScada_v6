@@ -313,6 +313,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
 
             // fill the command list
+            cbCommand.Items.Clear();
             cbCommand.Items.AddRange(config.ExportCmds.ToArray());
 
             if (cbCommand.Items.Count > 0)

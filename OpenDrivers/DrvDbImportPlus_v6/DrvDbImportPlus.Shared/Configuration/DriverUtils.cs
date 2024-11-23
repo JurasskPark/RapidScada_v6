@@ -25,7 +25,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.3.0.0";
+        public const string Version = "6.3.0.1";
 
         /// <summary>
         /// The default filename of the configuration.
@@ -622,12 +622,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         public static double StringToDouble(string s) 
         {
-            double result = 0;
+            double result = 1;
             if (!double.TryParse(s, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.GetCultureInfo("ru-RU"), out result))
             {
                 if (!double.TryParse(s, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.GetCultureInfo("en-US"), out result))
                 {
-                    return 0;
+                    return 1;
                 }
             }
             return result;
