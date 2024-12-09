@@ -54,7 +54,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "[v] Исправлена ошибка в отображении команд на форме при сохранении конфигурации.\n" +
                     "[v] Переход на библиотеку Microsoft.Data.SqlClient. Библиотека Sql.Data.SqlClient больше не поддерживается.\n" +
                     "[v] Компиляция библиотеки сделана под несколько платформ, чтобы не было проблемы 'Ваша платформа не поддерживается'.\n" +
-                    "[v] Обновлена Справка." +
+                    "[v] Обновлена Справка.\n" +
                     "Версия 6.3.0.0 (29.09.2024)\n" +
                     "[+] Переход на библиотеки RapidScada 6.3.0.0 и переход на Net Core 8.0.\n" +
                     "[+] Добавлена возможность у строковых данных указывать длину, по которой будут автоматически генерироваться теги.\n" +
@@ -102,7 +102,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "[v] Fixed an error in the display of commands on the form when saving the configuration.\n" +
                     "[v] Switching to the Microsoft.Data.SqlClient library. The Sql.Data.SqlClient library is no longer supported.\n" +
                     "[v] The compilation of the library is made for several platforms so that there is no problem 'Your platform is not supported'.\n" +
-                    "[v] Updated Help." +
+                    "[v] Updated Help.\n" +
                     "Version 6.3.0.0 (09/29/2024)\n" +
                     "[+] Transition to RapidScada 6.3.0.0 libraries and transition to Net Core 8.0.\n" +
                     "[+] Added the ability to specify the length of string data that will automatically generate tags.\n" +
