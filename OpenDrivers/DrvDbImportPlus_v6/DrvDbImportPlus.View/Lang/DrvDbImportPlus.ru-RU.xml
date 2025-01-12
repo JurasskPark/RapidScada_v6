@@ -22,8 +22,9 @@
     <Phrase key="gbCommandParams">Параметры команды</Phrase>
     <Phrase key="lblCmdNum">Номер команды</Phrase>
 	<Phrase key="lblCmdCode">Код команды</Phrase>
-    <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="lblCmdQuery">SQL</Phrase>
+    <Phrase key="lblCmdName">Наименование</Phrase>
+	<Phrase key="lblCmdStringLenght">Максимальное количество символов строковой команды</Phrase>
+	<Phrase key="lblCmdQuery">SQL</Phrase>
     <Phrase key="pageData">Данные</Phrase>
     <Phrase key="btnExecuteSQLQuery">Выполнить SQL-запрос</Phrase>
     <Phrase key="pageSettings">Настройки</Phrase>
@@ -107,6 +108,8 @@
 		Если создана команда, то в драйвере коммуникатора будет автоматически генерироваться тег команды длиной в 20 тегов.
 		Такой размер предполагает, что 80 знаков хватит на любое строковое значение.
 		Создавать другие теги по этим адресам запрещено! Будет искажение данных!
+
+		В версии 6.3.0.2 появилась возможность у команд указывать длину в символах.
 
 		Пример команды:
 		INSERT INTO DATATABLE_NAME

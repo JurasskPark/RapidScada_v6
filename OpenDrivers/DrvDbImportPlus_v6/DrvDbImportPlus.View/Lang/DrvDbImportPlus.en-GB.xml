@@ -22,7 +22,8 @@
 	  <Phrase key="gbCommandParams">Command Parameters</Phrase>
 	  <Phrase key="lblCmdNum">Command number</Phrase>
 	  <Phrase key="lblCmdCode">Command code</Phrase>
-	  <Phrase key="lblName">Name</Phrase>
+	  <Phrase key="lblCmdName">Name</Phrase>
+	  <Phrase key="lblCmdStringLenght">Maximum number of characters in a string command</Phrase>
 	  <Phrase key="lblCmdQuery">SQL</Phrase>
 	  <Phrase key="pageData">Data</Phrase>
 	  <Phrase key="lblCmdQuery">Run SQL query</Phrase>
@@ -30,7 +31,7 @@
 	  <Phrase key="ckbWriteDriverLog">Log the result of a query from the database (debugging)</Phrase>
 	  <Phrase key="gpbTagFormatDatabase">Format of tags from the database</Phrase>
 	  <Phrase key="rdbKPTagsBasedRequestedTableColumns">Tags based on the list of requested table columns</Phrase>
-	  <Phrase key="rdbKPTagsBasedRequestedTableRows">Tags based on the list of requested table rows</Phrase>
+	  <Phrase key="rdbKPTagsBasedRequestedTableRows">Tags based on the list of requested table rows</Phrase>	  
 	  <Phrase key="gpbTags">Tags</Phrase>
 	  <Phrase key="lblTagnameAdd">Tagname</Phrase>
 	  <Phrase key="btnTagnameAdd">Add</Phrase>
@@ -103,10 +104,12 @@
 		  Commands.
 		  The commands are defined in the configuration.
 
-		  Inversion 6.3.0.1, it is now possible to write string values command .
+		  In version 6.3.0.1, it is now possible to write string values command.
 		  If a command is created, a command tag with a length of 20 tags will be automatically generated in the communicator driver.
 		  This size assumes that 80 characters will be enough for any string value.
 		  It is forbidden to create other tags at these addresses! There will be data distortion!
+
+		  In version 6.3.0.2, commands can now specify the length in characters.
 
 		  Command example:
 		  INSERT INTO DATATABLE_NAME

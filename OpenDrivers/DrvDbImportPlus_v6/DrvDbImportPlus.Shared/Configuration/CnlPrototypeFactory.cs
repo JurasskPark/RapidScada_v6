@@ -35,12 +35,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 {
                     int maxlen = Convert.ToInt32(Math.Ceiling((decimal)deviceTags[i].NumberDecimalPlaces / (decimal)4));
 
-                    groupString.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).Configure(cnl => cnl.DataLen = maxlen);
-
-                    for (int j = 0; j < maxlen; j++)
-                    {
-                        groupString.AddCnlPrototype(deviceTags[i].TagCode + @$"[{j}]", deviceTags[i].TagName + @$"[{j}]").Configure(cnl => cnl.DataTypeID = 3); // unicode
-                    }
+                    groupString.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).Configure(cnl => cnl.DataTypeID = 3).Configure(cnl => cnl.DataLen = maxlen);
                 }
                 else
                 {
@@ -50,7 +45,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
             for (int i = 0; i < deviceCommands.Count; i++)
             {
-                groupCommand.AddCnlPrototype(deviceCommands[i].CmdCode, deviceCommands[i].Name).Configure(cnl => cnl.DataTypeID = 3).Configure(cnl => cnl.DataLen = 20);
+                int maxlen = Convert.ToInt32(Math.Ceiling((decimal)deviceCommands[i].Lenght / (decimal)4));
+
+                groupCommand.AddCnlPrototype(deviceCommands[i].CmdCode, deviceCommands[i].Name).Configure(cnl => cnl.DataTypeID = 3).Configure(cnl => cnl.DataLen = maxlen);
             }
             
             groups.Add(group);

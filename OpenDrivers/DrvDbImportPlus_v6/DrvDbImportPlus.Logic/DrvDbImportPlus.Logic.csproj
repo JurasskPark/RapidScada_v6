@@ -10,19 +10,19 @@
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
-		<Copyright>Copyright © 2023-2025</Copyright>
+		<Copyright>Copyright © 2022-2025</Copyright>
 		<LangVersion>preview</LangVersion>
-		<Platforms>AnyCPU;x86</Platforms>
+		<Platforms>AnyCPU;x86;x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.1" />
-	  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+	  <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.2" />
+	  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
 	  <PackageReference Include="MySql.Data" Version="9.1.0" />
-	  <PackageReference Include="Npgsql" Version="8.0.6" />
+	  <PackageReference Include="Npgsql" Version="9.0.2" />
 	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
-	  <PackageReference Include="System.Text.Json" Version="8.0.5" />
+	  <PackageReference Include="System.Text.Json" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

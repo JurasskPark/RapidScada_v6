@@ -22,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         protected override DbConnection CreateConnection()
         {
-            return new SqlConnection();
+            return new Microsoft.Data.SqlClient.SqlConnection();
         }
 
         /// <summary>

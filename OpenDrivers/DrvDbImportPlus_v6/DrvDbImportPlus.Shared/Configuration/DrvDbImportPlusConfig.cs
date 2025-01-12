@@ -48,6 +48,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public List<ExportCmd> ExportCmds { get; private set; }
 
         /// <summary>
+        /// Gets or sets maximum number of characters in a string command.
+        /// </summary>
+        public int CommandStringLenght { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating KP Tags Based on the List of Requested Table Columns.
         /// </summary>
         public bool DeviceTagsBasedRequestedTableColumns { get; set; }
@@ -72,6 +77,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             DeviceTagsBasedRequestedTableColumns = true;
             WriteLogDriver = true;
             ExportCmds = new List<ExportCmd>();
+            CommandStringLenght = 20;
         }
 
         /// <summary>

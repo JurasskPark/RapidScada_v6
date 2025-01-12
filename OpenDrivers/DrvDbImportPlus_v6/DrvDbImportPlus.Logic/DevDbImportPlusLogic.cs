@@ -11,10 +11,7 @@ using Scada.Data.Models;
 using Scada.Lang;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 {
@@ -449,12 +446,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     string findCode = findTag.Code;
                     string findTagname = findTag.Name;
                    
-                    if (findTag.DataType == TagDataType.Unicode)
-                    {
-                        findCode = findTag.Code.Substring(0, findTag.Code.LastIndexOf('['));
-                        findTagname = findTag.Name.Substring(0, findTag.Name.LastIndexOf('['));
-                    }
-
                     Tag tmpTag = deviceTags.Where(r => r.TagCode == findCode).FirstOrDefault();
 
                     if (tmpTag == null || tmpTag.TagEnabled == false)
@@ -640,40 +631,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                         {
                             deviceTag.DataType = TagDataType.Unicode;
                             deviceTag.Format = new TagFormat(TagFormatType.String, "String");
-                            int maxlen = Convert.ToInt32(Math.Ceiling((decimal)numberDecimalPlaces / (decimal)4));
 
-                            IEnumerable<string> enumVal = Split(val.ToString(), 4);
-                            List<string> lstVal = enumVal.ToList();
-                            double[] arrWords = new double[maxlen];
-                            string[] arrVal = new string[maxlen];
-                            string[] words = new string[maxlen];
-
-                            for (int i = 0; i <= lstVal.Count - 1; i++)
-                            {
-                                words[i] = lstVal[i].ToString();
-                            }
-                            
-                            for(int i = 0; i <= words.Length - 1; i++)
-                            {
-                                if (words[i] == string.Empty || words[i] == null)
-                                {
-                                    words[i] = " ";
-                                }
-                            }
-
-                            for (int i = 0; i <= arrWords.Length - 1; i++)
-                            {
-                                string s = words[i];
-                                byte[] buf = new byte[8];
-                                int len = Math.Min(4, s.Length);
-                                Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
-                                double word = BitConverter.ToDouble(buf, 0);
-                                arrWords[i] = word;
-                            }
-
-                            int indexArrWords = Convert.ToInt32(deviceTag.Code.Split('[', ']')[1]);
-     
-                            DeviceData.SetUnicode(deviceTag.Index, words[indexArrWords], CnlStatusID.Defined);
+                            DeviceData.SetUnicode(deviceTag.Code, Convert.ToString(val), 1);
                         }
                         catch (Exception e) 
                         {
@@ -753,9 +712,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             return tagFormat;
         }
 
-        /// <summary>
-        /// Sends the telecontrol command.
-        /// </summary>
         public override void SendCommand(TeleCommand cmd)
         {
             base.SendCommand(cmd);
@@ -790,57 +746,45 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     "Значение команды (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData) :
                     "Command value (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData)));
 
-                DbCommand dbCommand;
+                InitDataSource(config);
 
-                if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand) || dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand) ||
-                    dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand) || dataSource.ExportCommandsCode.TryGetValue("", out dbCommand)
-                    )
+                if(FindCommandConfig(cmd, out DbCommand dbCommand))
                 {
+                    //dataSource.SetCmdParam(dbCommand, "cmdVal", cmd.CmdValIsEmpty ? DBNull.Value : cmd.CmdVal);
+                    //dataSource.SetCmdParam(dbCommand, "cmdData", cmd.CmdDataIsEmpty ? DBNull.Value : TeleCommand.CmdDataToString(cmd.CmdData));
+
+                    if (cmd.CmdDataIsEmpty)
+                    {
+                        dataSource.SetCmdParam(dbCommand, "cmdVal", cmd.CmdVal);
+                    }
+                    else
+                    {
+                        dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
+                    }
+
                     if (ValidateDataSource() && ValidateCommand(dbCommand))
                     {
-                        if (cmd.CmdDataIsEmpty)
-                        {
-                            dataSource.SetCmdParam(dbCommand, "cmdVal", (object)cmd.CmdVal);
-                        }
-                        else
-                        {
-                            dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
-                        }
 
-                        if(!String.IsNullOrEmpty(cmd.CmdCode))
+                        if (Connect() && SendDbCommand(dbCommand))
                         {
-                            dataSource.SetCmdParam(dbCommand, "cmdCode", (object)cmd.CmdCode);
-                        }
+                            List<DeviceTag> findDeviceTags = DeviceTags.ToList();
+                            DeviceTag findTag = findDeviceTags.Find(t => t.Code == cmd.CmdCode);
 
-                        dataSource.SetCmdParam(dbCommand, "cmdNum", (object)cmd.CmdNum);
-
-                        int tryNum = 0;
-
-                        while (RequestNeeded(ref tryNum))
-                        {
-                            if (Connect() && SendDbCommand(dbCommand))
+                            if (cmd.CmdDataIsEmpty)
                             {
-                                List<DeviceTag> findDeviceTags = DeviceTags.ToList();
-                                DeviceTag findTag = findDeviceTags.Find(t => t.Code == cmd.CmdCode);
-
-                                if (cmd.CmdDataIsEmpty)
-                                {
-                                    DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
-                                }
-                                else
-                                {
-                                    findTag.DataType = TagDataType.Unicode;
-                                    DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
-                                }
-                               
-                                LastRequestOK = true;
+                                DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
                             }
-                                
-                            Disconnect();
-                            FinishRequest();
-                            tryNum++;
+                            else
+                            {
+                                findTag.DataType = TagDataType.Unicode;
+                                DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
+                            }
+
+                            LastRequestOK = true;
                         }
-                    }
+
+                        Disconnect();
+                    }                                 
                 }
                 else
                 {
@@ -851,6 +795,29 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
             FinishRequest();
             FinishCommand();
+        }
+
+        /// <summary>
+        /// Finds a command configuration by command code or number.
+        /// </summary>
+        private bool FindCommandConfig(TeleCommand cmd, out DbCommand dbCommand)
+        {
+            if (dataSource.ExportCommandsCode != null && 
+                !string.IsNullOrEmpty(cmd.CmdCode) &&
+                dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand))
+            {
+                return true;
+            }
+
+            if (dataSource.ExportCommandsNum != null && 
+                cmd.CmdNum > 0 &&
+                dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand))
+            {
+                return true;
+            }
+
+            dbCommand = null;
+            return false;
         }
 
         /// <summary>
@@ -875,7 +842,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 LogDriver(string.Format(Locale.IsRussian ?
                     "Ошибка при отправке команды БД: {0}" :
                     "Error sending command to the database: {0}", ex.ToString()));
-                return true;
+                return false;
             }
         }
 
@@ -895,23 +862,5 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
         }
 
-        /// <summary>
-        /// Devides a word into parts of a certain lenght
-        /// </summary>
-        /// <param name="s">word</param>
-        /// <param name="length">certain lenght</param>
-        /// <returns></returns>
-        static IEnumerable<string> Split(string s, int length)
-        {
-            int i;
-            for (i = 0; i + length < s.Length; i += length)
-            {
-                yield return s.Substring(i, length);
-            }
-            if (i != s.Length)
-            {
-                yield return s.Substring(i, s.Length - i);
-            }
-        }
     }
 }

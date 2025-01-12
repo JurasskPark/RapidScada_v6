@@ -16,10 +16,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         public ExportCmd()
         {
-            CmdNum = 1;
+            CmdNum = 0;
             CmdCode = "DBTAG"; 
             Name = "";
             Query = "";
+            Lenght = 80;
         }
 
         /// <summary>
@@ -43,6 +44,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public string Query { get; set; }
 
         /// <summary>
+        /// Gets or sets the lenght command (string).
+        /// </summary>
+        public int Lenght { get; set; } = 80;
+
+        /// <summary>
         /// Loads the command from the XML node.
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
@@ -56,6 +62,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             CmdCode = xmlNode.GetChildAsString("CmdCode");
             Name = xmlNode.GetChildAsString("Name");
             Query = xmlNode.GetChildAsString("Query");
+            Lenght = xmlNode.GetChildAsInt("Lenght");
+            if(Lenght == 0)
+            {
+                Lenght = 80;
+            }
         }
 
         /// <summary>
@@ -72,6 +83,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             xmlElem.AppendElem("CmdCode", CmdCode);
             xmlElem.AppendElem("Name", Name);
             xmlElem.AppendElem("Query", Query);
+            xmlElem.AppendElem("Lenght", Lenght);
         }
 
         /// <summary>

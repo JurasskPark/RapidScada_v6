@@ -101,7 +101,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
 
-                    "Version 6.3.0.2 (12.01.2025)\n" +
+                    "Version 6.3.0.2 (01/12/2025)\n" +
                     "[v] Changed the interface. Added icons.\n" +
                     "[v] String tags are now displayed with a single value.\n" +
                     "Version 6.3.0.1 (11/23/2024)\n" +

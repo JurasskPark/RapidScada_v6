@@ -3,6 +3,7 @@ using FastColoredTextBoxNS;
 using Scada.Comm.Devices;
 using Scada.Comm.Lang;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
 using System.Data;
@@ -617,23 +618,44 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void btnConnectionTest_Click(object sender, EventArgs e)
         {
+            string errMsg = string.Empty;
+            if(ValidateDataSource(out errMsg))
+            {
+                MessageBox.Show(Locale.IsRussian ?
+                    "Соединение успешно прошло!" :
+                    "The connection was successful!");
+            }
+            else
+            {
+                if (errMsg != string.Empty)
+                {
+                    MessageBox.Show(errMsg);
+                }
+            }
+        }
+
+        private bool ValidateDataSource(out string errMsg)
+        {
+            bool result = false;
+
             // retrieve the configuration
             ControlsToConfig();
 
             // save the configuration
-            if (config.Save(configFileName, out string errMsg))
+            if (config.Save(configFileName, out errMsg))
             {
                 Modified = false;
             }
             else
             {
-                ScadaUiUtils.ShowError(errMsg);
+
+                return result = false;
             }
 
             // load a configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out errMsg))
             {
-                ScadaUiUtils.ShowError(errMsg);
+                return result = false;
             }
 
             // set the control values
@@ -676,9 +698,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 if (string.IsNullOrEmpty(connStr))
                 {
                     dataSource = null;
-                    MessageBox.Show(Locale.IsRussian ?
+                    errMsg = Locale.IsRussian ?
                         "Соединение не определено" :
-                        "Connection is undefined");
+                        "Connection is undefined";
+                    return result = false;
                 }
                 else
                 {
@@ -688,19 +711,20 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     {
                         Application.DoEvents();
                         dataSource.Connect();
-                        MessageBox.Show(Locale.IsRussian ?
-                        "Соединение успешно прошло!" :
-                        "The connection was successful!");
                         Application.DoEvents();
+                        return result = true;
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(string.Format(Locale.IsRussian ?
+                        errMsg = string.Format(Locale.IsRussian ?
                             "Ошибка при соединении с БД: {0}" :
-                            "Error connecting to DB: {0}", ex.Message));
+                            "Error connecting to DB: {0}", ex.Message);
+                        return result = false;
                     }
                 }
             }
+
+            return result = false;
         }
         #endregion Tab Database
 
@@ -947,7 +971,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         {
             if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
             {
-                exportCmd.Name = txtName.Text;
+                exportCmd.Name = txtCmdName.Text;
                 UpdateCommandItem();
                 Modified = true;
             }
@@ -961,6 +985,18 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
             {
                 exportCmd.Query = txtCmdQuery.Text;
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Specifying/changing the command lenght.
+        /// </summary>
+        private void nudCmdStringLenght_ValueChanged(object sender, EventArgs e)
+        {
+            if (!cmdSelecting && cbCommand.SelectedItem is ExportCmd exportCmd)
+            {
+                exportCmd.Lenght = Convert.ToInt32(nudCmdStringLenght.Value);
                 Modified = true;
             }
         }
@@ -988,16 +1024,18 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                 gbCommandParams.Enabled = false;
                 numCmdNum.Value = numCmdNum.Minimum;
                 txtCmdCode.Text = "DBTAG" + (numCmdNum.Value).ToString() + "";
-                txtName.Text = "";
+                txtCmdName.Text = "";
                 txtCmdQuery.Text = "";
+                nudCmdStringLenght.Value = 20;
             }
             else
             {
                 gbCommandParams.Enabled = true;
                 numCmdNum.SetValue(exportCmd.CmdNum);
                 txtCmdCode.Text = exportCmd.CmdCode;
-                txtName.Text = exportCmd.Name;
+                txtCmdName.Text = exportCmd.Name;
                 txtCmdQuery.Text = exportCmd.Query;
+                nudCmdStringLenght.Value = Convert.ToDecimal(exportCmd.Lenght);
             }
         }
 
@@ -1030,6 +1068,193 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             if (cbCommand.SelectedIndex >= 0)
             {
                 cbCommand.Items[cbCommand.SelectedIndex] = cbCommand.SelectedItem;
+            }
+        }
+
+        private void btnSendCommand_Click(object sender, EventArgs e)
+        {
+            string errMsg = string.Empty;   
+           ExportCmd exportCmd = cbCommand.SelectedItem as ExportCmd;
+
+            if (exportCmd != null)
+            {
+                TeleCommand cmd = new TeleCommand();
+                cmd.CmdNum = exportCmd.CmdNum;
+                //cmd.CmdCode = exportCmd.CmdCode;
+                //cmd.CmdVal = 777;
+                cmd.CmdData = TeleCommand.StringToCmdData("TTT");
+
+                if (cmd != null)
+                {
+                    bool LastRequestOK = false;
+                    string Msg = string.Empty;
+                    // Log regardless of whether logging is enabled or not
+                    Msg += (string.Format(Locale.IsRussian ?
+                        "Получена команда. " :
+                        "Command received. ")) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                        "Дата: " + cmd.CreationTime.ToString() :
+                        "Date: " + cmd.CreationTime.ToString())) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                       "Пользователь ID: " + cmd.UserID.ToString() :
+                       "User ID: " + cmd.UserID.ToString())) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                       "Номер устройства: " + cmd.DeviceNum.ToString() :
+                       "Device number: " + cmd.DeviceNum.ToString())) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                        "Номер команды (@cmdNum): " + cmd.CmdNum :
+                        "Command number (@cmdNum): " + cmd.CmdNum)) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                        "Код команды (@cmdCode): " + cmd.CmdCode :
+                        "Command code (@cmdCode): " + cmd.CmdCode)) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                        "Значение команды (@cmdVal): " + cmd.CmdVal :
+                        "Command value (@cmdVal): " + cmd.CmdVal)) + Environment.NewLine;
+                    Msg += (string.Format(Locale.IsRussian ?
+                        "Значение команды (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData) :
+                        "Command value (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData))) + Environment.NewLine;
+
+                    ValidateDataSource(out errMsg);
+
+                    DbCommand dbCommand;
+
+                    if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand))
+                    {
+                        Msg += ("PRINT #1") + Environment.NewLine;
+                        Msg += (DriverUtils.NullToString(cmd.CmdNum)) + Environment.NewLine;
+                        Msg += (DriverUtils.NullToString(dbCommand.CommandText)) + Environment.NewLine;
+                        Msg += (DriverUtils.NullToString(dbCommand.CommandTimeout)) + Environment.NewLine;
+                        Msg += (DriverUtils.NullToString(dbCommand.CommandType)) + Environment.NewLine;
+                        Msg += (DriverUtils.NullToString(dbCommand.Connection)) + Environment.NewLine;
+                    }
+                    else if (dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand))
+                    {
+                        Msg += ("PRINT #2");
+                    }
+                    else if (dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand))
+                    {
+                        Msg += ("PRINT #3");
+                    }
+
+
+
+                    if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand) ||
+                    dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand) ||
+                    dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand)
+                    )
+                    {
+                        if (ValidateDataSource(out errMsg) && ValidateCommand(dbCommand, out errMsg))
+                        {
+                            if (cmd.CmdDataIsEmpty)
+                            {
+                                dataSource.SetCmdParam(dbCommand, "cmdVal", (object)cmd.CmdVal);
+                            }
+                            else
+                            {
+                                dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
+                            }
+
+                            if (!String.IsNullOrEmpty(cmd.CmdCode))
+                            {
+                                dataSource.SetCmdParam(dbCommand, "cmdCode", (object)cmd.CmdCode);
+                            }
+
+                            dataSource.SetCmdParam(dbCommand, "cmdNum", (object)cmd.CmdNum);
+
+   
+
+                                if (SendDbCommand(dbCommand, out errMsg))
+                                {
+                                    //List<DeviceTag> findDeviceTags = DeviceTags.ToList();
+                                    //DeviceTag findTag = findDeviceTags.Find(t => t.Code == cmd.CmdCode);
+
+                                    //if (cmd.CmdDataIsEmpty)
+                                    //{
+                                    //    DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
+                                    //}
+                                    //else
+                                    //{
+                                    //    findTag.DataType = TagDataType.Unicode;
+                                    //    DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
+                                    //}
+
+                                    LastRequestOK = true;
+                                }
+
+        
+                            
+                        }
+                        else
+                        {
+                            MessageBox.Show(errMsg);
+                        }
+                    }
+                    else
+                    {
+                        LastRequestOK = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validates the database command.
+        /// </summary>
+        private bool ValidateCommand(DbCommand dbCommand, out string errMsg)
+        {
+            
+            if (dbCommand == null)
+            {
+                errMsg = Locale.IsRussian ?
+                    "Нормальное взаимодействие с КП невозможно, т.к. SQL-команда не определена" :
+                    "Normal device communication is impossible because SQL command is undefined";
+                return false;
+            }
+            else
+            {
+                errMsg = string.Empty;
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Connects to the database.
+        /// </summary>
+        private bool Connect(DataSource dataSource, out string errMsg)
+        {
+            try
+            {
+                dataSource.Connect();
+                errMsg = string.Empty;
+                return true;
+            }
+            catch (Exception ex)
+            {
+               errMsg = string.Format(Locale.IsRussian ?
+                    "Ошибка при соединении с БД: {0}" :
+                    "Error connecting to DB: {0}", ex.Message);
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Sends the command to the database.
+        /// </summary>
+        private bool SendDbCommand(DbCommand dbCommand, out string errMsg)
+        {
+            try
+            {
+                int countChange = dbCommand.ExecuteNonQuery();
+                errMsg = string.Empty;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = string.Format(Locale.IsRussian ?
+                    "Ошибка при отправке команды БД: {0}" :
+                    "Error sending command to the database: {0}", ex.ToString());
+                return false;
             }
         }
 
@@ -1487,6 +1712,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         #endregion Tag Down
 
         #endregion Tab Settings
+
+
 
     }
 }

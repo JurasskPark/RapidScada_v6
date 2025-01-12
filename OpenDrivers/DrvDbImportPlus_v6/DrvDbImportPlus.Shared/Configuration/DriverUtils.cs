@@ -25,7 +25,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.3.0.1";
+        public const string Version = "6.3.0.2";
 
         /// <summary>
         /// The default filename of the configuration.

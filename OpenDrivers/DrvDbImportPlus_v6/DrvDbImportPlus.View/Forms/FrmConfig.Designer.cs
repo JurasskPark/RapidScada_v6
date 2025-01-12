@@ -79,14 +79,17 @@
             btnExecuteSQLQuery = new Button();
             pageCommands = new TabPage();
             gbCommandParams = new GroupBox();
+            lblCmdStringLenght = new Label();
+            nudCmdStringLenght = new NumericUpDown();
             lblCmdCode = new Label();
             txtCmdCode = new TextBox();
             lblCmdQuery = new Label();
-            txtName = new TextBox();
-            lblName = new Label();
+            txtCmdName = new TextBox();
+            lblCmdName = new Label();
             numCmdNum = new NumericUpDown();
             lblCmdNum = new Label();
             gbCommand = new GroupBox();
+            btnSendCommand = new Button();
             cbCommand = new ComboBox();
             btnDeleteCommand = new Button();
             btnCreateCommand = new Button();
@@ -116,6 +119,7 @@
             rdbKPTagsBasedRequestedTableRows = new RadioButton();
             rdbKPTagsBasedRequestedTableColumns = new RadioButton();
             pageHelp = new TabPage();
+            imgList = new ImageList(components);
             pnlBottom = new Panel();
             btnClose = new Button();
             btnSave = new Button();
@@ -134,6 +138,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvData).BeginInit();
             pageCommands.SuspendLayout();
             gbCommandParams.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudCmdStringLenght).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numCmdNum).BeginInit();
             gbCommand.SuspendLayout();
             pageSettings.SuspendLayout();
@@ -171,7 +176,6 @@
             txtSelectQuery.Cursor = Cursors.IBeam;
             txtSelectQuery.DefaultMarkerSize = 8;
             txtSelectQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
-            txtSelectQuery.Font = new Font("Courier New", 9.75F);
             txtSelectQuery.Hotkeys = resources.GetString("txtSelectQuery.Hotkeys");
             txtSelectQuery.IsReplaceMode = false;
             txtSelectQuery.Location = new Point(11, 33);
@@ -271,16 +275,15 @@
             txtCmdQuery.Cursor = Cursors.IBeam;
             txtCmdQuery.DefaultMarkerSize = 8;
             txtCmdQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
-            txtCmdQuery.Font = new Font("Courier New", 9.75F);
             txtCmdQuery.Hotkeys = resources.GetString("txtCmdQuery.Hotkeys");
             txtCmdQuery.IsReplaceMode = false;
-            txtCmdQuery.Location = new Point(17, 135);
+            txtCmdQuery.Location = new Point(17, 191);
             txtCmdQuery.Margin = new Padding(4, 5, 4, 5);
             txtCmdQuery.Name = "txtCmdQuery";
             txtCmdQuery.Paddings = new Padding(0);
             txtCmdQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
             txtCmdQuery.ServiceColors = null;
-            txtCmdQuery.Size = new Size(865, 540);
+            txtCmdQuery.Size = new Size(865, 485);
             txtCmdQuery.TabIndex = 6;
             txtCmdQuery.WordWrap = true;
             txtCmdQuery.Zoom = 100;
@@ -370,6 +373,7 @@
             txtHelp.DefaultMarkerSize = 8;
             txtHelp.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             txtHelp.Dock = DockStyle.Fill;
+            txtHelp.Font = new Font("Courier New", 9.75F);
             txtHelp.Hotkeys = resources.GetString("txtHelp.Hotkeys");
             txtHelp.IsReplaceMode = false;
             txtHelp.Location = new Point(0, 0);
@@ -388,7 +392,7 @@
             cbDataSourceType.DropDownStyle = ComboBoxStyle.DropDownList;
             cbDataSourceType.FormattingEnabled = true;
             cbDataSourceType.Items.AddRange(new object[] { "<Choose database type>", "Microsoft SQL Server", "Oracle", "PostgreSQL", "MySQL", "Firebird" });
-            cbDataSourceType.Location = new Point(21, 37);
+            cbDataSourceType.Location = new Point(21, 39);
             cbDataSourceType.Margin = new Padding(6, 5, 6, 5);
             cbDataSourceType.Name = "cbDataSourceType";
             cbDataSourceType.Size = new Size(387, 33);
@@ -569,6 +573,7 @@
             tabControl.Controls.Add(pageSettings);
             tabControl.Controls.Add(pageHelp);
             tabControl.Dock = DockStyle.Fill;
+            tabControl.ImageList = imgList;
             tabControl.Location = new Point(0, 0);
             tabControl.Margin = new Padding(6, 5, 6, 5);
             tabControl.Name = "tabControl";
@@ -580,6 +585,7 @@
             // 
             pageDatabase.Controls.Add(gbDataSourceType);
             pageDatabase.Controls.Add(gbConnection);
+            pageDatabase.ImageIndex = 0;
             pageDatabase.Location = new Point(4, 34);
             pageDatabase.Margin = new Padding(6, 5, 6, 5);
             pageDatabase.Name = "pageDatabase";
@@ -618,6 +624,7 @@
             // 
             pageQuery.Controls.Add(lblSelectQuery);
             pageQuery.Controls.Add(txtSelectQuery);
+            pageQuery.ImageIndex = 1;
             pageQuery.Location = new Point(4, 34);
             pageQuery.Margin = new Padding(6, 5, 6, 5);
             pageQuery.Name = "pageQuery";
@@ -640,6 +647,7 @@
             // pageData
             // 
             pageData.Controls.Add(tlpPanel);
+            pageData.ImageIndex = 3;
             pageData.Location = new Point(4, 34);
             pageData.Margin = new Padding(6, 5, 6, 5);
             pageData.Name = "pageData";
@@ -710,6 +718,7 @@
             // 
             pageCommands.Controls.Add(gbCommandParams);
             pageCommands.Controls.Add(gbCommand);
+            pageCommands.ImageIndex = 2;
             pageCommands.Location = new Point(4, 34);
             pageCommands.Margin = new Padding(6, 5, 6, 5);
             pageCommands.Name = "pageCommands";
@@ -722,22 +731,41 @@
             // gbCommandParams
             // 
             gbCommandParams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbCommandParams.Controls.Add(lblCmdStringLenght);
+            gbCommandParams.Controls.Add(nudCmdStringLenght);
             gbCommandParams.Controls.Add(lblCmdCode);
             gbCommandParams.Controls.Add(txtCmdCode);
             gbCommandParams.Controls.Add(lblCmdQuery);
-            gbCommandParams.Controls.Add(txtName);
-            gbCommandParams.Controls.Add(lblName);
+            gbCommandParams.Controls.Add(txtCmdName);
+            gbCommandParams.Controls.Add(lblCmdName);
             gbCommandParams.Controls.Add(numCmdNum);
             gbCommandParams.Controls.Add(lblCmdNum);
             gbCommandParams.Controls.Add(txtCmdQuery);
-            gbCommandParams.Location = new Point(10, 128);
+            gbCommandParams.Location = new Point(10, 127);
             gbCommandParams.Margin = new Padding(6, 5, 6, 5);
             gbCommandParams.Name = "gbCommandParams";
             gbCommandParams.Padding = new Padding(17, 5, 17, 20);
-            gbCommandParams.Size = new Size(906, 702);
+            gbCommandParams.Size = new Size(906, 703);
             gbCommandParams.TabIndex = 1;
             gbCommandParams.TabStop = false;
             gbCommandParams.Text = "Command Parameters";
+            // 
+            // lblCmdStringLenght
+            // 
+            lblCmdStringLenght.AutoSize = true;
+            lblCmdStringLenght.Location = new Point(21, 98);
+            lblCmdStringLenght.Name = "lblCmdStringLenght";
+            lblCmdStringLenght.Size = new Size(433, 25);
+            lblCmdStringLenght.TabIndex = 10;
+            lblCmdStringLenght.Text = "Maximum number of characters in a string command";
+            // 
+            // nudCmdStringLenght
+            // 
+            nudCmdStringLenght.Location = new Point(20, 127);
+            nudCmdStringLenght.Name = "nudCmdStringLenght";
+            nudCmdStringLenght.Size = new Size(151, 31);
+            nudCmdStringLenght.TabIndex = 9;
+            nudCmdStringLenght.ValueChanged += nudCmdStringLenght_ValueChanged;
             // 
             // lblCmdCode
             // 
@@ -761,31 +789,31 @@
             // lblCmdQuery
             // 
             lblCmdQuery.AutoSize = true;
-            lblCmdQuery.Location = new Point(17, 105);
+            lblCmdQuery.Location = new Point(20, 161);
             lblCmdQuery.Margin = new Padding(6, 0, 6, 0);
             lblCmdQuery.Name = "lblCmdQuery";
             lblCmdQuery.Size = new Size(44, 25);
             lblCmdQuery.TabIndex = 4;
             lblCmdQuery.Text = "SQL";
             // 
-            // txtName
+            // txtCmdName
             // 
-            txtName.Location = new Point(344, 62);
-            txtName.Margin = new Padding(6, 5, 6, 5);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(321, 31);
-            txtName.TabIndex = 3;
-            txtName.TextChanged += txtName_TextChanged;
+            txtCmdName.Location = new Point(344, 62);
+            txtCmdName.Margin = new Padding(6, 5, 6, 5);
+            txtCmdName.Name = "txtCmdName";
+            txtCmdName.Size = new Size(538, 31);
+            txtCmdName.TabIndex = 3;
+            txtCmdName.TextChanged += txtName_TextChanged;
             // 
-            // lblName
+            // lblCmdName
             // 
-            lblName.AutoSize = true;
-            lblName.Location = new Point(344, 30);
-            lblName.Margin = new Padding(6, 0, 6, 0);
-            lblName.Name = "lblName";
-            lblName.Size = new Size(59, 25);
-            lblName.TabIndex = 2;
-            lblName.Text = "Name";
+            lblCmdName.AutoSize = true;
+            lblCmdName.Location = new Point(344, 30);
+            lblCmdName.Margin = new Padding(6, 0, 6, 0);
+            lblCmdName.Name = "lblCmdName";
+            lblCmdName.Size = new Size(59, 25);
+            lblCmdName.TabIndex = 2;
+            lblCmdName.Text = "Name";
             // 
             // numCmdNum
             // 
@@ -810,6 +838,7 @@
             // gbCommand
             // 
             gbCommand.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            gbCommand.Controls.Add(btnSendCommand);
             gbCommand.Controls.Add(cbCommand);
             gbCommand.Controls.Add(btnDeleteCommand);
             gbCommand.Controls.Add(btnCreateCommand);
@@ -821,6 +850,17 @@
             gbCommand.TabIndex = 0;
             gbCommand.TabStop = false;
             gbCommand.Text = "Command";
+            // 
+            // btnSendCommand
+            // 
+            btnSendCommand.Location = new Point(757, 32);
+            btnSendCommand.Margin = new Padding(6, 5, 6, 5);
+            btnSendCommand.Name = "btnSendCommand";
+            btnSendCommand.Size = new Size(126, 45);
+            btnSendCommand.TabIndex = 3;
+            btnSendCommand.Text = "Send";
+            btnSendCommand.UseVisualStyleBackColor = true;
+            btnSendCommand.Click += btnSendCommand_Click;
             // 
             // cbCommand
             // 
@@ -835,7 +875,7 @@
             // 
             // btnDeleteCommand
             // 
-            btnDeleteCommand.Location = new Point(543, 37);
+            btnDeleteCommand.Location = new Point(543, 32);
             btnDeleteCommand.Margin = new Padding(6, 5, 6, 5);
             btnDeleteCommand.Name = "btnDeleteCommand";
             btnDeleteCommand.Size = new Size(126, 45);
@@ -846,7 +886,7 @@
             // 
             // btnCreateCommand
             // 
-            btnCreateCommand.Location = new Point(409, 37);
+            btnCreateCommand.Location = new Point(409, 32);
             btnCreateCommand.Margin = new Padding(6, 5, 6, 5);
             btnCreateCommand.Name = "btnCreateCommand";
             btnCreateCommand.Size = new Size(126, 45);
@@ -860,6 +900,7 @@
             pageSettings.Controls.Add(ckbWriteDriverLog);
             pageSettings.Controls.Add(gpbTags);
             pageSettings.Controls.Add(gpbTagFormatDatabase);
+            pageSettings.ImageIndex = 4;
             pageSettings.Location = new Point(4, 34);
             pageSettings.Margin = new Padding(6, 5, 6, 5);
             pageSettings.Name = "pageSettings";
@@ -1081,6 +1122,7 @@
             // pageHelp
             // 
             pageHelp.Controls.Add(txtHelp);
+            pageHelp.ImageIndex = 5;
             pageHelp.Location = new Point(4, 34);
             pageHelp.Margin = new Padding(6, 5, 6, 5);
             pageHelp.Name = "pageHelp";
@@ -1088,6 +1130,18 @@
             pageHelp.TabIndex = 5;
             pageHelp.Text = "Help";
             pageHelp.UseVisualStyleBackColor = true;
+            // 
+            // imgList
+            // 
+            imgList.ColorDepth = ColorDepth.Depth32Bit;
+            imgList.ImageStream = (ImageListStreamer)resources.GetObject("imgList.ImageStream");
+            imgList.TransparentColor = Color.Transparent;
+            imgList.Images.SetKeyName(0, "database_connect.png");
+            imgList.Images.SetKeyName(1, "sql.png");
+            imgList.Images.SetKeyName(2, "database_go.png");
+            imgList.Images.SetKeyName(3, "database_table.png");
+            imgList.Images.SetKeyName(4, "setting_tools.png");
+            imgList.Images.SetKeyName(5, "help.png");
             // 
             // pnlBottom
             // 
@@ -1161,6 +1215,7 @@
             pageCommands.ResumeLayout(false);
             gbCommandParams.ResumeLayout(false);
             gbCommandParams.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudCmdStringLenght).EndInit();
             ((System.ComponentModel.ISupportInitialize)numCmdNum).EndInit();
             gbCommand.ResumeLayout(false);
             pageSettings.ResumeLayout(false);
@@ -1203,8 +1258,8 @@
         private Button btnCreateCommand;
         private GroupBox gbCommandParams;
         private Label lblCmdQuery;
-        private TextBox txtName;
-        private Label lblName;
+        private TextBox txtCmdName;
+        private Label lblCmdName;
         private NumericUpDown numCmdNum;
         private Label lblCmdNum;
         private FastColoredTextBoxNS.FastColoredTextBox txtSelectQuery;
@@ -1263,5 +1318,9 @@
         private ColumnHeader clmTagCode;
         private ColumnHeader clmTagFormat;
         private CheckBox ckbWriteDriverLog;
+        private Label lblCmdStringLenght;
+        private NumericUpDown nudCmdStringLenght;
+        private ImageList imgList;
+        private Button btnSendCommand;
     }
 }

@@ -141,6 +141,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 DbCommand exportCommand = CreateCommand();
                 exportCommand.CommandText = exportCmd.Query;
                 exportCommand.Connection = Connection;
+
                 ExportCommandsNum[exportCmd.CmdNum] = exportCommand;
                 ExportCommandsCode[exportCmd.CmdCode] = exportCommand;
             }
@@ -151,6 +152,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         public void SetCmdParam(DbCommand cmd, string paramName, object value)
         {
+            ArgumentNullException.ThrowIfNull(cmd, nameof(cmd));
+
             if (cmd == null)
             {
                 throw new ArgumentNullException("cmd");
