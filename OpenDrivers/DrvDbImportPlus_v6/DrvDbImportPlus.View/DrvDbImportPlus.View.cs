@@ -49,6 +49,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
 
+                    "Версия 6.3.0.2 (12.01.2025)\n" +
+                    "[v] Изменён интерфейс. Добавлены иконки.\n" +
+                    "[v] Строковые теги теперь отображаются единым значением.\n" +
+                    "[v] Исправлена ошибка в отображении команд на форме при сохранении конфигурации.\n" +
                     "Версия 6.3.0.1 (23.11.2024)\n" +
                     "[+] Добавлена возможность отправлять команды со строковыми значениями.\n" +
                     "[v] Исправлена ошибка в отображении команд на форме при сохранении конфигурации.\n" +
@@ -97,6 +101,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
 
+                    "Version 6.3.0.2 (12.01.2025)\n" +
+                    "[v] Changed the interface. Added icons.\n" +
+                    "[v] String tags are now displayed with a single value.\n" +
                     "Version 6.3.0.1 (11/23/2024)\n" +
                     "[+] Added ability to send commands with string values.\n" +
                     "[v] Fixed an error in the display of commands on the form when saving the configuration.\n" +
