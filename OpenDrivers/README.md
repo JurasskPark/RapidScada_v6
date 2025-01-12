@@ -4,7 +4,25 @@
 
 	
 ### DrvDbImportPlus
-	
+
+Библиотека DrvDbImportPlus (6.3.0.2)
+- Изменён интерфейс. Добавлены иконки.
+- Строковые теги теперь отображаются единым значением.
+
+Библиотека DrvDbImportPlus (6.3.0.1)
+- Добавлена возможность отправлять команды со строковыми значениями.
+- Исправлена ошибка в отображении команд на форме при сохранении конфигурации.
+- Переход на библиотеку Microsoft.Data.SqlClient. Библиотека Sql.Data.SqlClient больше не поддерживается.
+- Компиляция библиотеки сделана под несколько платформ, чтобы не было проблемы 'Ваша платформа не поддерживается'.
+- Обновлена Справка.
+
+Библиотека DrvDbImportPlus (6.3.0.0)
+- Переход на библиотеки RapidScada 6.3.0.0 и переход на Net Core 8.0.
+- Добавлена возможность у строковых данных указывать длину, по которой будут автоматически генерировать теги.
+- Обновление библиотек на более свежие версии Net Core 8.0.
+- Подправление интерфейс под ноутбуки и некоторые недочеты.
+- Удаление источников данных ODBC и OLEDB по причине неактуальности и невозможности использования.
+
 Библиотека DrvDbImportPlus (6.0.0.6)
 - Добавлен функционал по отображению и округлению значения на количество знаков после запятой.
 
@@ -40,6 +58,24 @@
 - Реализован новый режим сбора данных, когда в первом столбце - название тега, во втором - значение тега, в третьем - время значения. (Работает историческая запись данных через срез.)
 
 ---------------------------------------------------------------------------
+
+DrvDbImportPlus library (6.3.0.2)
+- Interface changed. Icons have been added.
+- String tags are now displayed as a single value.
+
+DrvDbImportPlus library (6.3.0.1)
+- Added the ability to send commands with string values.
+- Fixed an error in displaying commands on the form when saving the configuration.
+- Switching to the Microsoft.Data.SqlClient library. The Sql.Data.SqlClient library is no longer supported.
+- The library has been compiled for several platforms so that there is no problem of 'Your platform is not supported'.
+- The Help has been updated.
+
+DrvDbImportPlus Library (6.3.0.0)
+- Switching to the Rapid Scada 6.3.0.0 libraries and switching to Net Core 8.0.
+- Added the ability for string data to specify the length by which tags will be automatically generated.
+- Updating libraries to more recent versions of Net Core 8.0.
+- Congratulations on the interface for laptops and some bugs.
+- Removal of ODBC and OLEDB data sources due to their irrelevance and inability to use.
 
 DrvDbImportPlus library (6.0.0.6)
 - Added functionality for displaying and rounding values by the number of decimal places.
@@ -86,6 +122,7 @@ Screenshots
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_001.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_002.png)
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_003.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_004.png)
 ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_005.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_006.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_007.png)
 
 	
 	
