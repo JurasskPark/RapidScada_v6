@@ -4,16 +4,16 @@
 
 	
 ### DrvDbImportPlus
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.3.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.3.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.3.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.6/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.5/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.4/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.3/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.0/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.2/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.0/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.6/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.5/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.4/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.3/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.2/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.1/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
 
 Библиотека DrvDbImportPlus (6.3.0.2)
 - Изменён интерфейс. Добавлены иконки.
