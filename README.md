@@ -43,3 +43,9 @@ Shareware Drivers
 ![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmpJP_v6.1.1.6/total)
 ![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmpJP_v6.1.1.5/total)
 ![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmpJP_v6.1.1.4/total)
+
+
+![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.3.0.2/total)
+![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.3.0.1/total)
+![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.1.1.3/total)
+
