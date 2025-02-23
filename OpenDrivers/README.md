@@ -4,7 +4,7 @@
 
 	
 ### DrvDbImportPlus
-[![Github All Releases](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.3.0.2/total)]()
+[![Github All Releases]((https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total?logoSize=30))]()
 [![Github All Releases](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.3.0.1/total)]()
 [![Github All Releases](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.3.0.0/total)]()
 [![Github All Releases](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_6.0.0.6/total)]()
