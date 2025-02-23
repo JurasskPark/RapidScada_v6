@@ -5,8 +5,8 @@
 	
 ### ExtSNMPJP
 
-![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmp_6.1.1.6/total)
-![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmp_6.1.1.5/total)
+![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmpJP_v6.1.1.6/total)
+![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmpJP_v6.1.1.5/total)
 ![ExtSnmpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtSnmpJP_v6.1.1.4/total)
 
 Библиотека ExtSNMPJP (6.1.1.3)
