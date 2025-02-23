@@ -4,6 +4,13 @@
 
 	
 ### ExtScriptCompilerJP
+
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.4/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.3/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.0_Beta/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.1.1.7/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.1.1.6/total)
+
 Библиотека ExtScriptCompilerJP (6.3.0.4)
 - Добавлена подсветка ошибки и указания номера строки.
 
