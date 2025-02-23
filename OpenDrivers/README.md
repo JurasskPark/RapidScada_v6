@@ -137,6 +137,14 @@ Screenshots
 	
 	
 ### DrvPingJP
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.3.0.0/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.3/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.2/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.1/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.0/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.2/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.1/total)
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.0/total)
 
 Библиотека DrvPingJP (6.1.0.2)
 - Изменены иконки на форме
