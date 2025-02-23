@@ -30,3 +30,11 @@ Open Drivers
 ![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.3.0.0/total)
 ![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.0.0.1/total)
 ![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.0.0.0/total)
+
+Shareware Drivers
+
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.4/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.3/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.0/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.1.1.7/total)
+![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.1.1.6/total)
