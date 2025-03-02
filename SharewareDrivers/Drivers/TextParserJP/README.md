@@ -3,47 +3,27 @@
 
 
 	
-### ExtTrendJP
+### DrvTextParserJP
 
-![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.3.0.2/total)
-![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.3.0.1/total)
-![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.1.1.3/total)
+![DrvTextParserJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTextParserJP_v6.4.0.0/total)
 
 
-Библиотека ExtTrendJP (6.3.0.1)
-- Исправление ошибок в графическом оформлении библиотеки.
-Библиотека ExtTrendJP (6.3.0.0)
-- Переход с Net Core 6.0 на Net Core 8.0.
-Библиотека ExtTrendJP (6.1.1.3)
-- Исправление небольших недочетов и ошибки с изменением свойств архива.
-Библиотека ExtTrendJP (6.1.1.2)
-- Исправлена ошибка по отсчету времени.
-- Исправлена ошибка в изображении О программе и Splash формы.
-Библиотека ExtTrendJP (6.1.1.1)
+Библиотека DrvTextParserJP (6.4.0.0)
 - Релиз.
 ---------------------------------------------------------------------------
 
-ExtTrendJP Library (6.3.0.1)
-- Correction of errors in the library's graphic design.
-ExtTrendJP Library (6.3.0.0)
-- Migration from Net Core 6.0 to Net Core 8.0.
-ExtTrendJP  library (6.1.1.3)
-- Correction of minor bugs and errors with changing archive properties.
-ExtTrendJP  library (6.1.1.2)
-- Fixed a bug in the time countdown.
-- Fixed a bug in the About and Splash form image.
-ExtTrendJP  library (6.1.1.1)
+DrvTextParserJP  library (6.4.0.0)
 - Release.
 
 
 Video on YouTube 
-https://www.youtube.com/watch?v=AJ5tr_kXeQw
 
 
-[![Video on YouTube](https://img.youtube.com/vi/AJ5tr_kXeQw/0.jpg)](https://www.youtube.com/watch?v=AJ5tr_kXeQw)
+
+[![Video on YouTube]()]()
 
 Screenshots
 
-![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_001.png) ![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_002.png)
-![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_003.png) ![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_004.png)
-![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_005.png) 
+![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_001.png) ![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_002.png)
+![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_003.png) ![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_004.png)
+![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_005.png) 
