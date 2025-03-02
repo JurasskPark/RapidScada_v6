@@ -3,9 +3,9 @@
 
 
 	
-### DrvTextParserJP
+### DrvParserTextJP
 
-![DrvTextParserJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTextParserJP_v6.4.0.0/total)
+![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.0/total)
 
 
 Video on Rutube 
@@ -13,8 +13,8 @@ Video on Rutube
 
 Screenshots
 
-![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_001.png) ![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_002.png)
-![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_003.png) ![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_004.png)
-![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_005.png) ![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_006.png) 
-![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_007.png) ![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_008.png)
-![DrvTextParserJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvTextParserJP_009.png) 
+![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_001.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_002.png)
+![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_003.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_004.png)
+![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_005.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_006.png) 
+![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_007.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_008.png)
+![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/TrendJP/Source/DrvParserTextJP_009.png) 
