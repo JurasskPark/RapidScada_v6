@@ -247,6 +247,7 @@ For convenient drafting for parsing, it is convenient to do the following proced
 
 Example.
 
+
 	[0][0][0]=[Mikhail]
 	[0][0][1]=[writes]
 	[0][0][2]=[the]
@@ -263,6 +264,7 @@ Example.
 	[0][1][6]=[editor]
 	[0][1][7]=[and]
 	[0][1][8]=[RapidScada.]
+
 
 Where the first value in square brackets is the block number, the second value in square brackets is the line number, and the third value in square brackets is the parameter number. 
 
