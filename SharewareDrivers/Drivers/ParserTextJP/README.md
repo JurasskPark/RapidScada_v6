@@ -187,6 +187,7 @@ C:\Debug\2\test.csv|25.02.2025 10:48:08|280|5|False|0
 В четвертом значении указывается количество строк, сколько было прочитано.
 В пятом значении указывается признак был ли файл изменен.
 В шестом значении указывается результат обработки файла, где
+
 0 - файл не обработан
 1 - файл обработан успешно
 2 - файл не обработан из-за ошибки
@@ -376,8 +377,9 @@ The third value indicates the file size.
 The fourth value indicates the number of lines that have been read.
 The fifth value indicates whether the file has been modified.
 The sixth value indicates the result of file processing, where
-0 means the file has not been processed
-and 1 means the file has been processed successfully.
+
+0 - means the file has not been processed
+1 - means the file has been processed successfully.
 2 - the file was not processed due to an error.
 
 9. After debugging the parser, logging can be disabled through the Settings - Record the result of execution (debugging).
