@@ -306,7 +306,9 @@ Example. 0.2-5, where 0 is the block number, 2 means that when creating the tabl
 Skipping parameters is convenient when the table is large, and only 2-3 columns need to be added from a large table so as not to waste resources on unnecessarily filling in columns of values, which will then be deleted anyway during filtering.
 
 7. After creating tags and settings, when you click Check, the contents of the Content text block will be displayed in the Result text field.
+   
 Example.
+
 Content:
 
 	Mikhail writes the world's best mnemonic editor.
