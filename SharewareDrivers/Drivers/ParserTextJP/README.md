@@ -4,7 +4,7 @@
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.0/total)
 	
 ### DrvParserTextJP
-##Инструкция
+## Инструкция
 
 При работе с файлами у парсера есть несколько основных настроек:
 - Путь - эта настройка, в которой указывается каталог, где находятся файлы, которые необходимо парсить.
@@ -191,7 +191,7 @@ C:\Debug\2\test.csv|25.02.2025 10:48:08|280|5|False|0
 
 9. После отладки парсера логирование можно отключить через Настройки - Записывать результат выполнения (отладка).
 
-##Instructions
+## Instructions
 
 When working with files, the parser has several basic settings:
 - Path is a setting that specifies the directory where the files that need to be parsed are located.
