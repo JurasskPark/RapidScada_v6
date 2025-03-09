@@ -1,6 +1,7 @@
 	Драйвера для Rapid SCADA.
 	Drivers  for Rapid SCADA.
 
+![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.0/total)
 	
 ### DrvParserTextJP
 ##Инструкция
@@ -24,28 +25,28 @@
 Блок - это обязательный параметр, по которому приложение определяет как разбивать на одинаковую структуру данные.
 Признаки у блока от разработчика могут разные, но даже если его нет, блок разделитель нужно указать, например, {BLOCK} .  
 
-	Пример, блоков.  
-	Оглавление 1  
-	Текст: 01  
-	Текст: 02  
-	-------  
-	  
-	Оглавление 2  
-	Текст: 01  
-	Текст: 02  
-	-------  
-  
+	Пример, блоков.  <br>
+	Оглавление 1  <br>
+	Текст: 01  <br>
+	Текст: 02  <br>
+	-------  <br>
+	  <br>
+	Оглавление 2  <br>
+	Текст: 01  <br>
+	Текст: 02  <br>
+	-------  <br>
+  <br>
 
 
 Где, разделителем блока можно было взять как ------- , так и Оглавление , потому что это оба признаки, по которому дальше шла одинаковая структура файла.\
 
 Строка - это параметр, который разбивает текст по строкам. В 95% случаев это символы переноса \r и \n, но так как данные символы не отображаются для пользователя, то для наглядного отображения, что разделитель указан, используется формат:
-	{LF} - \n 
-	{CR} - \r 
+	{LF} - \n <br>
+	{CR} - \r <br>
 
 Параметр - это свойство, у которого разделителем в основном является пробел или символ табуляции, а для csv файлов символ , или ;. Для наглядного отображения, что разделитель указан, используется формат:
-	{SPACE} -  (пробел)
-	{TAB} - \t (табуляция)
+	{SPACE} -  (пробел) <br>
+	{TAB} - \t (табуляция) <br>
 
 При разделении блоков, строк и параметров иногда остаются пустые переменные. С пустыми переменными возможно три действия:
 - ничего не делать
@@ -210,26 +211,28 @@ You need to understand that the driver needs three delimiters for parsing.:
 A block is a required parameter by which an application determines how to split data into the same structure.
 The signs of the block from the developer may vary, but even if it does not exist, the separator block must be specified, for example, {BLOCK}
 
-Example, blocks.
-Table of contents 1
-Text: 01
-Text: 02
--------
 
-Table of contents 2
-Text: 01
-Text: 02
--------
+Example, blocks.
+
+	Table of contents 1<br>
+	Text: 01<br>
+	Text: 02<br>
+	-------<br>
+	<br>
+	Table of contents 2<br>
+	Text: 01<br>
+	Text: 02<br>
+	-------<br>
 
 Where, the block separator could be both ------- and the Table of Contents , because these are both signs, according to which the same file structure followed.
 
 A string is a parameter that splits text into lines. In 95% of cases, these are hyphenation characters \r and \n, but since these characters are not displayed to the user, the format is used to visually indicate that the separator is specified:
-{LF} - \n
-{CR} - \r
+	{LF} - \n<br>
+	{CR} - \r<br>
 
 A parameter is a property where the separator is mainly a space or a tab character, and for csv files, the character , or ;. To visually indicate that the separator is specified, the format is used:
-{SPACE} - (space)
-{TAB} - \t (tab)
+	{SPACE} - (space)<br>
+{	TAB} - \t (tab)<br>
 
 When separating blocks, rows, and parameters, sometimes empty variables remain. There are three possible actions with empty variables:
 - do nothing
@@ -243,22 +246,22 @@ For convenient drafting for parsing, it is convenient to do the following proced
 4. Click the Map button and see how the application has divided the file contents.
 
 Example.
-[0][0][0]=[Mikhail]
-[0][0][1]=[writes]
-[0][0][2]=[the]
-[0][0][3]=[world's]
-[0][0][4]=[best]
-[0][0][5]=[mnemonic]
-[0][0][6]=[editor.]
-[0][1][0]=[Mikhail]
-[0][1][1]=[writes]
-[0][1][2]=[the]
-[0][1][3]=[world's]
-[0][1][4]=[best]
-[0][1][5]=[mnemonic]
-[0][1][6]=[editor]
-[0][1][7]=[and]
-[0][1][8]=[RapidScada.]
+	[0][0][0]=[Mikhail]<br>
+	[0][0][1]=[writes]<br>
+	[0][0][2]=[the]<br>
+	[0][0][3]=[world's]<br>
+	[0][0][4]=[best]<br>
+	[0][0][5]=[mnemonic]<br>
+	[0][0][6]=[editor.]<br>
+	[0][1][0]=[Mikhail]<br>
+	[0][1][1]=[writes]<br>
+	[0][1][2]=[the]<br>
+	[0][1][3]=[world's]<br>
+	[0][1][4]=[best]<br>
+	[0][1][5]=[mnemonic]<br>
+	[0][1][6]=[editor]<br>
+	[0][1][7]=[and]<br>
+	[0][1][8]=[RapidScada.]<br>
 
 Where the first value in square brackets is the block number, the second value in square brackets is the line number, and the third value in square brackets is the parameter number. 
 
@@ -300,55 +303,59 @@ Skipping parameters is convenient when the table is large, and only 2-3 columns 
 7. After creating tags and settings, when you click Check, the contents of the Content text block will be displayed in the Result text field.
 Example.
 Content:
-Mikhail writes the world's best mnemonic editor.
-Mikhail writes the world's best mnemonic editor and RapidScada.
-Validate Int 0123 456 789 111 222 333 444 555 666 777.
-Validate IntDot 0123 456 789 111 222 333 444 555.
-ValaidateBool True False true false 
-TagDate 01.01.2020 2020-01-01 12-12-2020 01.01.2020 2020-01-01 12-12-2020
-TagFloat checking the meaning of a sentence with a 123.546.
+
+	Mikhail writes the world's best mnemonic editor.<br>
+	Mikhail writes the world's best mnemonic editor and RapidScada.<br>
+	Validate Int 0123 456 789 111 222 333 444 555 666 777.<br>
+	Validate IntDot 0123 456 789 111 222 333 444 555.<br>
+	ValaidateBool True False true false <br>
+	TagDate 01.01.2020 2020-01-01 12-12-2020 01.01.2020 2020-01-01 12-12-2020<br>
+	TagFloat checking the meaning of a sentence with a 123.546.<br>
 
 Tags:
-TagString1		[0][0][6] String
-Michail 		[0][1][8] String
-TagInt			[0][2][7] Integer
-TagIntDot		[0][3][9] Integer
-TagBoolTrue		[0][4][2] Boolean	
-TagBoolFalse	[0][4][3] Boolean
-TagDate			[0][5][6] Datetime
-TagFloat		[0][6][9] Float
+
+	TagString1		[0][0][6] String<br>
+	Michail 		[0][1][8] String<br>
+	TagInt			[0][2][7] Integer<br>
+	TagIntDot		[0][3][9] Integer<br>
+	TagBoolTrue		[0][4][2] Boolean<br>	
+	TagBoolFalse		[0][4][3] Boolean<br>
+	TagDate			[0][5][6] Datetime<br>
+	TagFloat		[0][6][9] Float<br>
 
 Result:
-TagString1=editor
-Michail=RapidScada
-TagInt=333
-TagIntDot=555
-TagBoolTrue=False
-TagBoolFalse=True
-TagDate=2020-12-12 00:00:00
-TagFloat=123,546
+
+	TagString1=editor<br>
+	Michail=RapidScada<br>
+	TagInt=333<br>
+	TagIntDot=555<br>
+	TagBoolTrue=False<br>
+	TagBoolFalse=True<br>
+	TagDate=2020-12-12 00:00:00<br>
+	TagFloat=123,546<br>
 
 8. After checking the tags, the correctness of the parsing task is checked. Select Run from the menu.
 The result of the work will be in the Result text field.
 Example.
-[2025-03-09 16:35:47.41083] File parsing C:\Debug\1\format.txt .
-[2025-03-09 16:35:47.41324] 
-Mikhail writes the world's best mnemonic editor.
-Mikhail writes the world's best mnemonic editor and RapidScada.
-Validate Int 0123 456 789 111 222 333 444 555 666 777.
-Validate IntDot 0123 456 789 111 222 333 444 555.
-ValaidateBool True False true false 
-TagDate 01.01.2020 2020-01-01 12-12-2020 01.01.2020 2020-01-01 12-12-2020
-TagFloat checking the meaning of a sentence with a 123.546.
 
-TagString1=editor
-Michail=RapidScada
-TagInt=333
-TagIntDot=555
-TagBoolTrue=False
-TagBoolFalse=True
-TagDate=2020-12-12 00:00:00
-TagFloat=123,546
+	[2025-03-09 16:35:47.41083] File parsing C:\Debug\1\format.txt.<br>
+	[2025-03-09 16:35:47.41324] <br>
+	Mikhail writes the world's best mnemonic editor.<br>
+	Mikhail writes the world's best mnemonic editor and RapidScada.<br>
+	Validate Int 0123 456 789 111 222 333 444 555 666 777.<br>
+	Validate IntDot 0123 456 789 111 222 333 444 555.<br>
+	ValaidateBool True False true false <br>
+	TagDate 01.01.2020 2020-01-01 12-12-2020 01.01.2020 2020-01-01 12-12-2020<br>
+	TagFloat checking the meaning of a sentence with a 123.546.<br>
+	<br>
+	TagString1=editor<br>
+	Michail=RapidScada<br>
+	TagInt=333<br>
+	TagIntDot=555<br>
+	TagBoolTrue=False<br>
+	TagBoolFalse=True<br>
+	TagDate=2020-12-12 00:00:00<br>
+	TagFloat=123,546<br>
 
 Where the first date point indicated the beginning of the parsing date and the path to the file that the file parser was processing.
 The second paragraph indicated the contents of the file and what values the tags received at the output.
@@ -367,7 +374,7 @@ and 1 means the file has been processed successfully.
 
 9. After debugging the parser, logging can be disabled through the Settings - Record the result of execution (debugging).
 
-![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.0/total)
+
 
 Video YouTube
 https://youtu.be/t9LyHzDUzmo?si=giMWBqSsCHaqGY7n
