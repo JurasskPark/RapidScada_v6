@@ -378,21 +378,22 @@ The fourth value indicates the number of lines that have been read.
 The fifth value indicates whether the file has been modified.
 The sixth value indicates the result of file processing, where
 
-0 - means the file has not been processed
-1 - means the file has been processed successfully.
-2 - the file was not processed due to an error.
+0 - means the file has not been processed<br>
+1 - means the file has been processed successfully.<br>
+2 - the file was not processed due to an error.<br>
 
 9. After debugging the parser, logging can be disabled through the Settings - Record the result of execution (debugging).
 
 
 
-Video YouTube
+
+## Video YouTube
 https://youtu.be/t9LyHzDUzmo?si=giMWBqSsCHaqGY7n
 
-Video Rutube 
+## Video Rutube 
 https://rutube.ru/video/78239cf1a34e714c75cd883a314240bf/
 
-Screenshots
+## Screenshots
 
 ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_001.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_002.png)
 ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_003.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_004.png)
