@@ -246,6 +246,7 @@ For convenient drafting for parsing, it is convenient to do the following proced
 4. Click the Map button and see how the application has divided the file contents.
 
 Example.
+
 	[0][0][0]=[Mikhail]
 	[0][0][1]=[writes]
 	[0][0][2]=[the]
