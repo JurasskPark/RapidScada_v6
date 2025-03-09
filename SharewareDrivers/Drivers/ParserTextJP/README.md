@@ -343,6 +343,7 @@ Result:
 
 8. After checking the tags, the correctness of the parsing task is checked. Select Run from the menu.
 The result of the work will be in the Result text field.
+
 Example.
 
 	[2025-03-09 16:35:47.41083] File parsing C:\Debug\1\format.txt.
