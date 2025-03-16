@@ -72,6 +72,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             deviceTags = new List<Tag>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public FrmConfig(string configDriver, bool languageRussian = false) : this()
         {
             this.deviceNum = 0;
@@ -85,6 +88,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             deviceTags = new List<Tag>();
         }
 
+        /// <summary>
+        /// Load the driver translation.
+        /// </summary>
         public void LoadLanguage(string languageDir, bool IsRussian = false)
         {
             // load translate
@@ -155,9 +161,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             FormTranslator.Translate(lstTags, GetType().FullName);
 
             Modified = false;
-
         }
 
+        /// <summary>
+        /// Closing the form
+        /// </summary>
         private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Modified)
@@ -513,7 +521,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     {
                         EnableConnProps();
                     }
-
                 }
 
                 Modified = true;
@@ -1071,127 +1078,104 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
         }
 
+        /// <summary>
+        /// Проверка отправки команды
+        /// </summary>
         private void btnSendCommand_Click(object sender, EventArgs e)
         {
-            string errMsg = string.Empty;   
-           ExportCmd exportCmd = cbCommand.SelectedItem as ExportCmd;
+            string errMsg = string.Empty;
+            ExportCmd exportCmd = cbCommand.SelectedItem as ExportCmd;
 
             if (exportCmd != null)
             {
-                TeleCommand cmd = new TeleCommand();
-                cmd.CmdNum = exportCmd.CmdNum;
-                //cmd.CmdCode = exportCmd.CmdCode;
-                //cmd.CmdVal = 777;
-                cmd.CmdData = TeleCommand.StringToCmdData("TTT");
+                FrmInputBox InputBox = new FrmInputBox();
+                InputBox.Values = string.Empty;
+                InputBox.ShowDialog();
 
-                if (cmd != null)
+                if (InputBox.DialogResult == DialogResult.OK)
                 {
-                    bool LastRequestOK = false;
-                    string Msg = string.Empty;
-                    // Log regardless of whether logging is enabled or not
-                    Msg += (string.Format(Locale.IsRussian ?
-                        "Получена команда. " :
-                        "Command received. ")) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                        "Дата: " + cmd.CreationTime.ToString() :
-                        "Date: " + cmd.CreationTime.ToString())) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                       "Пользователь ID: " + cmd.UserID.ToString() :
-                       "User ID: " + cmd.UserID.ToString())) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                       "Номер устройства: " + cmd.DeviceNum.ToString() :
-                       "Device number: " + cmd.DeviceNum.ToString())) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                        "Номер команды (@cmdNum): " + cmd.CmdNum :
-                        "Command number (@cmdNum): " + cmd.CmdNum)) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                        "Код команды (@cmdCode): " + cmd.CmdCode :
-                        "Command code (@cmdCode): " + cmd.CmdCode)) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                        "Значение команды (@cmdVal): " + cmd.CmdVal :
-                        "Command value (@cmdVal): " + cmd.CmdVal)) + Environment.NewLine;
-                    Msg += (string.Format(Locale.IsRussian ?
-                        "Значение команды (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData) :
-                        "Command value (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData))) + Environment.NewLine;
+                    TeleCommand cmd = new TeleCommand();
+                    cmd.CmdNum = exportCmd.CmdNum;
+                    cmd.CmdData = TeleCommand.StringToCmdData(InputBox.Values);
 
-                    ValidateDataSource(out errMsg);
-
-                    DbCommand dbCommand;
-
-                    if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand))
+                    if (cmd != null)
                     {
-                        Msg += ("PRINT #1") + Environment.NewLine;
-                        Msg += (DriverUtils.NullToString(cmd.CmdNum)) + Environment.NewLine;
-                        Msg += (DriverUtils.NullToString(dbCommand.CommandText)) + Environment.NewLine;
-                        Msg += (DriverUtils.NullToString(dbCommand.CommandTimeout)) + Environment.NewLine;
-                        Msg += (DriverUtils.NullToString(dbCommand.CommandType)) + Environment.NewLine;
-                        Msg += (DriverUtils.NullToString(dbCommand.Connection)) + Environment.NewLine;
-                    }
-                    else if (dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand))
-                    {
-                        Msg += ("PRINT #2");
-                    }
-                    else if (dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand))
-                    {
-                        Msg += ("PRINT #3");
-                    }
+                        bool LastRequestOK = false;
+                        string Msg = string.Empty;
+                        // Log regardless of whether logging is enabled or not
+                        Msg += (string.Format(Locale.IsRussian ?
+                            "Получена команда. " :
+                            "Command received. ")) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                            "Дата: " + cmd.CreationTime.ToString() :
+                            "Date: " + cmd.CreationTime.ToString())) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                           "Пользователь ID: " + cmd.UserID.ToString() :
+                           "User ID: " + cmd.UserID.ToString())) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                           "Номер устройства: " + cmd.DeviceNum.ToString() :
+                           "Device number: " + cmd.DeviceNum.ToString())) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                            "Номер команды (@cmdNum): " + cmd.CmdNum :
+                            "Command number (@cmdNum): " + cmd.CmdNum)) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                            "Код команды (@cmdCode): " + cmd.CmdCode :
+                            "Command code (@cmdCode): " + cmd.CmdCode)) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                            "Значение команды (@cmdVal): " + cmd.CmdVal :
+                            "Command value (@cmdVal): " + cmd.CmdVal)) + Environment.NewLine;
+                        Msg += (string.Format(Locale.IsRussian ?
+                            "Значение команды (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData) :
+                            "Command value (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData))) + Environment.NewLine;
 
+                        ValidateDataSource(out errMsg);
 
+                        DbCommand dbCommand;
 
-                    if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand) ||
-                    dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand) ||
-                    dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand)
-                    )
-                    {
-                        if (ValidateDataSource(out errMsg) && ValidateCommand(dbCommand, out errMsg))
+                        if (dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand) ||
+                        dataSource.ExportCommandsNum.TryGetValue(0, out dbCommand) ||
+                        dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand)
+                        )
                         {
-                            if (cmd.CmdDataIsEmpty)
+                            if (ValidateDataSource(out errMsg) && ValidateCommand(dbCommand, out errMsg))
                             {
-                                dataSource.SetCmdParam(dbCommand, "cmdVal", (object)cmd.CmdVal);
-                            }
-                            else
-                            {
-                                dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
-                            }
+                                if (cmd.CmdDataIsEmpty)
+                                {
+                                    dataSource.SetCmdParam(dbCommand, "cmdVal", (object)cmd.CmdVal);
+                                }
+                                else
+                                {
+                                    dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
+                                }
 
-                            if (!String.IsNullOrEmpty(cmd.CmdCode))
-                            {
-                                dataSource.SetCmdParam(dbCommand, "cmdCode", (object)cmd.CmdCode);
-                            }
+                                if (!String.IsNullOrEmpty(cmd.CmdCode))
+                                {
+                                    dataSource.SetCmdParam(dbCommand, "cmdCode", (object)cmd.CmdCode);
+                                }
 
-                            dataSource.SetCmdParam(dbCommand, "cmdNum", (object)cmd.CmdNum);
-
-   
+                                dataSource.SetCmdParam(dbCommand, "cmdNum", (object)cmd.CmdNum);
 
                                 if (SendDbCommand(dbCommand, out errMsg))
                                 {
-                                    //List<DeviceTag> findDeviceTags = DeviceTags.ToList();
-                                    //DeviceTag findTag = findDeviceTags.Find(t => t.Code == cmd.CmdCode);
+                                    if (!String.IsNullOrEmpty(errMsg))
+                                    {
+                                        {
+                                            MessageBox.Show(errMsg);
+                                        }
 
-                                    //if (cmd.CmdDataIsEmpty)
-                                    //{
-                                    //    DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
-                                    //}
-                                    //else
-                                    //{
-                                    //    findTag.DataType = TagDataType.Unicode;
-                                    //    DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
-                                    //}
-
-                                    LastRequestOK = true;
+                                        LastRequestOK = true;
+                                    }
                                 }
-
-        
-                            
+                                else
+                                {
+                                    MessageBox.Show(errMsg);
+                                }
+                            }
+                            else
+                            {
+                                LastRequestOK = false;
+                            }
                         }
-                        else
-                        {
-                            MessageBox.Show(errMsg);
-                        }
-                    }
-                    else
-                    {
-                        LastRequestOK = false;
                     }
                 }
             }
@@ -1315,6 +1299,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
         #region Tab Settings
 
+        #region Modified
         /// <summary>
         /// Write Driver Log
         /// </summary>
@@ -1338,6 +1323,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         {
             Modified = true;
         }
+        #endregion Modified
 
         #region Tag Refresh
         /// <summary>
@@ -1349,7 +1335,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         }
         #endregion Tag Refresh
 
-        #region Tag selection
+        #region Tag Selection
         /// <summary>
         /// Tag selection
         /// </summary>
@@ -1379,9 +1365,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
         }
 
-        #endregion Tag selection
+        #endregion Tag Selection
 
-        #region Tag add
+        #region Tag Add
         /// <summary>
         /// Tag add
         /// </summary>
@@ -1414,9 +1400,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             catch { }
         }
 
-        #endregion Tag add
+        #endregion Tag Add
 
-        #region Tag list add
+        #region Tag List Add
         /// <summary>
         /// Tag list add
         /// </summary>
@@ -1463,9 +1449,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             catch { }
         }
 
-        #endregion Tag list add
+        #endregion Tag List Add
 
-        #region Tag change
+        #region Tag Change
         /// <summary>
         /// Tag change
         /// </summary>
@@ -1526,9 +1512,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             catch { }
         }
 
-        #endregion Tag change
+        #endregion Tag Change
 
-        #region Tag delete
+        #region Tag Delete
 
         /// <summary>
         /// Tag delete
@@ -1597,9 +1583,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             catch { }
         }
 
-        #endregion Tag delete
+        #endregion Tag Delete
 
-        #region Tag list delete
+        #region Tag List Delete
         /// <summary>
         /// Tag list delete
         /// </summary>
@@ -1628,7 +1614,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             catch { }
         }
 
-        #endregion Tag list delete
+        #endregion  Tag List Delete
 
         #region Tag Up
         /// <summary>
@@ -1712,8 +1698,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         #endregion Tag Down
 
         #endregion Tab Settings
-
-
 
     }
 }

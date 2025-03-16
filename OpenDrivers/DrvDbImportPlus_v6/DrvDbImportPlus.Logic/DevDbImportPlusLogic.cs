@@ -616,7 +616,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 LogDriver(string.Format(Locale.IsRussian ? "Код тега: {0}" : "Tag code: {0}", deviceTag.Code));
                 LogDriver(string.Format(Locale.IsRussian ? "Длина данных: {0}" : "Data length: {0}", deviceTag.DataLength.ToString()));
                 LogDriver(string.Format(Locale.IsRussian ? "Количество элементов данных, хранящихся в значении тега: {0}" : "Data elements stored in the tag value: {0}", deviceTag.DataLen.ToString()));
-
                 LogDriver("##########");
 
                 if (val == DBNull.Value || val == null)
@@ -750,9 +749,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
                 if(FindCommandConfig(cmd, out DbCommand dbCommand))
                 {
-                    //dataSource.SetCmdParam(dbCommand, "cmdVal", cmd.CmdValIsEmpty ? DBNull.Value : cmd.CmdVal);
-                    //dataSource.SetCmdParam(dbCommand, "cmdData", cmd.CmdDataIsEmpty ? DBNull.Value : TeleCommand.CmdDataToString(cmd.CmdData));
-
                     if (cmd.CmdDataIsEmpty)
                     {
                         dataSource.SetCmdParam(dbCommand, "cmdVal", cmd.CmdVal);
@@ -764,7 +760,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
                     if (ValidateDataSource() && ValidateCommand(dbCommand))
                     {
-
                         if (Connect() && SendDbCommand(dbCommand))
                         {
                             List<DeviceTag> findDeviceTags = DeviceTags.ToList();
