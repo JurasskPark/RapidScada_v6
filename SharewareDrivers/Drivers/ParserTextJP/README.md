@@ -1,6 +1,7 @@
 	Драйвера для Rapid SCADA.
 	Drivers  for Rapid SCADA.
 
+![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.3/total)
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.2/total)
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.1/total)
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.0/total)
@@ -12,6 +13,7 @@
 - Путь - эта настройка, в которой указывается каталог, где находятся файлы, которые необходимо парсить.
 - Использовать подпапки? - эта настройка, которая заставляет парсер перебирать все подпапки в поиске файлов для парсинга.
 - Читать с последней строки? - эта настройка, которая будет запоминать, сколько было прочитано строк в файле. В случае, если настройка активна, то игнорируется факт, что файл был ранее обработан.
+- Читать только последнюю строку? - это настройка, будет всегда читать только одну последюю строку из файла.
 - Фильтр - эта настройка, позволяет отфильтровать файлы, которые находятся в каталоге, но их не нужно обрабатывать. Например, если в каталоге помимо текстовых файлов, находятся другие файлы, то они будут игнорироваться. В данной настроке нужно указывать формат файлов, с которыми парсер должен работать, т.к. помимо стандартного файла .txt существуют еще много форматов, например, ini, csv и д.р., которые придумал разработчик.
 - Имя файла шаблона - это настройка, которая помогает, когда у файлов одинаковый формат и они находятся в одном каталоге, но структура файлов разная и в имени файла признак, по которым их можно различать.
 Например, data_hour_2025_01_01.txt и data_current_2025_01_01.txt
@@ -202,6 +204,7 @@ When working with files, the parser has several basic settings:
 - Path is a setting that specifies the directory where the files that need to be parsed are located.
 - Use subfolders? - this setting, which forces the parser to iterate through all subfolders in search of files for parsing.
 - Read from the last line? - this setting, which will remember how many lines have been read in the file. If the setting is active, the fact that the file was previously processed is ignored.
+- Read just one last line? - this setting will always read only one last line from the file.
 - Filter - this setting allows you to filter files that are in the directory, but they do not need to be processed. For example, if there are other files in the directory besides text files, they will be ignored. In this setting, you need to specify the file format that the parser should work with, because in addition to the standard file.txt there are many more formats, for example, ini, csv, etc., which were invented by the developer.
 - The template file name is a setting that helps when files have the same format and are in the same directory, but the file structure is different and the file name indicates by which they can be distinguished.
 For example, data_hour_2025_01_01.txt and data_current_2025_01_01.txt
