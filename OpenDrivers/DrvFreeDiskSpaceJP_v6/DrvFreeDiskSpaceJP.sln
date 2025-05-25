@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFreeDiskSpaceJP.View", "DrvFreeDiskSpaceJP.View\DrvFreeDiskSpaceJP.View.csproj", "{DB5C285F-9F0C-A001-7B75-D8CB7B945376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFreeDiskSpaceJP.Logic", "DrvFreeDiskSpaceJP.Logic\DrvFreeDiskSpaceJP.Logic.csproj", "{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvFreeDiskSpaceJP.Shared", "DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Shared.shproj", "{9181751B-7E14-4A27-AAC0-8AE7DF4698A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFreeDiskSpaceJP.Winform", "DrvFreeDiskSpaceJP.Winform\DrvFreeDiskSpaceJP.Winform.csproj", "{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Debug|x64.ActiveCfg = Debug|x64
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Debug|x64.Build.0 = Debug|x64
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Debug|x86.ActiveCfg = Debug|x86
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Debug|x86.Build.0 = Debug|x86
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Release|x64.ActiveCfg = Release|x64
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Release|x64.Build.0 = Release|x64
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Release|x86.ActiveCfg = Release|x86
+		{DB5C285F-9F0C-A001-7B75-D8CB7B945376}.Release|x86.Build.0 = Release|x86
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Debug|x64.ActiveCfg = Debug|x64
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Debug|x64.Build.0 = Debug|x64
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Debug|x86.ActiveCfg = Debug|x86
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Debug|x86.Build.0 = Debug|x86
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Release|x64.ActiveCfg = Release|x64
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Release|x64.Build.0 = Release|x64
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Release|x86.ActiveCfg = Release|x86
+		{86E0DFE4-B30A-4BC1-1DE5-E1B28BD612CB}.Release|x86.Build.0 = Release|x86
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Debug|x64.ActiveCfg = Debug|x64
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Debug|x64.Build.0 = Debug|x64
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Debug|x86.Build.0 = Debug|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Release|x64.ActiveCfg = Release|x64
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Release|x64.Build.0 = Release|x64
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Release|x86.ActiveCfg = Release|Any CPU
+		{12098C9A-7EE7-BF98-5504-99EBB7FB06FC}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D390CFC-1BFD-4BDC-9A25-64E5DE568BD6}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Common.projitems*{86e0dfe4-b30a-4bc1-1de5-e1b28bd612cb}*SharedItemsImports = 5
+		DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Common.projitems*{9181751b-7e14-4a27-aac0-8ae7df4698a7}*SharedItemsImports = 13
+		DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Common.projitems*{db5c285f-9f0c-a001-7b75-d8cb7b945376}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

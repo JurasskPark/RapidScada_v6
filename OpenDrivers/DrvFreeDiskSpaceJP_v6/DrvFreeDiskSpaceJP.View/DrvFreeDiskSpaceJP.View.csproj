@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+		<RootNamespace>Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View</RootNamespace>
+		<Version>6.4.0.4</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Yuriy Pradius</Company>
+		<Product>DrvFreeDiskSpaceJP</Product>
+		<Copyright>Copyright © 2025</Copyright>
+		<LangVersion>preview</LangVersion>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ApplicationIcon>Source\icon\from_text.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<Import Project="..\DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Common.projitems" Label="Shared" />
+
+	<ItemGroup>
+	  <None Remove="Lang\DrvFreeDiskSpaceJP.en-GB.xml" />
+	  <None Remove="Lang\DrvFreeDiskSpaceJP.ru-RU.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Lang\DrvFreeDiskSpaceJP.en-GB.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Lang\DrvFreeDiskSpaceJP.ru-RU.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Source\icon\from_text.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\dll\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\dll\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Forms">
+	    <HintPath>..\dll\ScadaCommon.Forms.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\dll\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UtilsJP.Form">
+	    <HintPath>..\dll\UtilsJP.Form.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>

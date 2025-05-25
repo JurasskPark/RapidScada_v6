@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<RootNamespace>Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Logic</RootNamespace>
+		<Version>6.4.0.4</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Pradius Y.A.</Company>
+		<Product>DrvFreeDiskSpaceJP</Product>
+		<Copyright>Copyright © 2025</Copyright>
+		<LangVersion>preview</LangVersion>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<Import Project="..\DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Common.projitems" Label="Shared" />
+
+	<ItemGroup>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\dll\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\dll\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\dll\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	
+	
+</Project>
