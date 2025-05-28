@@ -23,9 +23,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         }
 
         /// <summary>
+        /// Gets or sets task as a list.
+        /// </summary>
+        public List<Task> ListTask { get; set; }
+
+        /// <summary>
         /// Gets or sets tag names as a list.
         /// </summary>
-        public List<Tag> DeviceTags { get; set; }
+        public List<DriverTag> DeviceTags { get; set; }
 
         /// <summary>
         /// Gets the debuger settings.
@@ -43,9 +48,9 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         /// </summary>
 #pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
         private void SetToDefault()
-    
         {
-            DeviceTags = new List<Tag>();
+            ListTask = new List<Task>();
+            DeviceTags = new List<DriverTag>();
             DebugerSettings = new DebugerSettings();
             LanguageIsRussian = false;
         }
@@ -74,10 +79,23 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
                     }
                 }
 
-
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
+
+                try
+                {
+                    if (rootElem.SelectSingleNode("ListTask") is XmlNode listTaskNode)
+                    {
+                        foreach (XmlNode taskNode in listTaskNode.SelectNodes("Task"))
+                        {
+                            Task task = new Task();
+                            task.LoadFromXml(taskNode);
+                            ListTask.Add(task);
+                        }
+                    }
+                }
+                catch { ListTask = new List<Task>(); }
 
                 try
                 {
@@ -85,7 +103,16 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
                     {
                         foreach (XmlNode exportDeviceTagNode in exportDeviceTagsNode.SelectNodes("Tag"))
                         {
+
+/* Необъединенное слияние из проекта "DrvFreeDiskSpaceJP.View"
+До:
                             Tag exportDeviceTag = new Tag();
+                            exportDeviceTag.LoadFromXml(exportDeviceTagNode);
+После:
+                            DriverTag exportDeviceTag = new DriverTag();
+                            exportDeviceTag.LoadFromXml(exportDeviceTagNode);
+*/
+                            DriverTag exportDeviceTag = new DriverTag();
                             exportDeviceTag.LoadFromXml(exportDeviceTagNode);
                             DeviceTags.Add(exportDeviceTag);
                         }
@@ -126,8 +153,18 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
                 try
                 {
+                    XmlElement listTaskElem = rootElem.AppendElem("ListTask");
+                    foreach (Task task in ListTask)
+                    {
+                        task.SaveToXml(listTaskElem.AppendElem("Task"));
+                    }
+                }
+                catch { }
+
+                try
+                {
                     XmlElement exportDeviceTagsElem = rootElem.AppendElem("DeviceTags");
-                    foreach (Tag exportDeviceTag in DeviceTags)
+                    foreach (DriverTag exportDeviceTag in DeviceTags)
                     {
                         exportDeviceTag.SaveToXml(exportDeviceTagsElem.AppendElem("Tag"));
                     }

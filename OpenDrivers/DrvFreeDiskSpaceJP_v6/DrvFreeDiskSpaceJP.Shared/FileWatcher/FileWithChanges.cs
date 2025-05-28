@@ -107,6 +107,54 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             }
         }
 
+        public static List<FilesDatabase> SearchFolders(string path, bool useSubDir = false)
+        {
+            try
+            {
+                List<FilesDatabase> lstFoldersCurrent = new List<FilesDatabase>();
+                if (useSubDir == false)
+                {
+                    DirectoryInfo dir = new DirectoryInfo(path);
+                    DirectoryInfo[] dires = dir.GetDirectories();          // get a list of directory files // получаем список файлов каталога
+
+                    foreach (DirectoryInfo i in dires)
+                    {
+                        FilesDatabase file = new FilesDatabase();
+                        file.PathFile = i.FullName;
+                        file.LastTimeChanged = i.LastWriteTime;
+                        lstFoldersCurrent.Add(file);
+                        //Debuger.Log("Имя файла {0}, Размер файла {1}, Дата создания {2}, Дата изменения {3}", i.Name, i.Length, i.CreationTime, i.LastWriteTime); 
+                    }
+
+                    return lstFoldersCurrent;
+                }
+                else
+                {
+                    List<string> lstFolder = IterateSortFolders(path);
+                    foreach (string folder in lstFolder)
+                    {
+                        DirectoryInfo dir = new DirectoryInfo(folder);
+                        
+                        FilesDatabase file = new FilesDatabase();
+                        file.PathFile = dir.FullName;
+                        file.LastTimeChanged = dir.LastWriteTime;
+                        lstFoldersCurrent.Add(file);
+                    }
+                    return lstFoldersCurrent;
+                }
+            }
+            catch (Exception ex)
+            {
+                string errMsg = @$"{ex.Message}";
+                Debuger.Log(Locale.IsRussian ?
+                @$"[Ошибка] {errMsg}" :
+                @$"[Error] {errMsg}");
+
+                return new List<FilesDatabase>();
+            }
+        }
+
+
         private static List<FilesDatabase> IterateSortFoldersFiles(string dir)
         {
             try

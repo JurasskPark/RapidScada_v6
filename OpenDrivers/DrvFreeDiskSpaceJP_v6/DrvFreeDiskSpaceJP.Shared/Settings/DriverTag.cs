@@ -3,13 +3,14 @@ using Scada.Comm.Drivers.DrvFreeDiskSpaceJP;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
-using static Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Tag;
+using static Scada.Comm.Drivers.DrvFreeDiskSpaceJP.DriverTag;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
-    #region Class ParserTextGroupTag
+    #region Class DriverGroupTag
     public class DriverGroupTag
     {
         public DriverGroupTag()
@@ -17,11 +18,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             Group = new List<DriverTag>();
         }
 
-        #region Группа тегов
+        #region Tag group
         public List<DriverTag> Group { get; set; }
-        #endregion Группа тегов
+        #endregion Tag group
     }
-    #endregion Class ParserTextGroupTag
+    #endregion Class DriverGroupTag
 
     #region Class DriverTag
     public class DriverTag
@@ -31,25 +32,16 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             TagID = Guid.NewGuid();
             TagName = string.Empty;
             TagCode = string.Empty;
-            TagAddressNumberBlock = string.Empty;
-            TagAddressNumberLine = string.Empty;
-            TagAddressNumberParameter = string.Empty;
+            TagAddress = string.Empty;
             TagDescription = string.Empty;
             TagEnabled = true;
             TagDataValue = new object();
+            TagValueFormat = DriverTag.FormatData.Float;
             TagDateTime = DateTime.MinValue;
             TagNumberDecimalPlaces = 3;
-
-            DeviceTagsBasedRequestedTableColumns = false;
-            ColumnNames = string.Empty;
-            ColumnNameTag = string.Empty;
-            ColumnNameValue = string.Empty;
-            ColumnNameValueFormat = Tag.FormatTag.Float;
-            ColumnNameValueNumberDecimalPlaces = 3;
-            ColumnNameDatetime = string.Empty;
         }
 
-        #region Тег
+        #region Tag
         private Guid tagID;
         public Guid TagID
         {
@@ -57,25 +49,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { tagID = value; }
         }
 
-        private string tagAddressNumberBlock;
-        public string TagAddressNumberBlock
+        private string tagAddress;
+        public string TagAddress
         {
-            get { return tagAddressNumberBlock; }
-            set { tagAddressNumberBlock = value; }
-        }
-
-        private string tagAddressNumberLine;
-        public string TagAddressNumberLine
-        {
-            get { return tagAddressNumberLine; }
-            set { tagAddressNumberLine = value; }
-        }
-
-        private string tagAddressNumberParameter;
-        public string TagAddressNumberParameter
-        {
-            get { return tagAddressNumberParameter; }
-            set { tagAddressNumberParameter = value; }
+            get { return tagAddress; }
+            set { tagAddress = value; }
         }
 
         private string tagName;
@@ -135,8 +113,13 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             String = 2,
             Integer = 3,
             Boolean = 4,
-            Table = 5,
-            TableSQL = 6,
+        }
+
+        private FormatData tagValueFormat;
+        public FormatData TagValueFormat
+        {
+            set { tagValueFormat = value; }
+            get { return tagValueFormat; }
         }
 
         private int tagNumberDecimalPlaces;
@@ -146,57 +129,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagNumberDecimalPlaces; }
         }
 
-
-        private bool deviceTagsBasedRequestedTableColumns;
-        public bool DeviceTagsBasedRequestedTableColumns
-        {
-            set { deviceTagsBasedRequestedTableColumns = value; }
-            get { return deviceTagsBasedRequestedTableColumns; }
-        }
-
-        private string columnNames;
-        public string ColumnNames
-        {
-            set { columnNames = value; }
-            get { return columnNames; }
-        }
-
-        private string columnNameTag;
-        public string ColumnNameTag
-        {
-            set { columnNameTag = value; }
-            get { return columnNameTag; }
-        }
-
-        private string columnNameValue;
-        public string ColumnNameValue
-        {
-            set { columnNameValue = value; }
-            get { return columnNameValue; }
-        }
-
-        private FormatTag columnNameValueFormat;
-        public FormatTag ColumnNameValueFormat
-        {
-            set { columnNameValueFormat = value; }
-            get { return columnNameValueFormat; }
-        }
-
-        private int columnNameValueNumberDecimalPlaces;
-        public int ColumnNameValueNumberDecimalPlaces
-        {
-            set { columnNameValueNumberDecimalPlaces = value; }
-            get { return columnNameValueNumberDecimalPlaces; }
-        }
-
-        private string columnNameDatetime;
-        public string ColumnNameDatetime
-        {
-            set { columnNameDatetime = value; }
-            get { return columnNameDatetime; }
-        }
-
-        #endregion Тег
+        #endregion Tag
 
         #region Xml
         /// <summary>
@@ -205,40 +138,26 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
+            {
                 throw new ArgumentNullException("xmlNode");
+            }
 
             TagID = DriverUtils.StringToGuid(xmlNode.GetChildAsString("TagID"));
             TagName = xmlNode.GetChildAsString("TagName");
             TagCode = xmlNode.GetChildAsString("TagCode");
+            
             try
             {
-                TagFormatData = (DriverTag.FormatData)Enum.Parse(typeof(DriverTag.FormatData), xmlNode.GetChildAsString("TagFormatData"));
+                TagValueFormat = (FormatData)Enum.Parse(typeof(FormatData), xmlNode.GetChildAsString("TagValueFormat"));
             }
-            catch { TagFormatData = FormatData.String; }
-
+            catch { TagValueFormat = FormatData.Float; }
 
             TagNumberDecimalPlaces = xmlNode.GetChildAsInt("TagNumberDecimalPlaces");
-            TagAddressNumberBlock = xmlNode.GetChildAsString("TagAddressNumberBlock");
-            TagAddressNumberLine = xmlNode.GetChildAsString("TagAddressNumberLine");
-            TagAddressNumberParameter = xmlNode.GetChildAsString("TagAddressNumberParametr");
+            TagAddress = xmlNode.GetChildAsString("TagAddress");
             TagDescription = xmlNode.GetChildAsString("TagDescription");
             TagEnabled = xmlNode.GetChildAsBool("TagEnabled");
             TagDataValue = new object();
             TagDateTime = DateTime.MinValue;
-
-            DeviceTagsBasedRequestedTableColumns = xmlNode.GetChildAsBool("DeviceTagsBasedRequestedTableColumns");
-            ColumnNames = xmlNode.GetChildAsString("ColumnNames");
-            ColumnNameTag = xmlNode.GetChildAsString("ColumnNameTag");
-            ColumnNameValue = xmlNode.GetChildAsString("ColumnNameValue");
-
-            try
-            {
-                ColumnNameValueFormat = (FormatTag)Enum.Parse(typeof(FormatTag), xmlNode.GetChildAsString("ColumnNameValueFormat"));
-            }
-            catch { ColumnNameValueFormat = FormatTag.Float; }
-
-            ColumnNameValueNumberDecimalPlaces = xmlNode.GetChildAsInt("ColumnNameValueNumberDecimalPlaces");
-            ColumnNameDatetime = xmlNode.GetChildAsString("ColumnNameDatetime");
         }
 
 
@@ -248,30 +167,23 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
+            {
                 throw new ArgumentNullException("xmlElem");
+            }
 
             xmlElem.AppendElem("TagID", TagID.ToString());
             xmlElem.AppendElem("TagName", TagName);
             xmlElem.AppendElem("TagCode", TagCode);
-            xmlElem.AppendElem("TagFormatData", TagFormatData.ToString());
+            xmlElem.AppendElem("TagValueFormat", Enum.GetName(typeof(FormatData), TagValueFormat));
             xmlElem.AppendElem("TagNumberDecimalPlaces", TagNumberDecimalPlaces.ToString());
-            xmlElem.AppendElem("TagAddressNumberBlock", TagAddressNumberBlock);
-            xmlElem.AppendElem("TagAddressNumberLine", TagAddressNumberLine);
-            xmlElem.AppendElem("TagAddressNumberParametr", TagAddressNumberParameter);
+            xmlElem.AppendElem("TagAddress", TagAddress);
             xmlElem.AppendElem("TagDescription", TagDescription);
             xmlElem.AppendElem("TagEnabled", TagEnabled.ToString());
-
-            xmlElem.AppendElem("DeviceTagsBasedRequestedTableColumns", DeviceTagsBasedRequestedTableColumns);
-            xmlElem.AppendElem("ColumnNames", ColumnNames);
-            xmlElem.AppendElem("ColumnNameTag", ColumnNameTag);
-            xmlElem.AppendElem("ColumnNameValue", ColumnNameValue);
-            xmlElem.AppendElem("ColumnNameValueFormat", ColumnNameValueFormat.ToString());
-            xmlElem.AppendElem("ColumnNameValueNumberDecimalPlaces", ColumnNameValueNumberDecimalPlaces.ToString());
-            xmlElem.AppendElem("ColumnNameDatetime", ColumnNameDatetime);
+           
         }
         #endregion Xml
 
-        #region Получение значения тега по типу данных
+        #region Getting tag value by data type
 
         //public static void GetValue(ParserListBlocks blocks, ref DriverTag tag)
         //{
@@ -356,9 +268,9 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         //    }
         //}
 
-        #endregion Получение значения тега по типу данных
+        #endregion Getting tag value by data type
 
-        #region Конвертирование в строку
+        #region Convert to string
 
         #region IsNullString
         /// <summary>
@@ -458,8 +370,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         #endregion IsNullString
 
-
-        #endregion Конвертирование в строку
+        #endregion Convert to string
 
         /// <summary>
         /// Returns the value of the required number of bits from the string float.

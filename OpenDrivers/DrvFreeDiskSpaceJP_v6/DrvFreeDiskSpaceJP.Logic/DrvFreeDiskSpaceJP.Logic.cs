@@ -29,7 +29,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Logic
         {
             get
             {
-                return "DrvFreeDiskSpaceJP";
+                return DriverUtils.DriverCode;
             }
         }
 

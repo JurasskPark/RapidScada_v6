@@ -84,7 +84,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         public Project project;                         // the project configuration
         public string pathProject;                      // path project
-        private List<TaskSettings> ListParsers = new List<TaskSettings>();
+        private List<Task> ListTask = new List<Task>(); // list task
 
         private bool modified;                          // the configuration was modified
        
@@ -129,43 +129,45 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
                 // language 
                 this.isRussian = project.LanguageIsRussian;
 
+                // list task
+                this.ListTask = project.ListTask;
+
                 // select data
-                //if (ListParsers != null && ListParsers.Count > 0)
-                //{
-                //    // update without flicker
-                //    Type type = lstParsers.GetType();
-                //    PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                //    propertyInfo.SetValue(lstParsers, true, null);
+                if (ListTask != null && ListTask.Count > 0)
+                {
+                    // update without flicker
+                    Type type = lstParsers.GetType();
+                    PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
+                    propertyInfo.SetValue(lstParsers, true, null);
 
-                //    this.lstParsers.BeginUpdate();
-                //    this.lstParsers.Items.Clear();
+                    this.lstParsers.BeginUpdate();
+                    this.lstParsers.Items.Clear();
 
-                //    #region Data display
+                    #region Data display
 
-                //    foreach (ParserSettings parser in ListParsers)
-                //    {
-                //        // inserted information
-                //        this.lstParsers.Items.Add(new ListViewItem()
-                //        {
-                //            Text = parser.Name,
-                //            SubItems =
-                //                {
-                //                    parser.Description,
-                //                    parser.Path,
-                //                    parser.Filter,
-                //                    parser.TemplateFileName,
-                //                    ListViewAsDisplayStringBoolean(parser.Enabled),
-                //                }
-                //        }).Tag = parser.ID;
-                //    }
-                //    #endregion Data display
+                    foreach (Task task in ListTask)
+                    {
+                        // inserted information
+                        this.lstParsers.Items.Add(new ListViewItem()
+                        {
+                            Text = task.Name,
+                            SubItems =
+                                {
+                                    task.Description,
+                                    task.DiskName,
+                                    task.Path,
+                                    ListViewAsDisplayStringBoolean(task.Enabled),
+                                }
+                        }).Tag = task.ID;
+                    }
+                    #endregion Data display
 
-                //    this.lstParsers.EndUpdate();
-                //}
-                //else
-                //{
-                //    this.lstParsers.Items.Clear();
-                //}
+                    this.lstParsers.EndUpdate();
+                }
+                else
+                {
+                    this.lstParsers.Items.Clear();
+                }
             }
             catch { }
 
@@ -220,7 +222,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
             Locale.LoadDictionaries(languageFile, out string errMsg);
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmListParsers");
-            Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmParser");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmTask");
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Application");
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.Combobox");
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.DialogBox");
@@ -256,8 +258,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             clmName.Name = nameof(clmName);
             clmDescription.Name = nameof(clmDescription);
             clmPath.Name = nameof(clmPath);
-            clmTemplateFileName.Name = nameof(clmTemplateFileName);
-            clmFilter.Name = nameof(clmFilter);
+            clmDiskName.Name = nameof(clmDiskName);
             clmEnabled.Name = nameof(clmEnabled);
         }
 
@@ -339,24 +340,24 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         {
             try
             {
-                //ParserSettings settings = new ParserSettings();
-                //settings.ID = Guid.NewGuid();
+                Task task = new Task();
+                task.ID = Guid.NewGuid();
 
-                //// create form
-                //FrmParser frmParser = new FrmParser();
-                //frmParser.formParent = this;
-                //frmParser.settings = settings;
-                //// showing the form
-                //DialogResult dialog = frmParser.ShowDialog();
-                //// if you have closed the form, click Save
-                //if (DialogResult.OK == dialog)
-                //{
-                //    ListParsers.Add(frmParser.settings);
-                //    project.ListParsersSettings = ListParsers;
+                // create form
+                FrmTask frmTask= new FrmTask();
+                frmTask.formParent = this;
+                frmTask.task = task;
+                // showing the form
+                DialogResult dialog = frmTask.ShowDialog();
+                // if you have closed the form, click Save
+                if (DialogResult.OK == dialog)
+                {
+                    ListTask.Add(frmTask.task);
+                    project.ListTask = ListTask;
 
-                //    SaveData();
-                //    LoadData();
-                //}
+                    SaveData();
+                    LoadData();
+                }
             }
             catch { }
         }
@@ -379,33 +380,33 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         {
             try
             {
-                //System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
-                //if (tmplstParsers.SelectedItems.Count <= 0)
-                //{
-                //    return;
-                //}
+                System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
+                if (tmplstParsers.SelectedItems.Count <= 0)
+                {
+                    return;
+                }
 
-                //idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
+                idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
 
-                //ParserSettings settings = ListParsers.Find(s => s.ID == idRow);
-                //int index = ListParsers.IndexOf(settings);
+                Task task = ListTask.Find(s => s.ID == idRow);
+                int index = ListTask.IndexOf(task);
 
-                //// create form
-                //FrmParser frmParser = new FrmParser();
-                //frmParser.formParent = this;
-                //frmParser.settings = settings;
-                //// showing the form
-                //DialogResult dialog = frmParser.ShowDialog();
-                //// if you have closed the form, click Save
-                //if (DialogResult.OK == dialog)
-                //{
-                //    if (index != -1)
-                //    {
-                //        ListParsers[index] = frmParser.settings;
-                //        SaveData();
-                //        LoadData();
-                //    }
-                //}
+                // create form
+                FrmTask frmTask = new FrmTask();
+                frmTask.formParent = this;
+                frmTask.task = task;
+                // showing the form
+                DialogResult dialog = frmTask.ShowDialog();
+                // if you have closed the form, click Save
+                if (DialogResult.OK == dialog)
+                {
+                    if (index != -1)
+                    {
+                        ListTask[index] = frmTask.task;
+                        SaveData();
+                        LoadData();
+                    }
+                }
             }
             catch { }
         }
@@ -428,32 +429,32 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         {
             try
             {
-                //System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
-                //if (tmplstParsers.SelectedItems.Count <= 0)
-                //{
-                //    return;
-                //}
+                System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
+                if (tmplstParsers.SelectedItems.Count <= 0)
+                {
+                    return;
+                }
 
-                //idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
-                //nameRow = Convert.ToString(tmplstParsers.SelectedItems[0].SubItems[1].Text.Trim());
+                idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
+                nameRow = Convert.ToString(tmplstParsers.SelectedItems[0].SubItems[1].Text.Trim());
 
-                //// create dialog
-                //DialogResult dialog = MessageBox.Show(Locale.IsRussian ?
-                //    "Вы действительно хотите удалить запись?" :
-                //    "Are you sure you want to delete this entry?",
-                //    "", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                // create dialog
+                DialogResult dialog = MessageBox.Show(Locale.IsRussian ?
+                    "Вы действительно хотите удалить запись?" :
+                    "Are you sure you want to delete this entry?",
+                    "", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
-                //if (dialog == DialogResult.OK)
-                //{
-                //    ParserSettings settings = ListParsers.Find(s => s.ID == idRow);
-                //    int index = ListParsers.IndexOf(settings);
-                //    if (index != -1)
-                //    {
-                //        ListParsers.RemoveAt(index);
-                //        SaveData();
-                //        LoadData();
-                //    }
-                //}
+                if (dialog == DialogResult.OK)
+                {
+                    Task task = ListTask.Find(s => s.ID == idRow);
+                    int index = ListTask.IndexOf(task);
+                    if (index != -1)
+                    {
+                        ListTask.RemoveAt(index);
+                        SaveData();
+                        LoadData();
+                    }
+                }
             }
             catch { }
         }
@@ -471,36 +472,36 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         private void ParserUp()
         {
             // an item must be selected
-            //System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
-            //if (tmplstParsers.SelectedItems.Count <= 0)
-            //{
-            //    return;
-            //}
+            System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
+            if (tmplstParsers.SelectedItems.Count <= 0)
+            {
+                return;
+            }
 
-            //if (lstParsers.SelectedItems.Count > 0)
-            //{
-            //    if (ListParsers != null)
-            //    {
-            //        ListViewItem selectedIndex = tmplstParsers.SelectedItems[0];
-            //        idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
+            if (lstParsers.SelectedItems.Count > 0)
+            {
+                if (ListTask != null)
+                {
+                    ListViewItem selectedIndex = tmplstParsers.SelectedItems[0];
+                    idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
 
-            //        ParserSettings settings = ListParsers.Find(s => s.ID == idRow);
-            //        int index = ListParsers.IndexOf(settings);
+                    Task task = ListTask.Find(s => s.ID == idRow);
+                    int index = ListTask.IndexOf(task);
 
-            //        ListViewExtensions.MoveListViewItems(lstParsers, MoveDirection.Up);
+                    ListViewExtensions.MoveListViewItems(lstParsers, MoveDirection.Up);
 
-            //        if (index == 0)
-            //        {
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            ListParsers.Reverse(index - 1, 2);
-            //        }
+                    if (index == 0)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        ListTask.Reverse(index - 1, 2);
+                    }
 
-            //        SaveData();
-            //    }
-            //}
+                    SaveData();
+                }
+            }
         }
         #endregion Parser Up
 
@@ -516,36 +517,36 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         private void ParserDown()
         {
             // an item must be selected
-            //System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
-            //if (tmplstParsers.SelectedItems.Count <= 0)
-            //{
-            //    return;
-            //}
+            System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
+            if (tmplstParsers.SelectedItems.Count <= 0)
+            {
+                return;
+            }
 
-            //if (lstParsers.SelectedItems.Count > 0)
-            //{
-            //    if (ListParsers != null)
-            //    {
-            //        ListViewItem selectedIndex = tmplstParsers.SelectedItems[0];
-            //        idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
+            if (lstParsers.SelectedItems.Count > 0)
+            {
+                if (ListTask != null)
+                {
+                    ListViewItem selectedIndex = tmplstParsers.SelectedItems[0];
+                    idRow = DriverUtils.StringToGuid(tmplstParsers.SelectedItems[0].Tag.ToString());
 
-            //        ParserSettings settings = ListParsers.Find(s => s.ID == idRow);
-            //        int index = ListParsers.IndexOf(settings);
+                    Task task = ListTask.Find(s => s.ID == idRow);
+                    int index = ListTask.IndexOf(task);
 
-            //        ListViewExtensions.MoveListViewItems(lstParsers, MoveDirection.Down);
+                    ListViewExtensions.MoveListViewItems(lstParsers, MoveDirection.Down);
 
-            //        if (index == ListParsers.Count - 1)
-            //        {
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            ListParsers.Reverse(index, 2);
-            //        }
+                    if (index == ListTask.Count - 1)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        ListTask.Reverse(index, 2);
+                    }
 
-            //        SaveData();
-            //    }
-            //}
+                    SaveData();
+                }
+            }
         }
         #endregion Parser Down
 

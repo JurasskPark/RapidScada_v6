@@ -1,6 +1,6 @@
 ﻿using Scada.Forms;
 using Scada.Lang;
-using static Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Tag;
+using static Scada.Comm.Drivers.DrvFreeDiskSpaceJP.DriverTag;
 
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
@@ -224,29 +224,29 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #region Combobox ValueFormat
         private void cmbValueFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FormatTag value = (FormatTag)cmbValueFormat.SelectedIndex;
+            FormatData value = (FormatData)cmbValueFormat.SelectedIndex;
             lblValueNumberOfDecimalPlaces.Visible = true;
             lblValueMaxNumberCharactersInWord.Visible = false;
             nudValueNumberOfDecimalPlaces.Maximum = 16;
             switch (value)
             {
-                case FormatTag.Float:
+                case FormatData.Float:
                     nudValueNumberOfDecimalPlaces.Enabled = true;
                     nudValueNumberOfDecimalPlaces.Value = 3;
                     break;
-                case FormatTag.DateTime:
+                case FormatData.DateTime:
                     nudValueNumberOfDecimalPlaces.Enabled = false;
                     nudValueNumberOfDecimalPlaces.Value = 0;
                     break;
-                case FormatTag.Integer:
+                case FormatData.Integer:
                     nudValueNumberOfDecimalPlaces.Enabled = false;
                     nudValueNumberOfDecimalPlaces.Value = 0;
                     break;
-                case FormatTag.Boolean:
+                case FormatData.Boolean:
                     nudValueNumberOfDecimalPlaces.Enabled = false;
                     nudValueNumberOfDecimalPlaces.Value = 0;
                     break;
-                case FormatTag.String:
+                case FormatData.String:
                     lblValueNumberOfDecimalPlaces.Visible = false;
                     lblValueMaxNumberCharactersInWord.Visible = true;
                     nudValueNumberOfDecimalPlaces.Enabled = true;

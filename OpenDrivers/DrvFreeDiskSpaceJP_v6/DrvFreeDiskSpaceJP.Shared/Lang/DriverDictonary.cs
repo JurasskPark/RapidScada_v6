@@ -28,5 +28,12 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public static string FileLenghtZero = Locale.IsRussian ? "Файл проекта пустой!" : "The project file is empty!";
 
         public static string RestartLine = Locale.IsRussian ? "Перезапуск линии" : "Restart Line";
+
+        public static string DirectoryDoesNotExist = Locale.IsRussian ? "Указанный каталог '{0}' не существует." : "The specified directory '{0}' does not exist.";
+        public static string DirectoryDelete = Locale.IsRussian ? "Каталог '{0}' удален." : "Directory '{0}' has been removed.";
+        public static string DirectoryZip = Locale.IsRussian ? "Каталог '{folder.PathFile}' был успешно сжат в архив '{zipFileName}'." : "The directory '{0}' was successfully compressed into archive '{1}'.";
+        public static string MoveZip = Locale.IsRussian ? "Архив '{0}' перенесён в каталог '{1}'." : "Archive '{0}' moved to directory '{1}'.";
+        public static string DiskInfo = Locale.IsRussian ? "{0} ({1}) [{2} / {3}]" : "{0} ({1}) [{2} / {3}]";
+        public static string DiskError = Locale.IsRussian ? "Ошибка при получении информации о дисках: {0}." : "Error retrieving disk information: {0}.";
     }
 }

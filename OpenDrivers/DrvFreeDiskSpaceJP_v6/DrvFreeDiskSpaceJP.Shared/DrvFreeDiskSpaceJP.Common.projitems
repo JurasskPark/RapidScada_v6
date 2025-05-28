@@ -12,21 +12,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\DriverClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSV\FastCSV.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerTagReturn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileWatcher\FilesDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileWatcher\FileWithChanges.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverDictonary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverPhrases.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\DriverUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Manager\Manager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\DriverTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\TaskSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\Task.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\Project.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\Debuger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerReturn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Lang\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utils\" />
   </ItemGroup>
 </Project>

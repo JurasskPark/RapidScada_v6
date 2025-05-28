@@ -37,7 +37,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         /// </summary>
         public static string GetFileName(int deviceNum = 0)
         {
-            return $"{DriverCode}_{deviceNum:D3}.xml";
+            if (deviceNum == 0)
+            {
+                return $"{DriverCode}.xml";
+            }
+            else
+            {
+                return $"{DriverCode}_{deviceNum:D3}.xml";
+            }
         }
 
         /// <summary>

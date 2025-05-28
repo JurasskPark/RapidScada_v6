@@ -138,7 +138,7 @@
 	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmSettings">
 		<Phrase key="this">Settings</Phrase>
 	</Dictionary>
-	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Application">
+	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Application">
 		<Phrase key="ProductName">Text Parser</Phrase>
 		<Phrase key="TitleAbout">About</Phrase>
 		<Phrase key="Language">Language: Russian</Phrase>
@@ -149,6 +149,12 @@
 		<Phrase key="TitleLoadCSV">Data load...</Phrase>
 		<Phrase key="TitleSaveCSV">Data save...</Phrase>
 		<Phrase key="FilterCSV">CSV (*.csv)|*.csv|All files (*.*)|*.*</Phrase>
+		<Phrase key="DirectoryDoesNotExist">The specified directory '{0}' does not exist.</Phrase>
+		<Phrase key="DirectoryDelete">Directory '{0}' has been removed.</Phrase>
+		<Phrase key="DirectoryZip">The directory '{0}' was successfully compressed into archive '{1}'.</Phrase>
+		<Phrase key="MoveZip">Archive '{0}' moved to directory '{1}'.</Phrase>
+		<Phrase key="DiskInfo">{0} ({1}) [{2} / {3}]</Phrase>
+		<Phrase key="DiskError">Error retrieving disk information: {0}.</Phrase>
 	</Dictionary>
 	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.Combobox">
 		<Phrase key="All">All</Phrase>

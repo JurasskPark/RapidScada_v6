@@ -35,16 +35,11 @@
             gpbLanguage = new GroupBox();
             cmbLanguage = new ComboBox();
             lblLanguage = new Label();
-            groupBox1 = new GroupBox();
-            txtLicenseFile = new TextBox();
-            btnLicense = new Button();
-            label1 = new Label();
             btnSave = new Button();
             btnCancel = new Button();
             gpbLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudLogDays).BeginInit();
             gpbLanguage.SuspendLayout();
-            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // lblLogDays
@@ -62,7 +57,7 @@
             gpbLog.Controls.Add(nudLogDays);
             gpbLog.Controls.Add(ckbWriteDriverLog);
             gpbLog.Controls.Add(lblLogDays);
-            gpbLog.Location = new Point(15, 65);
+            gpbLog.Location = new Point(15, 12);
             gpbLog.Name = "gpbLog";
             gpbLog.Size = new Size(776, 47);
             gpbLog.TabIndex = 2;
@@ -93,7 +88,7 @@
             gpbLanguage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gpbLanguage.Controls.Add(cmbLanguage);
             gpbLanguage.Controls.Add(lblLanguage);
-            gpbLanguage.Location = new Point(15, 118);
+            gpbLanguage.Location = new Point(15, 65);
             gpbLanguage.Name = "gpbLanguage";
             gpbLanguage.Size = new Size(776, 50);
             gpbLanguage.TabIndex = 3;
@@ -120,51 +115,11 @@
             lblLanguage.TabIndex = 5;
             lblLanguage.Text = "Language";
             // 
-            // groupBox1
-            // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(txtLicenseFile);
-            groupBox1.Controls.Add(btnLicense);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(15, 9);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(776, 50);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "License";
-            // 
-            // txtLicenseFile
-            // 
-            txtLicenseFile.Location = new Point(87, 17);
-            txtLicenseFile.Name = "txtLicenseFile";
-            txtLicenseFile.Size = new Size(632, 23);
-            txtLicenseFile.TabIndex = 5;
-            txtLicenseFile.TextChanged += control_Changed;
-            // 
-            // btnLicense
-            // 
-            btnLicense.Location = new Point(725, 17);
-            btnLicense.Name = "btnLicense";
-            btnLicense.Size = new Size(45, 23);
-            btnLicense.TabIndex = 5;
-            btnLicense.Text = ". . .";
-            btnLicense.UseVisualStyleBackColor = true;
-            btnLicense.Click += btnLicense_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(6, 19);
-            label1.Name = "label1";
-            label1.Size = new Size(59, 15);
-            label1.TabIndex = 5;
-            label1.Text = "Language";
-            // 
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSave.Enabled = false;
-            btnSave.Location = new Point(290, 179);
+            btnSave.Location = new Point(290, 125);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(107, 27);
             btnSave.TabIndex = 48;
@@ -175,7 +130,7 @@
             // btnCancel
             // 
             btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancel.Location = new Point(403, 179);
+            btnCancel.Location = new Point(403, 125);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(107, 27);
             btnCancel.TabIndex = 49;
@@ -187,10 +142,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 218);
+            ClientSize = new Size(800, 164);
             Controls.Add(btnCancel);
             Controls.Add(btnSave);
-            Controls.Add(groupBox1);
             Controls.Add(gpbLanguage);
             Controls.Add(gpbLog);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -206,8 +160,6 @@
             ((System.ComponentModel.ISupportInitialize)nudLogDays).EndInit();
             gpbLanguage.ResumeLayout(false);
             gpbLanguage.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -220,10 +172,6 @@
         private GroupBox gpbLanguage;
         private Label lblLanguage;
         private ComboBox cmbLanguage;
-        private GroupBox groupBox1;
-        private TextBox txtLicenseFile;
-        private Button btnLicense;
-        private Label label1;
         private Button btnSave;
         private Button btnCancel;
     }

@@ -22,6 +22,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public static string TitleSaveCSV { get; private set; } = "Data save...";
         public static string FilterCSV { get; private set; } = "CSV (*.csv)|*.csv|All files (*.*)|*.*";
 
+
+        public static string DirectoryDoesNotExist { get; private set; } = "The specified directory '{0}' does not exist.";
+        public static string DirectoryDelete { get; private set; } = "Directory '{0}' has been removed.";
+        public static string DirectoryZip { get; private set; } = "The directory '{0}' was successfully compressed into archive '{1}'.";
+        public static string MoveZip { get; private set; } = "Archive '{0}' moved to directory '{1}'.";
+        public static string DiskInfo { get; private set; } = "{0} ({1}) [{2} / {3}]";
+        public static string DiskError { get; private set; } = "Error retrieving disk information: {0}.";
+
         // Combo Box
         public static string All { get; private set; } = "All";
 

@@ -38,8 +38,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             clmName = new ColumnHeader();
             clmDescription = new ColumnHeader();
             clmPath = new ColumnHeader();
-            clmFilter = new ColumnHeader();
-            clmTemplateFileName = new ColumnHeader();
             clmEnabled = new ColumnHeader();
             cmnuMenu = new ContextMenuStrip(components);
             cmnuListAdd = new ToolStripMenuItem();
@@ -54,13 +52,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             btnSave = new Button();
             btnAbout = new Button();
             btnSettings = new Button();
+            clmDiskName = new ColumnHeader();
             cmnuMenu.SuspendLayout();
             SuspendLayout();
             // 
             // lstParsers
             // 
             lstParsers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lstParsers.Columns.AddRange(new ColumnHeader[] { clmName, clmDescription, clmPath, clmFilter, clmTemplateFileName, clmEnabled });
+            lstParsers.Columns.AddRange(new ColumnHeader[] { clmName, clmDescription, clmDiskName, clmPath, clmEnabled });
             lstParsers.ContextMenuStrip = cmnuMenu;
             lstParsers.FullRowSelect = true;
             lstParsers.GridLines = true;
@@ -87,16 +86,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             clmPath.Text = "Path";
             clmPath.Width = 400;
             // 
-            // clmFilter
-            // 
-            clmFilter.Text = "Filter";
-            clmFilter.Width = 150;
-            // 
-            // clmTemplateFileName
-            // 
-            clmTemplateFileName.Text = "Template file name";
-            clmTemplateFileName.Width = 180;
-            // 
             // clmEnabled
             // 
             clmEnabled.Text = "Enabled";
@@ -107,53 +96,53 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             cmnuMenu.ImageScalingSize = new Size(24, 24);
             cmnuMenu.Items.AddRange(new ToolStripItem[] { cmnuListAdd, cmnuSeparator01, cmnuListChange, cmnuSeparator02, cmnuListDelete, toolStripSeparator1, cmnuListUp, cmnuListDown });
             cmnuMenu.Name = "cmnuSelectQuery";
-            cmnuMenu.Size = new Size(189, 194);
+            cmnuMenu.Size = new Size(179, 172);
             // 
             // cmnuListAdd
             // 
             cmnuListAdd.Image = (Image)resources.GetObject("cmnuListAdd.Image");
             cmnuListAdd.Name = "cmnuListAdd";
-            cmnuListAdd.Size = new Size(188, 30);
+            cmnuListAdd.Size = new Size(178, 30);
             cmnuListAdd.Text = "Add Task";
             cmnuListAdd.Click += cmnuListAdd_Click;
             // 
             // cmnuSeparator01
             // 
             cmnuSeparator01.Name = "cmnuSeparator01";
-            cmnuSeparator01.Size = new Size(185, 6);
+            cmnuSeparator01.Size = new Size(175, 6);
             // 
             // cmnuListChange
             // 
             cmnuListChange.Image = (Image)resources.GetObject("cmnuListChange.Image");
             cmnuListChange.Name = "cmnuListChange";
-            cmnuListChange.Size = new Size(188, 30);
+            cmnuListChange.Size = new Size(178, 30);
             cmnuListChange.Text = "Change Task";
             cmnuListChange.Click += cmnuListChange_Click;
             // 
             // cmnuSeparator02
             // 
             cmnuSeparator02.Name = "cmnuSeparator02";
-            cmnuSeparator02.Size = new Size(185, 6);
+            cmnuSeparator02.Size = new Size(175, 6);
             // 
             // cmnuListDelete
             // 
             cmnuListDelete.Image = (Image)resources.GetObject("cmnuListDelete.Image");
             cmnuListDelete.Name = "cmnuListDelete";
-            cmnuListDelete.Size = new Size(188, 30);
+            cmnuListDelete.Size = new Size(178, 30);
             cmnuListDelete.Text = "Delete Task";
             cmnuListDelete.Click += cmnuListDelete_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(185, 6);
+            toolStripSeparator1.Size = new Size(175, 6);
             // 
             // cmnuListUp
             // 
             cmnuListUp.Image = (Image)resources.GetObject("cmnuListUp.Image");
             cmnuListUp.Name = "cmnuListUp";
             cmnuListUp.ShortcutKeys = Keys.Control | Keys.Up;
-            cmnuListUp.Size = new Size(188, 30);
+            cmnuListUp.Size = new Size(178, 30);
             cmnuListUp.Text = "Up";
             cmnuListUp.Click += cmnuListUp_Click;
             // 
@@ -162,7 +151,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             cmnuListDown.Image = (Image)resources.GetObject("cmnuListDown.Image");
             cmnuListDown.Name = "cmnuListDown";
             cmnuListDown.ShortcutKeys = Keys.Control | Keys.Down;
-            cmnuListDown.Size = new Size(188, 30);
+            cmnuListDown.Size = new Size(178, 30);
             cmnuListDown.Text = "Down";
             cmnuListDown.Click += cmnuListDown_Click;
             // 
@@ -210,6 +199,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             btnSettings.UseVisualStyleBackColor = true;
             btnSettings.Click += btnSettings_Click;
             // 
+            // clmDiskName
+            // 
+            clmDiskName.Text = "Disk name";
+            clmDiskName.Width = 100;
+            // 
             // FrmConfig
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -234,7 +228,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #endregion
 
         private ListView lstParsers;
-        private ColumnHeader clmFilter;
         private ColumnHeader clmName;
         private ColumnHeader clmPath;
         private ContextMenuStrip cmnuMenu;
@@ -245,7 +238,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         private ToolStripMenuItem cmnuListDelete;
         private Button btnClose;
         private Button btnSave;
-        private ColumnHeader clmTemplateFileName;
         private ColumnHeader clmEnabled;
         private Button btnAbout;
         private Button btnSettings;
@@ -253,5 +245,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem cmnuListUp;
         private ToolStripMenuItem cmnuListDown;
+        private ColumnHeader clmDiskName;
     }
 }

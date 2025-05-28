@@ -135,7 +135,7 @@
 		<Phrase key="lblLanguage.Text">Язык</Phrase>
 		<Phrase key="lblLogDays.Text">Дней логирования</Phrase>
 	</Dictionary>
-	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Application">
+	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Application">
 		<Phrase key="ProductName">Анализатор текста</Phrase>
 		<Phrase key="TitleAbout">О программе</Phrase>
 		<Phrase key="Language">Язык: Английский</Phrase>
@@ -146,6 +146,12 @@
 		<Phrase key="TitleLoadCSV">Загрузить данные...</Phrase>
 		<Phrase key="TitleSaveCSV">Выгрузить данные...</Phrase>
 		<Phrase key="FilterCSV">CSV (*.csv)|*.csv|Все файлы (*.*)|*.*</Phrase>
+		<Phrase key="DirectoryDoesNotExist">Указанный каталог '{0}' не существует.</Phrase>
+		<Phrase key="DirectoryDelete">Каталог '{0}' удален.</Phrase>
+		<Phrase key="DirectoryZip">Каталог '{0}' был успешно сжат в архив '{1}'.</Phrase>
+		<Phrase key="MoveZip">Архив '{0}' перенесён в каталог '{1}'.</Phrase>
+		<Phrase key="DiskInfo">{0} ({1}) [{2} / {3}]</Phrase>
+		<Phrase key="DiskError">Ошибка получения информации о диске: {0}.</Phrase>
 	</Dictionary>
 	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.Combobox">
 		<Phrase key="All">Все</Phrase>

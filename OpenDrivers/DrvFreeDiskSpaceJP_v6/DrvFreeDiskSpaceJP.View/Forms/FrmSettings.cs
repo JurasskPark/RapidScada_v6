@@ -20,13 +20,12 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         }
 
         #region Variables
-        public FrmConfig formParent;                       // parent form
-        public Project project;                   // the project configuration
-        private bool isRussian;                                 // language
+        public FrmConfig formParent;                        // parent form
+        public Project project;                             // the project configuration
+        private bool isRussian;                             // language
 
-        private bool modified;                                  // the configuration was modified
+        private bool modified;                              // the configuration was modified
         #endregion Variables
-
 
         private void FrmSettings_Load(object sender, EventArgs e)
         {
@@ -34,9 +33,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             Translate();
         }
 
-
         #region Config 
-
         /// <summary>
         /// Sets the controls according to the configuration.
         /// </summary>
@@ -114,23 +111,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         #region Control
         /// <summary>
-        /// Specify where the license file is located.
-        /// </summary>
-        private void btnLicense_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog OFD = new OpenFileDialog();
-            OFD.Title = DriverPhrases.TitleLicense;
-            OFD.Filter = DriverPhrases.FilterLicense;
-            OFD.InitialDirectory = System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath);
-
-            if (OFD.ShowDialog() == DialogResult.OK && OFD.FileName != "")
-            {
-                txtLicenseFile.Text = OFD.FileName;
-                Modified = true;
-            }
-        }
-
-        /// <summary>
         /// Close the form and save the settings.
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
@@ -149,8 +129,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             Close();
         }
         #endregion Control
-
-
 
     }
 }

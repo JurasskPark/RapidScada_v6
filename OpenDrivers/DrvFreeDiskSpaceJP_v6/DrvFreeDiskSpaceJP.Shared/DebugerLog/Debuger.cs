@@ -28,8 +28,6 @@
         {
             try
             {
-                
-
                 string errMsg = string.Empty;
 
                 project = Manager.Project;

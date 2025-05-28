@@ -9,6 +9,7 @@ using Scada.Data.Models;
 using Scada.Lang;
 using System.Data;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 {
@@ -18,12 +19,17 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
     /// </summary>
     internal class DevFreeDiskSpaceJPLogic : DeviceLogic
     {
+        public readonly bool isDll;                             // application or dll
+        private readonly string pathLog;                        // the path log
+        private readonly string languageDir;                    // the language directory
+
         private readonly AppDirs appDirs;                       // the application directories
         private readonly string driverCode;                     // the driver code
         private readonly int deviceNum;                         // the device number
+
         private readonly Project project;                       // the driver configuration
         private readonly string pathProject;                    // the path driver configuration
-        private string configFileName;                          // the configuration file name
+        private string projectFileName;                         // the configuration file name
         private DriverClient driverClient;                      // client
         private List<DriverTag> driverTags;                     // tags       
         private bool writeLogDriver;                            // write driver log
@@ -35,29 +41,43 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
         public DevFreeDiskSpaceJPLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            CanSendCommands = false;
+            Log.WriteInfo("Start");
+
+            CanSendCommands = true;
             ConnectionRequired = false;
 
-            appDirs = commContext.AppDirs;
+            this.isDll = true;
+            this.writeLogDriver = true;
 
+            this.appDirs = commContext.AppDirs;
             this.deviceNum = deviceConfig.DeviceNum;
             this.driverCode = DriverUtils.DriverCode;
 
-            string shortFileName = Project.GetFileName(deviceNum);
-            this.pathProject = CommContext.AppDirs.ConfigDir;
-            this.configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
-            this.writeLogDriver = true;
+            this.languageDir = commContext.AppDirs.LangDir;
+            this.pathLog = commContext.AppDirs.LogDir;
 
             // load configuration
-            project = new Project();
-            if (!project.Load(configFileName, out string errMsg))
+            string shortFileName = Project.GetFileName(deviceNum);
+            this.pathProject = CommContext.AppDirs.ConfigDir;
+            this.projectFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
+            this.project = new Project();
+            if (!this.project.Load(pathProject, out string errMsg))
             {
                 LogDriver(errMsg);
             }
 
+            // manager
+            Manager.IsDll = this.isDll;
+            Manager.DeviceNum = this.deviceNum;
+            Manager.PathProject = this.pathProject;
+            Manager.Project = this.project;
+            Manager.PathLog = this.pathLog;
+
             this.writeLogDriver = project.DebugerSettings.LogWrite;
 
             driverClient = new DriverClient(pathProject, project);
+
+            Log.WriteInfo("End");
         }
 
 
@@ -78,6 +98,12 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
             LogDriver("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
             LogDriver("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
             LogDriver("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
+
+            List<string> diskInfo = DriverClient.GetPhysicalDrives();
+            foreach(string info in diskInfo)
+            {
+                LogDriver(info);
+            }         
         }
 
         /// <summary>
@@ -107,19 +133,19 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
                 return;
             }
 
-            //if (project.Load(configFileName, out string errMsg))
-            //{
-            //    deviceTags = CnlPrototypeFactory.GetDeviceTags(project);
+            if (project.Load(projectFileName, out string errMsg))
+            {
+                driverTags = CnlPrototypeFactory.GetDriverTags(project);
 
-            //    foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(project))
-            //    {
-            //        DeviceTags.AddGroup(group.ToTagGroup());
-            //    }
-            //}
-            //else
-            //{
-            //    LogDriver(errMsg);
-            //}
+                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(project))
+                {
+                    DeviceTags.AddGroup(group.ToTagGroup());
+                }
+            }
+            else
+            {
+                LogDriver(errMsg);
+            }
         }
 
         /// <summary>
@@ -131,40 +157,38 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
             LastRequestOK = false;
 
-            if (true)
+            // request data
+            int tryNum = 0;
+
+            while (RequestNeeded(ref tryNum))
             {
-                // request data
-                int tryNum = 0;
-
-                while (RequestNeeded(ref tryNum))
+                try
                 {
-                    try
-                    {
-                        //DebugerReturn.OnDebug = new DebugerReturn.DebugData(LogDriver);
-                        //DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(PollTagGet);
+                    DebugerReturn.OnDebug = new DebugerReturn.DebugData(LogDriver);
+                    DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(PollTagGet);
 
-                        //driverClient.Process();
-                        //driverClient.Dispose();
+                    driverClient.Process();
+                    //driverClient.Dispose();
+                    Log.WriteLine("Jr");
 
-                        LastRequestOK = true;
+                    LastRequestOK = true;
 
-                        FinishRequest();
-                        tryNum++;
-                    }
-                    catch
-                    {
-                        LastRequestOK = false;
-                    }
+                    FinishRequest();
+                    tryNum++;
                 }
-
-
-                if (!LastRequestOK && !IsTerminated)
+                catch
                 {
-                    InvalidateData();
+                    LastRequestOK = false;
                 }
-
-                SleepPollingDelay();
             }
+
+
+            if (!LastRequestOK && !IsTerminated)
+            {
+                InvalidateData();
+            }
+
+            SleepPollingDelay();
 
             // calculate session stats
             FinishRequest();
@@ -175,26 +199,22 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
         /// Tag Write Driver
         /// </summary>
         /// <param name="text">Message</param>
-        //private void PollTagGet(List<DriverTag> tags)
-        //{
-        //    for (int t = 0; t < tags.Count; t++)
-        //    {
-        //        if (tags[t].TagFormatData != DriverTag.FormatData.Table)
-        //        {
-        //            if (tags[t] == null || tags[t].TagEnabled == false)
-        //            {
-        //                continue;
-        //            }
+        private void PollTagGet(List<DriverTag> tags)
+        {
+            LogDriver(tags.Count().ToString());
+            for (int t = 0; t < tags.Count; t++)
+            {
 
-        //            DeviceTag findTag = DeviceTags.Where(r => r.Code == tags[t].TagCode).FirstOrDefault();
-        //            SetTagData(findTag, tags[t].TagDataValue, tags[t].TagNumberDecimalPlaces);
-        //        }
-        //        else
-        //        {
-        //            ParseDataTable(tags[t]);
-        //        }
-        //    }
-        //}
+                if (tags[t] == null || tags[t].TagEnabled == false)
+                {
+                    continue;
+                }
+
+                DeviceTag findTag = DeviceTags.Where(r => r.Code == tags[t].TagCode).FirstOrDefault();
+                SetTagData(findTag, tags[t].TagDataValue, tags[t].TagNumberDecimalPlaces);
+
+            }
+        }
 
         /// <summary>
         /// Log Write Driver
@@ -244,49 +264,46 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
                             DeviceData.SetUnicode(deviceTag.Code, Convert.ToString(val), 1);
                         }
-                        catch (Exception e) 
-                        {
-                            LogDriver(e.Message.ToString());
-                        }
+                        catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
 
                     }
                     else if (val is string strVal2 && deviceTag.DataType == TagDataType.Double)
                     {
                         deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString());
-                        try { base.DeviceData.Set(deviceTag.Index, Math.Round(DriverUtils.StringToDouble(val.ToString()), numberDecimalPlaces), CnlStatusID.Defined); }
-                        catch (Exception e)
-                        {
-                            LogDriver(e.Message.ToString());
+                        try 
+                        { 
+                            base.DeviceData.Set(deviceTag.Index, Math.Round(DriverUtils.StringToDouble(val.ToString()), numberDecimalPlaces), CnlStatusID.Defined); 
                         }
+                        catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
                     else if (val is DateTime dtVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(deviceTag.Index, dtVal, CnlStatusID.Defined); } catch { }
+                        try { base.DeviceData.SetDateTime(deviceTag.Index, dtVal, CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
                     else if (deviceTag.Format == TagFormat.OffOn && Convert.ToBoolean(val) is System.Boolean bolVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined); } catch { }
+                        try { base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
                     else if (val is Int32 intVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.IntNumber;
-                        try { base.DeviceData.Set(deviceTag, Convert.ToInt32(val), CnlStatusID.Defined); } catch { }
+                        try { base.DeviceData.Set(deviceTag, Convert.ToInt32(val), CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
                     else if (val is Int64 int64Val)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.IntNumber;
-                        try { base.DeviceData.SetInt64(deviceTag.Index, Convert.ToInt64(val), CnlStatusID.Defined); } catch { }
+                        try { base.DeviceData.SetInt64(deviceTag.Index, Convert.ToInt64(val), CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
                     else
                     {
                         deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString()); 
-                        try { base.DeviceData.Set(deviceTag.Index, Math.Round(Convert.ToDouble(val), numberDecimalPlaces), CnlStatusID.Defined); } catch { }
+                        try { base.DeviceData.Set(deviceTag.Index, Math.Round(Convert.ToDouble(val), numberDecimalPlaces), CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString());  }
                     }
                 }                 
             }
@@ -304,24 +321,24 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        //public static TagFormat ConvertFormat(DriverTag.FormatData format)
-        //{
-        //    TagFormat tagFormat = TagFormat.FloatNumber;
-        //    switch (format)
-        //    {
-        //        case DriverTag.FormatData.Float:
-        //            return tagFormat = TagFormat.FloatNumber;
-        //        case DriverTag.FormatData.Integer:
-        //            return tagFormat = TagFormat.IntNumber;
-        //        case DriverTag.FormatData.DateTime:
-        //            return tagFormat = TagFormat.DateTime;
-        //        case DriverTag.FormatData.String:
-        //            return tagFormat = TagFormat.String;
-        //        case DriverTag.FormatData.Boolean:
-        //            return tagFormat = TagFormat.OffOn;
-        //    }
-        //    return tagFormat;
-        //}
+        public static TagFormat ConvertFormat(DriverTag.FormatData format)
+        {
+            TagFormat tagFormat = TagFormat.FloatNumber;
+            switch (format)
+            {
+                case DriverTag.FormatData.Float:
+                    return tagFormat = TagFormat.FloatNumber;
+                case DriverTag.FormatData.Integer:
+                    return tagFormat = TagFormat.IntNumber;
+                case DriverTag.FormatData.DateTime:
+                    return tagFormat = TagFormat.DateTime;
+                case DriverTag.FormatData.String:
+                    return tagFormat = TagFormat.String;
+                case DriverTag.FormatData.Boolean:
+                    return tagFormat = TagFormat.OffOn;
+            }
+            return tagFormat;
+        }
 
     }
 }
