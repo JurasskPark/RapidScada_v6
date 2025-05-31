@@ -15,6 +15,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
     {
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public DebugerSettings()
         {
@@ -24,22 +25,27 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         /// <summary>
         /// Gets or sets a value log.
+        /// <para>Получает или задаёт признак записи логов.</para>
         /// </summary>
         public bool LogWrite { get; set; }
 
         /// <summary>
-        /// Gets or sets how many days to write a log
+        /// Gets or sets how many days to write a log (save).
+        /// <para>Получает или задаёт количество дней записи логов (хранения).</para>
         /// </summary>
         public int LogDays { get; set; }
 
 
         /// <summary>
         /// Loads the settings from the XML node.
+        /// <para>Загружает настройки из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
+            {
                 throw new ArgumentNullException("xmlNode");
+            }
 
             LogWrite = xmlNode.GetChildAsBool("LogWrite");
             LogDays = xmlNode.GetChildAsInt("LogDays");
@@ -47,11 +53,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         /// <summary>
         /// Saves the settings into the XML node.
+        /// <para>Сохраняет настройки в XML-узле.</para>
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
+            {
                 throw new ArgumentNullException("xmlElem");
+            }
 
             xmlElem.AppendElem("LogWrite", LogWrite);
             xmlElem.AppendElem("LogDays", LogDays);

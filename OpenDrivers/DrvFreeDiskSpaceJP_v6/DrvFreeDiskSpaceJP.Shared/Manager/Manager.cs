@@ -1,7 +1,4 @@
-﻿using Scada.Comm.Drivers.DrvFreeDiskSpaceJP;
-using System.Runtime.InteropServices;
-
-namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
+﻿namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
     /// <summary>
     /// Represents a manager.
@@ -11,27 +8,32 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
     {
         #region Variables
         /// <summary>
-        /// The application or dll
+        /// The application or dll.
+        /// <para>Приложение или библиотека.</para>
         /// </summary>
         public static bool IsDll;
 
         /// <summary>
-        /// The path log
+        /// The path log.
+        /// <para>Путь до лога.</para>
         /// </summary>
         public static string PathLog;
 
         /// <summary>
-        /// The path log
+        /// The path project.
+        /// <para>Путь до проекта.</para>
         /// </summary>
         public static string PathProject;
 
         /// <summary>
-        /// The project
+        /// The project.
+        /// <para>Проект.</para>
         /// </summary>
         public static Project Project;
 
         /// <summary>
-        /// The device number
+        /// The device number.
+        /// <para>Номер устройства.</para>
         /// </summary>
         public static int DeviceNum;
         #endregion Variables

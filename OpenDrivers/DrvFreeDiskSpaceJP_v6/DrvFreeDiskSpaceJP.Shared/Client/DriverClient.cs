@@ -1,18 +1,20 @@
 ﻿using Scada.Lang;
-using System.Collections.Generic;
 using System.Data;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
+    /// <summary>
+    /// Implements the driver client.
+    /// <para>Реализует клиент драйвера.</para>
+    /// </summary>
     internal class DriverClient
     {
-        private readonly string pathProject;                                // path project
-        private readonly Project project;                                   // configuration
-        private List<DriverTag> driverTags;                                 // driver tags all
-        private List<DriverTag> listTagsTask = new List<DriverTag>();       // driver tags task    
-
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public DriverClient(string path, Project project)
         {
             this.pathProject = path;
@@ -20,20 +22,23 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             this.project = project;
         }
 
+        #region Variables
+        private readonly string pathProject;                                // path project
+        private readonly Project project;                                   // configuration
+        private List<DriverTag> driverTags;                                 // driver tags all
+        private List<DriverTag> listTagsTask = new List<DriverTag>();       // driver tags task   
+        #endregion Variables
+
         #region Process
         /// <summary>
-        /// Sequential execution of tasks
-        /// <para>Последовательное выполнение задач</para>
+        /// Sequential execution of tasks.
+        /// <para>Последовательное выполнение задач.</para>
         /// </summary>
         public void Process()
         {
             try
             {
-                Debuger.Log(Locale.IsRussian ? "В работе. " : "Working. ");
-
-                Debuger.Log(Locale.IsRussian ?
-                       @$"Количество задач: {project.ListTask.Count}." :
-                       @$"Number of tasks: {project.ListTask.Count}.");
+                Debuger.Log(Locale.IsRussian ? "В работе." : "Working.");
 
                 this.driverTags = CnlPrototypeFactory.GetDriverTags(project);
 
@@ -48,242 +53,239 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             catch { }
         }
 
+        /// <summary>
+        /// Task completion step.
+        /// <para>Шаг выполнения задачи.</para>
+        /// </summary>
         public void Step(Task task)
         {
             try
             {
-                Debuger.Log("Count = " + driverTags.Count.ToString());
+                listTagsTask = new List<DriverTag>();
 
-                Debuger.Log("+0+");
-            listTagsTask = new List<DriverTag>();
+                string TagCodeDriverName = @$"DriverName_{task.Name}";
+                string TagCodeDriverType = @$"DriverType_{task.Name}";
+                string TagCodeDriverVolumeLabel = @$"DriverVolumeLabel_{task.Name}";
+                string TagCodeDriverTotalSize = @$"DriverTotalSize_{task.Name}";
+                string TagCodeDriverTotalSizeString = @$"DriverTotalSizeString_{task.Name}";
+                string TagCodeDriverCurrentSize = @$"DriverCurrentSize_{task.Name}";
+                string TagCodeDriverCurrentSizeString = @$"DriverCurrentSizeString_{task.Name}";
+                string TagCodeProcentFreeSpaceSetPoint = @$"PercentFreeSpaceSetPoint_{task.Name}";
+                string TagCodeProcentFreeSpaceCurrent = @$"PercentFreeSpaceCurrent_{task.Name}";
+                string TagCodeStatusAlarm = @$"StatusAlarm_{task.Name}";
+                string TagCodeActionTask = @$"ActionTask_{task.Name}";
+                string TagCodeActionDate = @$"ActionDate_{task.Name}";
 
-            string TagCodeDriverName =                  @$"DriverName_{task.Name}";
-            string TagCodeDriverType =                  @$"DriverType_{task.Name}";
-            string TagCodeDriverVolumeLabel =           @$"DriverVolumeLabel_{task.Name}";
-            string TagCodeDriverTotalSize =             @$"DriverTotalSize_{task.Name}";
-            string TagCodeDriverTotalSizeString =       @$"DriverTotalSizeString_{task.Name}";
-            string TagCodeDriverCurrentSize =           @$"DriverCurrentSize_{task.Name}";
-            string TagCodeDriverCurrentSizeString =     @$"DriverCurrentSizeString_{task.Name}";
-            string TagCodeProcentFreeSpaceSetPoint =    @$"ProcentFreeSpaceSetPoint_{task.Name}";
-            string TagCodeProcentFreeSpaceCurrent =     @$"ProcentFreeSpaceCurrent_{task.Name}";
-            string TagCodeStatusAlarm =                 @$"StatusAlarm_{task.Name}";
-            string TagCodeActionTask =                  @$"ActionTask_{task.Name}";
-            string TagCodeActionDate =                  @$"ActionDate_{task.Name}";
-
-            Debuger.Log("+0.0+");
-
-                // Задаем необходимые параметры
+                // we set the necessary parameters
                 string drive = task.DiskName;                                   // Укажите диск для проверки
                 decimal requiredFreeSpacePercentage = task.ProceentFreeSpace;   // Процент свободного пространства
-                string directoryWatcher = task.Path;                         // Укажите каталог для сжатия
+                string directoryWatcher = task.Path;                            // Укажите каталог для сжатия
 
                 DriverTag driverTagDriverName = FindTag(TagCodeDriverName);
                 driverTagDriverName.TagDataValue = drive;
                 listTagsTask.Add(driverTagDriverName);
 
-            Debuger.Log("+0.1+");
-            // Получаем информацию о диске
-            DriveInfo driveInfo = new DriveInfo(drive);
-            Debuger.Log("+0.2+");
-            DriverTag driverTagDriverType = FindTag(TagCodeDriverType);
-            driverTagDriverType.TagDataValue = driveInfo.DriveType.ToString();
-            listTagsTask.Add(driverTagDriverType);
-            Debuger.Log("+0.3+");
-            DriverTag driverTagDriverVolumeLabel = FindTag(TagCodeDriverVolumeLabel);
-            driverTagDriverVolumeLabel.TagDataValue = driveInfo.VolumeLabel;
-            listTagsTask.Add(driverTagDriverVolumeLabel);
-            Debuger.Log("+0.4+");
-            DriverTag driverTagDriverTotalSize = FindTag(TagCodeDriverTotalSize);
-            driverTagDriverTotalSize.TagDataValue = Convert.ToDouble(driveInfo.TotalSize);
-            listTagsTask.Add(driverTagDriverTotalSize);
-            Debuger.Log("+0.5+");
-            DriverTag driverTagDriverTotalSizeString = FindTag(TagCodeDriverTotalSizeString);
-            driverTagDriverTotalSizeString.TagDataValue = DiskSize(driveInfo.TotalSize);
-            listTagsTask.Add(driverTagDriverTotalSizeString);
-            Debuger.Log("+0.6+");
-            DriverTag driverTagDriverCurrentSize = FindTag(TagCodeDriverCurrentSize);
-            driverTagDriverCurrentSize.TagDataValue = Convert.ToDouble(driveInfo.TotalSize - driveInfo.TotalFreeSpace);
-            listTagsTask.Add(driverTagDriverCurrentSize);
-            Debuger.Log("+0.7+");
-            DriverTag driverTagDriverCurrentSizeString = FindTag(TagCodeDriverCurrentSizeString);
-            driverTagDriverCurrentSizeString.TagDataValue = DiskSize(driveInfo.TotalSize - driveInfo.TotalFreeSpace);
-            listTagsTask.Add(driverTagDriverCurrentSizeString);
-            Debuger.Log("+0.8+");
-            // percent
-            decimal freeSpacePercentage = (decimal)driveInfo.AvailableFreeSpace / driveInfo.TotalSize * 100;
-            Debuger.Log("+0.9+");
-            DriverTag driverTagProcentFreeSpaceSetPoint = FindTag(TagCodeProcentFreeSpaceSetPoint);
-            driverTagProcentFreeSpaceSetPoint.TagDataValue = task.ProceentFreeSpace;
-            listTagsTask.Add(driverTagProcentFreeSpaceSetPoint);
-            Debuger.Log("+0.10+");
-            DriverTag driverTagProcentFreeSpaceCurrent = FindTag(TagCodeProcentFreeSpaceCurrent);
-            driverTagProcentFreeSpaceCurrent.TagDataValue = Math.Round(freeSpacePercentage, 0);
-            listTagsTask.Add(driverTagProcentFreeSpaceCurrent);
-            Debuger.Log("+0.11+");
-            // action
-            DriverTag driverTagActionTask = FindTag(TagCodeActionTask);
-            driverTagActionTask.TagDataValue = Enum.GetName(typeof(ActionTask), task.Action);
-            listTagsTask.Add(driverTagActionTask);
-            Debuger.Log("+1+");
-            // we check whether the free space exceeds the specified percentage.
-            if (freeSpacePercentage > requiredFreeSpacePercentage)
-            {
-                Debuger.Log("+2+");
-                // alarm off
-                DriverTag driverTagStatusAlarm = FindTag(TagCodeStatusAlarm);
-                driverTagStatusAlarm.TagDataValue = 0;
-                listTagsTask.Add(driverTagStatusAlarm);
+                // getting information about the disk
+                DriveInfo driveInfo = new DriveInfo(drive);
 
-            }
-            else
-            {
-                Debuger.Log("+3+");
-                // alarm on
-                DriverTag driverTagStatusAlarm = FindTag(TagCodeStatusAlarm);
-                driverTagStatusAlarm.TagDataValue = 1;
-                listTagsTask.Add(driverTagStatusAlarm);
+                DriverTag driverTagDriverType = FindTag(TagCodeDriverType);
+                driverTagDriverType.TagDataValue = driveInfo.DriveType.ToString();
+                listTagsTask.Add(driverTagDriverType);
 
-                List<FilesDatabase> folders = new List<FilesDatabase>();
-                List<FilesDatabase> foldersClear = new List<FilesDatabase>();
-                List<FilesDatabase> foldersSort = new List<FilesDatabase>();
-                List<DateTime> dateList = new List<DateTime>();
-                DateTime dateMin = DateTime.MinValue;
-                DateTime dateMax = DateTime.MinValue;
+                DriverTag driverTagDriverVolumeLabel = FindTag(TagCodeDriverVolumeLabel);
+                driverTagDriverVolumeLabel.TagDataValue = driveInfo.VolumeLabel;
+                listTagsTask.Add(driverTagDriverVolumeLabel);
 
+                DriverTag driverTagDriverTotalSize = FindTag(TagCodeDriverTotalSize);
+                driverTagDriverTotalSize.TagDataValue = Convert.ToDouble(driveInfo.TotalSize);
+                listTagsTask.Add(driverTagDriverTotalSize);
 
-                // if a folder is specified
-                if (Directory.Exists(directoryWatcher))
+                DriverTag driverTagDriverTotalSizeString = FindTag(TagCodeDriverTotalSizeString);
+                driverTagDriverTotalSizeString.TagDataValue = DiskSize(driveInfo.TotalSize);
+                listTagsTask.Add(driverTagDriverTotalSizeString);
+   
+                DriverTag driverTagDriverCurrentSize = FindTag(TagCodeDriverCurrentSize);
+                driverTagDriverCurrentSize.TagDataValue = Convert.ToDouble(driveInfo.TotalSize - driveInfo.TotalFreeSpace);
+                listTagsTask.Add(driverTagDriverCurrentSize);
+
+                DriverTag driverTagDriverCurrentSizeString = FindTag(TagCodeDriverCurrentSizeString);
+                driverTagDriverCurrentSizeString.TagDataValue = DiskSize(driveInfo.TotalSize - driveInfo.TotalFreeSpace);
+                listTagsTask.Add(driverTagDriverCurrentSizeString);
+
+                // percent
+                decimal freeSpacePercentage = (decimal)driveInfo.AvailableFreeSpace / driveInfo.TotalSize * 100;
+
+                DriverTag driverTagProcentFreeSpaceSetPoint = FindTag(TagCodeProcentFreeSpaceSetPoint);
+                driverTagProcentFreeSpaceSetPoint.TagDataValue = task.ProceentFreeSpace;
+                listTagsTask.Add(driverTagProcentFreeSpaceSetPoint);
+
+                DriverTag driverTagProcentFreeSpaceCurrent = FindTag(TagCodeProcentFreeSpaceCurrent);
+                driverTagProcentFreeSpaceCurrent.TagDataValue = Math.Round(freeSpacePercentage, 5);
+                listTagsTask.Add(driverTagProcentFreeSpaceCurrent);
+
+                // action
+                DriverTag driverTagActionTask = FindTag(TagCodeActionTask);
+                driverTagActionTask.TagDataValue = DriverDictonary.ActionTaskString(task.Action);
+                listTagsTask.Add(driverTagActionTask);
+   
+                // we check whether the free space exceeds the specified percentage.
+                if (freeSpacePercentage > requiredFreeSpacePercentage)
                 {
-                    Debuger.Log("+4+");
-                    folders = FileWithChanges.SearchFolders(directoryWatcher, true);
-                    foldersClear = new List<FilesDatabase>();
-                    dateList = new List<DateTime>();
-                    dateMin = DateTime.MinValue;
-                    dateMax = DateTime.MinValue;
-
-                    foreach (FilesDatabase folder in folders)
-                    {
-                        try
-                        {
-                            string folderName = Path.GetFileName(folder.PathFile).TrimEnd().ToUpper();
-                            if (folderName != "CUR" && folderName != "MIN" && folderName != "HOUR" && folderName != "DAY")
-                            {
-                                if (folderName.Contains("MIN") || folderName.Contains("HOUR") || folderName.Contains("DAY"))
-                                {
-                                    string dateString = folderName.Replace("MIN", "").Replace("HOUR", "").Replace("DAY", "");
-
-                                    // Определяем формат строки: "yyyyMMdd"
-                                    string format = "yyyyMMdd";
-
-                                    // Преобразуем строку в DateTime
-                                    if (DateTime.TryParseExact(dateString, format, null, System.Globalization.DateTimeStyles.None, out DateTime date))
-                                    {
-                                        folder.LastTimeChanged = date;
-                                        foldersClear.Add(folder);
-                                        dateList.Add(date);
-                                    }
-                                }
-                            }
-                        }
-                        catch { }
-                    }
-
-                    dateMin = dateList.Min();
-                    dateMax = dateList.Max();
-
-                    foldersSort = foldersClear.OrderBy(x => x.LastTimeChanged).ToList();
-
-                    Debuger.Log("+5+");
+                    // alarm off
+                    DriverTag driverTagStatusAlarm = FindTag(TagCodeStatusAlarm);
+                    driverTagStatusAlarm.TagDataValue = 0;
+                    listTagsTask.Add(driverTagStatusAlarm);
+                    // datetime off
+                    DriverTag driverTagActionDate = FindTag(TagCodeActionDate);
+                    driverTagActionDate.TagDataValue = new object();
+                    listTagsTask.Add(driverTagActionDate);
                 }
                 else
                 {
-                    Debuger.Log(String.Format(DriverDictonary.DirectoryDoesNotExist, directoryWatcher));
-                    Debuger.Log("+6+");
-                }
+                    // alarm on
+                    DriverTag driverTagStatusAlarm = FindTag(TagCodeStatusAlarm);
+                    driverTagStatusAlarm.TagDataValue = 1;
+                    listTagsTask.Add(driverTagStatusAlarm);
+                    // datetime on
+                    DriverTag driverTagActionDate = FindTag(TagCodeActionDate);
+                    driverTagActionDate.TagDataValue = DateTime.UtcNow;
+                    listTagsTask.Add(driverTagActionDate);
+
+                    List<FilesDatabase> folders = new List<FilesDatabase>();
+                    List<FilesDatabase> foldersClear = new List<FilesDatabase>();
+                    List<FilesDatabase> foldersSort = new List<FilesDatabase>();
+                    List<DateTime> dateList = new List<DateTime>();
+                    DateTime dateMin = DateTime.MinValue;
+                    DateTime dateMax = DateTime.MinValue;
 
 
-                switch (task.Action)
-                {
-                    case ActionTask.None:
-                        Debuger.Log("+7+");
-                        break;
-                    case ActionTask.Delete:
-                        Debuger.Log("+8+");
-                        for (int f = 0; f < foldersSort.Count; f++)
+                    // if a folder is specified
+                    if (Directory.Exists(directoryWatcher))
+                    {
+                        folders = FileWithChanges.SearchFolders(directoryWatcher, true);
+                        foldersClear = new List<FilesDatabase>();
+                        dateList = new List<DateTime>();
+                        dateMin = DateTime.MinValue;
+                        dateMax = DateTime.MinValue;
+
+                        foreach (FilesDatabase folder in folders)
                         {
-                            FilesDatabase folder = foldersSort[f];
-
                             try
                             {
-                                // Получаем информацию о диске
-                                driveInfo = new DriveInfo(drive);
-                                // percent
-                                freeSpacePercentage = (decimal)driveInfo.AvailableFreeSpace / driveInfo.TotalSize * 100;
-
-                                if (freeSpacePercentage > requiredFreeSpacePercentage)
+                                string folderName = Path.GetFileName(folder.PathFile).TrimEnd().ToUpper();
+                                if (folderName != "CUR" && folderName != "MIN" && folderName != "HOUR" && folderName != "DAY")
                                 {
-                                    continue;
-                                }
-                                else
-                                {
-                                    DriverTag driverTagActionDate = FindTag(TagCodeActionDate);
-                                    driverTagActionDate.TagDataValue = 1;
-                                    listTagsTask.Add(driverTagActionDate);
+                                    if (folderName.Contains("MIN") || folderName.Contains("HOUR") || folderName.Contains("DAY"))
+                                    {
+                                        string dateString = folderName.Replace("MIN", "").Replace("HOUR", "").Replace("DAY", "");
 
-                                    Directory.Delete(folder.PathFile, true);
-                                    Debuger.Log(String.Format(DriverDictonary.DirectoryDelete,  folder.PathFile));
+                                        // we define the format of the string: "yyyyMMdd"
+                                        string format = "yyyyMMdd";
+
+                                        // convert a string to DateTime
+                                        if (DateTime.TryParseExact(dateString, format, null, System.Globalization.DateTimeStyles.None, out DateTime date))
+                                        {
+                                            folder.LastTimeChanged = date;
+                                            foldersClear.Add(folder);
+                                            dateList.Add(date);
+                                        }
+                                    }
                                 }
                             }
                             catch { }
                         }
-                        break;
-                    case ActionTask.CompressMove:
-                        Debuger.Log("+9+");
-                        for (int f = 0; f < foldersSort.Count; f++)
-                        {
-                            FilesDatabase folder = foldersSort[f];
 
-                            try
+                        dateMin = dateList.Min();
+                        dateMax = dateList.Max();
+
+                        foldersSort = foldersClear.OrderBy(x => x.LastTimeChanged).ToList();
+                    }
+                    else
+                    {
+                        Debuger.Log(String.Format(DriverDictonary.DirectoryDoesNotExist, directoryWatcher));
+                    }
+
+
+                    switch (task.Action)
+                    {
+                        case ActionTask.None:
+
+                            break;
+                        case ActionTask.Delete:
+
+                            for (int f = 0; f < foldersSort.Count; f++)
                             {
-                                // Получаем информацию о диске
-                                driveInfo = new DriveInfo(drive);
-                                // percent
-                                freeSpacePercentage = (decimal)driveInfo.AvailableFreeSpace / driveInfo.TotalSize * 100;
-                                if (freeSpacePercentage > requiredFreeSpacePercentage)
+                                FilesDatabase folder = foldersSort[f];
+
+                                try
                                 {
-                                    continue;
+                                    // getting information about the disk
+                                    driveInfo = new DriveInfo(drive);
+                                    // percent
+                                    freeSpacePercentage = (decimal)driveInfo.AvailableFreeSpace / driveInfo.TotalSize * 100;
+
+                                    if (freeSpacePercentage > requiredFreeSpacePercentage)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        driverTagActionDate = FindTag(TagCodeActionDate);
+                                        driverTagActionDate.TagDataValue = DateTime.UtcNow;
+                                        listTagsTask.Add(driverTagActionDate);
+
+                                        Directory.Delete(folder.PathFile, true);
+                                        Debuger.Log(String.Format(DriverDictonary.DirectoryDelete, folder.PathFile));
+                                    }
                                 }
-                                else
-                                {
-                                    DriverTag driverTagActionDate = FindTag(TagCodeActionDate);
-                                    driverTagActionDate.TagDataValue = 1;
-                                    listTagsTask.Add(driverTagActionDate);
-
-                                    string zipFilePath = Path.Combine(Path.GetDirectoryName(folder.PathFile), $"{Path.GetFileName(folder.PathFile)}.zip");
-                                    string zipFileName = Path.GetFileName(zipFilePath);
-
-                                    // Создаем ZIP архив
-                                    ZipFile.CreateFromDirectory(folder.PathFile, zipFilePath);
-                                    Debuger.Log(String.Format(DriverDictonary.DirectoryZip, folder.PathFile, zipFileName));
-
-                                    File.Move(zipFilePath, Path.Combine(task.PathTo, zipFileName), true);
-                                    Debuger.Log(String.Format(DriverDictonary.MoveZip, zipFileName, task.PathTo));
-
-                                    Directory.Delete(folder.PathFile, true);
-                                    Debuger.Log(String.Format(DriverDictonary.DirectoryDelete, folder.PathFile));
-                                }
+                                catch { }
                             }
-                            catch { }
-                        }
-                        break;
-                }
-            }
-            Debuger.Log("+10+");
-            listTagsTask = listTagsTask.Distinct().ToList();
-            DriverTagReturn driverTagReturn = new DriverTagReturn();
-            driverTagReturn.Return(listTagsTask);
-            Debuger.Log("+11+");
+                            break;
+                        case ActionTask.CompressMove:
+   
+                            for (int f = 0; f < foldersSort.Count; f++)
+                            {
+                                FilesDatabase folder = foldersSort[f];
 
+                                try
+                                {
+                                    // getting information about the disk
+                                    driveInfo = new DriveInfo(drive);
+                                    // percent
+                                    freeSpacePercentage = (decimal)driveInfo.AvailableFreeSpace / driveInfo.TotalSize * 100;
+                                    if (freeSpacePercentage > requiredFreeSpacePercentage)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        driverTagActionDate = FindTag(TagCodeActionDate);
+                                        driverTagActionDate.TagDataValue = DateTime.UtcNow;
+                                        listTagsTask.Add(driverTagActionDate);
+
+                                        string zipFilePath = Path.Combine(Path.GetDirectoryName(folder.PathFile), $"{Path.GetFileName(folder.PathFile)}.zip");
+                                        string zipFileName = Path.GetFileName(zipFilePath);
+
+                                        // create a ZIP archive
+                                        ZipFile.CreateFromDirectory(folder.PathFile, zipFilePath);
+                                        Debuger.Log(String.Format(DriverDictonary.DirectoryZip, folder.PathFile, zipFileName));
+                                        // moving zip archive
+                                        File.Move(zipFilePath, Path.Combine(task.PathTo, zipFileName), true);
+                                        Debuger.Log(String.Format(DriverDictonary.MoveZip, zipFileName, task.PathTo));
+                                        // delete the directory
+                                        Directory.Delete(folder.PathFile, true);
+                                        Debuger.Log(String.Format(DriverDictonary.DirectoryDelete, folder.PathFile));
+                                    }
+                                }
+                                catch { }
+                            }
+                            break;
+                    }
+                }
+
+                listTagsTask = listTagsTask.Distinct().ToList();
+                DriverTagReturn driverTagReturn = new DriverTagReturn();
+                driverTagReturn.Return(listTagsTask);
             }
             catch (Exception ex)
             {
@@ -291,6 +293,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             }
         }
 
+        /// <summary>
+        /// Getting a list of media on the device (names).
+        /// <para>Получения списка носителей на устройстве (названия).</para>
+        /// </summary>
         public static List<string> GetPhysicalDrivesNames()
         {
             List<string> disks = new List<string>();
@@ -299,7 +305,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             {
                 foreach (var drive in DriveInfo.GetDrives())
                 {
-                    if (drive.IsReady) // Проверяем, готов ли диск
+                    if (drive.IsReady)
                     {
                         disks.Add($"{drive.Name}");
                     }
@@ -313,6 +319,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             return disks;
         }
 
+        /// <summary>
+        /// Getting a list of media on the device (information).
+        /// <para>Получения списка носителей на устройстве (информация).</para>
+        /// </summary>
         public static List<string> GetPhysicalDrives()
         {
             List<string> disks = new List<string>();
@@ -321,7 +331,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             {
                 foreach (var drive in DriveInfo.GetDrives())
                 {
-                    if (drive.IsReady) // Проверяем, готов ли диск
+                    if (drive.IsReady)
                     {
                         string info = String.Format(DriverDictonary.DiskInfo, drive.Name, drive.DriveType, DiskSize(drive.TotalSize - drive.TotalFreeSpace), DiskSize(drive.TotalSize));
                         disks.Add(info);
@@ -336,18 +346,24 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             return disks;
         }
 
+        /// <summary>
+        /// Tag search by code from the tag list.
+        /// <para>Поиск тега по коду из списка тегов.</para>
+        /// </summary>
         public DriverTag FindTag(string code)
         {
-            Debuger.Log(@$"{driverTags.Count.ToString()} === {listTagsTask.Count.ToString()}");
-
             DriverTag driverTag = new DriverTag();
             return driverTag = (DriverTag)driverTags.Find(x => x.TagCode == code);
         }
 
+        /// <summary>
+        /// Size driver.
+        /// <para>Размер носителя.</para>
+        /// </summary>
         public static string DiskSize(long totalBytes)
         {
             string result = string.Empty;
-            // Определяем подходящую единицу измерения
+
             string sizeUnit;
             double sizeValue;
 
@@ -384,11 +400,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
             return result = $"{sizeValue:F2} {sizeUnit}";
         }
-       
+
         #endregion Process
 
         #region Validate
-
+        /// <summary>
+        /// Checking the task from the form.
+        /// <para>Проверка задачи из формы.</para>
+        /// </summary>
         public void Validate(Task task)
         {
 
@@ -397,6 +416,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             {
                 Debuger.Log(info);
             }
+
+            this.driverTags = CnlPrototypeFactory.GetDriverTags(project);
             Step(task);
         }
 
@@ -404,11 +425,16 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         #region Log
         /// <summary>
-        /// Getting logs
+        /// Getting logs.
+        /// <para>Получение логов.</para>
         /// </summary>
         public static DebugData OnDebug;
         public delegate void DebugData(string msg);
-        // transfer to the form and to the file in the Log folder
+
+        /// <summary>
+        /// Transfer to the form and to the file in the Log folder.
+        /// <para>Перенести сообщение на форму или в лог файл.</para>
+        /// </summary>
         internal void DebugerLog(string text)
         {
             if (OnDebug == null)
@@ -426,11 +452,19 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public int BUFFER_SIZE = 1024 * 1024 * 50; // 50 MB
         private bool _disposed = false;
 
+        /// <summary>
+        /// Destroying an instance of the class.
+        /// <para>Уничтожает экземпляр класса.</para>
+        /// </summary>
         ~DriverClient()
         {
             Dispose(false);
         }
 
+        /// <summary>
+        /// Destroying an instance of the class.
+        /// <para>Уничтожает экземпляр класса.</para>
+        /// </summary>
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
@@ -448,6 +482,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             _disposed = true;
         }
 
+        /// <summary>
+        /// Destroying an instance of the class.
+        /// <para>Уничтожает экземпляр класса.</para>
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

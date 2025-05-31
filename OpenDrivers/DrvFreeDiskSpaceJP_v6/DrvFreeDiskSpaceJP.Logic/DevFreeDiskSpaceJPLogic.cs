@@ -5,11 +5,8 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvFreeDiskSpaceJP;
 using Scada.Data.Const;
-using Scada.Data.Models;
 using Scada.Lang;
 using System.Data;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 {
@@ -37,12 +34,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public DevFreeDiskSpaceJPLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            Log.WriteInfo("Start");
-
             CanSendCommands = true;
             ConnectionRequired = false;
 
@@ -76,13 +72,12 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
             this.writeLogDriver = project.DebugerSettings.LogWrite;
 
             driverClient = new DriverClient(pathProject, project);
-
-            Log.WriteInfo("End");
         }
 
 
         /// <summary>
         /// Performs actions after adding the device to a communication line.
+        /// <para>Выполняет действия после добавления устройства к линии связи.</para>
         /// </summary>
         public override void OnCommLineStart()
         {
@@ -108,6 +103,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
         /// <summary>
         /// Performs actions after stopping the device on the communication line.
+        /// <para>Выполняет действия после отключения устройства от линии связи.</para>
         /// </summary>
         public override void OnCommLineTerminate()
         {
@@ -122,6 +118,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
         /// <summary>
         /// Initializes the device tags.
+        /// <para>Инициализирует теги устройства.</para>
         /// </summary>
         public override void InitDeviceTags()
         {
@@ -150,6 +147,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
         /// <summary>
         /// Performs a communication session with the device.
+        /// <para>Выполняет сеанс связи с устройством.</para>
         /// </summary>
         public override void Session()
         {
@@ -168,8 +166,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
                     DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(PollTagGet);
 
                     driverClient.Process();
-                    //driverClient.Dispose();
-                    Log.WriteLine("Jr");
 
                     LastRequestOK = true;
 
@@ -196,7 +192,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
         }
 
         /// <summary>
-        /// Tag Write Driver
+        /// Writing driver tags.
+        /// <para>Запись тегов драйвера</para>
         /// </summary>
         /// <param name="text">Message</param>
         private void PollTagGet(List<DriverTag> tags)
@@ -217,7 +214,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
         }
 
         /// <summary>
-        /// Log Write Driver
+        /// Recording of driver messages.
+        /// <para>Запись сообщений драйвера.</para>
         /// </summary>
         /// <param name="text">Message</param>
         private void LogDriver(string text)
@@ -234,11 +232,13 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
         /// <summary>
         /// Sets value, status and format of the specified tag.
+        /// <para>Устанавливает значение, статус и формат указанного тега.</para>
         /// </summary>
         private void SetTagData(DeviceTag deviceTag, object val, int numberDecimalPlaces = 3)
         {
             try
             {
+                /*
                 LogDriver("##########");
                 LogDriver(string.Format(Locale.IsRussian ? "Тип данных: {0}" : "Data type: {0}", deviceTag.DataType.ToString()));
                 LogDriver(string.Format(Locale.IsRussian ? "Значение: {0}" : "Value: {0}", val.ToString()));
@@ -248,6 +248,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
                 LogDriver(string.Format(Locale.IsRussian ? "Длина данных: {0}" : "Data length: {0}", deviceTag.DataLength.ToString()));
                 LogDriver(string.Format(Locale.IsRussian ? "Количество элементов данных, хранящихся в значении тега: {0}" : "Data elements stored in the tag value: {0}", deviceTag.DataLen.ToString()));
                 LogDriver("##########");
+                */
 
                 if (val == DBNull.Value || val == null)
                 {
@@ -290,13 +291,13 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
                     }
                     else if (val is Int32 intVal)
                     {
-                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.DataType = TagDataType.Int64;
                         deviceTag.Format = TagFormat.IntNumber;
                         try { base.DeviceData.Set(deviceTag, Convert.ToInt32(val), CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
                     else if (val is Int64 int64Val)
                     {
-                        deviceTag.DataType = TagDataType.Double;
+                        deviceTag.DataType = TagDataType.Int64;
                         deviceTag.Format = TagFormat.IntNumber;
                         try { base.DeviceData.SetInt64(deviceTag.Index, Convert.ToInt64(val), CnlStatusID.Defined); } catch (Exception ex) { Log.WriteInfo(ex.Message.ToString()); }
                     }
@@ -317,7 +318,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
 
 
         /// <summary>
-        /// Converts data to scadа formats from tag format.
+        /// Converts data to scadа formats from driver format.
+        /// <para>Преобразует данные из формата драйвера в форматы scada.</para>
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>

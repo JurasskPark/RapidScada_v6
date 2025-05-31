@@ -14,13 +14,14 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
     }
 
     /// <summary>
-    /// Parser settings.
-    /// <para>Настройки парсера.</para>
+    /// Task settings.
+    /// <para>Настройки задачи.</para>
     /// </summary>
     public class Task
     {
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public Task()
         {
@@ -35,53 +36,66 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         }
 
+        #region Variables
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the task identifier.
+        /// <para>Возвращает или задает идентификатор задачи.</para>
         /// </summary>
         public Guid ID { get; set; }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the task is enabled.
+        /// <para>Возвращает или задает, что задача включена.</para>
         /// </summary>
         public bool Enabled { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
+        /// <para>Возвращает или задает название.</para>
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the description.
+        /// <para>Возвращает или задает описание.</para>
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the disk name.
+        /// <para>Возвращает или задает название диска.</para>
         /// </summary>
         public string DiskName { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of free space.
+        /// <para>Возвращает или задает процент свободного места.</para>
         /// </summary>
         public decimal ProceentFreeSpace { get; set; }
 
         /// <summary>
         /// Gets or sets the path.
+        /// <para>Возвращает или задает путь.</para>
         /// </summary>
         public string Path { get; set; }
 
         /// <summary>
         /// Gets or sets the path to.
+        /// <para>Возвращает или задает путь куда.</para>
         /// </summary>
         public string PathTo { get; set; }
 
         /// <summary>
         /// Gets or sets the action.
+        /// <para>Возвращает или задает действие.</para>
         /// </summary>
-        public ActionTask Action { get; set; } 
+        public ActionTask Action { get; set; }
+        #endregion Variables
 
+        #region Xml
         /// <summary>
         /// Loads the settings from the XML node.
+        /// <para>Загружает настройки из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
@@ -103,6 +117,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         /// <summary>
         /// Saves the settings into the XML node.
+        /// <para>Сохраняет настройки в XML-узле.</para>
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
@@ -121,5 +136,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             xmlElem.AppendElem("Action", Enum.GetName(typeof(ActionTask), Action));
             xmlElem.AppendElem("PathTo", PathTo);
         }
+        #endregion Xml
     }
 }

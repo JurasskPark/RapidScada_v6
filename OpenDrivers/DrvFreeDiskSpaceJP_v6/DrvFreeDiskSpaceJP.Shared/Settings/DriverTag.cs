@@ -1,18 +1,19 @@
-﻿using Scada;
-using Scada.Comm.Drivers.DrvFreeDiskSpaceJP;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
-using static Scada.Comm.Drivers.DrvFreeDiskSpaceJP.DriverTag;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
     #region Class DriverGroupTag
+    /// <summary>
+    /// A group of driver tags.
+    /// <para>Группа тегов драйвера.</para>
+    /// </summary>
     public class DriverGroupTag
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public DriverGroupTag()
         {
             Group = new List<DriverTag>();
@@ -27,6 +28,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
     #region Class DriverTag
     public class DriverTag
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public DriverTag()
         {
             TagID = Guid.NewGuid();
@@ -41,7 +46,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             TagNumberDecimalPlaces = 3;
         }
 
-        #region Tag
+        #region Variables
+        /// <summary>
+        /// The tag identifier.
+        /// <para>Идентификатор тега.</para>
+        /// </summary>
         private Guid tagID;
         public Guid TagID
         {
@@ -49,6 +58,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { tagID = value; }
         }
 
+        /// <summary>
+        /// The address of the tag.
+        /// <para>Адрес тега.</para>
+        /// </summary>
         private string tagAddress;
         public string TagAddress
         {
@@ -56,6 +69,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { tagAddress = value; }
         }
 
+        /// <summary>
+        /// The name of the tag.
+        /// <para>Название тега.</para>
+        /// </summary>
         private string tagName;
         public string TagName
         {
@@ -63,6 +80,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { tagName = value; }
         }
 
+        /// <summary>
+        /// The tag code.
+        /// <para>Код тега.</para>
+        /// </summary>
         private string tagCode;
         public string TagCode
         {
@@ -70,6 +91,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { tagCode = value; }
         }
 
+        /// <summary>
+        /// Description of the tag.
+        /// <para>Описание тега.</para>
+        /// </summary>
         private string tagDescription;
         public string TagDescription
         {
@@ -77,6 +102,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagDescription; }
         }
 
+        /// <summary>
+        /// The tag is enabled.
+        /// <para>Включен тег.</para>
+        /// </summary>
         private bool tagEnabled;
         public bool TagEnabled
         {
@@ -84,6 +113,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagEnabled; }
         }
 
+        /// <summary>
+        /// The tag value.
+        /// <para>Значение тега.</para>
+        /// </summary>
         private object tagDataValue;
         public object TagDataValue
         {
@@ -91,6 +124,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagDataValue; }
         }
 
+        /// <summary>
+        /// The time when the data was received.
+        /// <para>Время получения данных.</para>
+        /// </summary>
         private DateTime tagDateTime;
         public DateTime TagDateTime
         {
@@ -98,14 +135,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagDateTime; }
         }
 
-
-        private FormatData tagFormatData;
-        public FormatData TagFormatData
-        {
-            set { tagFormatData = value; }
-            get { return tagFormatData; }
-        }
-
+        /// <summary>
+        /// The data format.
+        /// <para>Формат данных.</para>
+        /// </summary>
         public enum FormatData
         {
             Float = 0,
@@ -115,6 +148,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             Boolean = 4,
         }
 
+        /// <summary>
+        /// The format of the tag data.
+        /// <para>Формат данных тега.</para>
+        /// </summary>
         private FormatData tagValueFormat;
         public FormatData TagValueFormat
         {
@@ -122,6 +159,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagValueFormat; }
         }
 
+        /// <summary>
+        /// The number of decimal places.
+        /// <para>Количество знаков после запятой.</para>
+        /// </summary>
         private int tagNumberDecimalPlaces;
         public int TagNumberDecimalPlaces
         {
@@ -129,11 +170,12 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             get { return tagNumberDecimalPlaces; }
         }
 
-        #endregion Tag
+        #endregion Variables
 
         #region Xml
         /// <summary>
         /// Loads the settings from the XML node.
+        /// <para>Загружает настройки из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
@@ -160,9 +202,9 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             TagDateTime = DateTime.MinValue;
         }
 
-
         /// <summary>
         /// Saves the settings into the XML node.
+        /// <para>Сохраняет настройки в XML-узле.</para>
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
@@ -183,98 +225,12 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         }
         #endregion Xml
 
-        #region Getting tag value by data type
-
-        //public static void GetValue(ParserListBlocks blocks, ref DriverTag tag)
-        //{
-        //    if (tag == null)
-        //    {
-        //        return;
-        //    }
-
-        //    if (tag.TagEnabled == true) // eсли тег активен
-        //    {
-        //        if (tag.TagID != null) // если у самого тега есть свой ID
-        //        {
-        //            #region Расшифровка адреса тега
-        //            int addressBlock = 0;
-        //            int addressBlockStart = 0;
-        //            int addressBlockEnd = 0;
-        //            int addressBlockCount = 0;
-
-        //            int addressLine = 0;
-        //            int addressLineStart = 0;
-        //            int addressLineEnd = 0;
-        //            int addressLineCount = 0;
-
-        //            int addressParameter = 0;
-        //            int addressParameterStart = 0;
-        //            int addressParameterEnd = 0;
-        //            int addressParameterCount = 0;
-
-        //            try
-        //            {
-        //                addressBlock = ParsingAddress(tag.tagAddressNumberBlock, out addressBlock, out addressBlockStart, out addressBlockEnd, out addressBlockCount);
-        //            }
-        //            catch { }
-        //            try
-        //            {
-        //                addressLine = ParsingAddress(tag.tagAddressNumberLine, out addressLine, out addressLineStart, out addressLineEnd, out addressLineCount);
-        //            }
-        //            catch { }
-        //            try
-        //            {
-        //                addressParameter = ParsingAddress(tag.tagAddressNumberParameter, out addressParameter, out addressParameterStart, out addressParameterEnd, out addressParameterCount);
-        //            }
-        //            catch { }
-
-        //            #endregion Расшифровка адреса тега
-
-        //            #region Преобразования 
-
-        //            try
-        //            {
-        //                if (blocks != null)
-        //                {
-        //                    // формат данных
-        //                    switch ((FormatData)Enum.Parse(typeof(FormatData), tag.TagFormatData.ToString()))
-        //                    {
-        //                        //case FormatData.Boolean:
-        //                        //    tag.TagDataValue = Convert.ToBoolean(parserText.GetStringValue(blocks, addressBlock, addressLine, addressParameter).TrimEnd(new char[] { ',', '.', ';', ':', '?', '!' }));
-        //                        //    break;
-        //                        //case FormatData.DateTime:
-        //                        //    tag.TagDataValue = DateTime.Parse(parserText.GetStringValue(blocks, addressBlock, addressLine, addressParameter).TrimEnd(new char[] { ',', '.', ';', ':', '?', '!' }));
-        //                        //    break;
-        //                        //case FormatData.Float:
-        //                        //    tag.TagDataValue = DriverUtils.FloatAsFloat(parserText.GetStringValue(blocks, addressBlock, addressLine, addressParameter).TrimEnd(new char[] { ',', '.', ';', ':', '?', '!' }));
-        //                        //    break;
-        //                        //case FormatData.String:
-        //                        //    tag.TagDataValue = parserText.GetStringValue(blocks, addressBlock, addressLine, addressParameter).TrimEnd(new char[] { ',', '.', ';', ':', '?', '!' });
-        //                        //    break;
-        //                        //case FormatData.Integer:
-        //                        //    tag.TagDataValue = Convert.ToInt32(parserText.GetStringValue(blocks, addressBlock, addressLine, addressParameter).TrimEnd(new char[] { ',', '.', ';', ':', '?', '!' }));
-        //                        //    break;
-        //                    }
-        //                }
-        //            }
-        //            catch { }
-
-        //            #endregion Преобразования
-        //        }
-        //        else
-        //        {
-        //            tag.TagDataValue = "<Error!>";
-        //        }
-        //    }
-        //}
-
-        #endregion Getting tag value by data type
-
         #region Convert to string
 
         #region IsNullString
         /// <summary>
         /// Сonverting an object to a string, if the object is empty, it returns an empty string.
+        /// <para>Преобразование объекта в строку, если объект пуст, возвращает пустую строку.</para>
         /// </summary>
         /// <param name="Value">object Value</param>
         /// <returns>string Value</returns>
@@ -372,47 +328,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         #endregion Convert to string
 
-        /// <summary>
-        /// Returns the value of the required number of bits from the string float.
-        /// </summary>
-        public static int ParsingAddress(string s, out int address, out int startAddress, out int endAddress, out int countAddress)
-        {
-            address = 0;
-            startAddress = 0;
-            endAddress = 0;
-            countAddress = 0;
-
-            string[] parts = FloatPuttingInOrder(s).Split('.');
-            if (parts.Length == 1)
-            {
-                address = Convert.ToInt32(parts[0]);
-                return address;
-            }
-            string[] parts2 = parts[1].Split("-");
-            if (parts2.Length == 1)
-            {
-                startAddress = Convert.ToInt32(parts[1]);
-                countAddress = 1;
-                address = Convert.ToInt32(parts[0]);
-                return address;
-            }
-            address = Convert.ToInt32(parts[0]);
-            startAddress = Convert.ToInt32(parts2[0]);
-            endAddress = Convert.ToInt32(parts2[1]);
-            countAddress = endAddress - startAddress;
-            return address;
-        }
-
-        /// <summary>
-        /// Replacing the comma in the float string with a dot.
-        /// </summary>
-        private static string FloatPuttingInOrder(string s)
-        {
-            s = s.Replace(",", ".").Trim();
-            return s;
-        }
-
     }
     #endregion Class DriverTag
-
 }

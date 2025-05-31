@@ -220,7 +220,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Free Disk Space JP - Device {0} Version {1}";
             WindowState = FormWindowState.Maximized;
-            Load += FrmListParsers_Load;
+            Load += FrmConfig_Load;
             cmnuMenu.ResumeLayout(false);
             ResumeLayout(false);
         }

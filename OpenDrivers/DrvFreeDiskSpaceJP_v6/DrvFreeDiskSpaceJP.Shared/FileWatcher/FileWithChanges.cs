@@ -1,14 +1,13 @@
-﻿using Scada.Comm.Drivers.DrvFreeDiskSpaceJP;
-using Scada.Lang;
-using System.Data;
+﻿using Scada.Lang;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
+    /// <summary>
+    /// Performing operations with files and directories in the operating system.
+    /// <para>Проведение операций с файлами и каталогами в операционной системе.</para>
+    /// </summary>
     public class FileWithChanges : IDisposable
     {
         #region Variables
@@ -60,15 +59,15 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         #endregion Dispose
 
         #region SearchFiles
-        /// <summary>
-        /// Getting a list of files from a directory.
-        /// <para>Получение списка файлов из каталога.</para>
-        /// </summary>
-        private static List<FilesDatabase> lstFiles = new List<FilesDatabase>();
+        private static List<FilesDatabase> lstFiles = new List<FilesDatabase>(); 
         private static List<string> lstFolders = new List<string>();
         private static string dir = string.Empty;
         private static string subdir = string.Empty;
 
+        /// <summary>
+        /// Getting a list of files from a directory.
+        /// <para>Получение списка файлов из каталога.</para>
+        /// </summary>
         public static List<FilesDatabase> SearchFiles(string path, bool useSubDir = false)
         {
             try
@@ -107,6 +106,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             }
         }
 
+        /// <summary>
+        /// Getting a list of directories.
+        /// <para>Получение списка каталогов.</para>
+        /// </summary>
         public static List<FilesDatabase> SearchFolders(string path, bool useSubDir = false)
         {
             try
@@ -154,7 +157,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             }
         }
 
-
+        /// <summary>
+        /// Search for all objects through recursion.
+        /// <para>Поиск всех объектов через рекурсию.</para>
+        /// </summary>
         private static List<FilesDatabase> IterateSortFoldersFiles(string dir)
         {
             try
@@ -176,6 +182,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             }
         }
 
+        /// <summary>
+        /// Search for all objects through recursion.
+        /// <para>Поиск всех объектов через рекурсию.</para>
+        /// </summary>
         private static List<string> IterateSortFolders(string dir)
         {
             try
@@ -200,6 +210,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             }
         }
 
+        /// <summary>
+        /// Search for all objects through recursion.
+        /// <para>Поиск всех объектов через рекурсию.</para>
+        /// </summary>
         private static List<FilesDatabase> IterateSortFiles(List<string> lstFolders)
         {
             try

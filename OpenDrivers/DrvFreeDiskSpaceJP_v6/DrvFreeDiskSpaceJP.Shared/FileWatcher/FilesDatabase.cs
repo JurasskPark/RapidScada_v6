@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
+﻿namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
+    /// <summary>
+    /// The structure of storing information about files and directories of the operating system.
+    /// <para>Структура хранения информации о файлах и каталогах операционной системы.</para>
+    /// </summary>
     public class FilesDatabase
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public FilesDatabase()
         {
             this.PathFile = string.Empty;
@@ -19,6 +20,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             this.Status = 0;
         }
 
+        #region Variables
+        /// <summary>
+        /// The path to the file.
+        /// <para>Путь до файла.</para>
+        /// </summary>
         private string pathFile;
         public string PathFile
         {
@@ -26,6 +32,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { pathFile = value; }
         }
 
+        /// <summary>
+        /// The date the file was modified.
+        /// <para>Дата изменения файла.</para>
+        /// </summary>
         private DateTime lastTimeChanged;
         public DateTime LastTimeChanged
         {
@@ -34,6 +44,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         }
 
+        /// <summary>
+        /// The file size.
+        /// <para>Размер файла.</para>
+        /// </summary>
         private long sizeFile;
         public long SizeFile
         {
@@ -41,6 +55,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { sizeFile = value; }
         }
 
+        /// <summary>
+        /// The number of lines in the file.
+        /// <para>Количество строк в файле.</para>
+        /// </summary>
         private int numberLines;
         public int NumberLines
         { 
@@ -48,6 +66,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { numberLines = value; } 
         }
 
+        /// <summary>
+        /// An indication of the analysis.
+        /// <para>Признак проведения анализа.</para>
+        /// </summary>
         private bool parsed;
         public bool Parsed 
         { 
@@ -55,6 +77,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { parsed = value; } 
         }
 
+        /// <summary>
+        /// Status (numeric).
+        /// <para>Статус (числовой).</para>
+        /// </summary>
         private int status;
         public int Status 
         {
@@ -62,172 +88,16 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
             set { status = value; }
         }
 
+        /// <summary>
+        /// Status (string).
+        /// <para>Статус (строковый).</para>
+        /// </summary>
         private string statusString;
         public string StatusString
         {
             get { return statusString; }
             set { statusString = value; }
         }
-
-        enum FileParsedStatus
-        {
-            NoParsed = 0,
-            Parsed = 1,
-            Error = 2,
-        }
-
-
-        public static List<FilesDatabase> LoadDB(string path)
-        {
-            List<FilesDatabase> rows = new List<FilesDatabase>();
-
-            StreamReader sr = new StreamReader(path);
-            while (!sr.EndOfStream)
-            {
-                string s = sr.ReadLine();
-                string[] parameters = s.Split("|", System.StringSplitOptions.None);
-                if (parameters.Length >= 6)
-                {
-                    FilesDatabase line = new FilesDatabase();       
-                    try { line.PathFile = parameters[0]; } catch { line.PathFile = string.Empty; }
-                    try { line.LastTimeChanged = DateTime.Parse(parameters[1]); } catch { line.LastTimeChanged = DateTime.MinValue; }
-                    try { line.SizeFile = Convert.ToInt32(parameters[2]); } catch { line.SizeFile = 0; }
-                    try { line.NumberLines = Convert.ToInt32(parameters[3]); } catch { line.NumberLines = 0; }
-                    try { line.Parsed = Convert.ToBoolean(parameters[4]); } catch { line.Parsed = false; }
-                    try { line.Status = Convert.ToInt32(parameters[5]); } catch { line.Status = 3; }
-                    rows.Add(line);
-                }
-            }
-            sr.Close();
-
-            return rows;
-        }
-
-        public static List<string> ListPathFiles(List<FilesDatabase> list)
-        {
-            List<string> result = new List<string>();
-            foreach (FilesDatabase file in list)
-            {
-                result.Add(file.PathFile);
-            }
-            return result;
-        }
-
-        public static void AddRow(string path, FilesDatabase row)
-        {
-            StreamWriter streamWriter = File.AppendText(Path.Combine(path));
-
-            string line = $@"{row.PathFile}|{row.LastTimeChanged.ToString()}|{row.SizeFile}|{row.NumberLines}|{row.Parsed.ToString()}|{row.Status}";
-
-            streamWriter.WriteLine(line);
-            streamWriter.Close();
-        }
-
-        public static void DeleteRow(string path, string pathFile)
-        {
-            string tempFile = path.Replace(".db", ".tmp");
-            using (var sr = new StreamReader(path))
-            {
-                using (var sw = new StreamWriter(tempFile))
-                {
-                    string s;
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        string[] parameters = s.Split("|", System.StringSplitOptions.None);
-                        if (parameters.Length >= 6)
-                        {
-                            FilesDatabase row= new FilesDatabase();
-                            try { row.PathFile = parameters[0]; } catch { row.PathFile = string.Empty; }
-                            try { row.LastTimeChanged = DateTime.Parse(parameters[1]); } catch { row.LastTimeChanged = DateTime.MinValue; }
-                            try { row.SizeFile = Convert.ToInt32(parameters[2]); } catch { row.SizeFile = 0; }
-                            try { row.NumberLines = Convert.ToInt32(parameters[3]); } catch { row.NumberLines = 0; }
-                            try { row.Parsed = Convert.ToBoolean(parameters[4]); } catch { row.Parsed = false; }
-                            try { row.Status = Convert.ToInt32(parameters[5]); } catch { row.Status = 3; }
-
-                            if (row.PathFile != pathFile)
-                            {
-                                string line = $@"{row.PathFile}|{row.LastTimeChanged.ToString()}|{row.SizeFile}|{row.NumberLines}|{row.Parsed.ToString()}|{row.Status}";
-                                sw.WriteLine(line);
-                            }
-                        }
-                    }
-                }
-            }
-            File.Delete(path);
-            File.Move(tempFile, path);
-        }
-
-        public static FilesDatabase SelectRow(string path, string pathFile)
-        {
-            FilesDatabase row = new FilesDatabase();
-
-            StreamReader sr = new StreamReader(path);
-            while (!sr.EndOfStream)
-            {
-                string s = sr.ReadLine();
-                string[] parameters = s.Split("|", System.StringSplitOptions.None);
-                if (parameters.Length >= 6)
-                {
-                    FilesDatabase line = new FilesDatabase();
-                    try { line.PathFile = parameters[0]; } catch { line.PathFile = string.Empty; }
-                    try { line.LastTimeChanged = DateTime.Parse(parameters[1]); } catch { line.LastTimeChanged = DateTime.MinValue; }
-                    try { line.SizeFile = Convert.ToInt32(parameters[2]); } catch { line.SizeFile = 0; }
-                    try { line.NumberLines = Convert.ToInt32(parameters[3]); } catch { line.NumberLines = 0; }
-                    try { line.Parsed = Convert.ToBoolean(parameters[4]); } catch { line.Parsed = false; }
-                    try { line.Status = Convert.ToInt32(parameters[5]); } catch { line.Status = 3; }
-                    
-                    if(line.PathFile == pathFile)
-                    {
-                        sr.Close();
-                        return line;        
-                    }
-                }
-            }
-            sr.Close();
-            return null;
-        }
-
-        public static void UpdateRow(string path, FilesDatabase rowUpdate)
-        {
-            string tempFile = path.Replace(".db", ".tmp");
-            using (var sr = new StreamReader(path))
-            {
-                using (var sw = new StreamWriter(tempFile))
-                {
-                    string s;
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        string[] parameters = s.Split("|", System.StringSplitOptions.None);
-                        if (parameters.Length >= 6)
-                        {
-                            FilesDatabase row = new FilesDatabase();
-                            try { row.PathFile = parameters[0]; } catch { row.PathFile = string.Empty; }
-                            try { row.LastTimeChanged = DateTime.Parse(parameters[1]); } catch { row.LastTimeChanged = DateTime.MinValue; }
-                            try { row.SizeFile = Convert.ToInt32(parameters[2]); } catch { row.SizeFile = 0; }
-                            try { row.NumberLines = Convert.ToInt32(parameters[3]); } catch { row.NumberLines = 0; }
-                            try { row.Parsed = Convert.ToBoolean(parameters[4]); } catch { row.Parsed = false; }
-                            try { row.Status = Convert.ToInt32(parameters[5]); } catch { row.Status = 3; }
-
-                            if (row.PathFile != rowUpdate.PathFile)
-                            {
-                                string line = $@"{row.PathFile}|{row.LastTimeChanged.ToString()}|{row.SizeFile}|{row.NumberLines}|{row.Parsed.ToString()}|{row.Status}";
-                                sw.WriteLine(line);
-                            }
-                            else
-                            {
-                                string line = $@"{rowUpdate.PathFile}|{rowUpdate.LastTimeChanged.ToString()}|{rowUpdate.SizeFile}|{row.NumberLines}|{rowUpdate.Parsed.ToString()}|{rowUpdate.Status}";
-                                sw.WriteLine(line);
-                            }
-                        }
-                    }
-                    sw.Close();
-                }
-                sr.Close();
-            }
-
-
-            File.Delete(path);
-            File.Move(tempFile, path);
-        }
+        #endregion Variables
     }
 }

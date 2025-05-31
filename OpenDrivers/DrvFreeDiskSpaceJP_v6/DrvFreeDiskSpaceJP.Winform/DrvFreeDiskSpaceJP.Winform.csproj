@@ -2,12 +2,24 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Platforms>AnyCPU;x64</Platforms>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <TargetFramework>net8.0-windows</TargetFramework>
+	  <Nullable>disable</Nullable>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <EnableWindowsTargeting>true</EnableWindowsTargeting>
+	  <EnableDynamicLoading>true</EnableDynamicLoading>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+	  <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+	  <RootNamespace>Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View</RootNamespace>
+	  <Version>6.4.0.4</Version>
+	  <Authors>Yuriy Pradius</Authors>
+	  <Company>Yuriy Pradius</Company>
+	  <Product>DrvFreeDiskSpaceJP</Product>
+	  <Copyright>Copyright © 2025</Copyright>
+	  <LangVersion>preview</LangVersion>
+	  <Platforms>AnyCPU;x86;x64</Platforms>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

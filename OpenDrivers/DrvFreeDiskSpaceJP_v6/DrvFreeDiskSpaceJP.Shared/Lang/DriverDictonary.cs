@@ -1,7 +1,12 @@
 ﻿using Scada.Lang;
+using System.Threading.Tasks;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
+    /// <summary>
+    /// The driver's dictionary.
+    /// <para>Словарь драйвера.</para>
+    /// </summary>
     public static class DriverDictonary
     {
         public static string StartDriver = Locale.IsRussian? "Запуск драйвера" : "Launching the driver";
@@ -35,5 +40,25 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public static string MoveZip = Locale.IsRussian ? "Архив '{0}' перенесён в каталог '{1}'." : "Archive '{0}' moved to directory '{1}'.";
         public static string DiskInfo = Locale.IsRussian ? "{0} ({1}) [{2} / {3}]" : "{0} ({1}) [{2} / {3}]";
         public static string DiskError = Locale.IsRussian ? "Ошибка при получении информации о дисках: {0}." : "Error retrieving disk information: {0}.";
+
+        public static string ActionTaskString(ActionTask action)
+        {
+            string result = string.Empty;
+
+            switch (action)
+            {
+                case ActionTask.None:
+                    result = Locale.IsRussian ? "Ничего не делать" : "None";
+                    break;
+                case ActionTask.Delete:
+                    result = Locale.IsRussian ? "Удалить" : "Delete";
+                    break;
+                case ActionTask.CompressMove:
+                    result = Locale.IsRussian ? "Сжать и переместить" : "Compress and move";
+                    break;
+            }
+
+            return result;
+        }
     }
 }

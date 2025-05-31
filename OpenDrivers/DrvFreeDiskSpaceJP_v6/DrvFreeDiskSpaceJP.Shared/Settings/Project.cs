@@ -10,12 +10,13 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
     /// <summary>
     /// Represents a device configuration.
-    /// <para>Представляет конфигурацию КП.</para>
+    /// <para>Представляет конфигурацию устройства.</para>
     /// </summary>
     public class Project
     {
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public Project()
         {
@@ -24,27 +25,32 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         /// <summary>
         /// Gets or sets task as a list.
+        /// <para>Получает или задает задачу в виде списка.</para>
         /// </summary>
         public List<Task> ListTask { get; set; }
 
         /// <summary>
-        /// Gets or sets tag names as a list.
+        /// Gets or sets tag as a list.
+        /// <para>Возвращает или задает теги в виде списка.</para>
         /// </summary>
         public List<DriverTag> DeviceTags { get; set; }
 
         /// <summary>
-        /// Gets the debuger settings.
+        /// Gets or sets the debuger settings.
+        /// <para>Возвращает или задает настройки отладчика.</para>
         /// </summary>
         public DebugerSettings DebugerSettings { get; set; }
 
         /// <summary>
-        /// Gets the language.
+        /// Gets or sets the language.
+        /// <para>Возвращает или задает язык.</para>
         /// </summary>
         public bool LanguageIsRussian { get; set; }
 
 
         /// <summary>
         /// Sets the default values.
+        /// <para>Устанавливает значения по умолчанию.</para>
         /// </summary>
 #pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
         private void SetToDefault()
@@ -58,6 +64,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 
         /// <summary>
         /// Loads the configuration from the specified file.
+        /// <para>Загружает конфигурацию из указанного файла.</para>
         /// </summary>
 #pragma warning disable CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
         public bool Load(string fileName, out string errMsg)
@@ -103,15 +110,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
                     {
                         foreach (XmlNode exportDeviceTagNode in exportDeviceTagsNode.SelectNodes("Tag"))
                         {
-
-/* Необъединенное слияние из проекта "DrvFreeDiskSpaceJP.View"
-До:
-                            Tag exportDeviceTag = new Tag();
-                            exportDeviceTag.LoadFromXml(exportDeviceTagNode);
-После:
-                            DriverTag exportDeviceTag = new DriverTag();
-                            exportDeviceTag.LoadFromXml(exportDeviceTagNode);
-*/
                             DriverTag exportDeviceTag = new DriverTag();
                             exportDeviceTag.LoadFromXml(exportDeviceTagNode);
                             DeviceTags.Add(exportDeviceTag);
@@ -137,6 +135,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 #pragma warning restore CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
         /// <summary>
         /// Saves the configuration to the specified file.
+        /// <para>Сохраняет конфигурацию в указанный файл.</para>
         /// </summary>
 #pragma warning disable CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
         public bool Save(string fileName, out string errMsg)
@@ -188,6 +187,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 #pragma warning restore CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
         /// <summary>
         /// Gets the short name of the device configuration file.
+        /// <para>Возвращает краткое имя файла конфигурации устройства.</para>
         /// </summary>
         public static string GetFileName(int deviceNum)
         {

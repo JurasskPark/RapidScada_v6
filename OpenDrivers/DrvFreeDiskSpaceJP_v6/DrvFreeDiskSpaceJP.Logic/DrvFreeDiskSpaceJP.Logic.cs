@@ -16,6 +16,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Logic
     {
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public DrvFreeDiskSpaceJPLogic(ICommContext commContext)
             : base(commContext)
@@ -24,6 +25,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Logic
 
         /// <summary>
         /// Gets the driver code.
+        /// <para>Получает код драйвера.</para>
         /// </summary>
         public override string Code
         {
@@ -35,6 +37,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Logic
 
         /// <summary>
         /// Creates a new device.
+        /// <para>Создает новое устройство.</para>
         /// </summary>
         public override DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
         {

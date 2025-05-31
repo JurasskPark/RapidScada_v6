@@ -68,7 +68,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         /// </summary>
         public static string Name(bool isRussian = false)
         {
-            string text = isRussian ? "Анализатор текста" : "Parser text";
+            string text = isRussian ? "Свободное дисковое пространство" : "Free disk space";
             return text;
         }
 
@@ -78,8 +78,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         public static string Description(bool isRussian = false)
         {
             string text = isRussian ?
-                    "Преобразование текстовых файлов в данные SCADA." :
-                    "Parsing text files to SCADA data.";
+                    "Мониторинг свободного дискового пространства." :
+                    "Monitoring free disk space.";
             return text;
         }
 

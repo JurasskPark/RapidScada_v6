@@ -49,7 +49,7 @@
             lblPercentageOfFreeSpace = new Label();
             cmbDiskName = new ComboBox();
             txtValidate = new TextBox();
-            lblValiadate = new Label();
+            lblValidate = new Label();
             btnValidate = new Button();
             gpbAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudPercentageOfFreeSpace).BeginInit();
@@ -57,9 +57,9 @@
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(177, 58);
+            txtDescription.Location = new Point(186, 58);
             txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(315, 23);
+            txtDescription.Size = new Size(306, 23);
             txtDescription.TabIndex = 172;
             // 
             // lblDescription
@@ -74,7 +74,7 @@
             // ckbEnabled
             // 
             ckbEnabled.AutoSize = true;
-            ckbEnabled.Location = new Point(177, 10);
+            ckbEnabled.Location = new Point(186, 10);
             ckbEnabled.Name = "ckbEnabled";
             ckbEnabled.Size = new Size(15, 14);
             ckbEnabled.TabIndex = 168;
@@ -93,9 +93,9 @@
             // txtPath
             // 
             txtPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtPath.Location = new Point(177, 145);
+            txtPath.Location = new Point(186, 145);
             txtPath.Name = "txtPath";
-            txtPath.Size = new Size(664, 23);
+            txtPath.Size = new Size(655, 23);
             txtPath.TabIndex = 165;
             // 
             // lblPath
@@ -133,9 +133,9 @@
             // 
             // txtName
             // 
-            txtName.Location = new Point(177, 29);
+            txtName.Location = new Point(186, 29);
             txtName.Name = "txtName";
-            txtName.Size = new Size(315, 23);
+            txtName.Size = new Size(306, 23);
             txtName.TabIndex = 157;
             txtName.Click += control_Changed;
             // 
@@ -164,9 +164,9 @@
             // 
             // txtCompressMove
             // 
-            txtCompressMove.Location = new Point(167, 68);
+            txtCompressMove.Location = new Point(176, 68);
             txtCompressMove.Name = "txtCompressMove";
-            txtCompressMove.Size = new Size(664, 23);
+            txtCompressMove.Size = new Size(655, 23);
             txtCompressMove.TabIndex = 178;
             // 
             // rdbActionCompressMove
@@ -204,16 +204,16 @@
             // nudPercentageOfFreeSpace
             // 
             nudPercentageOfFreeSpace.DecimalPlaces = 5;
-            nudPercentageOfFreeSpace.Location = new Point(177, 116);
+            nudPercentageOfFreeSpace.Location = new Point(186, 118);
             nudPercentageOfFreeSpace.Name = "nudPercentageOfFreeSpace";
             nudPercentageOfFreeSpace.Size = new Size(120, 23);
             nudPercentageOfFreeSpace.TabIndex = 176;
             // 
             // txtDiskName
             // 
-            txtDiskName.Location = new Point(177, 87);
+            txtDiskName.Location = new Point(186, 87);
             txtDiskName.Name = "txtDiskName";
-            txtDiskName.Size = new Size(315, 23);
+            txtDiskName.Size = new Size(306, 23);
             txtDiskName.TabIndex = 177;
             // 
             // lblDiskName
@@ -253,14 +253,14 @@
             txtValidate.Size = new Size(835, 116);
             txtValidate.TabIndex = 181;
             // 
-            // lblValiadate
+            // lblValidate
             // 
-            lblValiadate.AutoSize = true;
-            lblValiadate.Location = new Point(12, 286);
-            lblValiadate.Name = "lblValiadate";
-            lblValiadate.Size = new Size(48, 15);
-            lblValiadate.TabIndex = 182;
-            lblValiadate.Text = "Validate";
+            lblValidate.AutoSize = true;
+            lblValidate.Location = new Point(12, 286);
+            lblValidate.Name = "lblValidate";
+            lblValidate.Size = new Size(48, 15);
+            lblValidate.TabIndex = 182;
+            lblValidate.Text = "Validate";
             // 
             // btnValidate
             // 
@@ -280,7 +280,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(860, 441);
             Controls.Add(btnValidate);
-            Controls.Add(lblValiadate);
+            Controls.Add(lblValidate);
             Controls.Add(txtValidate);
             Controls.Add(cmbDiskName);
             Controls.Add(lblPercentageOfFreeSpace);
@@ -331,7 +331,7 @@
         private Label lblPercentageOfFreeSpace;
         private ComboBox cmbDiskName;
         private TextBox txtValidate;
-        private Label lblValiadate;
+        private Label lblValidate;
         private Button btnValidate;
         private TextBox txtCompressMove;
     }

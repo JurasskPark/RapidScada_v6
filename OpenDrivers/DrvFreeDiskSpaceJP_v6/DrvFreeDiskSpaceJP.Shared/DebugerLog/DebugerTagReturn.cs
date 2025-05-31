@@ -1,16 +1,31 @@
 ﻿namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
+    /// <summary>
+    /// Implements the logic of subscribing to receive tags.
+    /// <para>Реализует логику подписку на получение тегов.</para>
+    /// </summary>
     internal class DriverTagReturn
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public DriverTagReturn()
         {
 
         }
 
-        //Получение тегов
+        /// <summary>
+        /// Getting the tags
+        /// <para>Получение тегов</para>
+        /// </summary>
         public static DebugData OnDebug;
         public delegate void DebugData(List<DriverTag> tags);
-        //Передача на форму
+
+        /// <summary>
+        /// Getting the tags
+        /// <para>Получение тегов</para>
+        /// </summary>
         internal void TagReturn(List<DriverTag> tags)
         {
             if (OnDebug == null)
@@ -21,6 +36,10 @@
             OnDebug(tags);
         }
 
+        /// <summary>
+        /// Getting the tags
+        /// <para>Получение тегов</para>
+        /// </summary>
         public void Return(List<DriverTag> tags)
         {
             TagReturn(tags);

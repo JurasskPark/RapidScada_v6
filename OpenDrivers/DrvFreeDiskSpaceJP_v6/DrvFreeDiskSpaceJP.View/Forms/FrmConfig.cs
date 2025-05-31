@@ -1,19 +1,18 @@
-﻿using Scada.Comm.Devices;
-using Scada.Data.Entities;
-using Scada.Forms;
-using Scada.Forms.Forms;
+﻿using Scada.Forms;
 using Scada.Lang;
-using System.ComponentModel;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 {
+    /// <summary>
+    /// A form with a list of tasks.
+    /// <para>Форма со списком задач.</para>
+    /// </summary>
     public partial class FrmConfig : Form
     {
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public FrmConfig()
         {
@@ -44,6 +43,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public FrmConfig(AppDirs appDirs, int deviceNum)
             : this()
@@ -103,7 +103,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #endregion Variables
 
         #region Form Load
-        private void FrmListParsers_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Load the form.
+        /// <para>Загрузка формы.</para>
+        /// </summary>
+        private void FrmConfig_Load(object sender, EventArgs e)
         {
             LoadLanguage(languageDir, isRussian);
             Translate();
@@ -114,7 +118,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         #region Load Data
         /// <summary>
-        /// Load data
+        /// Load data.
+        /// <para>Загрузка данных.</para>
         /// </summary>
         public void LoadData()
         {
@@ -193,7 +198,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #region Lang
         /// <summary>
         /// Loading from the translation catalog by language.
-        /// <para>Загрузка из каталога перевода по признаку языка</para>
+        /// <para>Загрузка из каталога перевода по признаку языка.</para>
         /// </summary>
         public void LoadLanguage(string languageDir, bool IsRussian = false)
         {
@@ -221,9 +226,9 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             }
 
             Locale.LoadDictionaries(languageFile, out string errMsg);
-            Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmListParsers");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Application");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmConfig");
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmTask");
-            Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Application");
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.Combobox");
             Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.DialogBox");
             DriverPhrases.Init();
@@ -252,6 +257,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         /// <summary>
         /// Sets the column names as needed for translation.
+        /// <para>Задает имена столбцов, необходимые для перевода.</para>
         /// </summary>
         private void SetListViewColumnNames()
         {
@@ -264,6 +270,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         /// <summary>
         /// Translating values to listview.
+        /// <para>Перевод значений в список.</para>
         /// </summary>
         public string ListViewAsDisplayStringBoolean(bool boolTag)
         {
@@ -293,7 +300,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         #region Select
         /// <summary>
-        /// Mouse click on ListView
+        /// Mouse click on ListView.
+        /// <para>Щелчок мыши по списку.</para>
         /// </summary>
         private void lstDevice_MouseClick(object sender, MouseEventArgs e)
         {
@@ -301,7 +309,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         }
 
         /// <summary>
-        /// List select
+        /// List select.
+        /// Выбор из списка.
         /// </summary>
         private void ListSelect()
         {
@@ -326,7 +335,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #region Add
 
         /// <summary>
-        /// Select from the menu add a row
+        /// Select from the menu add a row.
+        /// <para>Выберите в меню пункт добавить запись.</para>
         /// </summary>
         private void cmnuListAdd_Click(object sender, EventArgs e)
         {
@@ -334,7 +344,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         }
 
         /// <summary>
-        /// List add
+        /// List add.
+        /// <para>Добавление в список.</para>
         /// </summary>
         private void ListAdd()
         {
@@ -366,7 +377,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         #region Change
         /// <summary>
-        /// Select from the menu change a row
+        /// Select from the menu change a row.
+        /// <para>>Выберите в меню пункт изменить запись.</para>
         /// </summary>
         private void cmnuListChange_Click(object sender, EventArgs e)
         {
@@ -374,7 +386,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         }
 
         /// <summary>
-        /// List change
+        /// List change.
+        /// <para>Изменение списка.</para>
         /// </summary>
         private void ListChange()
         {
@@ -415,7 +428,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
 
         #region Delete
         /// <summary>
-        /// Select from the menu delete a row
+        /// Select from the menu delete a row.
+        /// <para>>Выберите в меню пункт удалить запись.</para>
         /// </summary>
         private void cmnuListDelete_Click(object sender, EventArgs e)
         {
@@ -423,7 +437,8 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         }
 
         /// <summary>
-        /// List delete
+        /// Delete from the list.
+        /// <para>Удаление из списка.</para>
         /// </summary>
         private void ListDelete()
         {
@@ -460,16 +475,21 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         }
         #endregion Delete
 
-        #region Parser Up
+        #region Task Up
+        /// <summary>
+        /// Raises the entry higher in the list.
+        /// <para>Поднимает запись выше в списке.</para>
+        /// </summary>
         private void cmnuListUp_Click(object sender, EventArgs e)
         {
-            ParserUp();
+            TaskUp();
         }
 
         /// <summary>
-        /// Parser Up
+        /// Raises the task higher.
+        /// <para>Поднимает задачу выше.</para>
         /// </summary>
-        private void ParserUp()
+        private void TaskUp()
         {
             // an item must be selected
             System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
@@ -503,18 +523,23 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
                 }
             }
         }
-        #endregion Parser Up
+        #endregion Task Up
 
-        #region Parser Down
+        #region Task Down
+        /// <summary>
+        /// Omits the entry below in the list.
+        /// <para>Опускает запись ниже в списке.</para>
+        /// </summary>
         private void cmnuListDown_Click(object sender, EventArgs e)
         {
-            ParserDown();
+            TaskDown();
         }
 
         /// <summary>
-        /// Parser Up
+        /// Drops the task below.
+        /// <para>Опускает задачу ниже.</para>
         /// </summary>
-        private void ParserDown()
+        private void TaskDown()
         {
             // an item must be selected
             System.Windows.Forms.ListView tmplstParsers = this.lstParsers;
@@ -548,11 +573,15 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
                 }
             }
         }
-        #endregion Parser Down
+        #endregion Task Down
 
         #endregion ListView
 
         #region Save
+        /// <summary>
+        /// Saving the settings.
+        /// <para>Сохранение настроек.</para>
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
@@ -560,6 +589,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             SaveData();
         }
 
+        /// <summary>
+        /// Saving the settings.
+        /// <para>Сохранение настроек.</para>
+        /// </summary>
         public void SaveData()
         {
             project.Save(pathProject, out string errMsg);
@@ -571,6 +604,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #endregion Save
 
         #region Close
+        /// <summary>
+        /// Closing the form without saving the settings.
+        /// <para>Закрытие формы без сохранения настроек.</para>
+        /// </summary>
         private void btnClose_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -580,6 +617,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #endregion Close
 
         #region Settings
+        /// <summary>
+        /// Opening a form with settings.
+        /// <para>Открытие формы с настройками.</para>
+        /// </summary>
         private void btnSettings_Click(object sender, EventArgs e)
         {
             FrmSettings frmSettings = new FrmSettings();
@@ -590,6 +631,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         #endregion Settings
 
         #region About
+        /// <summary>
+        /// About.
+        /// <para>О программе.</para>
+        /// </summary>
         private void btnAbout_Click(object sender, EventArgs e)
         {
             try
@@ -614,6 +659,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             catch (Exception ex) { UtilsJP.Utils.InfoError(ex, true); }
         }
 
+        /// <summary>
+        /// Get copyright.
+        /// <para>Получить авторское право</para>
+        /// </summary>
         public static string GetAutoCopyright()
         {
             try
@@ -624,6 +673,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Get description.
+        /// <para>Получить описание.</para>
+        /// </summary>
         public static string GetAutoDescription()
         {
             try
@@ -634,6 +687,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Get title.
+        /// <para>Получить заголовок.</para>
+        /// </summary>
         public static string GetAutoTitle()
         {
             try
@@ -652,6 +709,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             catch (Exception) { return string.Empty; }
         }
 
+        /// <summary>
+        /// Get the version.
+        /// <para>Получить версию.</para>
+        /// </summary>
         public static string GetAutoVersion()
         {
             try
@@ -661,6 +722,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Get the company.
+        /// <para>Получить компанию.</para>
+        /// </summary>
         public static string GetAutoCompany()
         {
             try
@@ -670,6 +735,10 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Get the compilation time.
+        /// <para>Получить время компиляции.</para>
+        /// </summary>
         public static string GetBuildDateTime()
         {
             try

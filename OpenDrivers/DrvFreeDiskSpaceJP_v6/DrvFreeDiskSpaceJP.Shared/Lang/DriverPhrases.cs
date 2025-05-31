@@ -5,6 +5,10 @@ using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
 {
+    /// <summary>
+    /// Dictionary of phrases.
+    /// <para>Словарь фраз.</para>
+    /// </summary>
     public static class DriverPhrases
     {
         // Client
@@ -52,11 +56,9 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         // Hexdecimial
         public static string NotHexadecimal { get; private set; } = "String is not hexadecimal.";
 
-        
-
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Application");
+            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvFreeDiskSpaceJP.Application");
             ProductName = dict[nameof(ProductName)];
             TitleAbout = dict[nameof(TitleAbout)];
             TitleProject = dict[nameof(TitleProject)];

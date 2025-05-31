@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Client\DriverClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CSV\FastCSV.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerTagReturn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileWatcher\FilesDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileWatcher\FileWithChanges.cs" />
