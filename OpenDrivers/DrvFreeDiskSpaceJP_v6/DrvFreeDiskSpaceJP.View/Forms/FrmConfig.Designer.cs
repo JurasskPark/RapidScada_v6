@@ -37,6 +37,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             lstParsers = new ListView();
             clmName = new ColumnHeader();
             clmDescription = new ColumnHeader();
+            clmDiskName = new ColumnHeader();
             clmPath = new ColumnHeader();
             clmEnabled = new ColumnHeader();
             cmnuMenu = new ContextMenuStrip(components);
@@ -52,7 +53,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             btnSave = new Button();
             btnAbout = new Button();
             btnSettings = new Button();
-            clmDiskName = new ColumnHeader();
             cmnuMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -80,6 +80,11 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             // 
             clmDescription.Text = "Description";
             clmDescription.Width = 350;
+            // 
+            // clmDiskName
+            // 
+            clmDiskName.Text = "Disk name";
+            clmDiskName.Width = 100;
             // 
             // clmPath
             // 
@@ -198,11 +203,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
             btnSettings.Text = "Settings";
             btnSettings.UseVisualStyleBackColor = true;
             btnSettings.Click += btnSettings_Click;
-            // 
-            // clmDiskName
-            // 
-            clmDiskName.Text = "Disk name";
-            clmDiskName.Width = 100;
             // 
             // FrmConfig
             // 

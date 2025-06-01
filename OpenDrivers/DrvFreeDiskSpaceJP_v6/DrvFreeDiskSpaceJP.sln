@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFreeDiskSpaceJP.View", "DrvFreeDiskSpaceJP.View\DrvFreeDiskSpaceJP.View.csproj", "{DB5C285F-9F0C-A001-7B75-D8CB7B945376}"
 EndProject

@@ -19,7 +19,7 @@
 		<LangVersion>preview</LangVersion>
 		<Platforms>AnyCPU;x86;x64</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<ApplicationIcon>Source\icon\from_text.ico</ApplicationIcon>
+		<ApplicationIcon>Source\icon\disk_space.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<Import Project="..\DrvFreeDiskSpaceJP.Shared\DrvFreeDiskSpaceJP.Common.projitems" Label="Shared" />
@@ -36,7 +36,7 @@
 	  <Content Include="Lang\DrvFreeDiskSpaceJP.ru-RU.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Source\icon\from_text.ico" />
+	  <Content Include="Source\icon\disk_space.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

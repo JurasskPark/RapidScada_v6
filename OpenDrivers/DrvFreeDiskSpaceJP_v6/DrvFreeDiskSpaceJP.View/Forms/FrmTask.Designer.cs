@@ -250,6 +250,7 @@
             txtValidate.Location = new Point(12, 313);
             txtValidate.Multiline = true;
             txtValidate.Name = "txtValidate";
+            txtValidate.ScrollBars = ScrollBars.Vertical;
             txtValidate.Size = new Size(835, 116);
             txtValidate.TabIndex = 181;
             // 

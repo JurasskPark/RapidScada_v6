@@ -33,36 +33,8 @@
 		<Phrase key="gpbAction">Action</Phrase>
 		<Phrase key="rdbActionNone">None</Phrase>
 		<Phrase key="rdbActionDelete">Delete</Phrase>
-		<Phrase key="rdbActionCompressMove">Сжать и переместить</Phrase>
+		<Phrase key="rdbActionCompressMove">Compress and move</Phrase>
 		<Phrase key="lblResult.Text">Result</Phrase>
-	</Dictionary>
-	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmParserTag">
-		<Phrase key="this">Tag</Phrase>
-		<Phrase key="btnCancel.Text">Cancel</Phrase>
-		<Phrase key="btnSave.Text">Save</Phrase>
-		<Phrase key="gbTableProperty.Text">Table Property</Phrase>
-		<Phrase key="gbTagProperty.Text">Tag Property</Phrase>
-		<Phrase key="lblAddressLine.Text">Address Line</Phrase>
-		<Phrase key="lblAddressParameter.Text">Address Parameter</Phrase>
-		<Phrase key="lblColumnNames.Text">Column names</Phrase>
-		<Phrase key="lblColumnNamesDateTime.Text">Column names with datetime</Phrase>
-		<Phrase key="lblColumnNamesTag.Text">Column names with tag</Phrase>
-		<Phrase key="lblColumnNamesValue.Text">Column names with value</Phrase>
-		<Phrase key="lblMaxNumberCharactersInWord.Text">Maximum number of characters in word</Phrase>
-		<Phrase key="lblNumberOfDecimalPlaces.Text">Number of decimal places</Phrase>
-		<Phrase key="lblTagAddress.Text">Address Block</Phrase>
-		<Phrase key="lblTagCode.Text">Tag code</Phrase>
-		<Phrase key="lblTagDataType.Text">Data type</Phrase>
-		<Phrase key="lblTagDescription.Text">Description</Phrase>
-		<Phrase key="lblTagEnabled.Text">Enabled</Phrase>
-		<Phrase key="lblTagID.Text">ID</Phrase>
-		<Phrase key="lblTagName.Text">Name</Phrase>
-		<Phrase key="lblValueMaxNumberCharactersInWord.Text">Maximum number of characters in word</Phrase>
-		<Phrase key="lblValueNumberOfDecimalPlaces.Text">Number of decimal places</Phrase>
-		<Phrase key="lblValueType.Text">Value type</Phrase>
-		<Phrase key="rdbTagsBasedRequestedTableColumns.Text">Tags based on the list of requested table columns</Phrase>
-		<Phrase key="rdbTagsBasedRequestedTableRows.Text">Tags based on the list of requested table rows</Phrase>
-		<Phrase key="tabGeneral.Text">General</Phrase>
 	</Dictionary>
 	<Dictionary key="Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms.FrmSettings">
 		<Phrase key="this">Settings</Phrase>
