@@ -626,5 +626,5 @@ SCRIPT PARSER INSERT
 
 ## Screenshots
 
-![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextInDatabaseJP_001.png) ![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextInDatabaseJP_002.png)
-![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextInDatabaseJP_003.png) 
+![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextInDatabaseJP/DrvParserTextInDatabaseJP_001.png) ![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextInDatabaseJP/DrvParserTextInDatabaseJP_002.png)
+![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextInDatabaseJP/DrvParserTextInDatabaseJP_003.png) 
