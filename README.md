@@ -45,6 +45,10 @@ Shareware Drivers
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/ParserTextJP
 
+![DrvParserTextInDatabaseJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextInDatabaseJP_v6.4.0.5/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/ParserTextInDatabaseJP
+
 ![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.4/total)
 ![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.3/total)
 ![ExtScriptCompilerJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtScriptCompilerJP_v6.3.0.0/total)
@@ -65,6 +69,3 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaA
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/TrendJP
 
-![DrvParserTextInDatabaseJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextInDatabaseJP_v6.4.0.5/total)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/ParserTextInDatabaseJP
