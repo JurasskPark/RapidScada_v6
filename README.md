@@ -35,6 +35,10 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvPingJP_v
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvTelnetJP_v6
 
+![DrvFreeDiskSpaceJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFreeDiskSpaceJP_v6.4.0.4/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFreeDiskSpaceJP_v6
+
 Shareware Drivers
 
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.4/total)
