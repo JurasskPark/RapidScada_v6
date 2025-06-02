@@ -198,7 +198,6 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJPLogic.Logic
         /// <param name="text">Message</param>
         private void PollTagGet(List<DriverTag> tags)
         {
-            LogDriver(tags.Count().ToString());
             for (int t = 0; t < tags.Count; t++)
             {
 
