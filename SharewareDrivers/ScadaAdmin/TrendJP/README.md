@@ -5,6 +5,7 @@
 	
 ### ExtTrendJP
 
+![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.4.0.0/total)
 ![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.3.0.2/total)
 ![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.3.0.1/total)
 ![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.1.1.3/total)
