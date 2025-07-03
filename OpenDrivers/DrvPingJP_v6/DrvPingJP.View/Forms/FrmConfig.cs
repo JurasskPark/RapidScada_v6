@@ -14,29 +14,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
     /// </summary>
     public partial class FrmConfig : Form
     {
-
-        #region Variables
-        private readonly AppDirs appDirs;                       // the application directories
-        private readonly string driverCode;                     // the driver code
-        private readonly int deviceNum;                         // the device number
-        private readonly NetworkInformation networkInformation; // network (ping)
-        private readonly DrvPingJPConfig config;                // the device configuration
-        private string configFileName;                          // the configuration file name
-        private bool modified;                                  // the configuration was modified
-
-        private List<Tag> deviceTags;                           // tags
-        private ListViewItem selected;                          // selected record tag
-        private int indexSelectTag = 0;                         // index number tag
-
-        DateTime tmrEndTime = new DateTime();                   // timer
-        private bool tmrStatus = true;
-        private double TimeRefresh = 1000d;
-
-        private int PingMode = 0;                               // type ping
-        Stopwatch stopWatch = new Stopwatch();
-        TimeSpan ts;
-        #endregion Variables
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -45,7 +22,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             InitializeComponent();
         }
 
-        #region Basic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -67,6 +43,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             deviceTags = new List<Tag>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public FrmConfig(string configFileName)
             : this()
         {
@@ -83,6 +62,31 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             deviceTags = new List<Tag>();
         }
 
+        #region Variables
+        private readonly AppDirs appDirs;                       // the application directories
+        private readonly string driverCode;                     // the driver code
+        private readonly int deviceNum;                         // the device number
+        private readonly NetworkInformation networkInformation; // network (ping)
+        private readonly DrvPingJPConfig config;                // the device configuration
+        private string configFileName;                          // the configuration file name
+        private bool modified;                                  // the configuration was modified
+
+        private List<Tag> deviceTags;                           // tags
+        private ListViewItem selected;                          // selected record tag
+        private int indexSelectTag = 0;                         // index number tag
+
+        DateTime tmrEndTime = new DateTime();                   // timer
+        private bool tmrStatus = true;                          // timer status
+        private double TimeRefresh = 1000d;                     // period
+
+        private int PingMode = 0;                               // type ping
+        Stopwatch stopWatch = new Stopwatch();                  // stop watch
+        TimeSpan ts;                                            // timespan
+        #endregion Variables
+
+        #region Basic
+
+        #region Form Load
         /// <summary>
         /// Loading the form
         /// </summary>
@@ -117,7 +121,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             tmrTimer.Enabled = true;
             tmrTimer.Start();
         }
+        #endregion Form Load
 
+        #region Form Close
+        /// <summary>
+        /// Closing the form
+        /// </summary>
         private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -152,7 +161,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             }
             catch { }
         }
+        #endregion Form Close
 
+        #region Modified
         /// <summary>
         /// Gets or sets a value indicating whether the configuration was modified.
         /// </summary>
@@ -176,7 +187,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         {
             Modified = true;
         }
+        #endregion Modified
 
+        #region Config
         /// <summary>
         /// Sets the controls according to the configuration.
         /// </summary>
@@ -252,6 +265,25 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
+        /// Sets the configuration parameters according to the controls.
+        /// </summary>
+        private void ControlsToConfig()
+        {
+            config.Log = cbLog.Checked;
+            config.Mode = SelectPingType();
+
+            deviceTags.Clear();
+            foreach (ListViewItem itemRow in this.lstTags.Items)
+            {
+                deviceTags.Add((Tag)itemRow.Tag);
+            }
+
+            config.DeviceTags = deviceTags;
+        }
+        #endregion Config
+
+        #region Language
+        /// <summary>
         /// Sets the column names as needed for translation.
         /// </summary>
         private void SetListViewColumnNames()
@@ -287,38 +319,17 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             return result;
         }
 
+        #endregion Language
 
-        /// <summary>
-        /// Sets the configuration parameters according to the controls.
-        /// </summary>
-        private void ControlsToConfig()
-        {
-            config.Log = cbLog.Checked;
-            config.Mode = SelectPingType();
+        #region Control
 
-            deviceTags.Clear();
-            foreach (ListViewItem itemRow in this.lstTags.Items)
-            {
-                deviceTags.Add((Tag)itemRow.Tag);
-            }
-        
-            config.DeviceTags = deviceTags;
-        }
-
+        #region Save
         /// <summary>
         /// Saving settings
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             Save();
-        }
-
-        /// <summary>
-        /// Close Form
-        /// </summary>
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         /// <summary>
@@ -344,18 +355,38 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             ConfigToControls();
             tmrTimer.Start();
         }
+        #endregion Save
+
+        #region Close
+        /// <summary>
+        /// Close Form
+        /// </summary>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion Close
 
         #region Mode
+        /// <summary>
+        /// Selecting the device polling mode
+        /// </summary>
         private void rdbPingSync_CheckedChanged(object sender, EventArgs e)
         {
             SelectPingType();
         }
 
+        /// <summary>
+        /// Selecting the device polling mode
+        /// </summary>
         private void rdbPingAsync_CheckedChanged(object sender, EventArgs e)
         {
             SelectPingType();
         }
 
+        /// <summary>
+        /// Selecting the device polling mode
+        /// </summary>
         private int SelectPingType()
         {
             Modified = true;
@@ -371,6 +402,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         #endregion Mode
+
+        #endregion Control
 
         #endregion Basic
 
@@ -536,13 +569,77 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
                             Modified = true;
                         }
-                    }                   
+                    }
                 }
             }
             catch { }
         }
 
         #endregion Tag list add
+
+        #region Tag list add Ip addresses
+        /// <summary>
+        /// Tag list add Ip addresses
+        /// </summary>
+        private void cmnuFoundIpAddresses_Click(object sender, EventArgs e)
+        {
+            ListTagAddIpAddresses();
+        }
+
+        /// <summary>
+        /// Tag list add Ip addresses
+        /// </summary>
+        private void ListTagAddIpAddresses()
+        {
+            try
+            {
+                FrmHostSearch frmHostSearch = new FrmHostSearch();
+                frmHostSearch.ShowDialog();
+
+                if (frmHostSearch.DialogResult == DialogResult.OK)
+                {
+                    List<Tag> foundTags = frmHostSearch.deviceTags;
+
+                    foreach (Tag newTag in foundTags)
+                    {
+                        if (!deviceTags.Contains(newTag))
+                        {
+                            #region Data display
+                            // update without flicker
+                            Type type = lstTags.GetType();
+                            PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
+                            propertyInfo.SetValue(lstTags, true, null);
+
+                            this.lstTags.BeginUpdate();
+
+                            // inserted information
+                            this.lstTags.Items.Add(new ListViewItem()
+                            {
+                                // tag name
+                                Text = newTag.TagName,
+                                SubItems =
+                            {
+                                // adding tag parameters
+                                DriverUtils.NullToString(newTag.TagCode),
+                                DriverUtils.NullToString(newTag.TagIPAddress),
+                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(newTag.TagEnabled))
+                            }
+                            }).Tag = newTag; // in tag we pass the tag id... so that we can find
+
+                            this.lstTags.EndUpdate();
+                            #endregion Data display
+
+                            tmrTimer.Start();
+
+                            Modified = true;
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        #endregion
 
         #region Tag change
         /// <summary>
@@ -606,6 +703,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
                         this.lstTags.EndUpdate();
                         #endregion Data display
+
                         Modified = true;
                         // scroll through
                         tmplstTags.EnsureVisible(indexSelectTag);
@@ -664,7 +762,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                         {
                             tmplstTags.Items.Remove(this.selected);
                         }
-    
+
                         if (indexSelectTag >= 1)
                         {
                             // scroll through
@@ -825,11 +923,17 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             catch { }
         }
 
+        /// <summary>
+        /// Recording the logs result
+        /// </summary>
         public void DebugerLog(string text)
         {
 
         }
 
+        /// <summary>
+        /// Recording the tag result
+        /// </summary>
         public void DebugerTag(Tag tag)
         {
             if (lstTags.InvokeRequired)
@@ -923,6 +1027,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Recording the tags result
+        /// </summary>
         public void DebugerTags(List<Tag> tags)
         {
             if (tags == null || tags.Count == 0)
@@ -952,7 +1059,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                         }
 
                         Tag tmpTag = (Tag)TagItem.Tag;
-                       
+
                         if (tmpTag == null || tmpTag.TagID != tags[index].TagID)
                         {
                             continue;

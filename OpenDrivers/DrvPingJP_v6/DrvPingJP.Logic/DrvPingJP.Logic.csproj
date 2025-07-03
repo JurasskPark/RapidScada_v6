@@ -7,7 +7,7 @@
 		<UseWindowsForms>false</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvPing.Logic</RootNamespace>
-		<Version>6.1.0.3</Version>
+		<Version>6.4.0.0</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>

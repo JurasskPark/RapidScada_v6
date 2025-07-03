@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\DnsResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\DnsResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ping\IPRangeGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ping\IPSubnetGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\NetworkInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\PingResponse.cs" />
   </ItemGroup>
