@@ -2,7 +2,9 @@
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvPingJP;
 using Scada.Data.Models;
+using Scada.Lang;
 using System.Globalization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
 {
@@ -32,9 +34,9 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         public DevPingJPLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            CanSendCommands = true;
+            CanSendCommands = false;
             ConnectionRequired = false;
-            writeLog = false;
+            writeLog = true;
 
             this.isDll = true;
             this.pathLog = CommContext.AppDirs.LogDir;
@@ -103,14 +105,32 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         {
             if (project == null)
             {
-                DebugerLog(DriverDictonary.ProjectNo);
+                DebugerLog(Locale.IsRussian ?
+                       "Количество тегов не было получено т.к. конфигурационный файл не был загружен" :
+                       "The number of tags was not received because the configuration file was not loaded");
                 return;
             }
 
-            foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags))
+            if (project.Load(pathProject, out string errMsg))
             {
-                DeviceTags.AddGroup(group.ToTagGroup());
+                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(project.DeviceTags))
+                {
+                    DeviceTags.AddGroup(group.ToTagGroup());
+                }
             }
+            else
+            {
+                DebugerLog(errMsg);
+            }
+
+            int countGroup = CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags).Count();
+            DebugerLog(Locale.IsRussian ?
+                        @$"Количество групп: {countGroup}" :
+                        @$"Number of groups: {countGroup}");
+
+            DebugerLog(Locale.IsRussian ?
+            @$"Количество тегов: {DeviceTags.Count()}" :
+            @$"Number of tags: {DeviceTags.Count()}");
         }
 
         /// <summary>
@@ -269,18 +289,21 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                     return;
                 }
 
+                List<DeviceTag> tmpDeviceTags = DeviceTags.ToList();
+
                 for (int index = 0; index < tags.Count; index++)
                 {
-
                     DriverTag tmpTag = tags[index];
-                    int indexTag = deviceTags.IndexOf(tags[index]);
 
-                    if (tmpTag == null || tmpTag.Enabled == false || indexTag < 0)
+                    DeviceTag deviceTag = DeviceTags.Where(t => t.Name == tmpTag.Name).FirstOrDefault();
+                    int tagIndex = tmpDeviceTags.IndexOf(deviceTag);
+      
+                    if (tmpTag == null || tmpTag.Enabled == false || tagIndex < 0)
                     {
                         continue;
                     }
 
-                    if (tmpTag.Enabled == true) // enabled
+                    if (tmpTag.Enabled == true)
                     {
                         if (tmpTag.Code != string.Empty)
                         {
@@ -288,7 +311,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                         }
                         else
                         {
-                            SetTagData(indexTag, tmpTag.Val, tmpTag.Stat);
+                            SetTagData(tagIndex, tmpTag.Val, tmpTag.Stat);
                         }
                     }
                 }
@@ -319,19 +342,19 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                     {
                         deviceTag.DataType = TagDataType.Unicode;
                         deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagIndex, strVal, stat); } catch { }
+                        try { base.DeviceData.SetUnicode(tagIndex, strVal, 1); } catch { }
                     }
                     else if (val is DateTime dtVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, stat); } catch { }
+                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, 1); } catch { }
                     }
                     else
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), stat); } catch { }
+                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), 1); } catch { }
                     }
                 }
             }
@@ -356,19 +379,19 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                     {
                         deviceTag.DataType = TagDataType.Unicode;
                         deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(code, strVal, stat); } catch { }
+                        try { base.DeviceData.SetUnicode(code, strVal, 1); } catch { }
                     }
                     else if (val is DateTime dtVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(code, dtVal, stat); } catch { }
+                        try { base.DeviceData.SetDateTime(code, dtVal, 1); } catch { }
                     }
                     else
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(code, Convert.ToDouble(val), stat); } catch { }
+                        try { base.DeviceData.Set(code, Convert.ToDouble(val), 1); } catch { }
                     }
                 }
             }
