@@ -8,7 +8,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         public static void Init()
         {
-            LocaleDict dictionary = Locale.GetDictionary("Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig");
+            LocaleDict dictionary = Locale.GetDictionary("Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmHostSearch");
             ConfigDirRequired = dictionary["DrvPingJPDictionaries"];
         }
     }

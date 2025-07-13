@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="cmnuLstTags.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>39, 23</value>
+    <value>30, 22</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cmnuTagAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -139,7 +139,7 @@
   <data name="cmnuListTagAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAAiNJREFUOE+dk8tPE1EUxs/OR6LR4OMf4D9wIQZdGzfEROPGx8oE7E6NQalQWyi1
+        vAAADrwBlbxySQAAAiNJREFUOE+dk8tPE1EUxs/OR6LR4OMf4D9wIQZdGzfEROPGx8oE7E6NQalQWyi1
         ZWgHbZUCbYxGXZi4MFJ8oNWEVEJqQsS40SJDBzRS044wbYMtn/fcKUpjgISTfDn33pzfd8+5k6Et9sEn
         e13PsNs5hF3OmMhry6oZAjPM0h6xiI5nEX6fkepbR8t1zDBLOxwxxFIm9kc+o07owDriGq5lhlnaenUQ
         Gw1mabP9qdxok1+ga5NIT08JTUNPp6HrepXS4kzTNEylUpJh9q/B3KyOGlsc8VfD8Pq60dF5HW3X2nGl
@@ -154,7 +154,7 @@
   <data name="cmnuFoundIpAddresses.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAAiNJREFUOE+dk8tPE1EUxs/OR6LR4OMf4D9wIQZdGzfEROPGx8oE7E6NQalQWyi1
+        vAAADrwBlbxySQAAAiNJREFUOE+dk8tPE1EUxs/OR6LR4OMf4D9wIQZdGzfEROPGx8oE7E6NQalQWyi1
         ZWgHbZUCbYxGXZi4MFJ8oNWEVEJqQsS40SJDBzRS044wbYMtn/fcKUpjgISTfDn33pzfd8+5k6Et9sEn
         e13PsNs5hF3OmMhry6oZAjPM0h6xiI5nEX6fkepbR8t1zDBLOxwxxFIm9kc+o07owDriGq5lhlnaenUQ
         Gw1mabP9qdxok1+ga5NIT08JTUNPp6HrepXS4kzTNEylUpJh9q/B3KyOGlsc8VfD8Pq60dF5HW3X2nGl
@@ -198,7 +198,7 @@
   <data name="cmnuTagAllDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAAjFJREFUOE+dk11IU2EYx89dH1AU9nFZlBddFgpOEcGbkEKCMI1qFlRU3kRFgt9N
+        vAAADrwBlbxySQAAAjFJREFUOE+dk11IU2EYx89dH1AU9nFZlBddFgpOEcGbkEKCMI1qFlRU3kRFgt9N
         Xbo55yyllthdRbeR08KSbqTaBIkoMCfOLY0cbEvPNue2X+97NssRJviHP897Xp7f/zzvezjKlrqBF3ub
         h9htGGSXwSHq/53qGUQyklX2iMXj8QD2Mb/mR+t4pU8yklV2NDlwuFXy+r+hE85fx7JH9kpGssrW+gE2
         Kskqm+teag+eqUl8nim8M9PCM/i8Xnw+X4a9Ys/j8TDtdmuMZP8EzM/6yKoaYeTNMCZzJ61322m800JN
@@ -232,7 +232,4 @@
         wKFP0P8KKB78O0yl85AfpGsV1MCpaagAAAAASUVORK5CYII=
 </value>
   </data>
-  <metadata name="tmrTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>181, 23</value>
-  </metadata>
 </root>

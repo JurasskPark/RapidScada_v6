@@ -14,7 +14,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <summary>
         /// Gets the grouped channel prototypes.
         /// </summary>
-        public static List<CnlPrototypeGroup> GetCnlPrototypeGroups(List<Tag> deviceTags)
+        public static List<CnlPrototypeGroup> GetCnlPrototypeGroups(List<DriverTag> deviceTags)
         {
             List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
             string nameTagGroup = Locale.IsRussian ? "Теги" : "Tags";
@@ -22,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
             for (int i = 0; i < deviceTags.Count; i++)
             {
-                group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).SetFormat(FormatCode.OffOn);
+                group.AddCnlPrototype(deviceTags[i].Code, deviceTags[i].Name).SetFormat(FormatCode.OffOn);
             }
         
             groups.Add(group);

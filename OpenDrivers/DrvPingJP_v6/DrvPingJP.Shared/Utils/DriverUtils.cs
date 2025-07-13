@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -26,6 +27,21 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// The default filename of the configuration.
         /// </summary>
         public const string DefaultConfigFileName = DriverCode + ".xml";
+
+        /// <summary>
+        /// Gets the short name of the device configuration file.
+        /// </summary>
+        public static string GetFileName(int deviceNum = 0)
+        {
+            if (deviceNum == 0)
+            {
+                return $"{DriverCode}.xml";
+            }
+            else
+            {
+                return $"{DriverCode}_{deviceNum:D3}.xml";
+            }
+        }
 
         /// <summary>
         /// Writes an configuration file depending on operating system.
@@ -101,13 +117,12 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <returns>True/False</returns>
         public static bool IsIpAddress(string Address)
         {
-            // initializing a new instance of the System.Text.RegularExpressions.Regex class
-            // for the specified regular expression.
-            Regex IpMatch = new Regex(@"^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$");
-            // checking whether the specified input string matches the regular
-            // the expression specified in the constructor System.Text.RegularExpressions.Regex.
-            // if yes, we return true, if not, false
-            return IpMatch.IsMatch(Address);
+            //Regex ipMatch = new Regex(@"^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$"); 
+            //return ipMatch.IsMatch(Address);
+            
+            // Улучшенное регулярное выражение
+            Regex ipMatch = new Regex(@"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+            return ipMatch.IsMatch(Address);
         }
 
         #region Float String

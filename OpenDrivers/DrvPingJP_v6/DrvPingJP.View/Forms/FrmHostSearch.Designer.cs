@@ -28,21 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHostSearch));
             lblRangeEnd = new Label();
             lblRangeStart = new Label();
-            lblType = new Label();
-            btnStartStop = new Button();
-            cmbRangeType = new ComboBox();
+            btnStart = new Button();
             txtRangeStart = new TextBox();
             txtRangeEnd = new TextBox();
             lblRangeSep = new Label();
-            colQuality = new ColumnHeader();
-            colIPAddress = new ColumnHeader();
-            clmAvgResponseTime = new ColumnHeader();
-            colLosses = new ColumnHeader();
-            colHostName = new ColumnHeader();
-            colUserName = new ColumnHeader();
             gpbTags = new GroupBox();
             tlpTags = new TableLayoutPanel();
             lstTags = new ListView();
@@ -51,7 +42,9 @@
             clmTagIPAddress = new ColumnHeader();
             clmTagEnabled = new ColumnHeader();
             btnSave = new Button();
-            button1 = new Button();
+            btnClose = new Button();
+            rdbAddHostAll = new RadioButton();
+            rdbAddHostActive = new RadioButton();
             gpbTags.SuspendLayout();
             tlpTags.SuspendLayout();
             SuspendLayout();
@@ -59,7 +52,7 @@
             // lblRangeEnd
             // 
             lblRangeEnd.AutoSize = true;
-            lblRangeEnd.Location = new Point(306, 9);
+            lblRangeEnd.Location = new Point(192, 9);
             lblRangeEnd.Margin = new Padding(4, 0, 4, 0);
             lblRangeEnd.Name = "lblRangeEnd";
             lblRangeEnd.Size = new Size(74, 15);
@@ -69,111 +62,61 @@
             // lblRangeStart
             // 
             lblRangeStart.AutoSize = true;
-            lblRangeStart.Location = new Point(127, 9);
+            lblRangeStart.Location = new Point(13, 9);
             lblRangeStart.Margin = new Padding(4, 0, 4, 0);
             lblRangeStart.Name = "lblRangeStart";
             lblRangeStart.Size = new Size(78, 15);
             lblRangeStart.TabIndex = 24;
             lblRangeStart.Text = "Start of range";
             // 
-            // lblType
+            // btnStart
             // 
-            lblType.AutoSize = true;
-            lblType.Location = new Point(13, 9);
-            lblType.Margin = new Padding(4, 0, 4, 0);
-            lblType.Name = "lblType";
-            lblType.Size = new Size(31, 15);
-            lblType.TabIndex = 20;
-            lblType.Text = "Type";
-            // 
-            // btnStartStop
-            // 
-            btnStartStop.Location = new Point(465, 27);
-            btnStartStop.Margin = new Padding(4, 3, 4, 3);
-            btnStartStop.Name = "btnStartStop";
-            btnStartStop.Size = new Size(88, 27);
-            btnStartStop.TabIndex = 41;
-            btnStartStop.Text = "Start";
-            btnStartStop.UseVisualStyleBackColor = true;
-            btnStartStop.Click += btnStartStop_Click;
-            // 
-            // cmbRangeType
-            // 
-            cmbRangeType.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbRangeType.FormattingEnabled = true;
-            cmbRangeType.Items.AddRange(new object[] { "Range", "Subnet" });
-            cmbRangeType.Location = new Point(13, 29);
-            cmbRangeType.Margin = new Padding(4, 3, 4, 3);
-            cmbRangeType.Name = "cmbRangeType";
-            cmbRangeType.Size = new Size(106, 23);
-            cmbRangeType.TabIndex = 22;
-            cmbRangeType.SelectedIndexChanged += cmbRangeType_SelectedIndexChanged;
+            btnStart.Location = new Point(351, 27);
+            btnStart.Margin = new Padding(4, 3, 4, 3);
+            btnStart.Name = "btnStart";
+            btnStart.Size = new Size(88, 27);
+            btnStart.TabIndex = 41;
+            btnStart.Text = "Start";
+            btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += btnStart_Click;
             // 
             // txtRangeStart
             // 
-            txtRangeStart.Location = new Point(127, 29);
+            txtRangeStart.Location = new Point(13, 29);
             txtRangeStart.Margin = new Padding(4, 3, 4, 3);
             txtRangeStart.Name = "txtRangeStart";
             txtRangeStart.Size = new Size(151, 23);
             txtRangeStart.TabIndex = 26;
+            txtRangeStart.TextChanged += txtRangeStart_TextChanged;
             // 
             // txtRangeEnd
             // 
-            txtRangeEnd.Location = new Point(306, 29);
+            txtRangeEnd.Location = new Point(192, 29);
             txtRangeEnd.Margin = new Padding(4, 3, 4, 3);
             txtRangeEnd.Name = "txtRangeEnd";
             txtRangeEnd.Size = new Size(151, 23);
             txtRangeEnd.TabIndex = 28;
+            txtRangeEnd.TextChanged += txtRangeEnd_TextChanged;
             // 
             // lblRangeSep
             // 
             lblRangeSep.AutoSize = true;
-            lblRangeSep.Location = new Point(286, 33);
+            lblRangeSep.Location = new Point(172, 33);
             lblRangeSep.Margin = new Padding(4, 0, 4, 0);
             lblRangeSep.Name = "lblRangeSep";
             lblRangeSep.Size = new Size(12, 15);
             lblRangeSep.TabIndex = 42;
             lblRangeSep.Text = "-";
             // 
-            // colQuality
-            // 
-            colQuality.Text = "К";
-            colQuality.Width = 20;
-            // 
-            // colIPAddress
-            // 
-            colIPAddress.Text = "IP адрес";
-            colIPAddress.Width = 99;
-            // 
-            // clmAvgResponseTime
-            // 
-            clmAvgResponseTime.Text = "Время ответа";
-            clmAvgResponseTime.Width = 86;
-            // 
-            // colLosses
-            // 
-            colLosses.Text = "Потери";
-            colLosses.Width = 50;
-            // 
-            // colHostName
-            // 
-            colHostName.Text = "Имя на DNS | Имя через WMI";
-            colHostName.Width = 238;
-            // 
-            // colUserName
-            // 
-            colUserName.Text = "Пользователь";
-            colUserName.Width = 120;
-            // 
             // gpbTags
             // 
             gpbTags.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gpbTags.Controls.Add(tlpTags);
-            gpbTags.Location = new Point(13, 60);
+            gpbTags.Location = new Point(13, 78);
             gpbTags.Margin = new Padding(4, 3, 4, 3);
             gpbTags.Name = "gpbTags";
             gpbTags.Padding = new Padding(12, 3, 12, 12);
-            gpbTags.Size = new Size(731, 415);
+            gpbTags.Size = new Size(731, 397);
             gpbTags.TabIndex = 43;
             gpbTags.TabStop = false;
             gpbTags.Text = "Tags";
@@ -188,12 +131,13 @@
             tlpTags.Name = "tlpTags";
             tlpTags.RowCount = 1;
             tlpTags.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpTags.Size = new Size(701, 378);
+            tlpTags.Size = new Size(701, 360);
             tlpTags.TabIndex = 1;
             // 
             // lstTags
             // 
             lstTags.Alignment = ListViewAlignment.Default;
+            lstTags.AutoArrange = false;
             lstTags.Columns.AddRange(new ColumnHeader[] { clmTagname, clmTagCode, clmTagIPAddress, clmTagEnabled });
             lstTags.Dock = DockStyle.Fill;
             lstTags.FullRowSelect = true;
@@ -201,7 +145,7 @@
             lstTags.Location = new Point(3, 3);
             lstTags.MultiSelect = false;
             lstTags.Name = "lstTags";
-            lstTags.Size = new Size(695, 372);
+            lstTags.Size = new Size(695, 354);
             lstTags.TabIndex = 2;
             lstTags.UseCompatibleStateImageBehavior = false;
             lstTags.View = System.Windows.Forms.View.Details;
@@ -219,55 +163,81 @@
             // clmTagIPAddress
             // 
             clmTagIPAddress.Text = "IP Address";
-            clmTagIPAddress.Width = 110;
+            clmTagIPAddress.Width = 200;
             // 
             // clmTagEnabled
             // 
             clmTagEnabled.Text = "Enabled";
-            clmTagEnabled.Width = 80;
+            clmTagEnabled.Width = 120;
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(561, 27);
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSave.Location = new Point(656, 12);
             btnSave.Margin = new Padding(4, 3, 4, 3);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(88, 27);
             btnSave.TabIndex = 44;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
-            // button1
+            // btnClose
             // 
-            button1.Location = new Point(657, 27);
-            button1.Margin = new Padding(4, 3, 4, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(88, 27);
-            button1.TabIndex = 45;
-            button1.Text = "Close";
-            button1.UseVisualStyleBackColor = true;
+            btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClose.Location = new Point(656, 45);
+            btnClose.Margin = new Padding(4, 3, 4, 3);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(88, 27);
+            btnClose.TabIndex = 45;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
+            // 
+            // rdbAddHostAll
+            // 
+            rdbAddHostAll.AutoSize = true;
+            rdbAddHostAll.Location = new Point(470, 49);
+            rdbAddHostAll.Name = "rdbAddHostAll";
+            rdbAddHostAll.Size = new Size(93, 19);
+            rdbAddHostAll.TabIndex = 15;
+            rdbAddHostAll.Text = "Add all hosts";
+            rdbAddHostAll.UseVisualStyleBackColor = true;
+            // 
+            // rdbAddHostActive
+            // 
+            rdbAddHostActive.AutoSize = true;
+            rdbAddHostActive.Checked = true;
+            rdbAddHostActive.Location = new Point(470, 16);
+            rdbAddHostActive.Name = "rdbAddHostActive";
+            rdbAddHostActive.Size = new Size(112, 19);
+            rdbAddHostActive.TabIndex = 14;
+            rdbAddHostActive.TabStop = true;
+            rdbAddHostActive.Text = "Add active hosts";
+            rdbAddHostActive.UseVisualStyleBackColor = true;
             // 
             // FrmHostSearch
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(757, 487);
-            Controls.Add(button1);
+            Controls.Add(rdbAddHostAll);
+            Controls.Add(rdbAddHostActive);
+            Controls.Add(btnClose);
             Controls.Add(btnSave);
             Controls.Add(gpbTags);
             Controls.Add(lblRangeEnd);
             Controls.Add(lblRangeStart);
-            Controls.Add(lblType);
-            Controls.Add(btnStartStop);
-            Controls.Add(cmbRangeType);
+            Controls.Add(btnStart);
             Controls.Add(txtRangeStart);
             Controls.Add(txtRangeEnd);
             Controls.Add(lblRangeSep);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MinimumSize = new Size(764, 526);
             Name = "FrmHostSearch";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Пингвинатор";
+            Text = "Host Search";
             Load += FrmHostSearch_Load;
             gpbTags.ResumeLayout(false);
             tlpTags.ResumeLayout(false);
@@ -279,9 +249,7 @@
         #endregion
         private System.Windows.Forms.Label lblRangeEnd;
         private System.Windows.Forms.Label lblRangeStart;
-        private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.Button btnStartStop;
-        private System.Windows.Forms.ComboBox cmbRangeType;
+        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtRangeStart;
         private System.Windows.Forms.TextBox txtRangeEnd;
         private System.Windows.Forms.Label lblRangeSep;
@@ -289,8 +257,6 @@
         private System.Windows.Forms.ColumnHeader clmAvgResponseTime;
         private System.Windows.Forms.ColumnHeader colLosses;
         private System.Windows.Forms.ColumnHeader colHostName;
-        private ProgressBarEx prg_ScanProgress;
-        public System.Windows.Forms.ColumnHeader colQuality;
         private System.Windows.Forms.ColumnHeader colUserName;
         private GroupBox gpbTags;
         private TableLayoutPanel tlpTags;
@@ -300,6 +266,8 @@
         private ColumnHeader clmTagIPAddress;
         private ColumnHeader clmTagEnabled;
         private Button btnSave;
-        private Button button1;
+        private Button btnClose;
+        private RadioButton rdbAddHostAll;
+        private RadioButton rdbAddHostActive;
     }
 }

@@ -14,7 +14,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
     internal class DevPingJPView : DeviceView
     {
 
-        private DrvPingJPConfig config = new DrvPingJPConfig();
+        private Project project = new Project();
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -56,23 +56,23 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            string configFileName = Path.Combine(AppDirs.ConfigDir, DrvPingJPConfig.GetFileName(DeviceNum));
+            string pathProject = Path.Combine(AppDirs.ConfigDir, Project.GetFileName(DeviceNum));
 
             // load a configuration
-            if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
+            if (File.Exists(pathProject) && !project.Load(pathProject, out string errMsg))
             {
                 ScadaUiUtils.ShowError(errMsg);
             }
 
             List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
 
-            for (int index = 0; index < config.DeviceTags.Count; ++index)
+            for (int index = 0; index < project.DeviceTags.Count; ++index)
             {
-                Tag tmpTag = config.DeviceTags[index];
-                int indexTag = config.DeviceTags.IndexOf(config.DeviceTags[index]);
+                DriverTag tmpTag = project.DeviceTags[index];
+                int indexTag = project.DeviceTags.IndexOf(project.DeviceTags[index]);
 
                 // create channel for element
-                bool isBool = tmpTag.TagEnabled;
+                bool isBool = tmpTag.Enabled;
 
                 int eventMask = new EventMask
                 {
@@ -84,11 +84,11 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
 
                 cnlPrototypes.Add(new CnlPrototype
                 {
-                    Active = tmpTag.TagEnabled,
-                    Name = tmpTag.TagName,
+                    Active = tmpTag.Enabled,
+                    Name = tmpTag.Name,
                     CnlTypeID = CnlTypeID.Input,
                     TagNum = indexTag + 1,
-                    TagCode = tmpTag.TagCode,
+                    Code = tmpTag.Code,
                     FormatCode = FormatCode.OffOn,
                     EventMask = eventMask
                 });

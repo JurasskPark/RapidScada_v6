@@ -16,6 +16,7 @@
 	<Phrase key="cmnuTagRefresh">Обновить</Phrase>
 	<Phrase key="cmnuTagAdd">Добавить тег</Phrase>
 	<Phrase key="cmnuListTagAdd">Добавить список тегов</Phrase>
+	<Phrase key="cmnuFoundIpAddresses">Добавить найденные IP адреса</Phrase>
 	<Phrase key="cmnuTagChange">Изменить тег</Phrase>
 	<Phrase key="cmnuTagDelete">Удалить тег</Phrase>
 	<Phrase key="cmnuTagAllDelete">Удалить все теги</Phrase>
@@ -38,4 +39,25 @@
 	<Phrase key="btnSave">Сохранить</Phrase>
 	<Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
+	<Dictionary key="Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmHostSearch">
+		<Phrase key="this">Поиск хоста</Phrase>
+		<Phrase key="lblRangeEnd.Text">Конец диапазона</Phrase>
+		<Phrase key="lblRangeStart.Text">Начало диапазона</Phrase>
+		<Phrase key="btnStart.Text">Начать</Phrase>
+		<Phrase key="lblRangeSep.Text">-</Phrase>
+		<Phrase key="gpbTags.Text">Теги</Phrase>
+		<Phrase key="clmTagname">Название</Phrase>
+		<Phrase key="clmTagCode">Код тега</Phrase>
+		<Phrase key="clmTagIPAddress">IP-адрес</Phrase>
+		<Phrase key="clmTagEnabled">Включен</Phrase>
+		<Phrase key="btnSave">Сохранить</Phrase>
+		<Phrase key="btnClose">Закрыть</Phrase>
+		<Phrase key="rdbAddHostAll.Text">Добавить все хосты</Phrase>
+		<Phrase key="rdbAddHostActive.Text">Добавить активные хосты</Phrase>
+	</Dictionary>
+	<Dictionary key="Scada.Comm.Drivers">
+		<Phrase key="LoadDriverConfigError">Ошибка при загрузке конфигурации драйвера</Phrase>
+		<Phrase key="SaveDriverConfigError">Ошибка при сохранении конфигурации драйвера</Phrase>
+		<Phrase key="SaveDriverConfigConfirm">Конфигурация драйвера была изменена. Сохранить изменения?</Phrase>
+	</Dictionary>
 </DrvPingJPDictionaries>

@@ -6,7 +6,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
     {
 
         public int ModeWork;
-        public Tag Tag;
+        public DriverTag Tag;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -28,11 +28,11 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void FrmTag_Load(object sender, EventArgs e)
         {
-            txtTagCode.Text = Tag.TagCode;
-            txtTagname.Text = Tag.TagName;
-            txtIPAddress.Text = Tag.TagIPAddress;
-            nudTimeout.Value = Convert.ToDecimal(Tag.TagTimeout);
-            ckbTagEnabled.Checked = Tag.TagEnabled;
+            txtTagCode.Text = Tag.Code;
+            txtTagname.Text = Tag.Name;
+            txtIPAddress.Text = Tag.IpAddress;
+            nudTimeout.Value = Convert.ToDecimal(Tag.Timeout);
+            ckbTagEnabled.Checked = Tag.Enabled;
 
             // translate the form
             FormTranslator.Translate(this, GetType().FullName);
@@ -55,12 +55,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Tag.TagID = Guid.NewGuid();
-            Tag.TagName = txtTagname.Text;
-            Tag.TagCode = txtTagCode.Text;
-            Tag.TagIPAddress = txtIPAddress.Text;
-            Tag.TagTimeout = Convert.ToInt32(nudTimeout.Value);
-            Tag.TagEnabled = ckbTagEnabled.Checked;
+            Tag.ID = Guid.NewGuid();
+            Tag.Name = txtTagname.Text;
+            Tag.Code = txtTagCode.Text;
+            Tag.IpAddress = txtIPAddress.Text;
+            Tag.Timeout = Convert.ToInt32(nudTimeout.Value);
+            Tag.Enabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
             Close();
@@ -71,11 +71,11 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Tag.TagName = txtTagname.Text;
-            Tag.TagCode = txtTagCode.Text;
-            Tag.TagIPAddress = txtIPAddress.Text;
-            Tag.TagTimeout = Convert.ToInt32(nudTimeout.Value);
-            Tag.TagEnabled = ckbTagEnabled.Checked;
+            Tag.Name = txtTagname.Text;
+            Tag.Code = txtTagCode.Text;
+            Tag.IpAddress = txtIPAddress.Text;
+            Tag.Timeout = Convert.ToInt32(nudTimeout.Value);
+            Tag.Enabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
             Close();

@@ -18,10 +18,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="Control\ListViewJP.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Reference Include="ScadaCommCommon">
 	    <HintPath>..\..\..\..\..\..\Program Files\SCADA\ScadaAdmin\ScadaCommCommon.dll</HintPath>
 	  </Reference>

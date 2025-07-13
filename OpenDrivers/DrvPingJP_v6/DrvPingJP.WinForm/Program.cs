@@ -1,4 +1,5 @@
 using Scada.Comm.Drivers.DrvPingJP.View;
+using System.Net;
 
 namespace DrvPingJP.WinForm
 {
@@ -13,8 +14,8 @@ namespace DrvPingJP.WinForm
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            string fileName = @$"DrvPingJP.xml";
-            Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig form = new Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig(fileName);
+       
+            Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig form = new Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig();
             Application.Run(form);
         }
     }

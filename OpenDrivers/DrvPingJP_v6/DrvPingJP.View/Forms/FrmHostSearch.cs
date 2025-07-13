@@ -1,12 +1,8 @@
-﻿using Scada.Comm.Devices;
-using Scada.Config;
-using Scada.Forms;
+﻿using Scada.Forms;
 using Scada.Lang;
-using System.Collections;
-using System.Diagnostics;
 using System.Net;
 using System.Reflection;
-using Timer = System.Windows.Forms.Timer;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 {
@@ -21,22 +17,22 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         public FrmHostSearch()
         {
-            InitializeComponent();      
+            InitializeComponent();
+
+            this.deviceTags = new List<DriverTag>();
+            this.project = new Project();
+            this.project.Mode = 1;
+            this.project.DeviceTags = this.deviceTags;
+            this.driverClient = new DriverClient(project);
+            
+            DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(DebugerTags);
         }
 
         #region Variables
-        private readonly NetworkInformation networkInformation; // network (ping)
-        public List<Tag> deviceTags;                           // tags
-        private ListViewItem selected;                          // selected record tag
-        private int indexSelectTag = 0;                         // index number tag
-
-        DateTime tmrEndTime = new DateTime();                   // timer
-        private bool tmrStatus = true;                          // timer status
-        private double TimeRefresh = 1000d;                     // period
-
-        private int PingMode = 0;                               // type ping
-        Stopwatch stopWatch = new Stopwatch();                  // stop watch
-        TimeSpan ts;                                            // timespan
+        private DriverClient driverClient;                                  // thie driver client
+        private Project project;                                            // the device configuration
+        public List<DriverTag> deviceTags = new List<DriverTag>();          // tags
+        private Dictionary<string, ListViewItem> itemMap = new Dictionary<string, ListViewItem>();
         #endregion Variables
 
         #region Form Load
@@ -63,61 +59,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void ConfigToControls()
         {
-            cmbRangeType.SelectedIndex = 0;
-
             // set the control values   
             SetListViewColumnNames();
 
-            // tags
-            deviceTags = new List<Tag>();
-
-            if (deviceTags != null)
-            {
-                // update without flicker
-                Type type = lstTags.GetType();
-                PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                propertyInfo.SetValue(lstTags, true, null);
-
-                this.lstTags.BeginUpdate();
-                this.lstTags.Items.Clear();
-
-                #region Data display
-                foreach (var tmpTag in deviceTags)
-                {
-                    // inserted information
-                    this.lstTags.Items.Add(new ListViewItem()
-                    {
-                        // tag name
-                        Text = tmpTag.TagName,
-                        SubItems =
-                            {
-                                // adding tag parameters
-                                DriverUtils.NullToString(tmpTag.TagCode),
-                                DriverUtils.NullToString(tmpTag.TagIPAddress),
-                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tmpTag.TagEnabled))
-                            }
-                    }).Tag = tmpTag; // in tag we pass the tag id... so that we can find
-                }
-                #endregion Data display
-
-                this.lstTags.EndUpdate();
-            }
-
-            try
-            {
-                if (indexSelectTag != 0 && indexSelectTag < lstTags.Items.Count)
-                {
-                    // scroll through
-                    lstTags.EnsureVisible(indexSelectTag);
-                    lstTags.TopItem = lstTags.Items[indexSelectTag];
-                    // Making the area active
-                    lstTags.Focus();
-                    // making the desired element selected
-                    lstTags.Items[indexSelectTag].Selected = true;
-                    lstTags.Select();
-                }
-            }
-            catch { }
+            // ip address
+            txtRangeStart.Text = "192.168.1.1";
+            txtRangeEnd.Text = "192.168.1.255";
         }
 
         /// <summary>
@@ -128,7 +75,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             deviceTags.Clear();
             foreach (ListViewItem itemRow in this.lstTags.Items)
             {
-                deviceTags.Add((Tag)itemRow.Tag);
+                deviceTags.Add((DriverTag)itemRow.Tag);
             }
         }
 
@@ -182,6 +129,20 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         private void btnSave_Click(object sender, EventArgs e)
         {
             Save();
+
+            if(rdbAddHostActive.Checked)
+            {
+                List<DriverTag> filteredTags = deviceTags.FindAll(tag => tag.Val == 1);
+                deviceTags = filteredTags;
+            }
+            else if (rdbAddHostAll.Checked)
+            {
+
+            }
+
+            DialogResult = DialogResult.OK;
+
+            this.Close();
         }
 
         /// <summary>
@@ -204,39 +165,200 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
         #endregion Close
 
-        #region Range Type
-        /// <summary>
-        /// Range Type
-        /// </summary>
-        private void cmbRangeType_SelectedIndexChanged(object sender, EventArgs e)
+        #region Textbox
+
+        private void txtRangeStart_TextChanged(object sender, EventArgs e)
         {
-            if (cmbRangeType.SelectedIndex == 0)
+            Generate(txtRangeStart.Text.Trim(), txtRangeEnd.Text.Trim());
+        }
+
+        private void txtRangeEnd_TextChanged(object sender, EventArgs e)
+        {
+            Generate(txtRangeStart.Text.Trim(), txtRangeEnd.Text.Trim());
+        }
+
+        private void Generate(string start, string end)
+        {
+            List<IPAddress> listIpAddress = new List<IPAddress>();
+            lstTags.Items.Clear();
+
+            if (DriverUtils.IsIpAddress(start) && DriverUtils.IsIpAddress(end))
             {
-                lblRangeSep.Text = "-";
-                lblRangeEnd.Text = "Конец диапазона:";
-                txtRangeEnd.Size = new Size(130, txtRangeEnd.Size.Height);
+                listIpAddress = IPAddressGenerator.GenerateIPAddresses(start, end);
             }
-            else if (cmbRangeType.SelectedIndex == 1)
+            else
             {
-                lblRangeSep.Text = "/";
-                lblRangeEnd.Text = "Маска подсети:";
-                txtRangeEnd.Size = new Size(32, txtRangeEnd.Size.Height);
+                return;
+            }
+
+            foreach (IPAddress ip in listIpAddress)
+            {
+                DriverTag newTag = new DriverTag();
+                newTag.ID = Guid.NewGuid();
+                newTag.Code = ip.ToString();
+                newTag.Name = ip.ToString();
+                newTag.IpAddress = ip.ToString();
+                newTag.Timeout = 1000;
+                newTag.Enabled = true;
+
+                if (!deviceTags.Contains(newTag))
+                {
+                    deviceTags.Add(newTag);
+                }
+            }
+
+            itemMap = new Dictionary<string, ListViewItem>();
+            itemMap.Clear();
+
+            lstTags.Items.Clear();
+
+            if (deviceTags != null && deviceTags.Count > 0)
+            {
+                foreach (DriverTag tag in deviceTags)
+                {
+                    // filling in the dictionary
+                    ListViewItem tagItem = new ListViewItem()
+                    {
+                        // tag name
+                        Text = tag.Name,
+                        SubItems =
+                            {
+                                // adding tag parameters
+                                DriverUtils.NullToString(tag.Code),
+                                DriverUtils.NullToString(tag.IpAddress),
+                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tag.Enabled))
+                            }
+                    };
+                    tagItem.Tag = tag;
+
+                    if (!itemMap.TryGetValue(tag.Name, out var TagItem))
+                    {
+                        itemMap.Add(tag.Name, tagItem);
+                        this.lstTags.Items.Add(tagItem);
+                    }
+
+
+                    TagInformation(tag);
+                }
             }
         }
 
-        #endregion Range Type
+        #endregion Textbox
 
-        #region 
+        #region Find
         /// <summary>
         /// Start find device
         /// </summary>
-        private void btnStartStop_Click(object sender, EventArgs e)
+        private void btnStart_Click(object sender, EventArgs e)
         {
+            btnSave.Enabled = false;
+            btnClose.Enabled = false;
+
+            driverClient = new DriverClient(project);
+
+            try
+            {
+                driverClient.Ping();
+            }
+            catch { }
+
+            btnSave.Enabled = true;
+            btnClose.Enabled = true;
 
         }
-        #endregion 
+
+        /// <summary>
+        /// Recording the tags result
+        /// </summary>
+        public void DebugerTags(List<DriverTag> tags)
+        {
+            if (tags == null || tags.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var tag in tags.ToList())
+            {
+                TagInformation(tag);
+            }
+        }
+
+        public void TagInformation(DriverTag tag)
+        {
+
+            if (tag == null)
+            {
+                return;
+            }
+
+            // Собираем изменения
+            var updates = new List<(string name, DriverTag tag)>();
+            updates.Add((tag.Name, tag));
+
+            // update without flicker
+            Type type = lstTags.GetType();
+            PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
+            propertyInfo.SetValue(lstTags, true, null);
+
+            lstTags.BeginInvoke((MethodInvoker)delegate
+            {
+                lstTags.BeginUpdate();
+                try
+                {
+                    foreach (var (name, tagItem) in updates)
+                    {
+                        if (!itemMap.TryGetValue(name, out var TagItem))
+                        {
+                            continue;
+                        }
+
+                        // Обновление данных
+                        TagItem.Text = tagItem.Name;
+                        TagItem.SubItems[0].Text = DriverUtils.NullToString(tagItem.Name);
+                        TagItem.SubItems[1].Text = DriverUtils.NullToString(tagItem.Code);
+                        TagItem.SubItems[2].Text = DriverUtils.NullToString(tagItem.IpAddress);
+                        TagItem.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tagItem.Enabled));
+                        // ... остальные обновления
+                        if (tagItem.Enabled == false) // disables
+                        {
+                            TagItem.ForeColor = Color.White;
+                            TagItem.BackColor = Color.Gray;
+                        }
+                        else if (tagItem.Enabled == true) // enabled
+                        {
+                            if (tagItem.Val == 1)
+                            {
+                                try
+                                {
+                                    TagItem.ForeColor = Color.Black;
+                                    TagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
+                                }
+                                catch { }
+                            }
+                            else if (tagItem.Val == 0)
+                            {
+                                try
+                                {
+                                    TagItem.ForeColor = Color.White;
+                                    TagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                }
+                catch { }
+                finally
+                {
+                    lstTags.EndUpdate();
+                }
+            });
+        }
+
+        #endregion #region Find
 
         #endregion Control
+
 
 
 

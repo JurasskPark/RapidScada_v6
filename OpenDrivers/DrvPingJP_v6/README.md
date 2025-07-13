@@ -4,6 +4,7 @@
 
 	
 ### DrvPingJP
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.0/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.3.0.0/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.3/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.2/total)
@@ -12,6 +13,17 @@
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.2/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.1/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.0/total)
+
+Библиотека DrvPingJP (6.4.0.0)
+- Исправлена ошибка, по которой синхронный пинг не работал на форме.
+- Убран неиспользуемый код и пересмотрена логика взаимодействия.
+- Добавлена форма поиска активных адресов по сети.
+
+Библиотека DrvPingJP (6.3.0.0)
+- Исправление ошибок.
+
+Библиотека DrvPingJP (6.1.0.3)
+- Переход с Net Core 6.0 на 8.0.
 
 Библиотека DrvPingJP (6.1.0.2)
 - Изменены иконки на форме
@@ -41,6 +53,17 @@
 - Релиз
 
 ---------------------------------------------------------------------------
+
+DrvPingJP library (6.4.0.0)
+- Fixed a bug where synchronous ping did not work on the form.
+- The unused code is removed and the logic of interaction is revised.
+- Added a form for searching for active addresses on the network.
+
+DrvPingJP Library (6.3.0.0)
+- Bug fix.
+
+DrvPingJP Library (6.1.0.3)
+- Switching from Net Core 6.0 to 8.0. 
 
 DrvPingJP Library (6.1.0.2)
 - Changed icons on the form
@@ -77,7 +100,8 @@ https://www.youtube.com/watch?v=b6Mxzdv-Q4k
 
 Screenshots
 
-![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPing_001.png) 
+![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPingJP_001.png) 
+![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPingJP_002.png) 
 
 
 ## SAST Tools

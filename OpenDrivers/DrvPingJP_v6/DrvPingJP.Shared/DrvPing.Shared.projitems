@@ -9,17 +9,29 @@
     <Import_RootNamespace>DrvPing.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Client\DriverClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverDictonary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverPhrases.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvPingConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\Debuger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)List\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tags\DriverTagReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileWatcher\FilesDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileWatcher\FileWithChanges.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Language\DriverDictonary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Language\DriverPhrases.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Manager\Manager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Project\Project.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tags\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\DnsResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ping\DnsResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ping\IPRangeGenerator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ping\IPSubnetGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ping\IPAddressGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ping\NetworkInformation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ping\PingResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Language\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utils\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Project\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Tags\" />
   </ItemGroup>
 </Project>

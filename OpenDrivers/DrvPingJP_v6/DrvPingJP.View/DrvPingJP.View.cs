@@ -43,6 +43,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                 return Locale.IsRussian ?
                     "Автор: Юрий Прадиус\n" +
                     "Проверка доступности сетевых устройств.\n\n" +
+                    "Версия 6.4.0.0 (13.07.2025)\n" +
+                    "[v] Исправлена ошибка, по которой синхронный пинг не работал на форме. \n" +
+                    "[v] Убран неиспользуемый код и пересмотрена логика взаимодействия. \n" +
+                    "[v] Добавлена форма поиска активных адресов по сети. \n" +
                     "Версия 6.3.0.0 (05.10.2024)\n" +
                     "[v] Переход с Net Core 6.0 на 8.0. \n" +
                     "Версия 6.1.0.2 (15.03.2024)\n" +
@@ -68,6 +72,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                     :
                     "Author: Yuri Pradius\n" +
                     "Checking the availability of network devices.\n\n" +
+                    "Version 6.4.0.0 (07/13/2025)\n" +
+                    "[v] Fixed a bug where synchronous ping did not work on the form. \n" +
+                    "[v] The unused code is removed and the logic of interaction is revised. \n" +
+                    "[v] Added a form for searching for active addresses on the network. \n" +
                     "Version 6.3.0.0 (09/10/2024)\n" +
                     "[v] Switching from Net Core 6.0 to 8.0. \n" +
                     "Version 6.1.0.2 (03/15/2024)\n" +
@@ -103,7 +111,14 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
             {
                 ScadaUiUtils.ShowError(errMsg);
             }
-                
+
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmConfig");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmInputBox");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmTag");
+            Locale.GetDictionary("Scada.Comm.Drivers.DrvPingJP.View.Forms.FrmHostSearch");
+            Locale.GetDictionary("Scada.Comm.Drivers");
+
+            CommonPhrases.Init();
             DriverPhrases.Init();
         }
 

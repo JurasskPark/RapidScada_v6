@@ -5,6 +5,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
 {
     public class DnsResolver
     {
+        /// <summary>
+        /// Getting the host name from the DNS server
+        /// </summary>
         public static string ResolveHostName(string hostNameOrAddress)
         {
             try
