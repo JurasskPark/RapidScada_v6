@@ -4,7 +4,7 @@
 
 	
 ### DrvFtpJP
-![DrvFtpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFreeDiskSpaceJP_v6.4.0.4/total)
+![DrvFtpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFtpJP_v6.4.0.5/total)
 
 Библиотека DrvFtpJP (6.4.0.5)
 - Релиз
