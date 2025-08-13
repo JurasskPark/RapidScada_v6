@@ -50,6 +50,13 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFreeDisk
 
 -------------------------------------------------------------------------------
 
+### DrvFreeDiskSpaceJP
+![DrvFtpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFtpJP_v6.4.0.5/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFtpJP_v6
+
+-------------------------------------------------------------------------------
+
 ## SAST Tools
 
 [PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
