@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>FluentFTP</PackageId>
+        <Title>FluentFTP</Title>
+        <Description>An FTP and FTPS client for .NET &amp; .NET Standard, optimized for speed. Provides extensive FTP commands, File uploads/downloads, SSL/TLS connections, Directory listing parsing, File hashing/checksums, File permissions/CHMOD, FTP proxies, FXP transfers, UTF-8 support, Async/await support, Powershell support and more. Written entirely in C#, with no external dependencies.</Description>
+        <Authors>Robin Rodricks, FluentFTP Contributors</Authors>
+        <PackageProjectUrl>https://github.com/robinrodricks/FluentFTP</PackageProjectUrl>
+        <Copyright>Copyright (c) 2015 Robin Rodricks and FluentFTP Contributors</Copyright>
+        <PackageTags>ftp,ftp-client,ftps,ftps-client,ssl,tls,unix,iis,ftp-proxy</PackageTags>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FluentFTP.xml</DocumentationFile>
+        <SignAssembly>True</SignAssembly>
+        <AssemblyOriginatorKeyFile>sn.snk</AssemblyOriginatorKeyFile>
+        <Version>52.0.0</Version>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>logo-nuget.png</PackageIcon>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <LangVersion>10.0</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net462;net472;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <Platforms>AnyCPU;x64</Platforms>
+        <PackageReadmeFile></PackageReadmeFile>
+        <RepositoryUrl>https://github.com/robinrodricks/FluentFTP</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\.github\logo-nuget.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\LICENSE.TXT">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+</Project>

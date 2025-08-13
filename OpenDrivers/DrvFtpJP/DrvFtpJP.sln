@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35617.110
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFtpJP.Console", "DrvFtpJP.Console\DrvFtpJP.Console.csproj", "{E8D49165-D94C-216F-4F27-93D142FBA33E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFtpJP.Logic", "DrvFtpJP.Logic\DrvFtpJP.Logic.csproj", "{E51EE3E5-29EA-8245-70CB-214E9FCBCB08}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvFtpJP.Shared", "DrvFtpJP.Shared\DrvFtpJP.Shared.shproj", "{F9FE4D55-579A-4116-B15C-10A23CFA833B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFtpJP.View", "DrvFtpJP.View\DrvFtpJP.View.csproj", "{FCB73264-EA05-C679-E262-26A86FEA2E20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFtpJP.WinForm", "DrvFtpJP.Winform\DrvFtpJP.WinForm.csproj", "{FF8D2FC0-1F7F-1FD9-BED0-7DC37FC70A63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentFTP", "FluentFTP\FluentFTP.csproj", "{BA596E58-4C4B-7E25-EA91-B121FF97D378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpExamples", "FluentFTP.CSharpExamples\CSharpExamples.csproj", "{050DA496-7C2F-4BE9-CB37-A76493A9E528}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8D49165-D94C-216F-4F27-93D142FBA33E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8D49165-D94C-216F-4F27-93D142FBA33E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8D49165-D94C-216F-4F27-93D142FBA33E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8D49165-D94C-216F-4F27-93D142FBA33E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E51EE3E5-29EA-8245-70CB-214E9FCBCB08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E51EE3E5-29EA-8245-70CB-214E9FCBCB08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E51EE3E5-29EA-8245-70CB-214E9FCBCB08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E51EE3E5-29EA-8245-70CB-214E9FCBCB08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB73264-EA05-C679-E262-26A86FEA2E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB73264-EA05-C679-E262-26A86FEA2E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB73264-EA05-C679-E262-26A86FEA2E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB73264-EA05-C679-E262-26A86FEA2E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF8D2FC0-1F7F-1FD9-BED0-7DC37FC70A63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF8D2FC0-1F7F-1FD9-BED0-7DC37FC70A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF8D2FC0-1F7F-1FD9-BED0-7DC37FC70A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF8D2FC0-1F7F-1FD9-BED0-7DC37FC70A63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA596E58-4C4B-7E25-EA91-B121FF97D378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA596E58-4C4B-7E25-EA91-B121FF97D378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA596E58-4C4B-7E25-EA91-B121FF97D378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA596E58-4C4B-7E25-EA91-B121FF97D378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050DA496-7C2F-4BE9-CB37-A76493A9E528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050DA496-7C2F-4BE9-CB37-A76493A9E528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050DA496-7C2F-4BE9-CB37-A76493A9E528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050DA496-7C2F-4BE9-CB37-A76493A9E528}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {048DD3D2-E9F5-4120-99A2-531502799BC2}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvFtpJP.Shared\DrvFtpJP.Shared.projitems*{e51ee3e5-29ea-8245-70cb-214e9fcbcb08}*SharedItemsImports = 5
+		DrvFtpJP.Shared\DrvFtpJP.Shared.projitems*{e8d49165-d94c-216f-4f27-93d142fba33e}*SharedItemsImports = 5
+		DrvFtpJP.Shared\DrvFtpJP.Shared.projitems*{f9fe4d55-579a-4116-b15c-10a23cfa833b}*SharedItemsImports = 13
+		DrvFtpJP.Shared\DrvFtpJP.Shared.projitems*{fcb73264-ea05-c679-e262-26a86fea2e20}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

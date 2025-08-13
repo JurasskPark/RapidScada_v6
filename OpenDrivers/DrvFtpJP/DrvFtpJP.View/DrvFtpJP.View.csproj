@@ -1,0 +1,117 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+		<RootNamespace>Scada.Comm.Drivers.DrvFtpJP.View</RootNamespace>
+		<Version>6.4.0.5</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Yuriy Pradius</Company>
+		<Product>DrvFtpJP</Product>
+		<Copyright>Copyright © 2025</Copyright>
+		<LangVersion>preview</LangVersion>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ApplicationIcon>Source\icon\ftp.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Lang\DrvFtpJP.en-GB.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Lang\DrvFtpJP.ru-RU.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Source\icon\ftp.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="System.Management" Version="9.0.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FluentFTP\FluentFTP.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\dll\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\dll\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Forms">
+	    <HintPath>..\dll\ScadaCommon.Forms.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\dll\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Forms\Action\FrmActionRemoteDownloadDirectory.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionRemoteDownloadFile.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionLocalUploadDirectory.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionLocalUploadFile.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionRemoteDelete.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionLocalDelete.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionRemoteRename.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionLocalRename.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionRemoteCreateDirectory.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Forms\Action\FrmActionLocalCreateDirectory.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
+	</ItemGroup>
+
+	<Import Project="..\DrvFtpJP.Shared\DrvFtpJP.Shared.projitems" Label="Shared" />
+
+</Project>
