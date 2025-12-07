@@ -159,6 +159,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 throw new ArgumentNullException("cmd");
             }
 
+            if (string.IsNullOrWhiteSpace(paramName))
+            {
+                throw new ArgumentException("Parameter name cannot be null or whitespace", nameof(paramName));
+            }
+
+            object paramValue = value ?? DBNull.Value;
+
             if (cmd.Parameters.Contains(paramName))
             {
                 cmd.Parameters[paramName].Value = value;

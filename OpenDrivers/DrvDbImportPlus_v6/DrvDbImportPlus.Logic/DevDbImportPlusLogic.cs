@@ -825,12 +825,24 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 LogDriver(Locale.IsRussian ?
                     "Запрос на изменение данных" :
                     "Data modification request");
-                LogDriver(dbCommand.CommandText);
-                int countChange = dbCommand.ExecuteNonQuery();
-                LogDriver(Locale.IsRussian ?
-                    @$"Изменено записей {countChange}" :
-                    @$"Changed rows {countChange}");
-                return true;
+
+                try
+                {
+                    int countChange = dbCommand.ExecuteNonQuery();
+
+                    LogDriver(dbCommand.CommandText);
+
+                    LogDriver(Locale.IsRussian ?
+                        @$"Изменено записей {countChange}" :
+                        @$"Changed rows {countChange}");
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    LogDriver(e.Message);
+                    return false;
+                }   
             }
             catch (Exception ex)
             {
