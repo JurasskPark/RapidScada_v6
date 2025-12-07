@@ -49,6 +49,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
 
+                    "Версия 6.3.0.4 (07.12.2025)\n" +
+                    "[v] Проверка на значение Null.\n" +
                     "Версия 6.3.0.2 (12.01.2025)\n" +
                     "[v] Изменён интерфейс. Добавлены иконки.\n" +
                     "[v] Строковые теги теперь отображаются единым значением.\n" +
@@ -101,6 +103,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
 
+                    "Version 6.3.0.4 (12/07/2025)\n" +
+                    "[v] Check for Null value.\n" +
                     "Version 6.3.0.2 (01/12/2025)\n" +
                     "[v] Changed the interface. Added icons.\n" +
                     "[v] String tags are now displayed with a single value.\n" +

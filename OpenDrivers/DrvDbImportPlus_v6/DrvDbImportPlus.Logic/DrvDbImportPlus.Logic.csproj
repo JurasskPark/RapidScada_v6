@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.Logic</RootNamespace>
-		<Version>6.3.0.3</Version>
+		<Version>6.3.0.4</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
