@@ -2,10 +2,20 @@
 
 namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 {
+    /// <summary>
+    /// Tag editing form.
+    /// <para>Форма редактирования тега.</para>
+    /// </summary>
     public partial class FrmTag : Form
     {
-
+        /// <summary>
+        /// Gets or sets the form operating mode.
+        /// </summary>
         public int ModeWork;
+
+        /// <summary>
+        /// Gets or sets the tag being edited.
+        /// </summary>
         public DriverTag Tag;
 
         /// <summary>
@@ -15,8 +25,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         {
             InitializeComponent();
 
-
-
             if (Tag == null)
             {
                 return;
@@ -24,7 +32,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Loading the form
+        /// Loads the form.
         /// </summary>
         private void FrmTag_Load(object sender, EventArgs e)
         {
@@ -51,7 +59,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag Add
+        /// Adds a tag.
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -67,7 +75,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag Save
+        /// Saves the tag.
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -82,7 +90,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Form Close
+        /// Closes the form.
         /// </summary>
         private void btnClose_Click(object sender, EventArgs e)
         {

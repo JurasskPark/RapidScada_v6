@@ -2,6 +2,10 @@
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
+    /// <summary>
+    /// The driver's dictionary.
+    /// <para>Представление словаря драйвера.</para>
+    /// </summary>
     public static class DriverDictonary
     {
         public static string StartDriver = Locale.IsRussian? "Запуск драйвера" : "Launching the driver";

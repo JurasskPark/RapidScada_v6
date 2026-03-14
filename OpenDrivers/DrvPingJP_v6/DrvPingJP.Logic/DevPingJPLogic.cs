@@ -4,7 +4,6 @@ using Scada.Comm.Drivers.DrvPingJP;
 using Scada.Data.Models;
 using Scada.Lang;
 using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
 {
@@ -63,7 +62,6 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(DebugerTags);
 
             this.driverClient = new DriverClient(project);
-            this.deviceTags = new List<DriverTag>();
 
             // manager
             Manager.IsDll = this.isDll;
@@ -72,8 +70,6 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             Manager.Project = this.project;
             Manager.PathLog = this.pathLog;
         }
-
-
 
         /// <summary>
         /// Performs actions after adding the device to a communication line.
@@ -167,8 +163,10 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             FinishSession();
         }
 
-        #region ReInitializingOPCserver
-
+        #region ReInitializingDriver
+        /// <summary>
+        /// Reinitializes the communication line.
+        /// </summary>
         private void ReinitializingDriver()
         {
             try
@@ -185,10 +183,9 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                 DebugerLog(ex.Message.ToString());
             }
         }
-        #endregion ReInitializingOPCserver
+        #endregion ReInitializingDriver
 
         #region  Request
-
         /// <summary>
         /// Requests data from the database.
         /// </summary>
@@ -236,6 +233,9 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         #endregion Debug Log
 
         #region Debug Tag
+        /// <summary>
+        /// Processes the received tag.
+        /// </summary>
         public void DebugerTag(DriverTag tag)
         {
             try
@@ -274,6 +274,9 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         #endregion Debug Tag
 
         #region Debug Tags
+        /// <summary>
+        /// Processes the received tags.
+        /// </summary>
         public void DebugerTags(List<DriverTag> tags)
         {
             try
@@ -325,7 +328,6 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         #endregion Debug Tags
 
         #region Set Tag Data
-
         /// <summary>
         /// Sets value, status and format of the specified tag.
         /// </summary>
@@ -333,7 +335,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         {
             try
             {
-                if (DeviceTags.Count() > 0)
+                if (tagIndex >= 0 && tagIndex < DeviceTags.Count())
                 {
                     DeviceTag deviceTag = DeviceTags[tagIndex];
                     
@@ -342,19 +344,19 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                     {
                         deviceTag.DataType = TagDataType.Unicode;
                         deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagIndex, strVal, 1); } catch { }
+                        try { base.DeviceData.SetUnicode(tagIndex, strVal, stat); } catch { }
                     }
                     else if (val is DateTime dtVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, 1); } catch { }
+                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, stat); } catch { }
                     }
                     else
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), 1); } catch { }
+                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(val), stat); } catch { }
                     }
                 }
             }
@@ -371,7 +373,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
         {
             try
             {
-                if (DeviceTags.Count() > 0)
+                if (DeviceTags.Count() > 0 && !string.IsNullOrEmpty(code))
                 {
                     DeviceTag deviceTag = DeviceTags[code];
 
@@ -379,19 +381,19 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
                     {
                         deviceTag.DataType = TagDataType.Unicode;
                         deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(code, strVal, 1); } catch { }
+                        try { base.DeviceData.SetUnicode(code, strVal, stat); } catch { }
                     }
                     else if (val is DateTime dtVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(code, dtVal, 1); } catch { }
+                        try { base.DeviceData.SetDateTime(code, dtVal, stat); } catch { }
                     }
                     else
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(code, Convert.ToDouble(val), 1); } catch { }
+                        try { base.DeviceData.Set(code, Convert.ToDouble(val), stat); } catch { }
                     }
                 }
             }

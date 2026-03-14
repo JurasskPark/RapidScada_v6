@@ -2,6 +2,10 @@
 
 namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 {
+    /// <summary>
+    /// Input box form.
+    /// <para>Форма поля ввода.</para>
+    /// </summary>
     public partial class FrmInputBox : Form
     {
         /// <summary>
@@ -12,10 +16,13 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets or sets the entered value.
+        /// </summary>
         public string Values;
 
         /// <summary>
-        /// Сonfirmation of the entered value
+        /// Confirms the entered value.
         /// </summary>
         private void btnOk_Click(object sender, EventArgs e)
         {
@@ -25,7 +32,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Cancel of the entered value
+        /// Cancels entering the value.
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -34,7 +41,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Translate the form
+        /// Translates the form.
         /// </summary>
         private void FrmInputBox_Load(object sender, EventArgs e)
         {

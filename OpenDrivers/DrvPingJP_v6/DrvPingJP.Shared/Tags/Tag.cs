@@ -2,17 +2,24 @@
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
-
+    /// <summary>
+    /// Implements a group of tags.
+    /// <para>Реализует группу тегов.</para>
+    /// </summary>
     public class GroupTag
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public GroupTag()
         {
             this.ListTag = new List<DriverTag>();
         }
 
         #region Tag Group
-
-        //ID of the tag group
+        /// <summary>
+        /// Id of the tag group.
+        /// </summary>
         private Guid groupTagID;
         public Guid GroupTagID
         {
@@ -20,7 +27,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { groupTagID = value; }
         }
 
-        //Tag group name
+        /// <summary>
+        /// Tag group name.
+        /// </summary>
         private string groupTagName;
         public string GroupTagName
         {
@@ -31,25 +40,36 @@ namespace Scada.Comm.Drivers.DrvPingJP
         #endregion Tag Group
 
         #region List of tags
-
+        /// <summary>
+        /// List of tags.
+        /// </summary>
         private List<DriverTag> listTag;
         public List<DriverTag> ListTag
         {
             get { return listTag; }
             set { listTag = value; }
         }
-
         #endregion List of tags
 
     }
 
+    /// <summary>
+    /// Implements the tag.
+    /// <para>Реализует тег.</para>
+    /// </summary>
     public class DriverTag
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public DriverTag()
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public DriverTag(string code, string name, string ipAddress, int timeout, bool enabled)
         {
             this.Code = code;
@@ -59,6 +79,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             this.Enabled = enabled;          
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public DriverTag(string code, string name, string ipAddress, int timeout, bool enabled, int val = 0, int stat = 0)
         {
             this.Code = code;
@@ -71,7 +94,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
         }
 
         #region DriverTag
-
+        /// <summary>
+        /// The tag ID.
+        /// </summary>
         private Guid id;
         public Guid ID
         {
@@ -79,6 +104,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { id = value; }
         }
 
+        /// <summary>
+        /// The tag code.
+        /// </summary>
         private string code;
         public string Code
         {
@@ -86,6 +114,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { code = value; }
         }
 
+        /// <summary>
+        /// The tag name.
+        /// </summary>
         private string name;
         public string Name
         {
@@ -93,6 +124,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { name = value; }
         }
 
+        /// <summary>
+        /// The tag IP address.
+        /// </summary>
         private string ipAddress;
         public string IpAddress
         {
@@ -100,6 +134,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { ipAddress = value; }
         }
 
+        /// <summary>
+        /// The tag timeout.
+        /// </summary>
         private int timeout;
         public int Timeout
         {
@@ -107,6 +144,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             set { timeout = value; }
         }
 
+        /// <summary>
+        /// The tag enabled.
+        /// </summary>
         private bool enabled;
         public bool Enabled
         {
@@ -114,6 +154,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             get { return enabled; }
         }
 
+        /// <summary>
+        /// The tag value.
+        /// </summary>
         private int val;
         public int Val
         {
@@ -121,6 +164,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             get { return val; }
         }
 
+        /// <summary>
+        /// The tag state.
+        /// </summary>
         private int stat;
         public int Stat
         {

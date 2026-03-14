@@ -5,31 +5,30 @@ using System.Net;
 namespace Scada.Comm.Drivers.DrvPingJP
 {
     /// <summary>
-    /// Implements the device logic.
-    /// <para>Реализует логику устройства.</para>
+    /// Generates IP address ranges.
     /// </summary>
     public class IPAddressGenerator
     {
         /// <summary>
-        /// Generating a list of IP addresses
+        /// Generates a list of IP addresses.
         /// </summary>
         public static List<IPAddress> GenerateIPAddresses(string startIP, string endIP)
         {
             List<IPAddress> ipList = new List<IPAddress>();
 
-            // Преобразуем строки в IPAddress
+            // convert strings to IPAddress.
             IPAddress start = IPAddress.Parse(startIP);
             IPAddress end = IPAddress.Parse(endIP);
 
-            // Получаем байты IP-адресов
+            // get the IP address bytes.
             byte[] startBytes = start.GetAddressBytes();
             byte[] endBytes = end.GetAddressBytes();
 
-            // Преобразуем байты в long
+            // convert bytes to long values.
             long startLong = BytesToLong(startBytes);
             long endLong = BytesToLong(endBytes);
 
-            // Генерируем IP-адреса
+            // generate IP addresses.
             for (long i = startLong; i <= endLong; i++)
             {
                 ipList.Add(LongToIPAddress(i));
@@ -39,7 +38,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
         }
 
         /// <summary>
-        /// Converting a byte array to a long (IP address)
+        /// Converts a byte array to a long IP address value.
         /// </summary>
         private static long BytesToLong(byte[] bytes)
         {
@@ -47,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
         }
 
         /// <summary>
-        /// Converting a long to an IP address
+        /// Converts a long value to an IP address.
         /// </summary>
         private static IPAddress LongToIPAddress(long ip)
         {
@@ -60,14 +59,19 @@ namespace Scada.Comm.Drivers.DrvPingJP
         }
 
         /// <summary>
-        /// Generating a list of IP addresses
+        /// Generates a list of IP addresses.
         /// </summary>
         public static List<IPAddress> GenerateIPAddresses(string startIP, int cidr)
         {
-            // Парсим начальный IP-адрес
+            if (cidr < 0 || cidr > 32)
+            {
+                throw new ArgumentOutOfRangeException(nameof(cidr));
+            }
+
+            // parse the starting IP address.
             IPAddress startIp = IPAddress.Parse(startIP);
 
-            // Создаем маску подсети на основе CIDR
+            // create the subnet mask based on CIDR.
             byte[] subnetBytes = new byte[4];
             for (int i = 0; i < cidr / 8; i++)
             {
@@ -78,17 +82,17 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 subnetBytes[cidr / 8] = (byte)(256 - Math.Pow(2, 8 - cidr % 8));
             }
 
-            // Получаем байты IP-адреса
+            // get the IP address bytes.
             byte[] startIpBytes = startIp.GetAddressBytes();
 
-            // Вычисляем сетевой адрес
+            // calculate the network address.
             byte[] networkAddressBytes = new byte[4];
             for (int i = 0; i < 4; i++)
             {
                 networkAddressBytes[i] = (byte)(startIpBytes[i] & subnetBytes[i]);
             }
 
-            // Вычисляем широковещательный адрес
+            // calculate the broadcast address.
             byte[] broadcastAddressBytes = new byte[4];
             byte[] inverseSubnetBytes = new byte[4];
             for (int i = 0; i < 4; i++)
@@ -97,33 +101,50 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 broadcastAddressBytes[i] = (byte)(networkAddressBytes[i] | inverseSubnetBytes[i]);
             }
 
-            // Преобразуем байты в IP-адреса
+            // convert byte arrays to IP addresses.
             IPAddress networkAddress = new IPAddress(networkAddressBytes);
             IPAddress broadcastAddress = new IPAddress(broadcastAddressBytes);
 
-            // Получаем все IP-адреса в диапазоне
+            // get all IP addresses in the range.
             List<IPAddress> ipList = new List<IPAddress>();
 
-            // Преобразуем IP-адреса в uint для удобства перебора
-            uint network = BitConverter.ToUInt32(networkAddress.GetAddressBytes(), 0);
-            uint broadcast = BitConverter.ToUInt32(broadcastAddress.GetAddressBytes(), 0);
+            // convert IP addresses to uint for iteration.
+            uint network = BytesToUInt32(networkAddress.GetAddressBytes());
+            uint broadcast = BytesToUInt32(broadcastAddress.GetAddressBytes());
 
             for (uint i = network; i <= broadcast; i++)
             {
-                byte[] currentIpBytes = BitConverter.GetBytes(i);
-                if (BitConverter.IsLittleEndian)
-                {
-                    Array.Reverse(currentIpBytes);
-                }
-
-                IPAddress currentIp = new IPAddress(currentIpBytes);
+                IPAddress currentIp = LongToIPAddress(i);
                 ipList.Add(currentIp);
             }
 
             return ipList;
         }
 
-       
+        /// <summary>
+        /// Converts a byte array to an unsigned integer.
+        /// </summary>
+        private static uint BytesToUInt32(byte[] bytes)
+        {
+            return ((uint)bytes[0] << 24) |
+                   ((uint)bytes[1] << 16) |
+                   ((uint)bytes[2] << 8) |
+                   bytes[3];
+        }
+
+        /// <summary>
+        /// Converts an unsigned integer to an IP address.
+        /// </summary>
+        private static IPAddress LongToIPAddress(uint ip)
+        {
+            return new IPAddress(new byte[]
+            {
+                (byte)(ip >> 24),
+                (byte)(ip >> 16),
+                (byte)(ip >> 8),
+                (byte)ip
+            });
+        }
 
     }
 }

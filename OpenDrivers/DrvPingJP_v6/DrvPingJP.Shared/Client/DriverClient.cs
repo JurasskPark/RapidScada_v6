@@ -1,13 +1,19 @@
 ﻿using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
+    /// <summary>
+    /// Implements the driver client.
+    /// <para>Реализует клиентский драйвер.</para>
+    /// </summary>
     internal class DriverClient
     {
         private readonly Project project;                                   // configuration
         private readonly NetworkInformation networkInformation;             // network (ping)
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public DriverClient()
         {
             this.project = new Project();
@@ -15,6 +21,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             this.networkInformation = new NetworkInformation();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public DriverClient(Project project)
         {
             this.project = project;
@@ -28,7 +37,10 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// </summary>
         public static DebugData OnDebug;
         public delegate void DebugData(string msg);
-        // transfer to the form and to the file in the Log folder
+
+        /// <summary>
+        /// Passes log messages to subscribers.
+        /// </summary>
         internal void DebugerLog(string text)
         {
             if (OnDebug == null)
@@ -42,12 +54,14 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         #region DebugerTag
         /// <summary>
-        /// Getting tag
-        /// <para>Получение тего<para>
+        /// Getting tag.
         /// </summary>
         public static DebugTag OnDebugTag;
         public delegate void DebugTag(DriverTag tags);
-        // transfer to the form and to the file in the Log folder
+
+        /// <summary>
+        /// Passes a tag to subscribers.
+        /// </summary>
         internal void DebugerTag(DriverTag tag)
         {
             if (OnDebugTag == null)
@@ -60,13 +74,16 @@ namespace Scada.Comm.Drivers.DrvPingJP
         #endregion DebugerTag
 
         #region DebugerTags
+        
         /// <summary>
-        /// Getting tags
-        /// <para>Получение тегов<para>
+        /// Getting tags.
         /// </summary>
         public static DebugTags OnDebugTags;
         public delegate void DebugTags(List<DriverTag> tags);
-        // transfer to the form and to the file in the Log folder
+
+        /// <summary>
+        /// Passes tags to subscribers.
+        /// </summary>
         internal void DebugerTags(List<DriverTag> tags)
         {
             if (OnDebugTags == null)
@@ -81,7 +98,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         #region Dispose
         private IntPtr _bufferPtr;                      // buffer
-        public int BUFFER_SIZE = 1024 * 1024 * 50;      // 50 MB
         private bool _disposed = false;                 // disposed
 
         /// <summary>
@@ -152,23 +168,11 @@ namespace Scada.Comm.Drivers.DrvPingJP
         {
             if (project.Mode == 0)
             {
-                #region Synchronous
-                try
-                {
-                    networkInformation.PingSynchronous();
-                }
-                catch { }
-                #endregion Synchronous
+                networkInformation.PingSynchronous();
             }
             else if (project.Mode == 1)
             {
-                #region Asynchronous
-                try
-                {
-                   networkInformation.PingAsynchronous();
-                }
-                catch { }
-                #endregion Asynchronous
+                networkInformation.PingAsynchronous().GetAwaiter().GetResult();
             }
         }
 

@@ -2,13 +2,12 @@
 {
     /// <summary>
     /// The structure of storing information about files and directories of the operating system.
-    /// <para>Структура хранения информации о файлах и каталогах операционной системы.</para>
+    /// <para>Представление информации о файлах и каталогах операционной системы.</para>
     /// </summary>
     public class FilesDatabase
     {
         /// <summary>
         /// Initializes a new instance of the class.
-        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public FilesDatabase()
         {
@@ -23,7 +22,6 @@
         #region Variables
         /// <summary>
         /// The path to the file.
-        /// <para>Путь до файла.</para>
         /// </summary>
         private string pathFile;
         public string PathFile
@@ -34,7 +32,6 @@
 
         /// <summary>
         /// The date the file was modified.
-        /// <para>Дата изменения файла.</para>
         /// </summary>
         private DateTime lastTimeChanged;
         public DateTime LastTimeChanged
@@ -46,7 +43,6 @@
 
         /// <summary>
         /// The file size.
-        /// <para>Размер файла.</para>
         /// </summary>
         private long sizeFile;
         public long SizeFile
@@ -57,7 +53,6 @@
 
         /// <summary>
         /// The number of lines in the file.
-        /// <para>Количество строк в файле.</para>
         /// </summary>
         private int numberLines;
         public int NumberLines
@@ -68,7 +63,6 @@
 
         /// <summary>
         /// An indication of the analysis.
-        /// <para>Признак проведения анализа.</para>
         /// </summary>
         private bool parsed;
         public bool Parsed 
@@ -79,7 +73,6 @@
 
         /// <summary>
         /// Status (numeric).
-        /// <para>Статус (числовой).</para>
         /// </summary>
         private int status;
         public int Status 
@@ -90,7 +83,6 @@
 
         /// <summary>
         /// Status (string).
-        /// <para>Статус (строковый).</para>
         /// </summary>
         private string statusString;
         public string StatusString

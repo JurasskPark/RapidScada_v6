@@ -4,7 +4,6 @@ using Scada.Comm.Drivers.DrvPingJPLogic.Logic;
 
 namespace Scada.Comm.Drivers.DrvPingJP.Logic
 {
-
     /// <summary>
     /// Implements the driver logic.
     /// <para>Реализует логику драйвера.</para>

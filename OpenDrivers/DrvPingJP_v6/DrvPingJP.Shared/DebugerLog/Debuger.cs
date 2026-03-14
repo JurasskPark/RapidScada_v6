@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Recording logs.
-    /// <para>Запись логов.</para>
+    /// <para>Records logs.</para>
     /// </summary>
     public class Debuger
     {
@@ -13,7 +13,6 @@
 
         /// <summary>
         /// Initializes a new instance of the class.
-        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public Debuger()
         {
@@ -24,7 +23,6 @@
 
         /// <summary>
         /// Recording log
-        /// <para>Запись лога</para>
         /// </summary>
         public static void Log(string text)
         {
@@ -57,7 +55,6 @@
 
         /// <summary>
         /// Recording log
-        /// <para>Запись лога</para>
         /// </summary>
         public static void Log(string folder, string text)
         {
@@ -86,7 +83,6 @@
 
         /// <summary>
         /// Clear log
-        /// <para>Очистка логов</para>
         /// </summary>
         public static void Clear(string path, int days)
         {

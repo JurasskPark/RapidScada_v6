@@ -1,20 +1,15 @@
 ﻿using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Reflection;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 {
     /// <summary>
     /// Device configuration form.
-    /// <para>Форма настройки конфигурации.</para>
+    /// <para>Форма настройки устройства.</para>
     /// </summary>
     public partial class FrmConfig : Form
     {
@@ -53,9 +48,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             Manager.Project = this.project;
             Manager.PathLog = this.pathLog;
 
+            this.isRussian = Locale.IsRussian;
 
             this.modified = false;
-
         }
 
         /// <summary>
@@ -109,12 +104,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         private DriverClient driverClient;                      // thie driver client
         private bool modified;                                  // the configuration was modified
 
-        private string appDirectory;                    // the applications directory
-        private string languageDir;                     // the language directory
-        private string culture = "en-GB";               // the culture
-        private bool isRussian;							// the language
+        private string appDirectory;                            // the applications directory
+        private string languageDir;                             // the language directory
+        private string culture = "en-GB";                       // the culture
+        private bool isRussian;							        // the language
 
-        private Dictionary<string, ListViewItem> itemMap = new Dictionary<string, ListViewItem>();
+        private Dictionary<string, ListViewItem> itemMap = new Dictionary<string, ListViewItem>(); // the dictionary for quick access to listview items
         private List<DriverTag> deviceTags;                     // tags
         private ListViewItem selected;                          // selected record tag
         private int indexSelectTag = 0;                         // index number tag
@@ -127,7 +122,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Form Load
         /// <summary>
-        /// Loading the form
+        /// Loading the form.
         /// </summary>
         private void FrmConfig_Load(object sender, EventArgs e)
         {
@@ -141,21 +136,23 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             ConfigToControls();
 
             Modified = false;
-
-
         }
 
         #endregion Form Load
 
-
+        #region Form Shown
+        /// <summary>
+        /// Performs actions after the form is shown.
+        /// </summary>
         private void FrmConfig_Shown(object sender, EventArgs e)
         {
             driverClient.Start();
         }
+        #endregion Form Shown
 
         #region Form Close
         /// <summary>
-        /// Closing the form
+        /// Closing the form.
         /// </summary>
         private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -245,6 +242,9 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             UpdateInformationTags();
         }
 
+        /// <summary>
+        /// Updates information about tags.
+        /// </summary>
         private void UpdateInformationTags()
         {
             itemMap = new Dictionary<string, ListViewItem>();
@@ -315,12 +315,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         #region Language
         /// <summary>
         /// Translation of the form.
-        /// <para>Перевод формы.</para>
         /// </summary>
         private void Translate()
         {
             SetListViewColumnNames();
-
 
             CommPhrases.Init();
 
@@ -369,15 +367,13 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             return result;
         }
 
-
-
         #endregion Language
 
         #region Control
 
         #region Save
         /// <summary>
-        /// Saving settings
+        /// Saving settings.
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -385,7 +381,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Saving the settings by first getting the parameters from the controls, and then displaying
+        /// Saving the settings by first getting the parameters from the controls, and then displaying.
         /// </summary>
         private void Save()
         {
@@ -409,7 +405,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Close
         /// <summary>
-        /// Close Form
+        /// Close form.
         /// </summary>
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -419,7 +415,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Mode
         /// <summary>
-        /// Selecting the device polling mode
+        /// Selecting the device polling mode.
         /// </summary>
         private void rdbPingSync_CheckedChanged(object sender, EventArgs e)
         {
@@ -427,7 +423,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Selecting the device polling mode
+        /// Selecting the device polling mode.
         /// </summary>
         private void rdbPingAsync_CheckedChanged(object sender, EventArgs e)
         {
@@ -435,7 +431,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Selecting the device polling mode
+        /// Selecting the device polling mode.
         /// </summary>
         private int SelectPingType()
         {
@@ -461,7 +457,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag selection
         /// <summary>
-        /// Tag selection
+        /// Tag selection.
         /// </summary>
         private void lstTags_MouseClick(object sender, MouseEventArgs e)
         {
@@ -469,7 +465,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag selection
+        /// Tag selection.
         /// </summary>
         private void TagSelect()
         {
@@ -491,7 +487,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag add
         /// <summary>
-        /// Tag add
+        /// Tag add.
         /// </summary>
         private void cmnuTagAdd_Click(object sender, EventArgs e)
         {
@@ -499,7 +495,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag add
+        /// Tag add.
         /// </summary>
         private void TagAdd()
         {
@@ -532,7 +528,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag list add
         /// <summary>
-        /// Tag list add
+        /// Tag list add.
         /// </summary>
         private void cmnuListTagAdd_Click(object sender, EventArgs e)
         {
@@ -540,7 +536,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag list add
+        /// Tag list add.
         /// </summary>
         private void ListTagAdd()
         {
@@ -581,7 +577,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag list add Ip addresses
         /// <summary>
-        /// Tag list add Ip addresses
+        /// Tag list add Ip addresses.
         /// </summary>
         private void cmnuFoundIpAddresses_Click(object sender, EventArgs e)
         {
@@ -589,7 +585,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag list add Ip addresses
+        /// Tag list add Ip addresses.
         /// </summary>
         private void ListTagAddIpAddresses()
         {
@@ -621,7 +617,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag change
         /// <summary>
-        /// Tag change
+        /// Tag change.
         /// </summary>
         private void lstTags_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -629,7 +625,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag change
+        /// Tag change.
         /// </summary>
         private void cmnuTagChange_Click(object sender, EventArgs e)
         {
@@ -637,7 +633,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag change
+        /// Tag change.
         /// </summary>
         private void TagChange()
         {
@@ -689,7 +685,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         #region Tag delete
 
         /// <summary>
-        /// Tag delete
+        /// Tag delete.
         /// </summary>
         private void cmnuTagDelete_Click(object sender, EventArgs e)
         {
@@ -697,7 +693,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag delete
+        /// Tag delete.
         /// </summary>
         private void TagDelete()
         {
@@ -770,7 +766,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag list delete
         /// <summary>
-        /// Tag list delete
+        /// Tag list delete.
         /// </summary>
         private void cmnuTagAllDelete_Click(object sender, EventArgs e)
         {
@@ -778,7 +774,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Tag list delete
+        /// Tag list delete.
         /// </summary>
         private void TagAllDelete()
         {
@@ -795,7 +791,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag Up
         /// <summary>
-        /// Tag Up
+        /// Tag up.
         /// </summary>
         private void cmnuUp_Click(object sender, EventArgs e)
         {
@@ -822,14 +818,14 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Move row up dependent on direction parameter
+        /// Move row up dependent on direction parameter.
         /// </summary>
         public static void MoveUp(List<DriverTag> list, int index)
         {
-            // Проверяем границы
+            // Check the bounds.
             if (index > 0 && index < list.Count)
             {
-                // Меняем местами текущий элемент и предыдущий
+                // Swap the current item and the previous item.
                 DriverTag temp = list[index];
                 list[index] = list[index - 1];
                 list[index - 1] = temp;
@@ -840,7 +836,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Tag Down
         /// <summary>
-        ///  Tag Down
+        ///  Tag down.
         /// </summary>
         private void cmnuDown_Click(object sender, EventArgs e)
         {
@@ -867,14 +863,14 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Move row down dependent on direction parameter
+        /// Move row down dependent on direction parameter.
         /// </summary>
         public static void MoveDown(List<DriverTag> list, int index)
         {
-            // Проверяем границы
+            // Check the bounds.
             if (index >= 0 && index < list.Count - 1)
             {
-                // Меняем местами текущий элемент и следующий
+                // Swap the current item and the next item.
                 DriverTag temp = list[index];
                 list[index] = list[index + 1];
                 list[index + 1] = temp;
@@ -885,7 +881,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         #region Information
         /// <summary>
-        /// Recording the tags result
+        /// Recording the tags result.
         /// </summary>
         public void DebugerTags(List<DriverTag> tags)
         {
@@ -901,7 +897,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         }
 
         /// <summary>
-        /// Information tag
+        /// Information tag.
         /// </summary>
         public void TagInformation(DriverTag tag)
         {
@@ -911,7 +907,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                 return;
             }
 
-            // Собираем изменения
+            // collect changes.
             var updates = new List<(string name, DriverTag tag)>();
             updates.Add((tag.Name, tag));
 
@@ -932,13 +928,13 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                             continue;
                         }
 
-                        // Обновление данных
+                        // update data.
                         TagItem.Text = tagItem.Name;
                         TagItem.SubItems[0].Text = DriverUtils.NullToString(tagItem.Name);
                         TagItem.SubItems[1].Text = DriverUtils.NullToString(tagItem.Code);
                         TagItem.SubItems[2].Text = DriverUtils.NullToString(tagItem.IpAddress);
                         TagItem.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tagItem.Enabled));
-                        // ... остальные обновления
+                        // ... other updates
                         if (tagItem.Enabled == false) // disables
                         {
                             TagItem.ForeColor = Color.White;

@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
 {
     /// <summary>
     /// The class provides helper methods for the driver.
-    /// <para>Класс, предоставляющий вспомогательные методы для драйвера.</para>
+    /// <para>Представление вспомогательных методов драйвера.</para>
     /// </summary>
     public static class DriverUtils
     {
@@ -21,7 +21,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.4.0.0";
+        public const string Version = "6.4.0.1";
 
         /// <summary>
         /// The default filename of the configuration.
@@ -90,7 +90,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
         private static Regex reGuid = new Regex(@"^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$", RegexOptions.Compiled);
 
         /// <summary>
-        /// Сonverting an object to a string, if the object is empty, it returns an empty string.
+        /// Converts an object to a string. If the object is empty, it returns an empty string.
         /// </summary>
         /// <param name="Value">object Value</param>
         /// <returns>string Value</returns>
@@ -120,13 +120,16 @@ namespace Scada.Comm.Drivers.DrvPingJP
             //Regex ipMatch = new Regex(@"^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$"); 
             //return ipMatch.IsMatch(Address);
             
-            // Улучшенное регулярное выражение
+            // Improved regular expression.
             Regex ipMatch = new Regex(@"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
             return ipMatch.IsMatch(Address);
         }
 
         #region Float String
 
+        /// <summary>
+        /// Converts a string to a Boolean value represented as float.
+        /// </summary>
         public static bool FloatAsTrue(string s)
         {
             s = FloatPuttingInOrder(s);
@@ -140,17 +143,26 @@ namespace Scada.Comm.Drivers.DrvPingJP
             }
         }
 
+        /// <summary>
+        /// Converts a string to a float value.
+        /// </summary>
         public static float FloatAsFloat(string s)
         {
             return float.Parse(FloatPuttingInOrder(s), CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// Converts a float string to an integer part.
+        /// </summary>
         public static int FloatToInteger(string s)
         {
             string[] parts = FloatPuttingInOrder(s).Split('.');
             return Convert.ToInt32(parts[0]);
         }
 
+        /// <summary>
+        /// Gets the fractional part of a float string.
+        /// </summary>
         public static int FloatToFractionalNumber(string s)
         {
             string[] parts = FloatPuttingInOrder(s).Split('.');
@@ -161,6 +173,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             return Convert.ToInt32(parts[1]);
         }
 
+        /// <summary>
+        /// Gets the fractional part and its bit positions.
+        /// </summary>
         public static int FloatToFractionalNumber(string s, out int startBit, out int endBit, out int countBit)
         {
             startBit = 0;
@@ -185,6 +200,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             return Convert.ToInt32(parts[0]);
         }
 
+        /// <summary>
+        /// Normalizes the float string representation.
+        /// </summary>
         private static string FloatPuttingInOrder(string s)
         {
             s = s.Replace(",", ".").Trim();
@@ -201,6 +219,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             public int binary;
         }
 
+        /// <summary>
+        /// Checks whether the specified float is not a number.
+        /// </summary>
         public static bool IsNaN(float f)
         {
             FloatUnion union = new FloatUnion();
@@ -213,6 +234,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         #region Double String
 
+        /// <summary>
+        /// Converts a string to a double value.
+        /// </summary>
         public static double DoubleAsDouble(string s)
         {
             try
@@ -225,13 +249,19 @@ namespace Scada.Comm.Drivers.DrvPingJP
             }
         }
 
+        /// <summary>
+        /// Normalizes the double string representation.
+        /// </summary>
         private static string DoublePuttingInOrder(string s)
         {
             s = s.Replace(",", ".").Trim();
             return s;
         }
 
-        public static double StringToDouble(string s) // Позволяет в строке вводить дробные числа с ,(запятой) или .(точкой)
+        /// <summary>
+        /// Converts a string to a double value.
+        /// </summary>
+        public static double StringToDouble(string s) // Allows entering fractional numbers using either a comma or a dot.
         {
             double result = 1;
             if (!double.TryParse(s, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.GetCultureInfo("ru-RU"), out result))

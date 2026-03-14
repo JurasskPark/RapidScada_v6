@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
 {
     /// <summary>
     /// Implements the data source user interface.
-    /// <para>Реализует пользовательский интерфейс источника данных.</para>
+    /// <para>Представление пользовательского интерфейса источника данных.</para>
     /// </summary>
     internal class DevPingJPView : DeviceView
     {

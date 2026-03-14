@@ -1,12 +1,11 @@
 ﻿using Scada.Lang;
 using System.Runtime.InteropServices;
 
-
 namespace Scada.Comm.Drivers.DrvPingJP
 {
     /// <summary>
     /// Performing operations with files and directories in the operating system.
-    /// <para>Проведение операций с файлами и каталогами в операционной системе.</para>
+    /// <para>Представление операций с файлами и каталогами в операционной системе.</para>
     /// </summary>
     public class FileWithChanges : IDisposable
     {
@@ -16,12 +15,10 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         #region Dispose
         private IntPtr _bufferPtr;
-        public int BUFFER_SIZE = 1024 * 1024 * 50; // 50 MB
         private bool _disposed = false;
 
         /// <summary>
         /// Dispose an instance of a class.
-        /// <para>Уничтожает экземпляр класса.</para>
         /// </summary>
         ~FileWithChanges()
         {
@@ -30,7 +27,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Dispose an instance of a class.
-        /// <para>Уничтожает экземпляр класса.</para>
         /// </summary>
         protected virtual void Dispose(bool disposing)
         {
@@ -39,17 +35,16 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
             if (disposing)
             {
-                // Free any other managed objects here.
+                // free any other managed objects here.
             }
 
-            // Free any unmanaged objects here.
+            // free any unmanaged objects here.
             Marshal.FreeHGlobal(_bufferPtr);
             _disposed = true;
         }
 
         /// <summary>
         /// Dispose an instance of a class.
-        /// <para>Уничтожает экземпляр класса.</para>
         /// </summary>
         public void Dispose()
         {
@@ -66,7 +61,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Getting a list of files from a directory.
-        /// <para>Получение списка файлов из каталога.</para>
         /// </summary>
         public static List<FilesDatabase> SearchFiles(string path, bool useSubDir = false)
         {
@@ -76,8 +70,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 if (useSubDir == false)
                 {
                     DirectoryInfo dir = new DirectoryInfo(path);
-                    FileInfo[] files = dir.GetFiles();          // get a list of directory files // получаем список файлов каталога
-
+                    FileInfo[] files = dir.GetFiles();          
                     foreach (FileInfo i in files)
                     {
                         FilesDatabase file = new FilesDatabase();
@@ -85,7 +78,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
                         file.SizeFile = i.Length;
                         file.LastTimeChanged = i.LastWriteTime;
                         lstFiles.Add(file);
-                        //Debuger.Log("Имя файла {0}, Размер файла {1}, Дата создания {2}, Дата изменения {3}", i.Name, i.Length, i.CreationTime, i.LastWriteTime); 
                     }
 
                     return lstFiles;
@@ -108,7 +100,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Getting a list of directories.
-        /// <para>Получение списка каталогов.</para>
         /// </summary>
         public static List<FilesDatabase> SearchFolders(string path, bool useSubDir = false)
         {
@@ -118,7 +109,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 if (useSubDir == false)
                 {
                     DirectoryInfo dir = new DirectoryInfo(path);
-                    DirectoryInfo[] dires = dir.GetDirectories();          // get a list of directory files // получаем список файлов каталога
+                    DirectoryInfo[] dires = dir.GetDirectories();
 
                     foreach (DirectoryInfo i in dires)
                     {
@@ -126,7 +117,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
                         file.PathFile = i.FullName;
                         file.LastTimeChanged = i.LastWriteTime;
                         lstFoldersCurrent.Add(file);
-                        //Debuger.Log("Имя файла {0}, Размер файла {1}, Дата создания {2}, Дата изменения {3}", i.Name, i.Length, i.CreationTime, i.LastWriteTime); 
                     }
 
                     return lstFoldersCurrent;
@@ -159,7 +149,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Search for all objects through recursion.
-        /// <para>Поиск всех объектов через рекурсию.</para>
         /// </summary>
         private static List<FilesDatabase> IterateSortFoldersFiles(string dir)
         {
@@ -184,7 +173,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Search for all objects through recursion.
-        /// <para>Поиск всех объектов через рекурсию.</para>
         /// </summary>
         private static List<string> IterateSortFolders(string dir)
         {
@@ -212,7 +200,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Search for all objects through recursion.
-        /// <para>Поиск всех объектов через рекурсию.</para>
         /// </summary>
         private static List<FilesDatabase> IterateSortFiles(List<string> lstFolders)
         {
@@ -231,7 +218,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
                             file.SizeFile = i.Length;
                             file.LastTimeChanged = i.LastWriteTime;
                             lstFiles.Add(file);
-                            //Debuger.Log("Имя файла {0}, Размер файла {1}, Дата создания {2}, Дата изменения {3}", i.Name, i.Length, i.CreationTime, i.LastWriteTime); 
                         }
                     }
                     catch (Exception ex)

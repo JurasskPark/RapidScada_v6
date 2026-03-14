@@ -7,7 +7,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
 {
     /// <summary>
     /// Implements the driver user interface.
-    /// <para>Реализует пользовательский интерфейс драйвера.</para>
+    /// <para>Представление пользовательского интерфейса драйвера.</para>
     /// </summary>
     public class DrvPingJPView : DriverView
     {
@@ -43,6 +43,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                 return Locale.IsRussian ?
                     "Автор: Юрий Прадиус\n" +
                     "Проверка доступности сетевых устройств.\n\n" +
+                    "Версия 6.4.0.1 (14.03.2026)\n" +
+                    "[v] Проведена вычитка кода и исправление ошибок. \n" +
                     "Версия 6.4.0.0 (13.07.2025)\n" +
                     "[v] Исправлена ошибка, по которой синхронный пинг не работал на форме. \n" +
                     "[v] Убран неиспользуемый код и пересмотрена логика взаимодействия. \n" +
@@ -72,6 +74,8 @@ namespace Scada.Comm.Drivers.DrvPingJP.View
                     :
                     "Author: Yuri Pradius\n" +
                     "Checking the availability of network devices.\n\n" +
+                    "Version 6.4.0.1 (03/14/2026)\n" +
+                    "[v] The code has been proofread and errors corrected. \n" +
                     "Version 6.4.0.0 (07/13/2025)\n" +
                     "[v] Fixed a bug where synchronous ping did not work on the form. \n" +
                     "[v] The unused code is removed and the logic of interaction is revised. \n" +

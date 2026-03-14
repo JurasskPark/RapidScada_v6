@@ -1,432 +1,16 @@
-﻿//using Scada.Lang;
-//using System.Net.NetworkInformation;
-//using System.Runtime.InteropServices;
-//using System.Threading;
-//using System.Timers;
-//using Timer = System.Threading.Timer;
-
-//namespace Scada.Comm.Drivers.DrvPingJP
-//{
-//    internal class NetworkInformation
-//    {
-//        public NetworkInformation() 
-//        {
-//            mode = 0;
-//            listTag = new List<Tag>();
-
-//            timerIsRunning = false;
-//            interval = 1000;
-//            timerCallback = new TimerCallback(TimerCallbackMethod);
-//            timer = new Timer(timerCallback, null, 0, interval);
-//        }
-
-//        public NetworkInformation(int modePing, List<Tag> tags)
-//        {
-//            mode = modePing;
-//            listTag = tags;
-
-//            timerIsRunning = false;
-//            interval = 1000;
-//            timerCallback = new TimerCallback(TimerCallbackMethod);
-//            timer = new Timer(timerCallback, null, 0, interval);
-//        }
-
-//        #region Dispose
-//        private IntPtr _bufferPtr;
-//        public int BUFFER_SIZE = 1024 * 1024 * 50; // 50 MB
-//        private bool _disposed = false;
-
-//        ~NetworkInformation()
-//        {
-//            Dispose(false);
-//        }
-
-//        public void Dispose()
-//        {
-//            Dispose(true);
-//            GC.SuppressFinalize(this);
-//        }
-
-//        protected virtual void Dispose(bool disposing)
-//        {
-//            if (_disposed)
-//            {
-//                return;
-//            }
-
-//            if (disposing)
-//            {
-//                // free any other managed objects here.
-//            }
-
-//            // free any unmanaged objects here.
-//            Marshal.FreeHGlobal(_bufferPtr);
-//            _disposed = true;
-//        }
-
-//        #endregion Dispose
-
-//        #region Variables
-//        private Timer timer;
-//        private readonly TimerCallback timerCallback;
-//        private bool timerIsRunning;
-//        private int interval = 1000;
-//        private static readonly byte[] buffer = new byte[16];
-//        private static readonly PingOptions options = new PingOptions(64, false);
-//        private static readonly TimeSpan pingTimeout = TimeSpan.FromMilliseconds(1000);
-//        private static readonly TimeSpan dnsTimeout = TimeSpan.FromMilliseconds(1000);
-//        private static List<string> StatusPing = new List<string>();
-//        private static int mode = 0;
-//        private static List<Tag> listTag = new List<Tag>();
-//        private static CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
-//        private static object lockObj = new object();
-
-//        private static string bufferLength = Locale.IsRussian ? "число байт" : "bytes";
-//        private static string rundtripTime = Locale.IsRussian ? "время" : "time";
-//        private static string rundtripTimeFormat = Locale.IsRussian ? "мс" : "ms";
-//        private static string noResponse = Locale.IsRussian ? "Заданный узел недоступен." : "The specified node is unavailable.";
-//        private static string bad = Locale.IsRussian ? "Плохой!" : "Bad!";
-//        #endregion Variables
-
-//        #region DebugerLog
-//        /// <summary>
-//        /// Getting logs
-//        /// <para>Получение лога<para>
-//        /// </summary>
-//        public DebugData OnDebug;
-//        public delegate void DebugData(string msg);
-//        internal void DebugerLog(string text)
-//        {
-//            if (OnDebug == null)
-//            {
-//                return;
-//            }
-
-//            OnDebug(text);
-//        }
-//        #endregion DebugerLog
-
-//        #region DebugerTag
-//        /// <summary>
-//        /// Getting tag
-//        /// <para>Получение тего<para>
-//        /// </summary>
-//        public DebugTag OnDebugTag;
-//        public delegate void DebugTag(Tag tags);
-//        internal void DebugerTag(Tag tag)
-//        {
-//            if (OnDebugTag == null)
-//            {
-//                return;
-//            }
-
-//            OnDebugTag(tag);
-//        }
-//        #endregion DebugerTag
-
-//        #region DebugerTags
-//        /// <summary>
-//        /// Getting tags
-//        /// <para>Получение тегов<para>
-//        /// </summary>
-//        public DebugTags OnDebugTags;
-//        public delegate void DebugTags(List<Tag> tags);
-//        internal void DebugerTags(List<Tag> tags)
-//        {
-//            if (OnDebugTags == null)
-//            {
-//                return;
-//            }
-
-//            OnDebugTags(tags);
-//        }
-
-//        #endregion DebugerTags
-
-//        #region Timer
-//        private void TimerCallbackMethod(object state)
-//        {
-//            if (timerIsRunning)
-//            {
-//                if (mode == 0)
-//                {
-//                    PingSynchronous();
-//                }
-//                else if (mode == 1)
-//                {
-//                    PingAsynchronous();
-//                }
-//            }
-//        }
-
-//        #endregion Timer
-
-//        #region PingSynchronous
-//        public void PingSynchronousStart()
-//        {
-//            if (!timerIsRunning)
-//            {
-//                timerIsRunning = true;
-//                timer = new Timer(timerCallback, null, 0, interval);
-//            }
-//        }
-
-//        public void PingSynchronousStop()
-//        {
-//            try
-//            {
-//                if (timerIsRunning)
-//                {
-//                    timerIsRunning = false;
-//                    timer?.Dispose();
-//                    timer = null;
-//                }
-
-//                Thread.Sleep(100);
-//                // after a time delay, we cancel the task
-//                cancelTokenSource.Cancel();
-
-//                // we are waiting for the completion of the task
-//                Thread.Sleep(100);
-//            }
-//            finally
-//            {
-//                cancelTokenSource.Dispose();
-//            }
-//        }
-
-//        public void PingSynchronous()
-//        {
-//            try
-//            {
-//                var tasks = new List<Task>();
-
-//                for (int i = 0; i < listTag.Count; i++)
-//                {
-//                    Tag tmpTag = listTag[i];
-//                    if (tmpTag == null || tmpTag.Enabled == false)
-//                    {
-//                        continue;
-//                    }
-
-//                    #region Ping
-//                    if (tmpTag.Enabled == true) // enabled
-//                    {
-//                        try
-//                        {
-//                            CancellationToken token = cancelTokenSource.Token;
-
-//                            Task task = new Task(() =>
-//                            {
-//                                PingSynchronous(tmpTag);
-
-//                                if (token.IsCancellationRequested)
-//                                {
-//                                    token.ThrowIfCancellationRequested(); // генерируем исключение
-//                                }
-
-//                            }, token);
-
-//                            try
-//                            {
-//                                task.Start();
-//                            }
-//                            catch { }
-
-//                        }
-//                        catch { }
-
-//                    }
-//                    #endregion Ping                
-//                }
-//            }
-//            catch { }
-//        }
-
-//        private void PingSynchronous(Tag tag)
-//        {
-//            string result = string.Empty;
-
-//            try
-//            {
-//                // if the IP has passed for validity, then we ping
-//                if (DriverUtils.IsIpAddress(tag.IpAddress) == false)
-//                { 
-//                    tag.IpAddress = DnsResolver.ResolveHostName(tag.IpAddress);
-
-//                    if (DriverUtils.IsIpAddress(tag.IpAddress) == false)
-//                    {
-//                        result += $@"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-//                        result += $@" " + tag.IpAddress.ToString() + ":";
-//                        result += $@" {bad}";
-
-//                        tag.Val = 0;
-//                        tag.Stat = 0;
-
-//                        DebugerLog(result);
-//                        DebugerTag(tag);
-//                    }
-//                }
-
-//                Ping pingSender = new Ping();
-//                PingReply reply;
-
-//                try
-//                {
-//                    reply = pingSender.Send(tag.IpAddress, tag.Timeout, buffer, options);
-
-//                    if (reply.Status == IPStatus.Success)
-//                    {
-//                        result += $@"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-//                        result += $@" " + reply.Address.ToString();
-//                        result += $@" {bufferLength}=" + reply.Buffer.Length.ToString();
-//                        result += $@" {rundtripTime}=" + reply.RoundtripTime.ToString() + $@"{rundtripTimeFormat}";
-//                        result += $@" TTL=" + reply.Options.Ttl.ToString();
-
-//                        tag.Val = 1;
-//                        tag.Stat = 1;
-
-//                        DebugerLog(result);
-//                        DebugerTag(tag);
-//                    }
-//                    else
-//                    {
-//                        result += $@"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-//                        result += $@" " + tag.IpAddress + ":";
-//                        result += $@" {noResponse}";
-
-//                        tag.Val = 0;
-//                        tag.Stat = 1;
-
-//                        DebugerLog(result);
-//                        DebugerTag(tag);
-//                    }
-//                }
-//                catch { }
-//            }
-//            catch { }
-//        }
-
-//        #endregion PingSynchronous
-
-//        #region PingAsynchronous
-//        public void PingAsynchronousStart()
-//        {
-//            if (!timerIsRunning)
-//            {
-//                timerIsRunning = true;
-//                timer = new Timer(timerCallback, null, 0, interval);
-//            }
-//        }
-
-//        public void PingAsynchronousStop()
-//        {
-//            try
-//            {
-//                if (timerIsRunning)
-//                {
-//                    timerIsRunning = false;
-//                    timer?.Dispose();
-//                    timer = null;
-//                }
-//            }
-//            catch { }
-//        }
-
-//        public async void PingAsynchronous()
-//        {
-//            var tasks = new List<Task>();
-//            for (int i = 0; i < listTag.Count; i++)
-//            {
-//                Ping pingSender = new Ping();
-//                var task = PingAndUpdateAsync(pingSender, listTag[i]);
-//                tasks.Add(task);
-//            }
-
-//            await Task.WhenAll(tasks).ContinueWith(t =>
-//            {
-//                DebugerTags(listTag);
-//            });
-//        }
-
-//        private async Task PingAndUpdateAsync(System.Net.NetworkInformation.Ping ping, Tag tag)
-//        {
-//            string result = string.Empty;
-
-//            try
-//            {
-//                // if the IP has passed for validity, then we ping
-//                if (DriverUtils.IsIpAddress(tag.IpAddress) == false)
-//                { 
-//                    tag.IpAddress = DnsResolver.ResolveHostName(tag.IpAddress);
-
-//                    if (DriverUtils.IsIpAddress(tag.IpAddress) == false)
-//                    {
-//                        result += $@"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-//                        result += $@" " + tag.IpAddress.ToString() + ":";
-//                        result += $@" {bad}";
-
-//                        tag.Val = 0;
-//                        tag.Stat = 0;
-
-//                        DebugerLog(result);
-//                    }
-//                }
-
-//                Ping pingSender = new Ping();
-//                PingReply reply;
-
-//                try
-//                {
-//                    reply = await ping.SendPingAsync(tag.IpAddress, tag.Timeout, buffer, options);
-//                    if (reply.Status == IPStatus.Success)
-//                    {
-//                        result += $@"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-//                        result += $@" " + reply.Address.ToString();
-//                        result += $@" {bufferLength}=" + reply.Buffer.Length.ToString();
-//                        result += $@" {rundtripTime}=" + reply.RoundtripTime.ToString() + $@"{rundtripTimeFormat}";
-//                        result += " TTL=" + reply.Options.Ttl.ToString();
-
-//                        tag.Val = 1;
-//                        tag.Stat = 1;
-
-//                        DebugerLog(result);
-//                    }
-//                    else
-//                    {
-//                        result += $@"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff");
-//                        result += $@" " + tag.IpAddress.ToString() + ":";
-//                        result += $@" {noResponse}";
-
-//                        tag.Val = 0;
-//                        tag.Stat = 1;
-
-//                        DebugerLog(result);
-//                    }
-
-
-//                     listTag.Add(tag);
-
-//                }
-//                catch { }
-
-//            }
-//            catch { }
-//        }
-
-//        #endregion PingAsynchronous
-//    }
-//}
-
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using Timer = System.Threading.Timer;
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
+    /// <summary>
+    /// Implements network information processing.
+    /// <para>Реализует сетевую обработку информации.</para>
+    /// </summary>
     internal class NetworkInformation : IDisposable
     {
-        // Исправлено: убраны лишние статические модификаторы
+        #region Variables
         Debuger driverLog = new Debuger();
         DriverTagReturn driverTagReturn = new DriverTagReturn();
         private Timer timer;
@@ -443,12 +27,22 @@ namespace Scada.Comm.Drivers.DrvPingJP
         private CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
         private object lockObj = new object();
 
-        // Исправлено: добавлены конструкторы с инициализацией
+        public event Action<string> OnDebug;
+        public event Action<DriverTag> OnDebugTag;
+        public event Action<List<DriverTag>> OnDebugTags;
+        #endregion Variables
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public NetworkInformation()
         {
             Initialize();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public NetworkInformation(int modePing, List<DriverTag> tags)
         {
             mode = modePing;
@@ -456,6 +50,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             Initialize();
         }
 
+        /// <summary>
+        /// Initializes internal components.
+        /// </summary>
         private void Initialize()
         {
             driverLog = new Debuger();
@@ -467,12 +64,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             timer = new Timer(timerCallback, null, 0, interval);
         }
 
-        // Исправлено: добавлены типы для делегатов
-        public event Action<string> OnDebug;
-        public event Action<DriverTag> OnDebugTag;
-        public event Action<List<DriverTag>> OnDebugTags;
-
-        // Исправлено: улучшена обработка исключений
+        /// <summary>
+        /// Handles timer events.
+        /// </summary>
         private void TimerCallbackMethod(object state)
         {
             if (timerIsRunning)
@@ -495,7 +89,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             }
         }
 
-        // Исправлено: улучшена обработка задач
+        /// <summary>
+        /// Performs synchronous ping.
+        /// </summary>
         public void PingSynchronous()
         {
             var tasks = new List<Task>();
@@ -522,6 +118,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             Task.WaitAll(tasks.ToArray());
         }
 
+        /// <summary>
+        /// Performs synchronous ping for a tag.
+        /// </summary>
         private void PingSynchronous(DriverTag tag, CancellationToken token)
         {
             if (token.IsCancellationRequested)
@@ -533,7 +132,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
             try
             {
-                // Исправлено: улучшена валидация IP
+                // improved IP validation.
                 if (!DriverUtils.IsIpAddress(tag.IpAddress))
                 {
                     tag.IpAddress = DnsResolver.ResolveHostName(tag.IpAddress);
@@ -555,7 +154,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                     else
                     {
 
-                        // Продолжение метода PingSynchronous
+                        // continue processing the synchronous ping result.
 
                         LogError(tag, "Заданный узел недоступен");
                     }
@@ -571,6 +170,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             }
         }
 
+        /// <summary>
+        /// Writes successful ping information.
+        /// </summary>
         private void LogSuccess(DriverTag tag, PingReply reply)
         {
             string result = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffff} " +
@@ -586,6 +188,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             driverTagReturn.Return(tag);
         }
 
+        /// <summary>
+        /// Writes ping error information.
+        /// </summary>
         private void LogError(DriverTag tag, string message)
         {
             string result = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffff} " +
@@ -599,7 +204,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             driverTagReturn.Return(tag);
         }
 
-        // Асинхронный пинг
+        /// <summary>
+        /// Performs asynchronous ping.
+        /// </summary>
         public async Task PingAsynchronous()
         {
             var tasks = new List<Task>();
@@ -618,6 +225,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             driverTagReturn.Return(listTag);
         }
 
+        /// <summary>
+        /// Performs asynchronous ping for a tag.
+        /// </summary>
         private async Task PingAndUpdateAsync(DriverTag tag)
         {
             try
@@ -665,7 +275,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             }
         }
 
-        // Методы управления таймером
+        /// <summary>
+        /// Starts ping processing.
+        /// </summary>
         public void PingStart()
         {
             if (!timerIsRunning)
@@ -675,6 +287,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             }
         }
 
+        /// <summary>
+        /// Stops ping processing.
+        /// </summary>
         public void PingStop()
         {
             if (timerIsRunning)
@@ -689,16 +304,20 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         #region Dispose
         private IntPtr bufferPtr;
-        public int BUFFER_SIZE = 1024 * 1024 * 50;
         private bool disposed = false;
 
-        // Реализация IDisposable
+        /// <summary>
+        /// Releases resources used by the instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Releases managed and unmanaged resources.
+        /// </summary>
         protected virtual void Dispose(bool disposing)
         {
             if (disposed) return;
@@ -712,6 +331,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
             disposed = true;
         }
 
+        /// <summary>
+        /// Dispose NetworkInformation.
+        /// </summary>
         ~NetworkInformation()
         {
             Dispose(false);

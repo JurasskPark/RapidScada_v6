@@ -62,5 +62,4 @@
 		<Phrase key="SaveDriverConfigError">Error saving driver configuration</Phrase>
 		<Phrase key="SaveDriverConfigConfirm">Driver configuration has been modified. Save the changes?</Phrase>
 	</Dictionary>
-
 </DrvPingJPDictionaries>

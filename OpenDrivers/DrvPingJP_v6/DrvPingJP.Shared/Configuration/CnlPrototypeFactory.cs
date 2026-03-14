@@ -6,7 +6,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
 {
     /// <summary>
     /// Creates channel prototypes for a device.
-    /// <para>Создает прототипы каналов устройства.</para>
+    /// <para>Представление прототипов каналов устройства.</para>
     /// </summary>
     internal static class CnlPrototypeFactory
     {

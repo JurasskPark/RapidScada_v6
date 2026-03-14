@@ -3,10 +3,14 @@ using System.Net.Sockets;
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
+    /// <summary>
+    /// Resolves DNS names.
+    /// <para>Представление разрешения DNS-имен.</para>
+    /// </summary>
     public class DnsResolver
     {
         /// <summary>
-        /// Getting the host name from the DNS server
+        /// Gets the host address from the DNS server.
         /// </summary>
         public static string ResolveHostName(string hostNameOrAddress)
         {

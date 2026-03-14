@@ -7,7 +7,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
 {
     /// <summary>
     /// Represents a device configuration.
-    /// <para>Представляет конфигурацию КП.</para>
+    /// <para>Представление конфигурации устройства.</para>
     /// </summary>
     public class Project
     {
@@ -31,16 +31,15 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Gets or sets the debuger settings.
-        /// <para>Возвращает или задает настройки отладчика.</para>
         /// </summary>
         public DebugerSettings DebugerSettings { get; set; }
 
         /// <summary>
         /// Sets the default values.
         /// </summary>
-#pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
+        #pragma warning disable CS0114 // Member hides inherited member: missing override keyword
         private void SetToDefault()
-        #pragma warning restore CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
+        #pragma warning restore CS0114 // Member hides inherited member: missing override keyword
         {
             DeviceTags = new List<DriverTag>();
             DebugerSettings = new DebugerSettings();
@@ -50,9 +49,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <summary>
         /// Loads the configuration from the specified file.
         /// </summary>
-        #pragma warning disable CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
+        #pragma warning disable CS0108 // Member hides inherited member: missing new keyword
         public bool Load(string fileName, out string errMsg)
-        #pragma warning restore CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
+        #pragma warning restore CS0108 // Member hides inherited member: missing new keyword
         {
             SetToDefault();
 
@@ -105,9 +104,9 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <summary>
         /// Saves the configuration to the specified file.
         /// </summary>
-        #pragma warning disable CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
+        #pragma warning disable CS0108 // Member hides inherited member: missing new keyword
         public bool Save(string fileName, out string errMsg)
-        #pragma warning restore CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
+        #pragma warning restore CS0108 // Member hides inherited member: missing new keyword
         {
             try
             {

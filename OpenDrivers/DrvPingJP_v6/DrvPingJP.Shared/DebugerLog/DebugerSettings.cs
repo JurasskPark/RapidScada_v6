@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
     /// <summary>
     /// Logging settings.
-    /// <para>Настройки логирования.</para>
+    /// <para>Представление настроек логирования.</para>
     /// </summary>
     public class DebugerSettings
     {
         /// <summary>
         /// Initializes a new instance of the class.
-        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public DebugerSettings()
         {
@@ -25,20 +19,17 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Gets or sets a value log.
-        /// <para>Получает или задаёт признак записи логов.</para>
         /// </summary>
         public bool LogWrite { get; set; }
 
         /// <summary>
         /// Gets or sets how many days to write a log (save).
-        /// <para>Получает или задаёт количество дней записи логов (хранения).</para>
         /// </summary>
         public int LogDays { get; set; }
 
 
         /// <summary>
         /// Loads the settings from the XML node.
-        /// <para>Загружает настройки из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
@@ -53,7 +44,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
 
         /// <summary>
         /// Saves the settings into the XML node.
-        /// <para>Сохраняет настройки в XML-узле.</para>
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {

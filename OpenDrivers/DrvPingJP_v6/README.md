@@ -14,6 +14,9 @@
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.1/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.0/total)
 
+Библиотека DrvPingJP (6.4.0.1)
+- Проведена вычитка кода и исправление ошибок.
+
 Библиотека DrvPingJP (6.4.0.0)
 - Исправлена ошибка, по которой синхронный пинг не работал на форме.
 - Убран неиспользуемый код и пересмотрена логика взаимодействия.
@@ -53,6 +56,9 @@
 - Релиз
 
 ---------------------------------------------------------------------------
+
+DrvPingJP library (6.4.0.1)
+- The code has been proofread and errors corrected.
 
 DrvPingJP library (6.4.0.0)
 - Fixed a bug where synchronous ping did not work on the form.
