@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>de971482-cbb4-442f-aa9b-7546d282729d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DrvDebug.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ClientStopCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Debuger\DebugerReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverDictonary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Project\Project.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TagCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\DriverUtils.cs" />
+  </ItemGroup>
+</Project>

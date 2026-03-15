@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DrvDebugConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeChannel>Slave</TypeChannel>
+  <MessageTypeLogDriver>Action</MessageTypeLogDriver>
+  <WriteLogDriver>true</WriteLogDriver>
+  <StopConditionCheckAddress>7</StopConditionCheckAddress>
+  <StopConditionCheckLength>1</StopConditionCheckLength>
+  <StopConditionCheckFormat>Byte</StopConditionCheckFormat>
+  <StopConditionCheckValueText>0x50</StopConditionCheckValueText>
+  <StopConditionLengthMode>false</StopConditionLengthMode>
+  <StopConditionLengthIncludesItself>false</StopConditionLengthIncludesItself>
+  <LanguageIsRussian>true</LanguageIsRussian>
+  <Commands>
+    <Command>
+      <Id>dad91e58-fb85-40c8-91cb-28bb2ecc3301</Id>
+      <Order>0</Order>
+      <Enabled>true</Enabled>
+      <Name>Ascii_Response</Name>
+      <DataKind>Hex</DataKind>
+      <Payload>4F 4B</Payload>
+      <DelayMs>0</DelayMs>
+      <Note>Slave response</Note>
+    </Command>
+  </Commands>
+  <Tags>
+    <Tag>
+      <Id>6db4daab-e031-491c-b9e1-7f43372ab301</Id>
+      <Order>0</Order>
+      <Enabled>true</Enabled>
+      <Name>StatusAscii</Name>
+      <Channel>1201</Channel>
+      <Description>ASCII string at index 0</Description>
+      <Mode>Decode</Mode>
+      <ArrayIndex>0</ArrayIndex>
+      <DataLength>8</DataLength>
+      <DataFormat>Ascii</DataFormat>
+      <ByteOrder>LittleEndian</ByteOrder>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>0</Precision>
+      <Units></Units>
+      <TestBytesHex>52 55 4E 00 53 54 4F 50</TestBytesHex>
+      <SimulationKind>None</SimulationKind>
+      <SimulateOnDecodeError>true</SimulateOnDecodeError>
+      <Simulation />
+    </Tag>
+  </Tags>
+</DrvDebugConfig>

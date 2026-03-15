@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <EnableDynamicLoading>true</EnableDynamicLoading>
+	  <Nullable>disable</Nullable>
+	  <UseWindowsForms>false</UseWindowsForms>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <RootNamespace>Scada.Comm.Drivers.DrvDebug.Logic</RootNamespace>
+	  <Version>6.0.0.1</Version>
+	  <Authors>Yuriy Pradius</Authors>
+	  <Company>Community Rapid Software</Company>
+	  <Product>Rapid SCADA</Product>
+	  <Copyright>Copyright © 2024</Copyright>
+	  <LangVersion>preview</LangVersion>  
+  </PropertyGroup>
+
+  <Import Project="..\DrvDebug.Shared\DrvDebug.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Hex.Shared\Hex.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

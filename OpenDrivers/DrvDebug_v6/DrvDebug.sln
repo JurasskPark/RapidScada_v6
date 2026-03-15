@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36401.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDebug.View", "DrvDebug.View\DrvDebug.View.csproj", "{422A30E6-BB0B-AFA2-CEEE-F933DC2F7068}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDebug.Logic", "DrvDebug.Logic\DrvDebug.Logic.csproj", "{C20BC6E3-45AC-71EC-48D3-54060456185E}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDebug.Shared", "DrvDebug.Shared\DrvDebug.Shared.shproj", "{DE971482-CBB4-442F-AA9B-7546D282729D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDebug.WinForm", "DrvDebug.WinForm\DrvDebug.WinForm.csproj", "{86C6CB86-F46F-4631-971D-B8D651EA52EC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hex.Shared", "Hex.Shared\Hex.Shared.shproj", "{80BE063C-36AC-44E9-B94C-D37762EF9431}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{422A30E6-BB0B-AFA2-CEEE-F933DC2F7068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422A30E6-BB0B-AFA2-CEEE-F933DC2F7068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422A30E6-BB0B-AFA2-CEEE-F933DC2F7068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422A30E6-BB0B-AFA2-CEEE-F933DC2F7068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C20BC6E3-45AC-71EC-48D3-54060456185E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C20BC6E3-45AC-71EC-48D3-54060456185E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C20BC6E3-45AC-71EC-48D3-54060456185E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C20BC6E3-45AC-71EC-48D3-54060456185E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C6CB86-F46F-4631-971D-B8D651EA52EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C6CB86-F46F-4631-971D-B8D651EA52EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C6CB86-F46F-4631-971D-B8D651EA52EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C6CB86-F46F-4631-971D-B8D651EA52EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B22405C9-F260-40D8-8AED-7466B87E5BC6}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvDebug.Shared\DrvDebug.Shared.projitems*{422a30e6-bb0b-afa2-ceee-f933dc2f7068}*SharedItemsImports = 5
+		Hex.Shared\Hex.Shared.projitems*{422a30e6-bb0b-afa2-ceee-f933dc2f7068}*SharedItemsImports = 5
+		Hex.Shared\Hex.Shared.projitems*{80be063c-36ac-44e9-b94c-d37762ef9431}*SharedItemsImports = 13
+		DrvDebug.Shared\DrvDebug.Shared.projitems*{c20bc6e3-45ac-71ec-48d3-54060456185e}*SharedItemsImports = 5
+		Hex.Shared\Hex.Shared.projitems*{c20bc6e3-45ac-71ec-48d3-54060456185e}*SharedItemsImports = 5
+		DrvDebug.Shared\DrvDebug.Shared.projitems*{de971482-cbb4-442f-aa9b-7546d282729d}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

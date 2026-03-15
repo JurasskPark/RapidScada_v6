@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Scada.Comm.Drivers.DrvDebug.View</RootNamespace>
+		<Version>6.0.0.1</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Community Rapid Software</Company>
+		<Product>Rapid SCADA</Product>
+		<Copyright>Copyright © 2024</Copyright>
+		<LangVersion>preview</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+	</PropertyGroup>
+
+  <Import Project="..\DrvDebug.Shared\DrvDebug.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Hex.Shared\Hex.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Folder Include="Lang\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Forms">
+      <HintPath>..\Libraries\ScadaCommon.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lang\DrvDebug.en-GB.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\DrvDebug.ru-RU.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
