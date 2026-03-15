@@ -571,8 +571,7 @@ Screenshots
 
 ![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_001.png) ![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_002.png)
 ![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_003.png) ![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_004.png)
-![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_005.png) ![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_006.png)
-![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_007.png)
+![DrvDebug](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDebug_005.png) 
 
 
 ## SAST Tools
