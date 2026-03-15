@@ -16,7 +16,7 @@
 
 ## 1. Основная форма проекта
 
-Форма `FrmProject` используется для общей настройки драйвера.
+Форма используется для общей настройки драйвера.
 
 ### Режим драйвера
 
@@ -297,7 +297,7 @@
 
 ## 1. Main project form
 
-The `FrmProject` form is used for general driver configuration.
+The form is used for general driver configuration.
 
 ### Driver mode
 
