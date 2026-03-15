@@ -4,7 +4,7 @@
 
 	
 ### DrvDebug
-![DrvDebug](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDebug_v6.4.0.1/total)
+![DrvDebug](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDebug_v6.0.0.1/total)
 
 # Инструкция по настройке драйвера DrvDebug
 
