@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Data.Common;
+using MySql.Data.MySqlClient;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.Common;
 
 #pragma warning disable 618 // disable the warning about obsolete Oracle classes
 
@@ -20,6 +21,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override DbConnection CreateConnection()
         {
             return new OracleConnection();
+        }
+
+        /// <summary>
+        /// Creates a database connection.
+        /// </summary>
+        protected override DbConnection CreateConnection(string connectionString)
+        {
+            return new OracleConnection(connectionString);
         }
 
         /// <summary>

@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus.View.Forms;
-using Scada.Data.Const;
-using Scada.Data.Models;
+using Scada.Comm.Config;
 using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View
@@ -17,7 +15,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
     internal class DevDbImportPlusView : DeviceView
     {
 
-        private DrvDbImportPlusConfig config = new DrvDbImportPlusConfig();
+        private DrvDbImportPlusProject project = new DrvDbImportPlusProject();
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -33,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
         /// </summary>
         public override bool ShowProperties()
         {
-            if (new FrmConfig(AppDirs, DeviceNum).ShowDialog() == DialogResult.OK) 
+            if (new FrmProject(AppDirs, DeviceNum).ShowDialog() == DialogResult.OK) 
             {
                 LineConfigModified = true;
                 DeviceConfigModified = true;
@@ -59,16 +57,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            string configFileName = Path.Combine(AppDirs.ConfigDir, DrvDbImportPlusConfig.GetFileName(DeviceNum));
+            string projectFileName = Path.Combine(AppDirs.ConfigDir, DriverUtils.GetFileName(DeviceNum));
 
             // load a configuration
-            if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
+            if (File.Exists(projectFileName) && !project.Load(projectFileName, out string errMsg))
             {
                 ScadaUiUtils.ShowError(errMsg);
             }
 
             List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
-            List<CnlPrototypeGroup> cnlPrototypeGroups = CnlPrototypeFactory.GetCnlPrototypeGroups(config.DeviceTags, config.ExportCmds);
+            List<CnlPrototypeGroup> cnlPrototypeGroups = CnlPrototypeFactory.GetCnlPrototypeGroups(project.ImportCmds, project.ExportCmds);
             cnlPrototypes = cnlPrototypeGroups.GetCnlPrototypes();
 
             for (int i = 0; i < cnlPrototypes.Count; i++)

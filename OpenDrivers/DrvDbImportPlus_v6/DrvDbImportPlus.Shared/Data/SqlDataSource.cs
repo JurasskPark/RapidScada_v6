@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using Npgsql;
+using System.Data.Common;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
@@ -23,6 +24,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override DbConnection CreateConnection()
         {
             return new Microsoft.Data.SqlClient.SqlConnection();
+        }
+
+        /// <summary>
+        /// Creates a database connection.
+        /// </summary>
+        protected override DbConnection CreateConnection(string connectionString)
+        {
+            return new Microsoft.Data.SqlClient.SqlConnection(connectionString);
         }
 
         /// <summary>
@@ -59,7 +68,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override void ClearPool()
         {
             if (Connection != null)
+            {
                 SqlConnection.ClearPool((SqlConnection)Connection);
+            }
         }
 
 
@@ -77,13 +88,17 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public static string BuildSqlConnectionString(DbConnSettings connSettings)
         {
             if (connSettings == null)
+            {
                 throw new ArgumentNullException("connSettings");
+            }
 
             if (connSettings.Port == string.Empty || connSettings.Port == null)
+            {
                 connSettings.Port = DefaultPort.ToString();
-          
-            return string.Format("Server={0},{1};Database={2};User ID={3};Password={4};{5}", 
-                connSettings.Server, connSettings.Port, connSettings.Database, connSettings.User, connSettings.Password, connSettings.OptionalOptions);
+            }
+
+            return string.Format("Server={0},{1};Database={2};User ID={3};Password={4};{5};Connection Timeout={6};", 
+                connSettings.Server, connSettings.Port, connSettings.Database, connSettings.User, connSettings.Password, connSettings.OptionalOptions, connSettings.Timeout);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Scada.Forms;
-using static Scada.Comm.Drivers.DrvDbImportPlus.Tag;
+using static Scada.Comm.Drivers.DrvDbImportPlus.DriverTag;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 {
@@ -7,7 +7,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
     {
 
         private int modeWork;
-        private Tag tmpTag;
+        private DriverTag tmpTag;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -20,7 +20,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmTag(int Mode, ref Tag Tag)
+        public FrmTag(int Mode, ref DriverTag Tag)
         {
             modeWork = Mode;
             tmpTag = Tag;
@@ -50,21 +50,21 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void FrmTag_Load(object sender, EventArgs e)
         {
-            txtTagCode.Text = tmpTag.TagCode;
-            txtTagname.Text = tmpTag.TagName;
+            txtTagCode.Text = tmpTag.Code;
+            txtTagname.Text = tmpTag.Name;
 
             try
             {
-                cbTagFormat.Items.AddRange(Enum.GetNames(typeof(Tag.FormatTag)));
-                if (tmpTag.TagFormat != null)
+                cbTagFormat.Items.AddRange(Enum.GetNames(typeof(DriverTag.FormatTag)));
+                if (tmpTag.Format != null)
                 {
-                    cbTagFormat.SelectedIndex = cbTagFormat.FindString(tmpTag.TagFormat.ToString());
+                    cbTagFormat.SelectedIndex = cbTagFormat.FindString(tmpTag.Format.ToString());
                 }
             }
             catch { }
 
             nudNumberOfDecimalPlaces.Value = Convert.ToDecimal(tmpTag.NumberDecimalPlaces);
-            ckbTagEnabled.Checked = tmpTag.TagEnabled;
+            ckbTagEnabled.Checked = tmpTag.Enabled;
 
             // translate the form
             FormTranslator.Translate(this, GetType().FullName);
@@ -113,12 +113,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            tmpTag.TagID = Guid.NewGuid();
-            tmpTag.TagName = txtTagname.Text;
-            tmpTag.TagCode = txtTagCode.Text;
-            tmpTag.TagFormat = (FormatTag)cbTagFormat.SelectedIndex;
+            tmpTag.Id = Guid.NewGuid();
+            tmpTag.Name = txtTagname.Text;
+            tmpTag.Code = txtTagCode.Text;
+            tmpTag.Format = (FormatTag)cbTagFormat.SelectedIndex;
             tmpTag.NumberDecimalPlaces = Convert.ToInt32(nudNumberOfDecimalPlaces.Value);
-            tmpTag.TagEnabled = ckbTagEnabled.Checked;
+            tmpTag.Enabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
             Close();
@@ -129,11 +129,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            tmpTag.TagName = txtTagname.Text;
-            tmpTag.TagCode = txtTagCode.Text;
-            tmpTag.TagFormat = (FormatTag)cbTagFormat.SelectedIndex;
+            tmpTag.Name = txtTagname.Text;
+            tmpTag.Code = txtTagCode.Text;
+            tmpTag.Format = (FormatTag)cbTagFormat.SelectedIndex;
             tmpTag.NumberDecimalPlaces = Convert.ToInt32(nudNumberOfDecimalPlaces.Value);
-            tmpTag.TagEnabled = ckbTagEnabled.Checked;
+            tmpTag.Enabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
             Close();

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using DrvDbImportPlus.Common.Configuration;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImportPlus;
@@ -9,7 +8,6 @@ using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
-using System.Data;
 using System.Data.Common;
 using System.Text;
 
@@ -21,56 +19,66 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
     /// </summary>
     internal class DevDbImportPlusLogic : DeviceLogic
     {
-        /// <summary>
-        /// Supported tag types.
-        /// </summary>
-        private enum TagType { Number, String, DateTime };
+        private readonly AppDirs appDirs;                      // the application directories
+        private readonly string driverCode;                    // the driver code
+        private readonly int deviceNum;                        // the device number
+        private readonly int commLineNum;                      // the communication line number
+        private readonly DrvDbImportPlusProject project;       // the device configuration
+        private readonly string pathProject;                   // the configuration path
+        private readonly string projectFileName;               // the configuration file name
+        private readonly string pathLog;                       // the log path
+        private readonly string logFileName;                   // the log file name
 
-        private readonly AppDirs appDirs;                       // the application directories
-        private readonly string driverCode;                     // the driver code
-        private readonly int deviceNum;                         // the device number
-        private readonly DrvDbImportPlusConfig config;          // the device configuration
-        private string configFileName;                          // the configuration file name
+        private readonly DriverClient driverClient;            // the driver client
+        private readonly List<DriverTag> deviceTags;           // aggregated import tags
+        public DataSource dataSource;                          // the data source
+        private readonly bool writeLogLine;                    // write communication line log
+        private bool writeLogDriver;                           // write driver log
 
-        private List<Tag> deviceTags;                           // tags
-        private List<ExportCmd> deviceCommands;                 // commands
-
-        public DataSource dataSource;                           // the data source
-
-        private bool deviceTagsBasedRequestedTableColumns;      // indicating Device Tags Based on the List of Requested Table Columns
-        private bool writeLogDriver;                            // write driver log
-
-        private DataTable dtData = new DataTable("Data");
-        private DataTable dtSchema = new DataTable("Schema");
-
-
+        public const string defaultTimestampFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss";   // the timestamp format
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevDbImportPlusLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
-            : base(commContext, lineContext, deviceConfig)
+        public DevDbImportPlusLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceProject)
+            : base(commContext, lineContext, deviceProject)
         {
             CanSendCommands = true;
             ConnectionRequired = false;
 
-            this.deviceNum = deviceConfig.DeviceNum;
+            this.appDirs = commContext.AppDirs;
+            this.deviceNum = deviceProject.DeviceNum;
+            this.commLineNum = lineContext.CommLineNum;
             this.driverCode = DriverUtils.DriverCode;
-            string shortFileName = DrvDbImportPlusConfig.GetFileName(deviceNum);
-            configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
+
+            string shortFileName = DriverUtils.GetFileName(deviceNum);
+            this.pathProject = CommContext.AppDirs.ConfigDir;
+            this.projectFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
+
+            string shortFileLogName = DriverUtils.GetFileLogName(commLineNum);
+            this.pathLog = commContext.AppDirs.LogDir;
+            this.logFileName = Path.Combine(commContext.AppDirs.LogDir, shortFileLogName);
+
+            this.writeLogLine = lineContext.LineConfig.LineOptions.DetailedLog;
 
             dataSource = null;
 
-            deviceTagsBasedRequestedTableColumns = true;
+            deviceTags = new List<DriverTag>();
             writeLogDriver = true;
 
             // load configuration
-            config = new DrvDbImportPlusConfig();
-            if (!config.Load(configFileName, out string errMsg))
+            project = new DrvDbImportPlusProject();
+            if (!project.Load(projectFileName, out string errMsg))
             {
                 dataSource = null;
                 LogDriver(errMsg);
             }
+            else
+            {
+                writeLogDriver = project.DebugerSettings?.LogWrite ?? true;
+            }
+
+            driverClient = new DriverClient(projectFileName, project, deviceNum, pathLog, true);
         }
 
 
@@ -92,10 +100,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             LogDriver("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
             LogDriver("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
 
-            if (config != null)
+            if (project != null)
             {
-                InitDataSource(config);
-                CanSendCommands = config.ExportCmds.Count > 0;
+                CanSendCommands = project.ExportCmds.Count > 0 || project.ImportCmds.Count > 0;
             }
         }
 
@@ -116,7 +123,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            if (config == null)
+            if (project == null)
             {
                 LogDriver(Locale.IsRussian ?
                        "Количество тегов не было получено т.к. конфигурационный файл не был загружен" :
@@ -124,12 +131,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 return;
             }
 
-            if (config.Load(configFileName, out string errMsg))
+            if (project.Load(projectFileName, out string errMsg))
             {
-                deviceTags = config.DeviceTags;
-                deviceCommands = config.ExportCmds;
-
-                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(deviceTags, deviceCommands))
+                foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups(project.ImportCmds, project.ExportCmds))
                 {
                     DeviceTags.AddGroup(group.ToTagGroup());
                 }
@@ -149,55 +153,63 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
 
             LastRequestOK = false;
 
-            if (ValidateDataSource() && ValidateCommand(dataSource.SelectCommand))
+            try
             {
-                // request data
-                int tryNum = 0;
+                DebugerReturn.OnDebug = new DebugerReturn.DebugData(LogDriver);
+                DebugerTagReturn.OnDebug = new DebugerTagReturn.DebugData(PollTagGet);
+                DriverClient driverClient = new DriverClient(projectFileName, project, deviceNum, pathLog, true);
+                driverClient.Process();
+                driverClient.Dispose();
 
-                while (RequestNeeded(ref tryNum))
-                {
-                    if (Connect() && Request())
-                    {
-                        LastRequestOK = true;
-                    }
-
-                    Disconnect();
-                    FinishRequest();
-                    tryNum++;
-                }
-
-
-                if (!LastRequestOK && !IsTerminated)
-                {
-                    InvalidateData();
-                }
-
-            }
-            else
+                LastRequestOK = true;
+            }     
+            catch
             {
-                SleepPollingDelay();
+                LastRequestOK = false;
             }
 
+             SleepPollingDelay();
+            
             // calculate session stats
             FinishRequest();
             FinishSession();
         }
 
         /// <summary>
+        /// Receives parsed tags from DriverClient.
+        /// </summary>
+        private void PollTagGet(List<DriverTag> tags)
+        {
+            if (tags == null || tags.Count == 0)
+                return;
+
+            List<DeviceTag> deviceTagList = DeviceTags.ToList();
+
+            foreach (DriverTag srcTag in tags)
+            {
+                if (srcTag == null || !srcTag.Enabled)
+                    continue;
+
+                DeviceTag deviceTag = deviceTagList.Find(t => t.Code == srcTag.Code);
+                if (deviceTag != null)
+                {
+                    SetTagData(deviceTag, srcTag.Val, srcTag.NumberDecimalPlaces);
+                }
+            }
+        }
+
+        /// <summary>
         /// Initializes the data source.
         /// </summary>
-        public void InitDataSource(DrvDbImportPlusConfig config)
+        public void InitDataSource(DrvDbImportPlusProject project)
         {
-            deviceTagsBasedRequestedTableColumns = config.DeviceTagsBasedRequestedTableColumns;
-            writeLogDriver = config.WriteLogDriver;
-
-            dataSource = DataSource.GetDataSourceType(config);
+            dataSource = DataSource.GetDataSourceType(project);
 
             if (dataSource != null)
             {
-                string connStr = string.IsNullOrEmpty(config.DbConnSettings.ConnectionString) ?
-                    dataSource.BuildConnectionString(config.DbConnSettings) :
-                    config.DbConnSettings.ConnectionString;
+                string connStr = string.IsNullOrEmpty(project.DbConnSettings.ConnectionString) ?
+                    dataSource.BuildConnectionString(project.DbConnSettings) :
+                    project.DbConnSettings.ConnectionString;
 
                 if (string.IsNullOrEmpty(connStr))
                 {
@@ -208,7 +220,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 }
                 else
                 {
-                    dataSource.Init(connStr, config);
+                    dataSource.Init(project);
                 }
             }
             else
@@ -292,332 +304,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         }
 
         /// <summary>
-        /// Requests data from the database.
-        /// </summary>
-        private bool Request()
-        {
-            try
-            {
-                LogDriver(Locale.IsRussian ?
-                    "Запрос данных" :
-                    "Data request");
-
-                //Tag based Columns
-                if (deviceTagsBasedRequestedTableColumns == true)
-                {
-                    #region Formation of the structure
-                    dtData = new DataTable("Data");
-
-                    using (DbDataReader reader = dataSource.SelectCommand.ExecuteReader(CommandBehavior.SingleRow))
-                    {
-                        if (reader.HasRows == true)
-                        {
-                            dtData.Load(reader);
-                            ParseDataTable(dtData, deviceTagsBasedRequestedTableColumns);
-                        }
-                    }
-
-                    if (dtData.Columns.Count == 0)
-                    {
-                        LogDriver(Locale.IsRussian ?
-                            "Данные отсутствуют" :
-                            "No data available");
-                        InvalidateData();
-                    }
-                    #endregion Formation of the structure
-                }
-                else //Tag base Row
-                {
-                    #region Formation of the structure
-                    dtData = new DataTable("Data");
-
-                    using (DbDataReader reader = dataSource.SelectCommand.ExecuteReader(CommandBehavior.Default))
-                    {
-                        dtSchema = reader.GetSchemaTable();
-                        DataColumnCollection columns = dtData.Columns;
-
-                        for (int cntRow = 0; cntRow < dtSchema.Rows.Count; cntRow++)
-                        {
-                            DataRow schemarow = dtSchema.Rows[cntRow];
-
-                            string columnName = string.Empty;
-                            object columnSize = new object();
-                            Type dataType;
-                            string dataTypeName = string.Empty;
-
-                            try
-                            {
-                                columnName = reader.GetName(cntRow);
-                            }
-                            catch
-                            {
-                                columnName = schemarow["ColumnName"].ToString();
-                            }
-
-                            try
-                            {
-                                columnSize = schemarow["ColumnSize"];
-                            }
-                            catch { }
-
-                            try
-                            {
-                                dataType = reader.GetFieldType(cntRow);
-                            }
-                            catch
-                            {
-                                dataTypeName = schemarow["DataTypeName"].ToString();
-                                dataType = ElementType.GetElementType(dataTypeName);
-                            }
-
-                            if (columnName == string.Empty || columnName == "" || dataType == null)
-                            {
-                                LogDriver(Locale.IsRussian ?
-                                "Не удалось определить формат данных у столбца таблицы. Информация о столбце таблицы: " :
-                                "The data format of the table column could not be determined. Information about the table column: ");
-                                LogDriver("Column Number = " + cntRow + ", Column Name = " + columnName + ", Size = " + columnSize + ", Data Type = " + dataTypeName + ".");
-                            }
-
-                            if (!columns.Contains(columnName.ToString()))
-                            {
-                                dtData.Columns.Add(columnName.ToString(), (Type)dataType);
-                            }
-                        }
-
-                        while (reader.Read())
-                        {
-                            object[] ColArray = new object[reader.FieldCount];
-                            for (int i = 0; i < reader.FieldCount; i++)
-                            {
-                                if (reader[i] != null)
-                                {
-                                    ColArray[i] = reader[i];
-                                }
-                            }
-                            dtData.LoadDataRow(ColArray, true);
-                        }
-
-                        ParseDataTable(dtData, deviceTagsBasedRequestedTableColumns);
-
-                    }
-
-                    if (dtData.Rows.Count == 0)
-                    {
-                        LogDriver(Locale.IsRussian ?
-                            "Данные отсутствуют" :
-                            "No data available");
-                        InvalidateData();
-                    }
-                    #endregion Formation of the structure
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogDriver(string.Format(Locale.IsRussian ?
-                    "Ошибка при выполнении запроса: {0}" :
-                    "Error executing query: {0}", ex.Message));
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Parsing a table to search for tags
-        /// </summary>
-        /// <param name="dtData">DataTable</param>
-        /// <param name="DeviceTagsBasedRequestedTableColumns">Tag based Columns or Row</param>
-        private void ParseDataTable(DataTable dtData, bool DeviceTagsBasedRequestedTableColumns)
-        {
-            try
-            {
-                LogDriver(PrintDataTable(dtData));
-
-                string name = string.Empty;
-                object value = new object();
-                int findNumberDecimalPlaces = 3;
-
-                Dictionary<object, object> tableResult = new Dictionary<object, object>();
-                List<DeviceTag> findDeviceTags = DeviceTags.ToList();
-
-                for (int index = 0; index < findDeviceTags.Count - 1; ++index)
-                {     
-                    DeviceTag findTag = findDeviceTags[index];
-                    string findCode = findTag.Code;
-                    string findTagname = findTag.Name;
-                   
-                    Tag tmpTag = deviceTags.Where(r => r.TagCode == findCode).FirstOrDefault();
-
-                    if (tmpTag == null || tmpTag.TagEnabled == false)
-                    {
-                        continue;
-                    }
-
-                    findNumberDecimalPlaces = tmpTag.NumberDecimalPlaces;
-                    Tag.FormatTag tmpFormat = (Tag.FormatTag)Enum.Parse(typeof(Tag.FormatTag), tmpTag.TagFormat.ToString());
-                    findTag.SetFormat(ConvertFormat(tmpFormat));
-                    
-                    #region Type Data
-                    if (DeviceTagsBasedRequestedTableColumns)
-                    {
-                        if (dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
-                        {
-                            LogDriver(Locale.IsRussian ?
-                                "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
-                                "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
-                            return;
-                        }
-
-                        using (DataTableReader reader = new DataTableReader(dtData))
-                        {
-                            DataTable dtSchema = reader.GetSchemaTable();
-                            DataColumnCollection columns = dtData.Columns;
-
-                            for (int cntColumns = 0; cntColumns < columns.Count; cntColumns++)
-                            {
-                                DataColumn column = columns[cntColumns];
-                                DataRow schemarow = dtSchema.Rows[cntColumns];
-                                name = string.Empty;
-
-                                try
-                                {
-                                    name = columns[cntColumns].ColumnName;
-                                }
-                                catch { }
-
-                                DataRow dataTablerow = dtData.Rows[0];
-
-                                try
-                                {
-                                    value = dataTablerow.ItemArray[cntColumns];
-                                }
-                                catch { }
-
-                                if (!tableResult.TryGetValue(name, out object existingKey))
-                                {
-                                    // Create if not exists in dictionary
-                                    tableResult.Add(name, value);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (dtData.Columns.Count < 2 || dtData.Rows.Count == 0)
-                        {
-                            LogDriver(Locale.IsRussian ?
-                                "Количество столбцов или количество записей недостаточно для обработки данных. Обработка данных прекращена." :
-                                "The number of columns or the number of records is not enough to process the data. Data processing has been terminated.");
-                            return;
-                        }
-
-                        for (int i = 0; i < dtData.Rows.Count; i++)
-                        {
-                            try
-                            {
-                                name = dtData.Rows[i][0].ToString();
-                            }
-                            catch { }
-
-                            try
-                            {
-                                value = dtData.Rows[i][1];
-                            }
-                            catch { }
-
-                            if (!tableResult.TryGetValue(name, out object existingKey))
-                            {
-                                // Create if not exists in dictionary
-                                tableResult.Add(name, value);
-                            }
-                        }
-                    }
-
-                    object findValue = tableResult.Where(x => x.Key.ToString() == findTagname).FirstOrDefault().Value;
-
-                    SetTagData(findTag, findValue, findNumberDecimalPlaces);
-
-                    #endregion Type Data
-                }
-            }
-            catch { }
-        }
-
-        /// <summary>
-        /// Generates a textual representation of the data of <paramref name="table"/>.
-        /// </summary>
-        /// <param name="table">The table to print.</param>
-        /// <returns>A textual representation of the data of <paramref name="table"/>.</returns>
-        public static System.String PrintDataTable(DataTable table)
-        {
-            System.String GetCellValueAsString(DataRow row, DataColumn column)
-            {
-                var cellValue = row[column];
-                var cellValueAsString = cellValue is null or DBNull ? "{null}" : cellValue.ToString();
-
-                return cellValueAsString;
-            }
-
-            var columnWidths = new Dictionary<DataColumn, Int32>();
-
-            foreach (DataColumn column in table.Columns)
-            {
-                columnWidths.Add(column, column.ColumnName.Length);
-            }
-
-            foreach (DataRow row in table.Rows)
-            {
-                foreach (DataColumn column in table.Columns)
-                {
-                    columnWidths[column] = Math.Max(columnWidths[column], GetCellValueAsString(row, column).Length);
-                }
-            }
-
-            var resultBuilder = new StringBuilder();
-
-            resultBuilder.Append("| ");
-
-            foreach (DataColumn column in table.Columns)
-            {
-                resultBuilder.Append(column.ColumnName.PadRight(columnWidths[column]));
-                resultBuilder.Append(" | ");
-            }
-
-            resultBuilder.AppendLine();
-
-            foreach (DataRow row in table.Rows)
-            {
-                resultBuilder.Append("| ");
-
-                foreach (DataColumn column in table.Columns)
-                {
-                    resultBuilder.Append(GetCellValueAsString(row, column).PadRight(columnWidths[column]));
-                    resultBuilder.Append(" | ");
-                }
-
-                resultBuilder.AppendLine();
-            }
-
-            return resultBuilder.ToString();
-        }
-    
-        /// <summary>
         /// Sets value, status and format of the specified tag.
         /// </summary>
         private void SetTagData(DeviceTag deviceTag, object val, int numberDecimalPlaces = 3)
         {
             try
             {
-                LogDriver("##########");
-                LogDriver(string.Format(Locale.IsRussian ? "Тип данных: {0}" : "Data type: {0}", deviceTag.DataType.ToString()));
-                LogDriver(string.Format(Locale.IsRussian ? "Значение: {0}" : "Value: {0}", val.ToString()));
-                LogDriver(string.Format(Locale.IsRussian ? "Количество знаков после запятой или количество букв в слове: {0}" : "The number of decimal places or the number of letters in a word: {0}", numberDecimalPlaces.ToString()));     
-                LogDriver(string.Format(Locale.IsRussian ? "Номер индекса: {0}" : "Index number: {0}", deviceTag.Index.ToString()));
-                LogDriver(string.Format(Locale.IsRussian ? "Код тега: {0}" : "Tag code: {0}", deviceTag.Code));
-                LogDriver(string.Format(Locale.IsRussian ? "Длина данных: {0}" : "Data length: {0}", deviceTag.DataLength.ToString()));
-                LogDriver(string.Format(Locale.IsRussian ? "Количество элементов данных, хранящихся в значении тега: {0}" : "Data elements stored in the tag value: {0}", deviceTag.DataLen.ToString()));
-                LogDriver("##########");
-
                 if (val == DBNull.Value || val == null)
                 {
                     DeviceData.Invalidate(deviceTag.Index);
@@ -692,25 +384,29 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static TagFormat ConvertFormat(Tag.FormatTag format)
+        public static TagFormat ConvertFormat(DriverTag.FormatTag format)
         {
             TagFormat tagFormat = TagFormat.FloatNumber;
             switch (format)
             {
-                case Tag.FormatTag.Float:
+                case DriverTag.FormatTag.Float:
                     return tagFormat = TagFormat.FloatNumber;
-                case Tag.FormatTag.Integer:
+                case DriverTag.FormatTag.Integer:
                     return tagFormat = TagFormat.IntNumber;
-                case Tag.FormatTag.DateTime:
+                case DriverTag.FormatTag.DateTime:
                     return tagFormat = TagFormat.DateTime;
-                case Tag.FormatTag.String:
+                case DriverTag.FormatTag.String:
                     return tagFormat = TagFormat.String;
-                case Tag.FormatTag.Boolean:
+                case DriverTag.FormatTag.Boolean:
                     return tagFormat = TagFormat.OffOn;
             }
             return tagFormat;
         }
 
+        /// <summary>
+        /// Sends a telecontrol command to the database.
+        /// Supports command matching by both export and import command definitions.
+        /// </summary>
         public override void SendCommand(TeleCommand cmd)
         {
             base.SendCommand(cmd);
@@ -745,34 +441,35 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                     "Значение команды (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData) :
                     "Command value (@cmdData): " + TeleCommand.CmdDataToString(cmd.CmdData)));
 
-                InitDataSource(config);
-
-                if(FindCommandConfig(cmd, out DbCommand dbCommand))
+                // Data polling is handled by DriverClient/DatabaseCommand.
+                // Initialize data source here only when a telecontrol command is actually sent.
+                if (dataSource == null)
                 {
-                    if (cmd.CmdDataIsEmpty)
-                    {
-                        dataSource.SetCmdParam(dbCommand, "cmdVal", cmd.CmdVal);
-                    }
-                    else
-                    {
-                        dataSource.SetCmdParam(dbCommand, "cmdVal", TeleCommand.CmdDataToString(cmd.CmdData));
-                    }
+                    InitDataSource(project);
+                }
 
-                    if (ValidateDataSource() && ValidateCommand(dbCommand))
+                if (ValidateDataSource() && FindDbCommand(cmd, out DbCommand dbCommand))
+                {
+                    dataSource.SetCmdParam(dbCommand, "cmdVal", cmd.CmdDataIsEmpty
+                        ? cmd.CmdVal
+                        : TeleCommand.CmdDataToString(cmd.CmdData));
+
+                    if (ValidateCommand(dbCommand))
                     {
                         if (Connect() && SendDbCommand(dbCommand))
                         {
-                            List<DeviceTag> findDeviceTags = DeviceTags.ToList();
-                            DeviceTag findTag = findDeviceTags.Find(t => t.Code == cmd.CmdCode);
-
-                            if (cmd.CmdDataIsEmpty)
+                            DeviceTag findTag = DeviceTags.ToList().Find(t => t.Code == cmd.CmdCode);
+                            if (findTag != null)
                             {
-                                DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
-                            }
-                            else
-                            {
-                                findTag.DataType = TagDataType.Unicode;
-                                DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
+                                if (cmd.CmdDataIsEmpty)
+                                {
+                                    DeviceData.Set(findTag.Code, cmd.CmdVal, 1);
+                                }
+                                else
+                                {
+                                    findTag.DataType = TagDataType.Unicode;
+                                    DeviceData.SetUnicode(findTag.Code, TeleCommand.CmdDataToString(cmd.CmdData), 1);
+                                }
                             }
 
                             LastRequestOK = true;
@@ -793,18 +490,37 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         }
 
         /// <summary>
-        /// Finds a command configuration by command code or number.
+        /// Finds a database command by command code or number.
+        /// Lookup is performed against both export and import command definitions.
         /// </summary>
-        private bool FindCommandConfig(TeleCommand cmd, out DbCommand dbCommand)
+        private bool FindDbCommand(TeleCommand cmd, out DbCommand dbCommand)
         {
-            if (dataSource.ExportCommandsCode != null && 
-                !string.IsNullOrEmpty(cmd.CmdCode) &&
+            if (TryGetProjectCommandKey(cmd, out int projectCmdNum, out string projectCmdCode))
+            {
+                if (!string.IsNullOrWhiteSpace(projectCmdCode) &&
+                    dataSource.ExportCommandsCode != null &&
+                    dataSource.ExportCommandsCode.TryGetValue(projectCmdCode, out dbCommand))
+                {
+                    return true;
+                }
+
+                if (projectCmdNum > 0 &&
+                    dataSource.ExportCommandsNum != null &&
+                    dataSource.ExportCommandsNum.TryGetValue(projectCmdNum, out dbCommand))
+                {
+                    return true;
+                }
+            }
+
+            // Fallback: direct lookup by incoming command parameters.
+            if (dataSource.ExportCommandsCode != null &&
+                !string.IsNullOrWhiteSpace(cmd.CmdCode) &&
                 dataSource.ExportCommandsCode.TryGetValue(cmd.CmdCode, out dbCommand))
             {
                 return true;
             }
 
-            if (dataSource.ExportCommandsNum != null && 
+            if (dataSource.ExportCommandsNum != null &&
                 cmd.CmdNum > 0 &&
                 dataSource.ExportCommandsNum.TryGetValue(cmd.CmdNum, out dbCommand))
             {
@@ -812,6 +528,41 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
             }
 
             dbCommand = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to find a command in project export/import definitions and returns its key values.
+        /// </summary>
+        private bool TryGetProjectCommandKey(TeleCommand cmd, out int cmdNum, out string cmdCode)
+        {
+            cmdNum = 0;
+            cmdCode = string.Empty;
+
+            ExportCmd exportCmd = project.ExportCmds?.Find(c =>
+                c.Enabled &&
+                ((!string.IsNullOrWhiteSpace(cmd.CmdCode) && string.Equals(c.CmdCode, cmd.CmdCode, StringComparison.Ordinal)) ||
+                 (cmd.CmdNum > 0 && c.CmdNum == cmd.CmdNum)));
+
+            if (exportCmd != null)
+            {
+                cmdNum = exportCmd.CmdNum;
+                cmdCode = exportCmd.CmdCode;
+                return true;
+            }
+
+            ImportCmd importCmd = project.ImportCmds?.Find(c =>
+                c.Enabled &&
+                ((!string.IsNullOrWhiteSpace(cmd.CmdCode) && string.Equals(c.CmdCode, cmd.CmdCode, StringComparison.Ordinal)) ||
+                 (cmd.CmdNum > 0 && c.CmdNum == cmd.CmdNum)));
+
+            if (importCmd != null)
+            {
+                cmdNum = importCmd.CmdNum;
+                cmdCode = importCmd.CmdCode;
+                return true;
+            }
+
             return false;
         }
 
@@ -857,15 +608,36 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         /// Log Write Driver
         /// </summary>
         /// <param name="text">Message</param>
-        private void LogDriver(string text)
+        private void LogDriver(string text, bool writeDateTime = true)
         {
-            if(text == string.Empty || text == "" || text == null)
+            if (text == string.Empty || text == "" || text == null)
             {
                 return;
             }
-            if (writeLogDriver)
+
+            if (writeLogDriver && writeLogLine)
             {
-                Log.WriteAction(text);
+                if (!writeDateTime)
+                {
+                    // for raw transport lines (Receive/Send) keep legacy format without timestamp.
+                    using StreamWriter streamWriter = File.AppendText(logFileName);
+                    streamWriter.WriteLine(text);
+                    return;
+                }
+
+                 Log.WriteMessage(text, Scada.Log.LogMessageType.Info);   
+            }
+            else if (writeLogDriver && !writeLogLine)
+            {
+                StringBuilder sb = new StringBuilder();
+                StreamWriter streamWriter = File.AppendText(logFileName);
+                if (writeDateTime)
+                {
+                    sb.Append(DateTime.Now.ToString(defaultTimestampFormat));
+                }
+                sb.Append(" ").Append(text);
+                streamWriter.WriteLine(sb.ToString().Trim());
+                streamWriter.Close();
             }
         }
 

@@ -9,23 +9,50 @@
     <Import_RootNamespace>DrvDbImportPlus.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DataSourceType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DbConnSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverDictonary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverPhrases.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvDbImportPlusConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ElementType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ExportCmd.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\DriverClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CSV\FastCSV.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\DatabaseCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\Border.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\CharExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\DataColumnExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\DataRowExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\DataTableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\TextAlignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTablePrettyPrinter\Utilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\Debuger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugerLog\DebugerTagReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FilesDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FileWithChanges.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\DebugerSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\ImportCmd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tags\CnlPrototypeFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DataSourceType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Manager\Manager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\DbConnSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverDictonary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverPhrases.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tags\DriverTagExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\DrvDbImportPlusConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\ElementType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\ExportCmd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tags\DriverTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\FirebirdDataSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\InfluxDBHttpClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\InfluxDBHttpDataSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\InfluxDBHttpDataSourceBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MySqlDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ODBCDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\OleDbDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\OraDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\PgSqlDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SqlDataSource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Lang\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utils\" />
   </ItemGroup>
 </Project>

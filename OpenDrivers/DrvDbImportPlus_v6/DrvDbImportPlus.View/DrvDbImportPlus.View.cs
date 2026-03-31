@@ -5,7 +5,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Forms;
 using Scada.Lang;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus.View
 {
@@ -49,6 +48,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
 
+                    "Версия 6.5.0.0 (31.03.2026)\n" +
+                    "[+] Добавлена возможность получать данные из InfluxDB.\n" +
+                    "[+] Добавлена возможность в драйвере выполнять несколько запросов.\n" +
+                    "[+] Добавлена возможность через код тега не только отправить запись тега, но и выполнить команду импорта данных.\n" +
                     "Версия 6.3.0.4 (07.12.2025)\n" +
                     "[v] Проверка на значение Null.\n" +
                     "Версия 6.3.0.2 (12.01.2025)\n" +
@@ -102,7 +105,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
-
+                    "Version 6.5.0.0 (03/31/2026)\n" +
+                    "[+] Added the ability to receive data from InfluxDB.\n" +
+                    "[+] Added the ability to perform multiple queries in the driver.\n" +
+                    "[+] Added the ability to use the tag code not only to send a tag record, but also to execute a data import command.\n" +
                     "Version 6.3.0.4 (12/07/2025)\n" +
                     "[v] Check for Null value.\n" +
                     "Version 6.3.0.2 (01/12/2025)\n" +

@@ -4,6 +4,7 @@
 
 	
 ### DrvDbImportPlus
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.0/total)
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.2/total)
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total)
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.0/total)
@@ -14,6 +15,14 @@
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.2/total)
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.1/total)
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
+
+Библиотека DrvDbImportPlus (6.5.0.0)
+- Добавлена возможность получать данные из InfluxDB.
+- Добавлена возможность в драйвере выполнять несколько запросов.
+- Добавлена возможность через код тега не только отправить запись тега, но и выполнить команду импорта данных.
+
+Библиотека DrvDbImportPlus (6.3.0.4)
+- Проверка на значение Null.
 
 Библиотека DrvDbImportPlus (6.3.0.2)
 - Изменён интерфейс. Добавлены иконки.
@@ -68,6 +77,14 @@
 - Реализован новый режим сбора данных, когда в первом столбце - название тега, во втором - значение тега, в третьем - время значения. (Работает историческая запись данных через срез.)
 
 ---------------------------------------------------------------------------
+
+DrvDbImportPlus library (6.5.0.0)
+- Added the ability to receive data from InfluxDB.
+- Added the ability to perform multiple queries in the driver.
+- Added the ability to use the tag code not only to send a tag record, but also to execute a data import command.
+
+DrvDbImportPlus library (6.3.0.4)
+- Check for Null value.
 
 DrvDbImportPlus library (6.3.0.2)
 - Interface changed. Icons have been added.

@@ -27,6 +27,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         /// <summary>
+        /// Creates a database connection.
+        /// </summary>
+        protected override DbConnection CreateConnection(string connectionString)
+        {
+            return new FbConnection(connectionString);
+        }
+
+        /// <summary>
         /// Creates a command.
         /// </summary>
         protected override DbCommand CreateCommand()

@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
     /// The base class of the data source.
     /// <para>Базовый класс источника данных.</para>
     /// </summary>
-    internal abstract class DataSource
+    public abstract class DataSource
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -17,6 +17,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected DataSource()
         {
             Connection = null;
+            ConnectionString = string.Empty;
             SelectCommand = null;
             ExportCommandsNum = new SortedList<int, DbCommand>();
             ExportCommandsCode = new SortedList<string, DbCommand>();
@@ -29,9 +30,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected DbConnection Connection { get; set; }
 
         /// <summary>
+        /// Gets the connection string.
+        /// </summary>
+        protected string ConnectionString { get; set; }
+
+        /// <summary>
         /// Gets the select command.
         /// </summary>
-        public DbCommand SelectCommand { get; protected set; }
+        public DbCommand SelectCommand { get; set; }
 
         /// <summary>
         /// Gets the export commands.
@@ -45,6 +51,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// Creates a database connection.
         /// </summary>
         protected abstract DbConnection CreateConnection();
+
+        /// <summary>
+        /// Creates a database connection.
+        /// </summary>
+        protected abstract DbConnection CreateConnection(string connectionString);
 
         /// <summary>
         /// Creates a command.
@@ -122,21 +133,43 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Initializes the data source.
         /// </summary>
-        public void Init(string connectionString, DrvDbImportPlusConfig config)
+        public void Init(DrvDbImportPlusProject project)
         {
-            if (config == null)
+            if (project == null)
             {
-                throw new ArgumentNullException("config");
+                throw new ArgumentNullException("project");
             }
-                
-            Connection = CreateConnection();
-            Connection.ConnectionString = connectionString;
 
+            ConnectionString = string.IsNullOrEmpty(project.DbConnSettings.ConnectionString) ?
+                    BuildConnectionString(project.DbConnSettings) :
+                    project.DbConnSettings.ConnectionString;
+
+            if (String.IsNullOrEmpty(ConnectionString))
+            {
+                Connection = CreateConnection();
+            }
+            else
+            {
+                Connection = CreateConnection(ConnectionString);
+            }
+
+            Connection.ConnectionString = ConnectionString;
+            
             SelectCommand = CreateCommand();
-            SelectCommand.CommandText = config.SelectQuery;
             SelectCommand.Connection = Connection;
+            SelectCommand.CommandText = "";
 
-            foreach (ExportCmd exportCmd in config.ExportCmds)
+            foreach (ImportCmd importCmd in project.ImportCmds)
+            {
+                DbCommand importCommand = CreateCommand();
+                importCommand.CommandText = importCmd.Query;
+                importCommand.Connection = Connection;
+
+                ExportCommandsNum[importCmd.CmdNum] = importCommand;
+                ExportCommandsCode[importCmd.CmdCode] = importCommand;
+            }
+      
+            foreach (ExportCmd exportCmd in project.ExportCmds)
             {
                 DbCommand exportCommand = CreateCommand();
                 exportCommand.CommandText = exportCmd.Query;
@@ -179,11 +212,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Return the data source.
         /// </summary>
-        public static DataSource GetDataSourceType(DrvDbImportPlusConfig config)
+        public static DataSource GetDataSourceType(DrvDbImportPlusProject project)
         {
             DataSource dataSource;
 
-            switch (config.DataSourceType)
+            switch (project.DbConnSettings.DataSourceType)
             {
                 case DataSourceType.MSSQL:
                     return dataSource = new SqlDataSource();
@@ -199,6 +232,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     //return dataSource = new OdbcDataSource();
                 case DataSourceType.Firebird:
                     return dataSource = new FirebirdDataSource();
+                case DataSourceType.InfluxDBv2:
+                    return new InfluxDBHttpDataSource(DataSourceType.InfluxDBv2);
+                case DataSourceType.InfluxDBv3:
+                    return new InfluxDBHttpDataSource(DataSourceType.InfluxDBv3);
                 default:
                     return dataSource = null;
             }

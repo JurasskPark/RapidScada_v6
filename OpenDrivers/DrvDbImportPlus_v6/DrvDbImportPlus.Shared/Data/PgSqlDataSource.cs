@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
+using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
 
 
@@ -25,6 +26,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         protected override DbConnection CreateConnection()
         {
             return new NpgsqlConnection();
+        }
+
+        /// <summary>
+        /// Creates a database connection.
+        /// </summary>
+        protected override DbConnection CreateConnection(string connectionString)
+        {
+            return new NpgsqlConnection(connectionString);
         }
 
         /// <summary>

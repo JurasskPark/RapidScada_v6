@@ -20,6 +20,15 @@
 //            return new OleDbConnection();
 //        }
 
+
+///// <summary>
+///// Creates a database connection.
+///// </summary>
+//protected override DbConnection CreateConnection(string connectionString)
+//{
+//    return new OleDbConnection(connectionString);
+//}
+
 //        /// <summary>
 //        /// Creates a command.
 //        /// </summary>
@@ -37,12 +46,12 @@
 //            {
 //                throw new ArgumentNullException("cmd");
 //            }
-                
+
 //            if (!(cmd is OleDbCommand))
 //            {
 //                throw new ArgumentException("OleDbCommand is required.", "cmd");
 //            }
-                
+
 //            OleDbCommand oleDbCmd = (OleDbCommand)cmd;
 //            oleDbCmd.Parameters.AddWithValue(paramName, value);
 //        }
