@@ -21,6 +21,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         public FrmImportCmd()
         {
             InitializeComponent();
+            SetupHotkeys(fctCmdQuery);
+            SetupHotkeys(fctResult);
         }
 
         #region Variables
@@ -930,5 +932,23 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             MessageBox.Show(this, ex.InnerException != null ? ex.InnerException.Message : ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         #endregion Show Error
+
+        #region Help
+        /// <summary>
+        /// Enabling a combination of hotkeys in FastColorTextbox.
+        /// <para>Включение комбинации горячих клавиш в FastColorTextbox.</para>
+        /// </summary>
+        private void SetupHotkeys(FastColoredTextBox fastColoredTextBox)
+        {
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.X] = FCTBAction.Cut;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.V] = FCTBAction.Paste;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.C] = FCTBAction.Copy;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.X] = FCTBAction.Cut;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.V] = FCTBAction.Paste;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.A] = FCTBAction.SelectAll;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.Z] = FCTBAction.Undo;
+            fastColoredTextBox.HotkeysMapping[Keys.Control | Keys.Y] = FCTBAction.Redo;
+        }
+        #endregion Help
     }
 }

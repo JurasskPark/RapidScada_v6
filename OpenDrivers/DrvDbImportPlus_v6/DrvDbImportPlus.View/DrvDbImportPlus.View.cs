@@ -48,6 +48,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "Доработка: Юрий Прадиус\n" +
                     "Импорт из сторонней базы данных.\n\n" +
 
+                    "Версия 6.5.0.1 (13.04.2026)\n" +
+                    "[+] Добавлены комбинации горячих клавиш для текстовых полей FastColorTextbox.\n" +
                     "Версия 6.5.0.0 (31.03.2026)\n" +
                     "[+] Добавлена возможность получать данные из InfluxDB.\n" +
                     "[+] Добавлена возможность в драйвере выполнять несколько запросов.\n" +
@@ -105,6 +107,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
                     "The author: Mikhail Shiryaev\n" +
                     "Revision: Yuriy Pradius\n" +
                     "Import from a third-party database.\n\n" +
+
+                    "Version 6.5.0.1 (04/13/2026)\n" +
+                    "[+] Added keyboard shortcuts for FastColorTextbox text fields.\n" +
                     "Version 6.5.0.0 (03/31/2026)\n" +
                     "[+] Added the ability to receive data from InfluxDB.\n" +
                     "[+] Added the ability to perform multiple queries in the driver.\n" +
