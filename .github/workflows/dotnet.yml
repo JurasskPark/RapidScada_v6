@@ -1,28 +1,68 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET Build All Drivers
 
 on:
   push:
     branches: [ "master" ]
+    # Опционально: запускать сборку, только если изменения есть в папке с драйверами
+    paths:
+      - 'OpenDrivers/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - 'OpenDrivers/**'
+  # Позволяет запускать workflow вручную из вкладки Actions
+  workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+
+    # 1. DrvDDEJP
+    - name: Restore DrvDDEJP
+      run: dotnet restore OpenDrivers/DrvDDEJP/DrvDDEJP.sln
+    - name: Build DrvDDEJP
+      run: dotnet build OpenDrivers/DrvDDEJP/DrvDDEJP.sln --no-restore --configuration Release
+
+    # 2. DrvDbImportPlus_v6
+    - name: Restore DrvDbImportPlus
+      run: dotnet restore OpenDrivers/DrvDbImportPlus_v6/DrvDbImportPlus.sln
+    - name: Build DrvDbImportPlus
+      run: dotnet build OpenDrivers/DrvDbImportPlus_v6/DrvDbImportPlus.sln --no-restore --configuration Release
+
+    # 3. DrvDebug_v6
+    - name: Restore DrvDebug
+      run: dotnet restore OpenDrivers/DrvDebug_v6/DrvDebug.sln
+    - name: Build DrvDebug
+      run: dotnet build OpenDrivers/DrvDebug_v6/DrvDebug.sln --no-restore --configuration Release
+
+    # 4. DrvFreeDiskSpaceJP_v6
+    - name: Restore DrvFreeDiskSpaceJP
+      run: dotnet restore OpenDrivers/DrvFreeDiskSpaceJP_v6/DrvFreeDiskSpaceJP.sln
+    - name: Build DrvFreeDiskSpaceJP
+      run: dotnet build OpenDrivers/DrvFreeDiskSpaceJP_v6/DrvFreeDiskSpaceJP.sln --no-restore --configuration Release
+
+    # 5. DrvFtpJP_v6
+    - name: Restore DrvFtpJP
+      run: dotnet restore OpenDrivers/DrvFtpJP_v6/DrvFtpJP.sln
+    - name: Build DrvFtpJP
+      run: dotnet build OpenDrivers/DrvFtpJP_v6/DrvFtpJP.sln --no-restore --configuration Release
+
+    # 6. DrvPingJP_v6
+    - name: Restore DrvPingJP
+      run: dotnet restore OpenDrivers/DrvPingJP_v6/DrvPingJP.sln
+    - name: Build DrvPingJP
+      run: dotnet build OpenDrivers/DrvPingJP_v6/DrvPingJP.sln --no-restore --configuration Release
+
+    # 7. DrvTelnetJP_v6
+    - name: Restore DrvTelnetJP
+      run: dotnet restore OpenDrivers/DrvTelnetJP_v6/DrvTelnetJP.sln
+    - name: Build DrvTelnetJP
+      run: dotnet build OpenDrivers/DrvTelnetJP_v6/DrvTelnetJP.sln --no-restore --configuration Release
