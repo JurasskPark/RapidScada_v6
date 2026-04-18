@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <EnableDynamicLoading>true</EnableDynamicLoading>
+	  <Nullable>disable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <RootNamespace>Scada.Comm.Drivers.DrvDDEJP.Logic</RootNamespace>
+	  <Version>6.0.0.1</Version>
+	  <Authors>Yuriy Pradius</Authors>
+	  <Company>Community Rapid Software</Company>
+	  <Product>Rapid SCADA</Product>
+	  <Copyright>Copyright © 2026</Copyright>
+	  <LangVersion>preview</LangVersion>
+	  <NoWarn>$(NoWarn);CS8632;CA1416;CS0672;SYSLIB0051</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="..\DrvDDEJP.Shared\DrvDDEJP.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Hex.Shared\Hex.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrvDDEJP.DDE\DrvDDEJP.DDE.csproj"
+                      ReferenceOutputAssembly="false"
+                      SkipGetTargetFrameworkProperties="true" />
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyDdeClientAssembly" AfterTargets="Build">
+    <PropertyGroup>
+      <DdeClientOutputPath>..\DrvDDEJP.DDE\bin\$(Configuration)\net8.0\DrvDDEJP.DDE.dll</DdeClientOutputPath>
+    </PropertyGroup>
+    <Copy SourceFiles="$(DdeClientOutputPath)"
+          DestinationFolder="$(OutDir)"
+          SkipUnchangedFiles="true"
+          Condition="Exists('$(DdeClientOutputPath)')" />
+  </Target>
+
+</Project>

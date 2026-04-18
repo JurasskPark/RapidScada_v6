@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Scada.Comm.Drivers.DrvDDEJP</RootNamespace>
+    <AssemblyName>DrvDDEJP.DDE</AssemblyName>
+    <LangVersion>preview</LangVersion>
+    <NoWarn>$(NoWarn);CS8632;CA1416;CS0672;SYSLIB0051</NoWarn>
+  </PropertyGroup>
+  
+  <Import Project="..\DrvDDEJP.Shared\DrvDDEJP.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Compile Include="..\DdeNet\**\*.cs"
+             Exclude="..\DdeNet\Properties\AssemblyInfo.cs;..\DdeNet\bin\**\*;..\DdeNet\obj\**\*"
+             Link="DdeNet\%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\DdeNet\Resources.resx">
+      <Link>DdeNet\Resources.resx</Link>
+      <ManifestResourceName>DdeNet.Resources</ManifestResourceName>
+      <LogicalName>DdeNet.Resources.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

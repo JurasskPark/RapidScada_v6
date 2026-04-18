@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DrvDDEJPDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDDEJP.View.Forms.FrmProject">
+	  <Phrase key="this">Driver DDEJP</Phrase>
+	  <Phrase key="grpClient.Text">DDE Connection</Phrase>
+	  <Phrase key="lblReconnectDelay.Text">Reconnect delay, ms</Phrase>
+	  <Phrase key="lblRequestTimeout.Text">Request timeout</Phrase>
+	  <Phrase key="lblDefaultTopic.Text">Default topic</Phrase>
+	  <Phrase key="lblServiceName.Text">Service name</Phrase>
+	  <Phrase key="btnConnect.Text">Connect</Phrase>
+	  <Phrase key="btnDisconnect.Text">Disconnect</Phrase>
+	  <Phrase key="btnSave.Text">Save</Phrase>
+	  <Phrase key="btnClose.Text">Close</Phrase>
+	  <Phrase key="lvTags.Columns[0].Text">Name</Phrase>
+	  <Phrase key="lvTags.Columns[1].Text">Channel</Phrase>
+	  <Phrase key="lvTags.Columns[2].Text">Topic</Phrase>
+	  <Phrase key="lvTags.Columns[3].Text">Item</Phrase>
+	  <Phrase key="lvTags.Columns[4].Text">Format</Phrase>
+	  <Phrase key="lvTags.Columns[5].Text">Value</Phrase>
+	  <Phrase key="cmnuTagAdd.Text">Add Tag</Phrase>
+	  <Phrase key="cmnuTagChange.Text">Change Tag</Phrase>
+	  <Phrase key="cmnuTagDelete.Text">Delete Tag</Phrase>
+	  <Phrase key="cmnuTagUp.Text">Up</Phrase>
+	  <Phrase key="cmnuTagDown.Text">Down</Phrase>
+	  <Phrase key="tabSettings.Text">Settings</Phrase>
+	  <Phrase key="colTagName.Text">Name</Phrase>
+	  <Phrase key="colTagChannel.Text">Channel</Phrase>
+	  <Phrase key="colTagTopic.Text">Topic</Phrase>
+	  <Phrase key="colTagItem.Text">Item</Phrase>
+	  <Phrase key="colTagFormat.Text">Format</Phrase>
+	  <Phrase key="colTagValue.Text">Value</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDDEJP.View.Forms.Tag.FrmTag">
+    <Phrase key="this">Tag</Phrase>
+	  <Phrase key="lblTagName.Text">Name</Phrase>
+	  <Phrase key="lblTopic.Text">Topic</Phrase>
+	  <Phrase key="lblItemName.Text">Item name</Phrase>
+	  <Phrase key="lblFormat.Text">Format</Phrase>
+	  <Phrase key="lblDataLength.Text">Data length</Phrase>
+	  <Phrase key="lblChannel.Text">Channel</Phrase>
+	  <Phrase key="lblEnabled.Text">Enabled</Phrase>
+	  <Phrase key="btnClose.Text">Close</Phrase>
+	  <Phrase key="btnSave.Text">Save</Phrase>
+	  <Phrase key="btnAdd.Text">Add</Phrase>
+  </Dictionary>
+</DrvDDEJPDictionaries>

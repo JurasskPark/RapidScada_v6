@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DrvDDEJPDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDDEJP.View.Forms.FrmProject">
+    <Phrase key="this">Драйвер DDEJP</Phrase>
+    <Phrase key="grpClient.Text">DDE-соединение</Phrase>
+    <Phrase key="lblReconnectDelay.Text">Задержка переподключения, мс</Phrase>
+    <Phrase key="lblRequestTimeout.Text">Таймаут между запросами</Phrase>
+    <Phrase key="lblDefaultTopic.Text">Топик по умолчанию</Phrase>
+    <Phrase key="lblServiceName.Text">Название службы</Phrase>
+    <Phrase key="btnConnect.Text">Подключить</Phrase>
+    <Phrase key="btnDisconnect.Text">Отключить</Phrase>
+    <Phrase key="btnSave.Text">Сохранять</Phrase>
+    <Phrase key="btnClose.Text">Закрыть</Phrase>
+    <Phrase key="lvTags.Columns[0].Text">Название</Phrase>
+    <Phrase key="lvTags.Columns[1].Text">Канал</Phrase>
+    <Phrase key="lvTags.Columns[2].Text">Топик</Phrase>
+    <Phrase key="lvTags.Columns[3].Text">Элемент</Phrase>
+    <Phrase key="lvTags.Columns[4].Text">Формат</Phrase>
+    <Phrase key="lvTags.Columns[5].Text">Значение</Phrase>
+    <Phrase key="cmnuTagAdd.Text">Добавить тег</Phrase>
+    <Phrase key="cmnuTagChange.Text">Изменить тег</Phrase>
+    <Phrase key="cmnuTagDelete.Text">Удалить тег</Phrase>
+    <Phrase key="cmnuTagUp.Text">Вверх</Phrase>
+    <Phrase key="cmnuTagDown.Text">Вниз</Phrase>
+    <Phrase key="tabSettings.Text">Настройки</Phrase>
+    <Phrase key="colTagName.Text">Название</Phrase>
+    <Phrase key="colTagChannel.Text">Канал</Phrase>
+    <Phrase key="colTagTopic.Text">Топик</Phrase>
+    <Phrase key="colTagItem.Text">Элемент</Phrase>
+    <Phrase key="colTagFormat.Text">Формат</Phrase>
+    <Phrase key="colTagValue.Text">Значение</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDDEJP.View.Forms.FrmTag">
+    <Phrase key="this">Тег</Phrase>
+    <Phrase key="lblTagName.Text">Название</Phrase>
+    <Phrase key="lblTopic.Text">Топик</Phrase>
+    <Phrase key="lblItemName.Text">Название элемента</Phrase>
+    <Phrase key="lblFormat.Text">Формат</Phrase>
+    <Phrase key="lblDataLength.Text">Длина данных</Phrase>
+    <Phrase key="lblChannel.Text">Канал</Phrase>
+    <Phrase key="lblEnabled.Text">Включено</Phrase>
+    <Phrase key="btnClose.Text">Закрыть</Phrase>
+    <Phrase key="btnSave.Text">Сохранять</Phrase>
+    <Phrase key="btnAdd.Text">Добавить</Phrase>
+  </Dictionary>
+</DrvDDEJPDictionaries>
