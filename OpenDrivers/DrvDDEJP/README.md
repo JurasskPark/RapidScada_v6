@@ -1,5 +1,6 @@
 # DrvDDEJP - DDE Client Driver for Rapid SCADA v6
 
+![DrvDDEJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDDEJP_v6.0.0.1/total)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0--windows-purple.svg)

@@ -60,6 +60,13 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFtpJP_v6
 
 -------------------------------------------------------------------------------
 
+### DrvDDEJP
+![DrvDDEJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDDEJP_v6.0.0.1/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDDEJP
+
+-------------------------------------------------------------------------------
+
 # Shareware Drivers
 
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.4/total)
