@@ -1,0 +1,11 @@
+[
+  {
+    "outputFileName": "wwwroot/plugins/MimCalendarJP/js/calendar-bundle.js",
+    "inputFiles": [
+      "wwwroot/plugins/MimCalendarJP/js/calendar-subtypes.js",
+      "wwwroot/plugins/MimCalendarJP/js/calendar-descr.js",
+      "wwwroot/plugins/MimCalendarJP/js/calendar-factory.js",
+      "wwwroot/plugins/MimCalendarJP/js/calendar-render.js"
+    ]
+  }
+]

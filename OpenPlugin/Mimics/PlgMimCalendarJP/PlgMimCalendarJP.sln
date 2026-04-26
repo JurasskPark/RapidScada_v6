@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37216.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimCalendarJP", "PlgMimCalendarJP\PlgMimCalendarJP.csproj", "{94E62313-DCC9-FD63-CAFF-358DF869DCC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimCalendarJP.View", "PlgMimCalendarJP.View\PlgMimCalendarJP.View.csproj", "{3C92F1B0-5644-6CC0-42E3-BB0E0E046DB3}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgMimCalendarJP.Shared", "PlgMimCalendarJP.Shared\PlgMimCalendarJP.Shared.shproj", "{F2851574-E3CC-45D3-AFDC-D595133FC8B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94E62313-DCC9-FD63-CAFF-358DF869DCC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94E62313-DCC9-FD63-CAFF-358DF869DCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94E62313-DCC9-FD63-CAFF-358DF869DCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94E62313-DCC9-FD63-CAFF-358DF869DCC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C92F1B0-5644-6CC0-42E3-BB0E0E046DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C92F1B0-5644-6CC0-42E3-BB0E0E046DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C92F1B0-5644-6CC0-42E3-BB0E0E046DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C92F1B0-5644-6CC0-42E3-BB0E0E046DB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F079628-4255-443D-A1B4-1228C46E2498}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PlgMimCalendarJP.Shared\PlgMimCalendarJP.Shared.projitems*{3c92f1b0-5644-6cc0-42e3-bb0e0e046db3}*SharedItemsImports = 5
+		PlgMimCalendarJP.Shared\PlgMimCalendarJP.Shared.projitems*{94e62313-dcc9-fd63-caff-358df869dcc3}*SharedItemsImports = 5
+		PlgMimCalendarJP.Shared\PlgMimCalendarJP.Shared.projitems*{f2851574-e3cc-45d3-afdc-d595133fc8b9}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

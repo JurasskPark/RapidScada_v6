@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <RootNamespace>Scada.Web.Plugins.PlgMimCalendarJP</RootNamespace>
+    <Authors>Rapid SCADA</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright (c) 2026</Copyright>
+    <Version>6.0.1</Version>
+    <AssemblyVersion>6.0.1.1</AssemblyVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PlgMimic.Common">
+      <HintPath>..\Libraries\PlgMimic.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon">
+      <HintPath>..\Libraries\ScadaWebCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\PlgMimCalendarJP.Shared\PlgMimCalendarJP.Shared.projitems" Label="Shared" />
+</Project>
