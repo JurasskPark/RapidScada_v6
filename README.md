@@ -108,3 +108,20 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaA
 https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/TrendJP
 
 -------------------------------------------------------------------------------
+
+# Open Plugins
+
+### PlgMimCalendarJP
+![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.2.1/total)
+![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimCalendarJP
+
+-------------------------------------------------------------------------------
+
+### PlgMimShapesJP
+![PlgMimShapesJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimShapesJP_v6.0.1.1/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimShapesJP
+
+-------------------------------------------------------------------------------
