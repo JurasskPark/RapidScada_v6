@@ -176,6 +176,10 @@ Polyline is fully functional but without point handles. The commented-out point 
 
 Полилиния полностью функциональна, но без точек привязки. Закомментированный код редактирования точек готов к будущему использованию.
 
+## Screenshots / Скриншоты
+
+![PlgMimShapesJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenPlugins/Source/PlgMimShapesJP_001.png)
+
 ## License / Лицензия
 
 This project is part of the Rapid SCADA ecosystem.  
