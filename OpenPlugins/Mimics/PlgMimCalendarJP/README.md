@@ -134,7 +134,7 @@ For double-range components (CalendarRangeBottom, CalendarRangeSide), a second p
 
 ## Screenshots / Скриншоты
 
-![PlgMimCalendarJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenPlugin/Source/PlgMimCalendarJP_001.png)
+![PlgMimCalendarJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenPlugins/Source/PlgMimCalendarJP_001.png)
 
 ## License / Лицензия
 
