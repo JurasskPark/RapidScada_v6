@@ -402,3 +402,12 @@ https://rutube.ru/video/78239cf1a34e714c75cd883a314240bf/
 ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_005.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_006.png) 
 ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_007.png) ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_008.png)
 ![DrvParserTextJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/ParserTextJP/DrvParserTextJP_009.png) 
+
+## License / Лицензия
+
+This project is part of the Rapid SCADA ecosystem.  
+Данный проект является частью экосистемы Rapid SCADA.
+
+## SAST Tools
+
+[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.

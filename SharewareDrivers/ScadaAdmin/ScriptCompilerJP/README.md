@@ -47,3 +47,12 @@ Screenshots
 ![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_001.png)
 ![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_002.png)
 ![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_003.png)
+
+## License / Лицензия
+
+This project is part of the Rapid SCADA ecosystem.  
+Данный проект является частью экосистемы Rapid SCADA.
+
+## SAST Tools
+
+[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.

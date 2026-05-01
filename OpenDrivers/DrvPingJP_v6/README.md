@@ -110,6 +110,11 @@ Screenshots
 ![DrvPingJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvPingJP_002.png) 
 
 
+## License / Лицензия
+
+This project is part of the Rapid SCADA ecosystem.  
+Данный проект является частью экосистемы Rapid SCADA.
+
 ## SAST Tools
 
 [PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.

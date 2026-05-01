@@ -95,6 +95,12 @@ Each SCADA device tag is mapped to a specific Item on the DDE server.
 
 ---
 
+## License / Лицензия
+
+This project is part of the Rapid SCADA ecosystem.  
+Данный проект является частью экосистемы Rapid SCADA.
+
 ## SAST Tools
 
-[PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+
