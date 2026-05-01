@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37216.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimShapesJP", "PlgMimShapesJP\PlgMimShapesJP.csproj", "{B4A6137A-3F1B-D38F-1CF5-EC5285623A7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimShapesJP.View", "PlgMimShapesJP.View\PlgMimShapesJP.View.csproj", "{D5A13CA5-DD4B-2DFE-8AF4-3C5AC08E3C79}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgMimShapesJP.Shared", "PlgMimShapesJP.Shared\PlgMimShapesJP.Shared.shproj", "{99BCDB7A-D0BC-4533-BC77-5F2B15923458}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4A6137A-3F1B-D38F-1CF5-EC5285623A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A6137A-3F1B-D38F-1CF5-EC5285623A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A6137A-3F1B-D38F-1CF5-EC5285623A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A6137A-3F1B-D38F-1CF5-EC5285623A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A13CA5-DD4B-2DFE-8AF4-3C5AC08E3C79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A13CA5-DD4B-2DFE-8AF4-3C5AC08E3C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A13CA5-DD4B-2DFE-8AF4-3C5AC08E3C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A13CA5-DD4B-2DFE-8AF4-3C5AC08E3C79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C2D9930-6457-428C-8876-30160537FEE8}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PlgMimShapesJP.Shared\PlgMimShapesJP.Shared.projitems*{99bcdb7a-d0bc-4533-bc77-5f2b15923458}*SharedItemsImports = 13
+		PlgMimShapesJP.Shared\PlgMimShapesJP.Shared.projitems*{b4a6137a-3f1b-d38f-1cf5-ec5285623a7d}*SharedItemsImports = 5
+		PlgMimShapesJP.Shared\PlgMimShapesJP.Shared.projitems*{d5a13ca5-dd4b-2dfe-8af4-3c5ac08e3c79}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

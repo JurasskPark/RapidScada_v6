@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimShapesDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Code.ShapesComponentGroup">
+    <Phrase key="ShapesGroup">SHAPES</Phrase>
+    <Phrase key="RectangleComponent">Rectangle</Phrase>
+    <Phrase key="SquareComponent">Square</Phrase>
+    <Phrase key="EllipseComponent">Ellipse</Phrase>
+    <Phrase key="CircleComponent">Circle</Phrase>
+    <Phrase key="RoundedRectComponent">Rounded Rectangle</Phrase>
+    <Phrase key="PolygonComponent">Polygon</Phrase>
+    <Phrase key="TriangleComponent">Triangle</Phrase>
+    <Phrase key="DiamondComponent">Diamond</Phrase>
+    <Phrase key="HexagonComponent">Hexagon</Phrase>
+    <Phrase key="ParallelogramComponent">Parallelogram</Phrase>
+    <Phrase key="TrapezoidComponent">Trapezoid</Phrase>
+    <Phrase key="CrossComponent">Cross</Phrase>
+    <Phrase key="HalfCircleComponent">Half Circle</Phrase>
+    <Phrase key="DonutComponent">Donut</Phrase>
+    <Phrase key="PieComponent">Pie</Phrase>
+    <Phrase key="StarComponent">Star</Phrase>
+    <Phrase key="ArrowComponent">Arrow</Phrase>
+    <Phrase key="LineComponent">Line</Phrase>
+    <Phrase key="PolylineComponent">Polyline</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeRectangle">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeSquare">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeEllipse">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeCircle">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeRoundedRect">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="BorderRadius">Border radius</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapePolygon">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="PointMode">Point mode</Phrase>
+    <Phrase key="PointCount">Point count</Phrase>
+    <Phrase key="Points">Points</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeTriangle">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeDiamond">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeHexagon">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeParallelogram">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeTrapezoid">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeCross">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeHalfCircle">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeDonut">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="HoleSize">Hole size</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapePie">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="StartAngle">Start angle</Phrase>
+    <Phrase key="SweepAngle">Sweep angle</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeStar">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="PointCount">Point count</Phrase>
+    <Phrase key="InnerRadius">Inner radius</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeArrow">
+    <Phrase key="FillColor">Fill color</Phrase>
+    <Phrase key="StrokeColor">Stroke color</Phrase>
+    <Phrase key="StrokeWidth">Stroke width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="BackgroundColor">Background color</Phrase>
+    <Phrase key="ImageName">Image</Phrase>
+    <Phrase key="ImageOpacity">Image opacity</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="Direction">Direction</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeLine">
+    <Phrase key="StrokeColor">Line color</Phrase>
+    <Phrase key="StrokeWidth">Line width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="Orientation">Orientation</Phrase>
+    <Phrase key="X1">X1</Phrase>
+    <Phrase key="Y1">Y1</Phrase>
+    <Phrase key="X2">X2</Phrase>
+    <Phrase key="Y2">Y2</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapePolyline">
+    <Phrase key="StrokeColor">Line color</Phrase>
+    <Phrase key="StrokeWidth">Line width</Phrase>
+    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
+    <Phrase key="Opacity">Opacity</Phrase>
+    <Phrase key="Rotation">Rotation</Phrase>
+    <Phrase key="PointCount">Point count</Phrase>
+    <Phrase key="SnapToAxis">Snap to axis</Phrase>
+    <Phrase key="SnapThreshold">Snap threshold</Phrase>
+    <Phrase key="Points">Points</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapePolygonPointMode">
+    <Phrase key="Auto">Auto</Phrase>
+    <Phrase key="Custom">Custom</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeLineOrientation">
+    <Phrase key="Diagonal">Diagonal</Phrase>
+    <Phrase key="Horizontal">Horizontal</Phrase>
+    <Phrase key="Vertical">Vertical</Phrase>
+    <Phrase key="Custom">Custom</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeArrowDirection">
+    <Phrase key="Right">Right</Phrase>
+    <Phrase key="Left">Left</Phrase>
+    <Phrase key="Up">Up</Phrase>
+    <Phrase key="Down">Down</Phrase>
+  </Dictionary>
+</PlgMimShapesDictionaries>
