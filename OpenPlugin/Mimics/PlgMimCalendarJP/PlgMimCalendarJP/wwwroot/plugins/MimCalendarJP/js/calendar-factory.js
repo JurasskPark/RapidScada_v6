@@ -264,12 +264,14 @@ rs.mimic.CalendarAutoFactory = class extends rs.mimic.RegularComponentFactory {
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 326;
+        props.size.width = 372;
         props.size.height = 44;
         props.label = "Date and time";
+        props.labelWidth = 160;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
@@ -284,9 +286,13 @@ rs.mimic.CalendarAutoFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.parseProperties(sourceProps);
         sourceProps ??= {};
         props.label = PropertyParser.parseString(sourceProps.label);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
@@ -301,6 +307,46 @@ rs.mimic.CalendarAutoFactory = class extends rs.mimic.RegularComponentFactory {
     }
 };
 
+rs.mimic.CalendarInputFactory = class extends rs.mimic.RegularComponentFactory {
+    _createExtraScript() {
+        return new rs.mimic.CalendarSingleInputScript();
+    }
+
+    createProperties() {
+        let props = super.createProperties();
+        props.size.width = 198;
+        props.size.height = 32;
+        props.inputWidth = 198;
+        props.inputHeight = 32;
+        props.inputForeColor = "";
+        props.inputBackColor = "";
+        props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.commandFormat = rs.mimic.CalendarCommandFormat.DOUBLE;
+        props.autoSend = true;
+        props.value1 = "";
+        return props;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let props = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
+        props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
+        props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
+        props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        setCalendarCommandFormat(props, sourceProps);
+        props.autoSend = PropertyParser.parseBool(sourceProps.autoSend, true);
+        props.value1 = PropertyParser.parseString(sourceProps.value1);
+        return props;
+    }
+
+    createComponent() {
+        return super.createComponent("CalendarInput");
+    }
+};
+
 rs.mimic.CalendarButtonFactory = class extends rs.mimic.RegularComponentFactory {
     _createExtraScript() {
         return new rs.mimic.CalendarSingleInputScript();
@@ -308,16 +354,22 @@ rs.mimic.CalendarButtonFactory = class extends rs.mimic.RegularComponentFactory 
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 444;
+        props.size.width = 494;
         props.size.height = 44;
         props.label = "Date and time";
         props.buttonText = "Set";
+        props.labelWidth = 160;
+        props.labelHeight = 32;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
+        props.inputHeight = 32;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.btnWidth = 110;
+        props.btnHeight = 32;
         props.buttonForeColor = "";
         props.buttonBackColor = "";
         props.buttonFont = new rs.mimic.Font({ inherit: true });
@@ -333,12 +385,18 @@ rs.mimic.CalendarButtonFactory = class extends rs.mimic.RegularComponentFactory 
         sourceProps ??= {};
         props.label = PropertyParser.parseString(sourceProps.label);
         props.buttonText = PropertyParser.parseString(sourceProps.buttonText);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        props.btnWidth = PropertyParser.parseInt(sourceProps.btnWidth, 110);
+        props.btnHeight = PropertyParser.parseInt(sourceProps.btnHeight, 32);
         props.buttonForeColor = PropertyParser.parseString(sourceProps.buttonForeColor);
         props.buttonBackColor = PropertyParser.parseString(sourceProps.buttonBackColor);
         props.buttonFont = rs.mimic.Font.parse(sourceProps.buttonFont);
@@ -361,16 +419,22 @@ rs.mimic.CalendarRangeFactory = class extends rs.mimic.RegularComponentFactory {
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 326;
+        props.size.width = 377;
         props.size.height = 82;
         props.label = "Date and time";
         props.buttonText = "Set";
+        props.labelWidth = 160;
+        props.labelHeight = 32;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
+        props.inputHeight = 32;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.btnWidth = 198;
+        props.btnHeight = 32;
         props.buttonForeColor = "";
         props.buttonBackColor = "";
         props.buttonFont = new rs.mimic.Font({ inherit: true });
@@ -386,12 +450,18 @@ rs.mimic.CalendarRangeFactory = class extends rs.mimic.RegularComponentFactory {
         sourceProps ??= {};
         props.label = PropertyParser.parseString(sourceProps.label);
         props.buttonText = PropertyParser.parseString(sourceProps.buttonText);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        props.btnWidth = PropertyParser.parseInt(sourceProps.btnWidth, 198);
+        props.btnHeight = PropertyParser.parseInt(sourceProps.btnHeight, 32);
         props.buttonForeColor = PropertyParser.parseString(sourceProps.buttonForeColor);
         props.buttonBackColor = PropertyParser.parseString(sourceProps.buttonBackColor);
         props.buttonFont = rs.mimic.Font.parse(sourceProps.buttonFont);
@@ -413,19 +483,25 @@ rs.mimic.CalendarDoubleRangeFactory = class extends rs.mimic.RegularComponentFac
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 444;
+        props.size.width = 490;
         props.size.height = 82;
         props.labelFrom = "Date and time 1";
         props.labelTo = "Date and time 2";
         props.buttonText = "Set";
         props.secondInCnlNum = 0;
         props.secondOutCnlNum = 0;
+        props.labelWidth = 160;
+        props.labelHeight = 32;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
+        props.inputHeight = 32;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.btnWidth = 110;
+        props.btnHeight = 32;
         props.buttonForeColor = "";
         props.buttonBackColor = "";
         props.buttonFont = new rs.mimic.Font({ inherit: true });
@@ -445,12 +521,18 @@ rs.mimic.CalendarDoubleRangeFactory = class extends rs.mimic.RegularComponentFac
         props.buttonText = PropertyParser.parseString(sourceProps.buttonText);
         props.secondInCnlNum = PropertyParser.parseInt(sourceProps.secondInCnlNum);
         props.secondOutCnlNum = PropertyParser.parseInt(sourceProps.secondOutCnlNum);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        props.btnWidth = PropertyParser.parseInt(sourceProps.btnWidth, 110);
+        props.btnHeight = PropertyParser.parseInt(sourceProps.btnHeight, 32);
         props.buttonForeColor = PropertyParser.parseString(sourceProps.buttonForeColor);
         props.buttonBackColor = PropertyParser.parseString(sourceProps.buttonBackColor);
         props.buttonFont = rs.mimic.Font.parse(sourceProps.buttonFont);
@@ -465,8 +547,9 @@ rs.mimic.CalendarDoubleRangeFactory = class extends rs.mimic.RegularComponentFac
 rs.mimic.CalendarRangeBottomFactory = class extends rs.mimic.CalendarDoubleRangeFactory {
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 326;
+        props.size.width = 377;
         props.size.height = 120;
+        props.btnWidth = 198;
         return props;
     }
 
@@ -478,7 +561,7 @@ rs.mimic.CalendarRangeBottomFactory = class extends rs.mimic.CalendarDoubleRange
 rs.mimic.CalendarRangeSideFactory = class extends rs.mimic.CalendarDoubleRangeFactory {
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 444;
+        props.size.width = 490;
         props.size.height = 82;
         return props;
     }
@@ -492,6 +575,7 @@ rs.mimic.CalendarRangeSideFactory = class extends rs.mimic.CalendarDoubleRangeFa
 function registerCalendarFactories() {
     let componentFactories = rs.mimic.FactorySet.componentFactories;
     componentFactories.set("CalendarAuto", new rs.mimic.CalendarAutoFactory());
+    componentFactories.set("CalendarInput", new rs.mimic.CalendarInputFactory());
     componentFactories.set("CalendarButton", new rs.mimic.CalendarButtonFactory());
     componentFactories.set("CalendarRange", new rs.mimic.CalendarRangeFactory());
     componentFactories.set("CalendarRangeBottom", new rs.mimic.CalendarRangeBottomFactory());

@@ -1,3 +1,4 @@
+// Calendar command format enum.
 
 rs.mimic.CalendarCommandFormat = class {
     static DOUBLE = "Double";

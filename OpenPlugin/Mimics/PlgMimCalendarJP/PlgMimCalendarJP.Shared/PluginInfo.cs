@@ -4,18 +4,30 @@ namespace Scada.Web.Plugins.PlgMimCalendarJP
 {
     /// <summary>
     /// Represents information about a plugin.
-    /// <para>Представляет информацию о плагине.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїР»Р°РіРёРЅРµ.</para>
     /// </summary>
     internal class PluginInfo : LibraryInfo
     {
+        /// <summary>
+        /// Gets the plugin code.
+        /// <para>Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРґ РїР»Р°РіРёРЅР°.</para>
+        /// </summary>
         public override string Code => "PlgMimCalendarJP";
 
+        /// <summary>
+        /// Gets the plugin name.
+        /// <para>Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅР°Р·РІР°РЅРёРµ РїР»Р°РіРёРЅР°.</para>
+        /// </summary>
         public override string Name => Locale.IsRussian
-            ? "Календарь мнемосхем"
+            ? "РљР°Р»РµРЅРґР°СЂСЊ РјРЅРµРјРѕСЃС…РµРј"
             : "Mimic Calendar";
 
+        /// <summary>
+        /// Gets the plugin description.
+        /// <para>Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР°.</para>
+        /// </summary>
         public override string Descr => Locale.IsRussian
-            ? "Календарные компоненты мнемосхем с передачей даты и времени в каналы."
+            ? "РљР°Р»РµРЅРґР°СЂРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РјРЅРµРјРѕСЃС…РµРј СЃ РїРµСЂРµРґР°С‡РµР№ РґР°С‚С‹ Рё РІСЂРµРјРµРЅРё РІ РєР°РЅР°Р»С‹."
             : "Calendar mimic components that send date and time to channels.";
     }
 }

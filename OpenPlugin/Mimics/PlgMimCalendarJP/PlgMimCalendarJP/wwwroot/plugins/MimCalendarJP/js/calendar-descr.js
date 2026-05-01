@@ -31,6 +31,18 @@ function addLabelStyleProperties(descriptor) {
     const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
     descriptor.add(new PropertyDescriptor({
+        name: "labelWidth",
+        displayName: "Label width",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
+        name: "labelHeight",
+        displayName: "Label height",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
         name: "labelForeColor",
         displayName: "Label text color",
         category: KnownCategory.APPEARANCE,
@@ -62,6 +74,18 @@ function addButtonStyleProperties(descriptor) {
     const PropertyEditor = rs.mimic.PropertyEditor;
     const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
+    descriptor.add(new PropertyDescriptor({
+        name: "btnWidth",
+        displayName: "Button width",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
+        name: "btnHeight",
+        displayName: "Button height",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
     descriptor.add(new PropertyDescriptor({
         name: "buttonForeColor",
         displayName: "Button text color",
@@ -101,6 +125,18 @@ function addInputStyleProperties(descriptor) {
     const PropertyEditor = rs.mimic.PropertyEditor;
     const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
+    descriptor.add(new PropertyDescriptor({
+        name: "inputWidth",
+        displayName: "Date input width",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
+        name: "inputHeight",
+        displayName: "Date input height",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
     descriptor.add(new PropertyDescriptor({
         name: "inputForeColor",
         displayName: "Date text color",
@@ -161,6 +197,24 @@ rs.mimic.CalendarAutoDescriptor = class extends rs.mimic.RegularComponentDescrip
 
         this.add(new PropertyDescriptor({ name: "label", displayName: "Label", category: KnownCategory.APPEARANCE, type: BasicType.STRING }));
         addLabelStyleProperties(this);
+        addInputStyleProperties(this);
+        addCommandFormatProperty(this);
+        this.add(new PropertyDescriptor({ name: "autoSend", displayName: "Auto send", category: KnownCategory.BEHAVIOR, type: BasicType.BOOL }));
+        this.add(new PropertyDescriptor({ name: "value1", displayName: "Value 1", category: KnownCategory.MISC, isBrowsable: false, type: BasicType.STRING }));
+    }
+};
+
+rs.mimic.CalendarInputDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    constructor() {
+        super();
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        configureCalendarBaseDescriptor(this);
+
+        this.add(new PropertyDescriptor({ name: "inCnlNum", displayName: "Input channel 1", category: KnownCategory.DATA, type: BasicType.INT }));
+        this.add(new PropertyDescriptor({ name: "outCnlNum", displayName: "Output channel 1", category: KnownCategory.DATA, type: BasicType.INT }));
+
         addInputStyleProperties(this);
         addCommandFormatProperty(this);
         this.add(new PropertyDescriptor({ name: "autoSend", displayName: "Auto send", category: KnownCategory.BEHAVIOR, type: BasicType.BOOL }));
@@ -241,6 +295,7 @@ rs.mimic.CalendarRangeSideDescriptor = class extends rs.mimic.CalendarDoubleRang
 function registerCalendarDescriptors() {
     let componentDescriptors = rs.mimic.DescriptorSet.componentDescriptors;
     componentDescriptors.set("CalendarAuto", new rs.mimic.CalendarAutoDescriptor());
+    componentDescriptors.set("CalendarInput", new rs.mimic.CalendarInputDescriptor());
     componentDescriptors.set("CalendarButton", new rs.mimic.CalendarButtonDescriptor());
     componentDescriptors.set("CalendarRange", new rs.mimic.CalendarRangeDescriptor());
     componentDescriptors.set("CalendarRangeBottom", new rs.mimic.CalendarRangeBottomDescriptor());

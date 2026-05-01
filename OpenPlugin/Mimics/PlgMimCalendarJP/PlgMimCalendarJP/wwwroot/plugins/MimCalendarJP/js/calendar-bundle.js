@@ -1,12 +1,10 @@
-﻿
+// Calendar command format enum.
+
 rs.mimic.CalendarCommandFormat = class {
     static DOUBLE = "Double";
     static TEXT = "Text";
     static HEX = "Hex";
 };
-
-
-
 // Contains property descriptors for calendar components.
 
 function configureCalendarBaseDescriptor(descriptor) {
@@ -40,6 +38,18 @@ function addLabelStyleProperties(descriptor) {
     const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
     descriptor.add(new PropertyDescriptor({
+        name: "labelWidth",
+        displayName: "Label width",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
+        name: "labelHeight",
+        displayName: "Label height",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
         name: "labelForeColor",
         displayName: "Label text color",
         category: KnownCategory.APPEARANCE,
@@ -71,6 +81,18 @@ function addButtonStyleProperties(descriptor) {
     const PropertyEditor = rs.mimic.PropertyEditor;
     const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
+    descriptor.add(new PropertyDescriptor({
+        name: "btnWidth",
+        displayName: "Button width",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
+        name: "btnHeight",
+        displayName: "Button height",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
     descriptor.add(new PropertyDescriptor({
         name: "buttonForeColor",
         displayName: "Button text color",
@@ -110,6 +132,18 @@ function addInputStyleProperties(descriptor) {
     const PropertyEditor = rs.mimic.PropertyEditor;
     const PropertyDescriptor = rs.mimic.PropertyDescriptor;
 
+    descriptor.add(new PropertyDescriptor({
+        name: "inputWidth",
+        displayName: "Date input width",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
+    descriptor.add(new PropertyDescriptor({
+        name: "inputHeight",
+        displayName: "Date input height",
+        category: KnownCategory.APPEARANCE,
+        type: BasicType.INT
+    }));
     descriptor.add(new PropertyDescriptor({
         name: "inputForeColor",
         displayName: "Date text color",
@@ -170,6 +204,24 @@ rs.mimic.CalendarAutoDescriptor = class extends rs.mimic.RegularComponentDescrip
 
         this.add(new PropertyDescriptor({ name: "label", displayName: "Label", category: KnownCategory.APPEARANCE, type: BasicType.STRING }));
         addLabelStyleProperties(this);
+        addInputStyleProperties(this);
+        addCommandFormatProperty(this);
+        this.add(new PropertyDescriptor({ name: "autoSend", displayName: "Auto send", category: KnownCategory.BEHAVIOR, type: BasicType.BOOL }));
+        this.add(new PropertyDescriptor({ name: "value1", displayName: "Value 1", category: KnownCategory.MISC, isBrowsable: false, type: BasicType.STRING }));
+    }
+};
+
+rs.mimic.CalendarInputDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    constructor() {
+        super();
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        configureCalendarBaseDescriptor(this);
+
+        this.add(new PropertyDescriptor({ name: "inCnlNum", displayName: "Input channel 1", category: KnownCategory.DATA, type: BasicType.INT }));
+        this.add(new PropertyDescriptor({ name: "outCnlNum", displayName: "Output channel 1", category: KnownCategory.DATA, type: BasicType.INT }));
+
         addInputStyleProperties(this);
         addCommandFormatProperty(this);
         this.add(new PropertyDescriptor({ name: "autoSend", displayName: "Auto send", category: KnownCategory.BEHAVIOR, type: BasicType.BOOL }));
@@ -250,6 +302,7 @@ rs.mimic.CalendarRangeSideDescriptor = class extends rs.mimic.CalendarDoubleRang
 function registerCalendarDescriptors() {
     let componentDescriptors = rs.mimic.DescriptorSet.componentDescriptors;
     componentDescriptors.set("CalendarAuto", new rs.mimic.CalendarAutoDescriptor());
+    componentDescriptors.set("CalendarInput", new rs.mimic.CalendarInputDescriptor());
     componentDescriptors.set("CalendarButton", new rs.mimic.CalendarButtonDescriptor());
     componentDescriptors.set("CalendarRange", new rs.mimic.CalendarRangeDescriptor());
     componentDescriptors.set("CalendarRangeBottom", new rs.mimic.CalendarRangeBottomDescriptor());
@@ -257,9 +310,6 @@ function registerCalendarDescriptors() {
 }
 
 registerCalendarDescriptors();
-
-
-
 // Contains factories and scripts for calendar components.
 
 rs.mimic.CalendarSingleInputScript = class extends rs.mimic.ComponentScript {
@@ -526,12 +576,14 @@ rs.mimic.CalendarAutoFactory = class extends rs.mimic.RegularComponentFactory {
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 326;
+        props.size.width = 372;
         props.size.height = 44;
         props.label = "Date and time";
+        props.labelWidth = 160;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
@@ -546,9 +598,13 @@ rs.mimic.CalendarAutoFactory = class extends rs.mimic.RegularComponentFactory {
         let props = super.parseProperties(sourceProps);
         sourceProps ??= {};
         props.label = PropertyParser.parseString(sourceProps.label);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
@@ -563,6 +619,46 @@ rs.mimic.CalendarAutoFactory = class extends rs.mimic.RegularComponentFactory {
     }
 };
 
+rs.mimic.CalendarInputFactory = class extends rs.mimic.RegularComponentFactory {
+    _createExtraScript() {
+        return new rs.mimic.CalendarSingleInputScript();
+    }
+
+    createProperties() {
+        let props = super.createProperties();
+        props.size.width = 198;
+        props.size.height = 32;
+        props.inputWidth = 198;
+        props.inputHeight = 32;
+        props.inputForeColor = "";
+        props.inputBackColor = "";
+        props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.commandFormat = rs.mimic.CalendarCommandFormat.DOUBLE;
+        props.autoSend = true;
+        props.value1 = "";
+        return props;
+    }
+
+    parseProperties(sourceProps) {
+        const PropertyParser = rs.mimic.PropertyParser;
+        let props = super.parseProperties(sourceProps);
+        sourceProps ??= {};
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
+        props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
+        props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
+        props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        setCalendarCommandFormat(props, sourceProps);
+        props.autoSend = PropertyParser.parseBool(sourceProps.autoSend, true);
+        props.value1 = PropertyParser.parseString(sourceProps.value1);
+        return props;
+    }
+
+    createComponent() {
+        return super.createComponent("CalendarInput");
+    }
+};
+
 rs.mimic.CalendarButtonFactory = class extends rs.mimic.RegularComponentFactory {
     _createExtraScript() {
         return new rs.mimic.CalendarSingleInputScript();
@@ -570,16 +666,22 @@ rs.mimic.CalendarButtonFactory = class extends rs.mimic.RegularComponentFactory 
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 444;
+        props.size.width = 494;
         props.size.height = 44;
         props.label = "Date and time";
         props.buttonText = "Set";
+        props.labelWidth = 160;
+        props.labelHeight = 32;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
+        props.inputHeight = 32;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.btnWidth = 110;
+        props.btnHeight = 32;
         props.buttonForeColor = "";
         props.buttonBackColor = "";
         props.buttonFont = new rs.mimic.Font({ inherit: true });
@@ -595,12 +697,18 @@ rs.mimic.CalendarButtonFactory = class extends rs.mimic.RegularComponentFactory 
         sourceProps ??= {};
         props.label = PropertyParser.parseString(sourceProps.label);
         props.buttonText = PropertyParser.parseString(sourceProps.buttonText);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        props.btnWidth = PropertyParser.parseInt(sourceProps.btnWidth, 110);
+        props.btnHeight = PropertyParser.parseInt(sourceProps.btnHeight, 32);
         props.buttonForeColor = PropertyParser.parseString(sourceProps.buttonForeColor);
         props.buttonBackColor = PropertyParser.parseString(sourceProps.buttonBackColor);
         props.buttonFont = rs.mimic.Font.parse(sourceProps.buttonFont);
@@ -623,16 +731,22 @@ rs.mimic.CalendarRangeFactory = class extends rs.mimic.RegularComponentFactory {
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 326;
+        props.size.width = 377;
         props.size.height = 82;
         props.label = "Date and time";
         props.buttonText = "Set";
+        props.labelWidth = 160;
+        props.labelHeight = 32;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
+        props.inputHeight = 32;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.btnWidth = 198;
+        props.btnHeight = 32;
         props.buttonForeColor = "";
         props.buttonBackColor = "";
         props.buttonFont = new rs.mimic.Font({ inherit: true });
@@ -648,12 +762,18 @@ rs.mimic.CalendarRangeFactory = class extends rs.mimic.RegularComponentFactory {
         sourceProps ??= {};
         props.label = PropertyParser.parseString(sourceProps.label);
         props.buttonText = PropertyParser.parseString(sourceProps.buttonText);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        props.btnWidth = PropertyParser.parseInt(sourceProps.btnWidth, 198);
+        props.btnHeight = PropertyParser.parseInt(sourceProps.btnHeight, 32);
         props.buttonForeColor = PropertyParser.parseString(sourceProps.buttonForeColor);
         props.buttonBackColor = PropertyParser.parseString(sourceProps.buttonBackColor);
         props.buttonFont = rs.mimic.Font.parse(sourceProps.buttonFont);
@@ -675,19 +795,25 @@ rs.mimic.CalendarDoubleRangeFactory = class extends rs.mimic.RegularComponentFac
 
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 444;
+        props.size.width = 490;
         props.size.height = 82;
         props.labelFrom = "Date and time 1";
         props.labelTo = "Date and time 2";
         props.buttonText = "Set";
         props.secondInCnlNum = 0;
         props.secondOutCnlNum = 0;
+        props.labelWidth = 160;
+        props.labelHeight = 32;
         props.labelForeColor = "";
         props.labelBackColor = "";
         props.labelFont = new rs.mimic.Font({ inherit: true });
+        props.inputWidth = 198;
+        props.inputHeight = 32;
         props.inputForeColor = "";
         props.inputBackColor = "";
         props.inputFont = new rs.mimic.Font({ inherit: true });
+        props.btnWidth = 110;
+        props.btnHeight = 32;
         props.buttonForeColor = "";
         props.buttonBackColor = "";
         props.buttonFont = new rs.mimic.Font({ inherit: true });
@@ -707,12 +833,18 @@ rs.mimic.CalendarDoubleRangeFactory = class extends rs.mimic.RegularComponentFac
         props.buttonText = PropertyParser.parseString(sourceProps.buttonText);
         props.secondInCnlNum = PropertyParser.parseInt(sourceProps.secondInCnlNum);
         props.secondOutCnlNum = PropertyParser.parseInt(sourceProps.secondOutCnlNum);
+        props.labelWidth = PropertyParser.parseInt(sourceProps.labelWidth, 160);
+        props.labelHeight = PropertyParser.parseInt(sourceProps.labelHeight, 32);
         props.labelForeColor = PropertyParser.parseString(sourceProps.labelForeColor);
         props.labelBackColor = PropertyParser.parseString(sourceProps.labelBackColor);
         props.labelFont = rs.mimic.Font.parse(sourceProps.labelFont);
+        props.inputWidth = PropertyParser.parseInt(sourceProps.inputWidth, 198);
+        props.inputHeight = PropertyParser.parseInt(sourceProps.inputHeight, 32);
         props.inputForeColor = PropertyParser.parseString(sourceProps.inputForeColor);
         props.inputBackColor = PropertyParser.parseString(sourceProps.inputBackColor);
         props.inputFont = rs.mimic.Font.parse(sourceProps.inputFont);
+        props.btnWidth = PropertyParser.parseInt(sourceProps.btnWidth, 110);
+        props.btnHeight = PropertyParser.parseInt(sourceProps.btnHeight, 32);
         props.buttonForeColor = PropertyParser.parseString(sourceProps.buttonForeColor);
         props.buttonBackColor = PropertyParser.parseString(sourceProps.buttonBackColor);
         props.buttonFont = rs.mimic.Font.parse(sourceProps.buttonFont);
@@ -727,8 +859,9 @@ rs.mimic.CalendarDoubleRangeFactory = class extends rs.mimic.RegularComponentFac
 rs.mimic.CalendarRangeBottomFactory = class extends rs.mimic.CalendarDoubleRangeFactory {
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 326;
+        props.size.width = 377;
         props.size.height = 120;
+        props.btnWidth = 198;
         return props;
     }
 
@@ -740,7 +873,7 @@ rs.mimic.CalendarRangeBottomFactory = class extends rs.mimic.CalendarDoubleRange
 rs.mimic.CalendarRangeSideFactory = class extends rs.mimic.CalendarDoubleRangeFactory {
     createProperties() {
         let props = super.createProperties();
-        props.size.width = 444;
+        props.size.width = 490;
         props.size.height = 82;
         return props;
     }
@@ -754,6 +887,7 @@ rs.mimic.CalendarRangeSideFactory = class extends rs.mimic.CalendarDoubleRangeFa
 function registerCalendarFactories() {
     let componentFactories = rs.mimic.FactorySet.componentFactories;
     componentFactories.set("CalendarAuto", new rs.mimic.CalendarAutoFactory());
+    componentFactories.set("CalendarInput", new rs.mimic.CalendarInputFactory());
     componentFactories.set("CalendarButton", new rs.mimic.CalendarButtonFactory());
     componentFactories.set("CalendarRange", new rs.mimic.CalendarRangeFactory());
     componentFactories.set("CalendarRangeBottom", new rs.mimic.CalendarRangeBottomFactory());
@@ -761,12 +895,19 @@ function registerCalendarFactories() {
 }
 
 registerCalendarFactories();
-
-
-
 // Contains renderers for calendar components.
 
 rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer {
+    _applyCssVars(componentElem, props) {
+        // Set CSS custom properties on the root element so the stylesheet can use them.
+        if (props.labelWidth > 0) componentElem.css("--label-width", props.labelWidth + "px");
+        if (props.labelHeight > 0) componentElem.css("--label-height", props.labelHeight + "px");
+        if (props.inputWidth > 0) componentElem.css("--input-width", props.inputWidth + "px");
+        if (props.inputHeight > 0) componentElem.css("--control-height", props.inputHeight + "px");
+        if (props.btnWidth > 0) componentElem.css("--btn-width", props.btnWidth + "px");
+        if (props.btnHeight > 0) componentElem.css("--btn-height", props.btnHeight + "px");
+    }
+
     _applyLabelStyle(labelElem, props, renderContext) {
         // Apply label style properties configured in the mimic editor.
         labelElem.css({
@@ -867,10 +1008,25 @@ rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer 
         this._sendCommand(renderContext, cnlNum, 0, true, hex);
     }
 
+    _getEffectiveCnlNum(component, propName) {
+        // Inherit channel number from parent component (faceplate) if not set on this component.
+        let cnlNum = component.properties[propName];
+        if (cnlNum > 0) return cnlNum;
+        let parent = component.parent;
+        while (parent) {
+            if (parent.properties && parent.properties[propName] > 0) {
+                return parent.properties[propName];
+            }
+            parent = parent.parent;
+        }
+        return 0;
+    }
+
     _sendOneValue(component, renderContext, inputElem) {
         let props = component.properties;
         let dt = this._readDateValue(inputElem);
-        this._sendDateTime(renderContext, props.outCnlNum, dt, props.commandFormat);
+        let outCnlNum = this._getEffectiveCnlNum(component, "outCnlNum");
+        this._sendDateTime(renderContext, outCnlNum, dt, props.commandFormat);
         props.value1 = inputElem.val() || "";
     }
 
@@ -879,11 +1035,12 @@ rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer 
         let props = component.properties;
         let dt1 = this._readDateValue(inputElem1);
         let dt2 = this._readDateValue(inputElem2);
+        let outCnlNum = this._getEffectiveCnlNum(component, "outCnlNum");
 
         if (props.commandFormat === rs.mimic.CalendarCommandFormat.HEX) {
-            this._sendDateTimeHex(renderContext, props.outCnlNum, [dt1, dt2]);
+            this._sendDateTimeHex(renderContext, outCnlNum, [dt1, dt2]);
         } else {
-            this._sendDateTime(renderContext, props.outCnlNum, dt1, props.commandFormat);
+            this._sendDateTime(renderContext, outCnlNum, dt1, props.commandFormat);
             this._sendDateTime(renderContext, props.secondOutCnlNum, dt2, props.commandFormat);
         }
 
@@ -902,6 +1059,7 @@ rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer 
 
     _setBaseProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        this._applyCssVars(componentElem, component.properties);
     }
 };
 
@@ -921,6 +1079,36 @@ rs.mimic.CalendarAutoRenderer = class extends rs.mimic.CalendarRendererBase {
         let labelElem = componentElem.find("label.calendar-label:first");
         labelElem.text(props.label || "");
         this._applyLabelStyle(labelElem, props, renderContext);
+        let inputElem = componentElem.find("input.calendar-dt:first");
+        this._applyInputStyle(inputElem, props, renderContext);
+        this._setInputValue(inputElem, props.value1);
+    }
+
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+        componentElem.off("change.rs.calendar");
+
+        if (!renderContext.editMode && component.properties.autoSend) {
+            componentElem.on("change.rs.calendar", "input.calendar-dt", () => {
+                this._sendOneValue(component, renderContext, componentElem.find("input.calendar-dt:first"));
+            });
+        }
+    }
+};
+
+rs.mimic.CalendarInputRenderer = class extends rs.mimic.CalendarRendererBase {
+    _completeDom(componentElem) {
+        componentElem.append("<input type='datetime-local' class='calendar-dt' />");
+    }
+
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("calendar-comp calendar-input");
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        this._setBaseProps(componentElem, component, renderContext);
+        let props = component.properties;
         let inputElem = componentElem.find("input.calendar-dt:first");
         this._applyInputStyle(inputElem, props, renderContext);
         this._setInputValue(inputElem, props.value1);
@@ -1102,6 +1290,7 @@ rs.mimic.CalendarRangeSideRenderer = class extends rs.mimic.CalendarRangeBaseRen
 function registerCalendarRenderers() {
     let componentRenderers = rs.mimic.RendererSet.componentRenderers;
     componentRenderers.set("CalendarAuto", new rs.mimic.CalendarAutoRenderer());
+    componentRenderers.set("CalendarInput", new rs.mimic.CalendarInputRenderer());
     componentRenderers.set("CalendarButton", new rs.mimic.CalendarButtonRenderer());
     componentRenderers.set("CalendarRange", new rs.mimic.CalendarRangeRenderer());
     componentRenderers.set("CalendarRangeBottom", new rs.mimic.CalendarRangeBottomRenderer());
@@ -1109,7 +1298,3 @@ function registerCalendarRenderers() {
 }
 
 registerCalendarRenderers();
-
-
-
-

@@ -1,6 +1,16 @@
 // Contains renderers for calendar components.
 
 rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer {
+    _applyCssVars(componentElem, props) {
+        // Set CSS custom properties on the root element so the stylesheet can use them.
+        if (props.labelWidth > 0) componentElem.css("--label-width", props.labelWidth + "px");
+        if (props.labelHeight > 0) componentElem.css("--label-height", props.labelHeight + "px");
+        if (props.inputWidth > 0) componentElem.css("--input-width", props.inputWidth + "px");
+        if (props.inputHeight > 0) componentElem.css("--control-height", props.inputHeight + "px");
+        if (props.btnWidth > 0) componentElem.css("--btn-width", props.btnWidth + "px");
+        if (props.btnHeight > 0) componentElem.css("--btn-height", props.btnHeight + "px");
+    }
+
     _applyLabelStyle(labelElem, props, renderContext) {
         // Apply label style properties configured in the mimic editor.
         labelElem.css({
@@ -101,10 +111,25 @@ rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer 
         this._sendCommand(renderContext, cnlNum, 0, true, hex);
     }
 
+    _getEffectiveCnlNum(component, propName) {
+        // Inherit channel number from parent component (faceplate) if not set on this component.
+        let cnlNum = component.properties[propName];
+        if (cnlNum > 0) return cnlNum;
+        let parent = component.parent;
+        while (parent) {
+            if (parent.properties && parent.properties[propName] > 0) {
+                return parent.properties[propName];
+            }
+            parent = parent.parent;
+        }
+        return 0;
+    }
+
     _sendOneValue(component, renderContext, inputElem) {
         let props = component.properties;
         let dt = this._readDateValue(inputElem);
-        this._sendDateTime(renderContext, props.outCnlNum, dt, props.commandFormat);
+        let outCnlNum = this._getEffectiveCnlNum(component, "outCnlNum");
+        this._sendDateTime(renderContext, outCnlNum, dt, props.commandFormat);
         props.value1 = inputElem.val() || "";
     }
 
@@ -113,11 +138,12 @@ rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer 
         let props = component.properties;
         let dt1 = this._readDateValue(inputElem1);
         let dt2 = this._readDateValue(inputElem2);
+        let outCnlNum = this._getEffectiveCnlNum(component, "outCnlNum");
 
         if (props.commandFormat === rs.mimic.CalendarCommandFormat.HEX) {
-            this._sendDateTimeHex(renderContext, props.outCnlNum, [dt1, dt2]);
+            this._sendDateTimeHex(renderContext, outCnlNum, [dt1, dt2]);
         } else {
-            this._sendDateTime(renderContext, props.outCnlNum, dt1, props.commandFormat);
+            this._sendDateTime(renderContext, outCnlNum, dt1, props.commandFormat);
             this._sendDateTime(renderContext, props.secondOutCnlNum, dt2, props.commandFormat);
         }
 
@@ -136,6 +162,7 @@ rs.mimic.CalendarRendererBase = class extends rs.mimic.RegularComponentRenderer 
 
     _setBaseProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
+        this._applyCssVars(componentElem, component.properties);
     }
 };
 
@@ -155,6 +182,36 @@ rs.mimic.CalendarAutoRenderer = class extends rs.mimic.CalendarRendererBase {
         let labelElem = componentElem.find("label.calendar-label:first");
         labelElem.text(props.label || "");
         this._applyLabelStyle(labelElem, props, renderContext);
+        let inputElem = componentElem.find("input.calendar-dt:first");
+        this._applyInputStyle(inputElem, props, renderContext);
+        this._setInputValue(inputElem, props.value1);
+    }
+
+    _bindEvents(componentElem, component, renderContext) {
+        super._bindEvents(componentElem, component, renderContext);
+        componentElem.off("change.rs.calendar");
+
+        if (!renderContext.editMode && component.properties.autoSend) {
+            componentElem.on("change.rs.calendar", "input.calendar-dt", () => {
+                this._sendOneValue(component, renderContext, componentElem.find("input.calendar-dt:first"));
+            });
+        }
+    }
+};
+
+rs.mimic.CalendarInputRenderer = class extends rs.mimic.CalendarRendererBase {
+    _completeDom(componentElem) {
+        componentElem.append("<input type='datetime-local' class='calendar-dt' />");
+    }
+
+    _setClasses(componentElem, component, renderContext) {
+        super._setClasses(componentElem, component, renderContext);
+        componentElem.addClass("calendar-comp calendar-input");
+    }
+
+    _setProps(componentElem, component, renderContext) {
+        this._setBaseProps(componentElem, component, renderContext);
+        let props = component.properties;
         let inputElem = componentElem.find("input.calendar-dt:first");
         this._applyInputStyle(inputElem, props, renderContext);
         this._setInputValue(inputElem, props.value1);
@@ -336,6 +393,7 @@ rs.mimic.CalendarRangeSideRenderer = class extends rs.mimic.CalendarRangeBaseRen
 function registerCalendarRenderers() {
     let componentRenderers = rs.mimic.RendererSet.componentRenderers;
     componentRenderers.set("CalendarAuto", new rs.mimic.CalendarAutoRenderer());
+    componentRenderers.set("CalendarInput", new rs.mimic.CalendarInputRenderer());
     componentRenderers.set("CalendarButton", new rs.mimic.CalendarButtonRenderer());
     componentRenderers.set("CalendarRange", new rs.mimic.CalendarRangeRenderer());
     componentRenderers.set("CalendarRangeBottom", new rs.mimic.CalendarRangeBottomRenderer());
@@ -343,4 +401,3 @@ function registerCalendarRenderers() {
 }
 
 registerCalendarRenderers();
-

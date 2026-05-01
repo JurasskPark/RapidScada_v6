@@ -4,12 +4,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Web.Plugins.PlgMimCalendarJP.View</RootNamespace>
-    <Authors>Rapid SCADA</Authors>
-    <Company>Rapid Software LLC</Company>
-    <Product>Rapid SCADA</Product>
-    <Copyright>Copyright (c) 2026</Copyright>
-    <Version>6.0.1</Version>
-    <AssemblyVersion>6.0.1.1</AssemblyVersion>
+	<Authors>Yuriy Pradius</Authors>
+	<Company>Community Rapid Software</Company>
+	<Product>Rapid SCADA</Product>
+	<Copyright>Copyright © 2026</Copyright>
+    <Version>6.0.2</Version>
+    <AssemblyVersion>6.0.2.1</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ScadaCommon">

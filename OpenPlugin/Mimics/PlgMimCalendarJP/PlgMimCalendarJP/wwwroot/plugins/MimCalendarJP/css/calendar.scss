@@ -1,7 +1,9 @@
 .calendar-comp {
-    --label-width: 108px;
+    --label-width: 160px;
+    --label-height: 32px;
     --input-width: 198px;
     --btn-width: 110px;
+    --btn-height: 32px;
     --row-gap: 6px;
     --control-height: 32px;
     display: flex;
@@ -11,19 +13,27 @@
     box-sizing: border-box;
 }
 
+/* Selection outline matching component content area (inside padding) */
+.calendar-comp {
+    --border-width: 6px;
+}
+
 .calendar-comp .calendar-row {
     display: flex;
-    gap: 8px;
+    gap: 1ch;
     align-items: center;
 }
 
 .calendar-comp .calendar-label {
     width: var(--label-width);
     min-width: var(--label-width);
+    height: var(--label-height);
+    line-height: var(--label-height);
     font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: right;
 }
 
 .calendar-comp input[type="datetime-local"] {
@@ -79,9 +89,9 @@
 
 .calendar-range .calendar-row-action .calendar-set-btn,
 .calendar-range-bottom .calendar-row-action .calendar-set-btn {
-    flex: 0 0 var(--input-width);
-    width: var(--input-width);
-    min-width: var(--input-width);
+    flex: 0 0 var(--btn-width);
+    width: var(--btn-width);
+    min-width: var(--btn-width);
 }
 
 .calendar-range-side {
@@ -110,4 +120,15 @@
     width: 100%;
     min-width: 0;
     height: calc(var(--control-height) * 2 + var(--row-gap));
+}
+
+.calendar-comp.calendar-input {
+    display: block;
+    padding: 0;
+}
+
+.calendar-comp.calendar-input input[type="datetime-local"] {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
 }

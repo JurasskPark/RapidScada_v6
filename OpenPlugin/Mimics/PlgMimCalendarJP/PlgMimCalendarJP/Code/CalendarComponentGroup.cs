@@ -27,6 +27,13 @@ namespace Scada.Web.Plugins.PlgMimCalendarJP.Code
             Items.Add(new ComponentItem
             {
                 IconUrl = IconPath + "calendar.png",
+                DisplayName = PluginPhrases.CalendarInputComponent,
+                TypeName = "CalendarInput"
+            });
+
+            Items.Add(new ComponentItem
+            {
+                IconUrl = IconPath + "calendar.png",
                 DisplayName = PluginPhrases.CalendarButtonComponent,
                 TypeName = "CalendarButton"
             });
