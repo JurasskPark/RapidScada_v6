@@ -1,9 +1,9 @@
 # PlgMimCalendarJP
 
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
+![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.2.1/total)
 ![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![.NET](https://img.shields.io/badge/.NET-8.0--windows-purple.svg)
+![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 
 **Mimic Calendar** — a Rapid SCADA plugin that provides calendar components for mimic diagrams.  
 **Календарь мнемосхем** — плагин Rapid SCADA, добавляющий календарные компоненты для мнемосхем.
@@ -131,7 +131,16 @@ For double-range components (CalendarRangeBottom, CalendarRangeSide), a second p
 | **Text** | ISO 8601 string | Строка ISO 8601 |
 | **Hex** | Little-endian double as hex string | Little-endian double в виде hex-строки |
 
+
+## Screenshots / Скриншоты
+
+![PlgMimCalendarJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenPlugin/Source/PlgMimCalendarJP_001.png)
+
 ## License / Лицензия
 
 This project is part of the Rapid SCADA ecosystem.  
 Данный проект является частью экосистемы Rapid SCADA.
+
+## SAST Tools
+
+[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
