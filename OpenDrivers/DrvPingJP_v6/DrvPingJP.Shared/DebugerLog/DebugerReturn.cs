@@ -17,7 +17,7 @@
         /// <summary>
         /// Getting the log
         /// </summary>
-        public static DebugData OnDebug;
+        public static DebugData OnDebug = delegate { };
         public delegate void DebugData(string msg);
 
         /// <summary>

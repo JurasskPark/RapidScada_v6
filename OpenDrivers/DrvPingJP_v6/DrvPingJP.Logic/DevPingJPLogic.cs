@@ -15,7 +15,6 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
     {
         public readonly bool isDll;                             // application or dll
         private readonly string pathLog;                        // the path log
-        private readonly AppDirs appDirs;                       // the application directories
         private readonly string driverCode;                     // the driver code
         private readonly int deviceNum;                         // the device number
         private readonly string pathProject;                    // the configuration file name
@@ -59,9 +58,7 @@ namespace Scada.Comm.Drivers.DrvPingJPLogic.Logic
             }
 
             DebugerReturn.OnDebug = new DebugerReturn.DebugData(DebugerLog);
-            DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(DebugerTags);
-
-            this.driverClient = new DriverClient(project);
+            this.driverClient = new DriverClient(project, DebugerTags);
 
             // manager
             Manager.IsDll = this.isDll;

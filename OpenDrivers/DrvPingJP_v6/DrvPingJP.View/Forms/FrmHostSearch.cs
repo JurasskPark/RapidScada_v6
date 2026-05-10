@@ -23,9 +23,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             this.project = new Project();
             this.project.Mode = 1;
             this.project.DeviceTags = this.deviceTags;
-            this.driverClient = new DriverClient(project);
-            
-            DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(DebugerTags);
+            this.driverClient = new DriverClient(project, DebugerTags);
         }
 
         #region Variables
@@ -258,21 +256,30 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// <summary>
         /// Start find device.
         /// </summary>
-        private void btnStart_Click(object sender, EventArgs e)
+        private async void btnStart_Click(object sender, EventArgs e)
         {
             btnSave.Enabled = false;
             btnClose.Enabled = false;
-
-            driverClient = new DriverClient(project);
+            btnStart.Enabled = false;
 
             try
             {
-                driverClient.Ping();
-            }
-            catch { }
+                driverClient.Dispose();
+                project.DeviceTags = deviceTags;
+                driverClient = new DriverClient(project, DebugerTags);
 
-            btnSave.Enabled = true;
-            btnClose.Enabled = true;
+                await Task.Run(() => driverClient.Ping());
+            }
+            catch (Exception ex)
+            {
+                Debuger.Log($"{nameof(btnStart_Click)}: {ex.Message}");
+            }
+            finally
+            {
+                btnStart.Enabled = true;
+                btnSave.Enabled = true;
+                btnClose.Enabled = true;
+            }
 
         }
 
@@ -345,7 +352,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                                     TagItem.ForeColor = Color.Black;
                                     TagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    Debuger.Log($"{nameof(TagInformation)}: {ex.Message}");
+                                }
                             }
                             else if (tagItem.Val == 0)
                             {
@@ -354,12 +364,18 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                                     TagItem.ForeColor = Color.White;
                                     TagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    Debuger.Log($"{nameof(TagInformation)}: {ex.Message}");
+                                }
                             }
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Debuger.Log($"{nameof(TagInformation)}: {ex.Message}");
+                }
                 finally
                 {
                     lstTags.EndUpdate();

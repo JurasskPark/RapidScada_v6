@@ -1,5 +1,4 @@
 ﻿using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
 using Timer = System.Threading.Timer;
 
 namespace Scada.Comm.Drivers.DrvPingJP
@@ -12,7 +11,8 @@ namespace Scada.Comm.Drivers.DrvPingJP
     {
         #region Variables
         Debuger driverLog = new Debuger();
-        DriverTagReturn driverTagReturn = new DriverTagReturn();
+        private readonly DriverTagReturn.DebugData onTagsReceived;
+        DriverTagReturn driverTagReturn;
         private Timer timer;
         private TimerCallback timerCallback;
         private bool timerIsRunning;
@@ -27,24 +27,23 @@ namespace Scada.Comm.Drivers.DrvPingJP
         private CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
         private object lockObj = new object();
 
-        public event Action<string> OnDebug;
-        public event Action<DriverTag> OnDebugTag;
-        public event Action<List<DriverTag>> OnDebugTags;
         #endregion Variables
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public NetworkInformation()
+        public NetworkInformation(DriverTagReturn.DebugData onTagsReceived = null)
         {
+            this.onTagsReceived = onTagsReceived;
             Initialize();
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public NetworkInformation(int modePing, List<DriverTag> tags)
+        public NetworkInformation(int modePing, List<DriverTag> tags, DriverTagReturn.DebugData onTagsReceived = null)
         {
+            this.onTagsReceived = onTagsReceived;
             mode = modePing;
             listTag = tags;
             Initialize();
@@ -56,12 +55,11 @@ namespace Scada.Comm.Drivers.DrvPingJP
         private void Initialize()
         {
             driverLog = new Debuger();
-            driverTagReturn = new DriverTagReturn();
+            driverTagReturn = new DriverTagReturn(onTagsReceived);
 
             timerIsRunning = false;
             interval = 1000;
             timerCallback = new TimerCallback(TimerCallbackMethod);
-            timer = new Timer(timerCallback, null, 0, interval);
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace Scada.Comm.Drivers.DrvPingJP
                     }
                     else if (mode == 1)
                     {
-                        PingAsynchronous();
+                        _ = PingAsynchronous();
                     }
                 }
                 catch (Exception ex)
@@ -303,7 +301,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
         }
 
         #region Dispose
-        private IntPtr bufferPtr;
         private bool disposed = false;
 
         /// <summary>
@@ -325,7 +322,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
             if (disposing)
             {
                 PingStop();
-                Marshal.FreeHGlobal(bufferPtr);
             }
 
             disposed = true;

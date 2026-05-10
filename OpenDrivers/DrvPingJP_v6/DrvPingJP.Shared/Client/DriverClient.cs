@@ -14,90 +14,24 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DriverClient()
+        public DriverClient(DriverTagReturn.DebugData onTagsReceived = null)
         {
             this.project = new Project();
 
-            this.networkInformation = new NetworkInformation();
+            this.networkInformation = new NetworkInformation(onTagsReceived);
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DriverClient(Project project)
+        public DriverClient(Project project, DriverTagReturn.DebugData onTagsReceived = null)
         {
             this.project = project;
 
-            this.networkInformation = new NetworkInformation(this.project.Mode, this.project.DeviceTags);
+            this.networkInformation = new NetworkInformation(this.project.Mode, this.project.DeviceTags, onTagsReceived);
         }
-
-        #region Log
-        /// <summary>
-        /// Getting logs
-        /// </summary>
-        public static DebugData OnDebug;
-        public delegate void DebugData(string msg);
-
-        /// <summary>
-        /// Passes log messages to subscribers.
-        /// </summary>
-        internal void DebugerLog(string text)
-        {
-            if (OnDebug == null)
-            {
-                return;
-            }
-
-            OnDebug(text);
-        }
-        #endregion Log
-
-        #region DebugerTag
-        /// <summary>
-        /// Getting tag.
-        /// </summary>
-        public static DebugTag OnDebugTag;
-        public delegate void DebugTag(DriverTag tags);
-
-        /// <summary>
-        /// Passes a tag to subscribers.
-        /// </summary>
-        internal void DebugerTag(DriverTag tag)
-        {
-            if (OnDebugTag == null)
-            {
-                return;
-            }
-
-            OnDebugTag(tag);
-        }
-        #endregion DebugerTag
-
-        #region DebugerTags
-        
-        /// <summary>
-        /// Getting tags.
-        /// </summary>
-        public static DebugTags OnDebugTags;
-        public delegate void DebugTags(List<DriverTag> tags);
-
-        /// <summary>
-        /// Passes tags to subscribers.
-        /// </summary>
-        internal void DebugerTags(List<DriverTag> tags)
-        {
-            if (OnDebugTags == null)
-            {
-                return;
-            }
-
-            OnDebugTags(tags);
-        }
-
-        #endregion DebugerTags
 
         #region Dispose
-        private IntPtr _bufferPtr;                      // buffer
         private bool _disposed = false;                 // disposed
 
         /// <summary>
@@ -123,8 +57,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 // free any other managed objects here.
             }
 
-            // free any unmanaged objects here.
-            Marshal.FreeHGlobal(_bufferPtr);
             _disposed = true;
         }
 

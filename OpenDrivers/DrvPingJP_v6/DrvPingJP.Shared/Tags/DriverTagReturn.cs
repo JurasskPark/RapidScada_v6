@@ -6,18 +6,19 @@
     /// </summary>
     internal class DriverTagReturn
     {
+        private readonly DebugData onDebug;
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DriverTagReturn()
+        public DriverTagReturn(DebugData onDebug = null)
         {
-
+            this.onDebug = onDebug;
         }
 
         /// <summary>
         /// Getting the tags
         /// </summary>
-        public static DebugData OnDebug;
         public delegate void DebugData(List<DriverTag> tags);
 
         /// <summary>
@@ -25,12 +26,12 @@
         /// </summary>
         internal void TagReturn(List<DriverTag> tags)
         {
-            if (OnDebug == null)
+            if (onDebug == null)
             {
                 return;
             }
 
-            OnDebug(tags);
+            onDebug(tags);
         }
 
         /// <summary>

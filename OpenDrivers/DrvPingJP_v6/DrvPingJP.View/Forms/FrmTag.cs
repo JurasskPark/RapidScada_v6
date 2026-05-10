@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// <summary>
         /// Gets or sets the tag being edited.
         /// </summary>
-        public DriverTag Tag;
+        public DriverTag CurrentTag;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -25,7 +25,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         {
             InitializeComponent();
 
-            if (Tag == null)
+            if (CurrentTag == null)
             {
                 return;
             }
@@ -36,11 +36,11 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void FrmTag_Load(object sender, EventArgs e)
         {
-            txtTagCode.Text = Tag.Code;
-            txtTagname.Text = Tag.Name;
-            txtIPAddress.Text = Tag.IpAddress;
-            nudTimeout.Value = Convert.ToDecimal(Tag.Timeout);
-            ckbTagEnabled.Checked = Tag.Enabled;
+            txtTagCode.Text = CurrentTag.Code;
+            txtTagname.Text = CurrentTag.Name;
+            txtIPAddress.Text = CurrentTag.IpAddress;
+            nudTimeout.Value = Convert.ToDecimal(CurrentTag.Timeout);
+            ckbTagEnabled.Checked = CurrentTag.Enabled;
 
             // translate the form
             FormTranslator.Translate(this, GetType().FullName);
@@ -63,12 +63,12 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Tag.ID = Guid.NewGuid();
-            Tag.Name = txtTagname.Text;
-            Tag.Code = txtTagCode.Text;
-            Tag.IpAddress = txtIPAddress.Text;
-            Tag.Timeout = Convert.ToInt32(nudTimeout.Value);
-            Tag.Enabled = ckbTagEnabled.Checked;
+            CurrentTag.ID = Guid.NewGuid();
+            CurrentTag.Name = txtTagname.Text;
+            CurrentTag.Code = txtTagCode.Text;
+            CurrentTag.IpAddress = txtIPAddress.Text;
+            CurrentTag.Timeout = Convert.ToInt32(nudTimeout.Value);
+            CurrentTag.Enabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
             Close();
@@ -79,11 +79,11 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Tag.Name = txtTagname.Text;
-            Tag.Code = txtTagCode.Text;
-            Tag.IpAddress = txtIPAddress.Text;
-            Tag.Timeout = Convert.ToInt32(nudTimeout.Value);
-            Tag.Enabled = ckbTagEnabled.Checked;
+            CurrentTag.Name = txtTagname.Text;
+            CurrentTag.Code = txtTagCode.Text;
+            CurrentTag.IpAddress = txtIPAddress.Text;
+            CurrentTag.Timeout = Convert.ToInt32(nudTimeout.Value);
+            CurrentTag.Enabled = ckbTagEnabled.Checked;
 
             DialogResult = DialogResult.OK;
             Close();

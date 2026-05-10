@@ -22,8 +22,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
             this.isDll = false;
 
-            this.driverCode = DriverUtils.DriverCode;
-
             this.appDirectory = AppDomain.CurrentDomain.BaseDirectory;
             this.languageDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Lang");
             this.pathLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Log");
@@ -36,9 +34,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                 ScadaUiUtils.ShowError(errMsg);
             }
 
-            DriverTagReturn.OnDebug = new DriverTagReturn.DebugData(DebugerTags);
-
-            this.driverClient = new DriverClient(project);
+            this.driverClient = new DriverClient(project, DebugerTags);
             this.deviceTags = new List<DriverTag>();
 
             // manager
@@ -63,8 +59,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.deviceNum = deviceNum;
-            this.driverCode = DriverUtils.DriverCode;
-
             this.appDirectory = appDirs.ConfigDir;
             this.languageDir = appDirs.LangDir;
             this.project = new Project();
@@ -76,9 +70,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                 ScadaUiUtils.ShowError(errMsg);
             }
 
-            DriverClient.OnDebugTags = new DriverClient.DebugTags(DebugerTags);
-
-            this.driverClient = new DriverClient(project);
+            this.driverClient = new DriverClient(project, DebugerTags);
             this.deviceTags = new List<DriverTag>();
 
             // manager
@@ -97,7 +89,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         public readonly bool isDll;                             // application or dll
         private readonly string pathLog;                        // the path log
         private readonly AppDirs appDirs;                       // the application directories
-        private readonly string driverCode;                     // the driver code
         private readonly int deviceNum;                         // the device number
         private Project project;                                // the device configuration
         private string pathProject;                             // the configuration file name
@@ -106,7 +97,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
         private string appDirectory;                            // the applications directory
         private string languageDir;                             // the language directory
-        private string culture = "en-GB";                       // the culture
         private bool isRussian;							        // the language
 
         private Dictionary<string, ListViewItem> itemMap = new Dictionary<string, ListViewItem>(); // the dictionary for quick access to listview items
@@ -115,7 +105,6 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         private int indexSelectTag = 0;                         // index number tag
         private Guid selectTagID = Guid.Empty;                  // id selected driver tag
 
-        private int PingMode = 0;                               // type ping
         #endregion Variables
 
         #region Basic
@@ -183,7 +172,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(FrmConfig_FormClosing), ex);
+            }
         }
         #endregion Form Close
 
@@ -295,7 +287,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     lstTags.Select();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(UpdateInformationTags), ex);
+            }
         }
 
         /// <summary>
@@ -303,12 +298,36 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
         /// </summary>
         private void ControlsToConfig()
         {
-            this.driverClient = new DriverClient(project);
-            this.driverClient.Stop();
+            driverClient.Stop();
+            driverClient.Dispose();
 
             project.DebugerSettings.LogWrite = cbLog.Checked;
             project.Mode = SelectPingType();
             project.DeviceTags = deviceTags;
+
+            driverClient = new DriverClient(project, DebugerTags);
+        }
+
+        private static bool ContainsTag(IEnumerable<DriverTag> tags, DriverTag newTag)
+        {
+            if (newTag == null)
+            {
+                return false;
+            }
+
+            return tags.Any(tag =>
+                tag != null &&
+                ((!string.IsNullOrWhiteSpace(newTag.Code) &&
+                    string.Equals(tag.Code, newTag.Code, StringComparison.OrdinalIgnoreCase)) ||
+                 (!string.IsNullOrWhiteSpace(newTag.Name) &&
+                    string.Equals(tag.Name, newTag.Name, StringComparison.OrdinalIgnoreCase)) ||
+                 (!string.IsNullOrWhiteSpace(newTag.IpAddress) &&
+                    string.Equals(tag.IpAddress, newTag.IpAddress, StringComparison.OrdinalIgnoreCase))));
+        }
+
+        private static void LogException(string context, Exception ex)
+        {
+            Debuger.Log($"{context}: {ex.Message}");
         }
         #endregion Config
 
@@ -438,13 +457,13 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
             Modified = true;
             if (rdbPingSync.Checked == true)
             {
-                return PingMode = 0;
+                return 0;
             }
             else if (rdbPingAsync.Checked == true)
             {
-                return PingMode = 1;
+                return 1;
             }
-            return PingMode = 0;
+            return 0;
         }
 
         #endregion Mode
@@ -509,7 +528,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                 // create form
                 FrmTag frmTag = new FrmTag();
                 frmTag.ModeWork = 1;
-                frmTag.Tag = newTag;
+                frmTag.CurrentTag = newTag;
                 // showing the form
                 DialogResult dialog = frmTag.ShowDialog();
                 // if you have closed the form, click OK
@@ -521,7 +540,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     Modified = true;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(TagAdd), ex);
+            }
         }
 
         #endregion Tag add
@@ -560,7 +582,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                         newTag.Timeout = 1000;
                         newTag.Enabled = true;
 
-                        if (!deviceTags.Contains(newTag))
+                        if (!ContainsTag(deviceTags, newTag))
                         {
                             deviceTags.Add(newTag);
                             UpdateInformationTags();
@@ -570,7 +592,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(ListTagAdd), ex);
+            }
         }
 
         #endregion Tag list add
@@ -600,7 +625,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
                     foreach (DriverTag newTag in foundTags)
                     {
-                        if (!deviceTags.Contains(newTag))
+                        if (!ContainsTag(deviceTags, newTag))
                         {
                             deviceTags.Add(newTag);
                         }
@@ -610,7 +635,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     Modified = true;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(ListTagAddIpAddresses), ex);
+            }
         }
 
         #endregion
@@ -652,7 +680,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
 
                     FrmTag frmTag = new FrmTag();
                     frmTag.ModeWork = 2;
-                    frmTag.Tag = changeTag;
+                    frmTag.CurrentTag = changeTag;
                     // showing the form
                     DialogResult dialog = frmTag.ShowDialog();
                     // if you have closed the form, click OK
@@ -660,7 +688,7 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     {
                         if (index != -1)
                         {
-                            deviceTags[index] = frmTag.Tag;
+                            deviceTags[index] = frmTag.CurrentTag;
                         }
 
                         UpdateInformationTags();
@@ -677,7 +705,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(TagChange), ex);
+            }
         }
 
         #endregion Tag change
@@ -754,12 +785,18 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                             tmplstTags.Select();
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        LogException(nameof(TagDelete), ex);
+                    }
                 }
 
                 Modified = true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(TagDelete), ex);
+            }
         }
 
         #endregion Tag delete
@@ -784,7 +821,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                 UpdateInformationTags();
                 Modified = true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogException(nameof(TagAllDelete), ex);
+            }
         }
 
         #endregion Tag list delete
@@ -949,7 +989,10 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                                     TagItem.ForeColor = Color.Black;
                                     TagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    LogException(nameof(TagInformation), ex);
+                                }
                             }
                             else if (tagItem.Val == 0)
                             {
@@ -958,12 +1001,18 @@ namespace Scada.Comm.Drivers.DrvPingJP.View.Forms
                                     TagItem.ForeColor = Color.White;
                                     TagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    LogException(nameof(TagInformation), ex);
+                                }
                             }
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    LogException(nameof(TagInformation), ex);
+                }
                 finally
                 {
                     lstTags.EndUpdate();

@@ -1,5 +1,4 @@
 ﻿using Scada.Lang;
-using System.Runtime.InteropServices;
 
 namespace Scada.Comm.Drivers.DrvPingJP
 {
@@ -14,7 +13,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
         #endregion Variables
 
         #region Dispose
-        private IntPtr _bufferPtr;
         private bool _disposed = false;
 
         /// <summary>
@@ -38,8 +36,6 @@ namespace Scada.Comm.Drivers.DrvPingJP
                 // free any other managed objects here.
             }
 
-            // free any unmanaged objects here.
-            Marshal.FreeHGlobal(_bufferPtr);
             _disposed = true;
         }
 

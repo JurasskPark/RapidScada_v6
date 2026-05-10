@@ -253,11 +253,6 @@
         private System.Windows.Forms.TextBox txtRangeStart;
         private System.Windows.Forms.TextBox txtRangeEnd;
         private System.Windows.Forms.Label lblRangeSep;
-        private System.Windows.Forms.ColumnHeader colIPAddress;
-        private System.Windows.Forms.ColumnHeader clmAvgResponseTime;
-        private System.Windows.Forms.ColumnHeader colLosses;
-        private System.Windows.Forms.ColumnHeader colHostName;
-        private System.Windows.Forms.ColumnHeader colUserName;
         private GroupBox gpbTags;
         private TableLayoutPanel tlpTags;
         private ListView lstTags;
