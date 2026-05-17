@@ -1,5 +1,7 @@
 # DrvMOXANportJP
 
+
+![DrvMOXANportJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvMOXANportJP_v6.4.0.2/total)
 ![DrvMOXANportJP](https://img.shields.io/badge/Rapid%20SCADA-6.4-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)

@@ -25,6 +25,7 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDbImport
 
 -------------------------------------------------------------------------------
 
+![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.2/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.1/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.0/total)
 ![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.3.0.0/total)
@@ -106,6 +107,12 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaA
 ![ExtTrendJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtTrendJP_v6.1.1.3/total)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/TrendJP
+
+-------------------------------------------------------------------------------
+
+![DrvMOXANportJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvMOXANportJP_v6.4.0.2/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/MOXANportJP
 
 -------------------------------------------------------------------------------
 

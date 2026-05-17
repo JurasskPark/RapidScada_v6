@@ -44,3 +44,9 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaA
 https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/TrendJP
 
 -------------------------------------------------------------------------------
+
+![DrvMOXANportJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvMOXANportJP_v6.4.0.2/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/MOXANportJP
+
+-------------------------------------------------------------------------------
