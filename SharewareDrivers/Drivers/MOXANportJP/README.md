@@ -154,10 +154,10 @@ DrvMOXANportJP/
 
 ## Screenshots / Скриншоты
 
-![DrvMOXANportJP](![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_001.png)
-![DrvMOXANportJP](![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_002.png)
-![DrvMOXANportJP](![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_003.png)
-![DrvMOXANportJP](![DrvParserTextInDatabaseJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_004.png)
+![DrvMOXANportJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_001.png)
+![DrvMOXANportJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_002.png)
+![DrvMOXANportJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_003.png)
+![DrvMOXANportJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/Drivers/MOXANportJP/DrvPMOXANportJP_004.png)
 
 
 ## License / Лицензия
