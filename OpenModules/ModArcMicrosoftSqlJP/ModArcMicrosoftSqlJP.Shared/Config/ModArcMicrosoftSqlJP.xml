@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ModArcMicrosoftSqlJP>
+  <Connections>
+    <Connection>
+      <Name>MicrosoftSqlConn</Name>
+      <DBMS>MSSQL</DBMS>
+      <Server>localhost</Server>
+      <Database>rapid_scada</Database>
+      <Username>sa</Username>
+      <Password />
+      <ConnectionString />
+    </Connection>
+  </Connections>
+</ModArcMicrosoftSqlJP>

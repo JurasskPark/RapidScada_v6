@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ModArcMicrosoftSqlJPDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="lblUseDefaultConn">Соединение по умолчанию</Phrase>
+    <Phrase key="lblConnection">Соединение</Phrase>
+    <Phrase key="lblPartitionSize">Размер секции</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Один день</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Один месяц</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Один год</Phrase>
+    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
+    <Phrase key="lblBatchSize">Элементов на транзакцию</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmConnManager">
+    <Phrase key="this">Соединения Microsoft SQL Server</Phrase>
+    <Phrase key="gbConnList">Соединения</Phrase>
+    <Phrase key="btnNewConn">Добавить</Phrase>
+    <Phrase key="btnDeleteConn">Удалить</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmMicrosoftSqlCAO">
+    <Phrase key="this">Параметры архива текущих данных</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
+    <Phrase key="btnManageConn">Соединения</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmMicrosoftSqlEAO">
+    <Phrase key="this">Параметры архива событий</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
+    <Phrase key="btnManageConn">Соединения</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmMicrosoftSqlHAO">
+    <Phrase key="this">Параметры архива исторических данных</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
+    <Phrase key="lblUseMemoryCache">Использовать кэш в памяти</Phrase>
+    <Phrase key="lblCacheSizeRatio">Коэффициент размера кэша</Phrase>
+    <Phrase key="btnManageConn">Соединения</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+</ModArcMicrosoftSqlJPDictionaries>

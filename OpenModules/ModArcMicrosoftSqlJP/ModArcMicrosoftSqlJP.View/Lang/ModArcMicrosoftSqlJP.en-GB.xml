@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ModArcMicrosoftSqlJPDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblPartitionSize">Partition size</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">One day</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">One month</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">One year</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblBatchSize">Items per transaction</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmConnManager">
+    <Phrase key="this">Microsoft SQL Server Connections</Phrase>
+    <Phrase key="gbConnList">Connections</Phrase>
+    <Phrase key="btnNewConn">New</Phrase>
+    <Phrase key="btnDeleteConn">Delete</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmMicrosoftSqlCAO">
+    <Phrase key="this">Current Archive Options</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmMicrosoftSqlEAO">
+    <Phrase key="this">Event Archive Options</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Forms.FrmMicrosoftSqlHAO">
+    <Phrase key="this">Historical Archive Options</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="lblUseMemoryCache">Use in-memory cache</Phrase>
+    <Phrase key="lblCacheSizeRatio">Cache size ratio</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</ModArcMicrosoftSqlJPDictionaries>

@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E7F5E77-D745-4C99-8CFF-493F9DD0E1D6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModArcMicrosoftSqlJP", "ModArcMicrosoftSqlJP", "{E5037F6B-6E4D-4911-8A70-7F79F27F516A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcMicrosoftSqlJP.Logic", "ModArcMicrosoftSqlJP.Logic\ModArcMicrosoftSqlJP.Logic.csproj", "{81FD9F46-D103-4847-BA87-39D550E954CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcMicrosoftSqlJP.View", "ModArcMicrosoftSqlJP.View\ModArcMicrosoftSqlJP.View.csproj", "{FE2BE949-8BAA-4774-B4CF-D2616D574068}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModArcMicrosoftSqlJP.Shared", "ModArcMicrosoftSqlJP.Shared\ModArcMicrosoftSqlJP.Shared.shproj", "{E4164287-CA0E-460B-9F2C-0DC906168DA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81FD9F46-D103-4847-BA87-39D550E954CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81FD9F46-D103-4847-BA87-39D550E954CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81FD9F46-D103-4847-BA87-39D550E954CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81FD9F46-D103-4847-BA87-39D550E954CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2BE949-8BAA-4774-B4CF-D2616D574068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2BE949-8BAA-4774-B4CF-D2616D574068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2BE949-8BAA-4774-B4CF-D2616D574068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2BE949-8BAA-4774-B4CF-D2616D574068}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81FD9F46-D103-4847-BA87-39D550E954CC} = {E5037F6B-6E4D-4911-8A70-7F79F27F516A}
+		{FE2BE949-8BAA-4774-B4CF-D2616D574068} = {E5037F6B-6E4D-4911-8A70-7F79F27F516A}
+		{E4164287-CA0E-460B-9F2C-0DC906168DA5} = {E5037F6B-6E4D-4911-8A70-7F79F27F516A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {445C5594-E01F-4CCB-A364-EDAA6E5C2B15}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ModArcMicrosoftSqlJP.Shared\ModArcMicrosoftSqlJP.Shared.projitems*{81fd9f46-d103-4847-ba87-39d550e954cc}*SharedItemsImports = 5
+		ModArcMicrosoftSqlJP.Shared\ModArcMicrosoftSqlJP.Shared.projitems*{e4164287-ca0e-460b-9f2c-0dc906168da5}*SharedItemsImports = 13
+		ModArcMicrosoftSqlJP.Shared\ModArcMicrosoftSqlJP.Shared.projitems*{fe2be949-8baa-4774-b4cf-d2616d574068}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

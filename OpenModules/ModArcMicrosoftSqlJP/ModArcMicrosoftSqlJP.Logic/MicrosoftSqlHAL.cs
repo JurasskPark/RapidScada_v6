@@ -1,0 +1,705 @@
+// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Microsoft.Data.SqlClient;
+using System.Data;
+using Scada.Data.Models;
+using Scada.Dbms;
+using Scada.Log;
+using Scada.Server.Archives;
+using Scada.Server.Config;
+using Scada.Server.Lang;
+using Scada.Server.Modules.ModArcMicrosoftSqlJP.Config;
+using System.Diagnostics;
+using static Scada.Server.Archives.ArchiveUtils;
+using CacheKey = (int CnlNum, System.DateTime Timestamp);
+
+namespace Scada.Server.Modules.ModArcMicrosoftSqlJP.Logic
+{
+    /// <summary>
+    /// Implements the historical data archive logic.
+    /// <para>Реализует логику архива исторических данных.</para>
+    /// </summary>
+    internal class MicrosoftSqlHAL : HistoricalArchiveLogic
+    {
+        private readonly ModuleConfig moduleConfig; // the module configuration
+        private readonly MicrosoftSqlHAO options;        // the archive options
+        private readonly ILog appLog;               // the application log
+        private readonly ILog arcLog;               // the archive log
+        private readonly QueryBuilder queryBuilder; // builds SQL requests
+        private readonly PointQueue pointQueue;     // contains data points for writing
+        private readonly MemoryCache<CacheKey, CnlData> memoryCache; // the cache for reading data
+        private readonly CnlDataEqualsDelegate cnlDataEqualsFunc;    // the function for comparing channel data
+        private readonly object readingLock;        // synchronizes reading from the archive
+        private readonly object writingLock;        // synchronizes writing to the archive
+
+        private DbConnectionOptions connOptions;    // the database connection options
+        private SqlConnection readingConn;       // the database connection for reading
+        private Thread thread;                      // the thread for writing data
+        private volatile bool terminated;           // necessary to stop the thread
+        private DateTime nextWriteTime;             // the next time to write the current data
+        private int[] cnlIndexes;                   // the channel mapping indexes
+        private CnlData[] prevCnlData;              // the previous channel data
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public MicrosoftSqlHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
+            ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
+        {
+            this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
+            options = new MicrosoftSqlHAO(archiveConfig.CustomOptions);
+            appLog = archiveContext.Log;
+            arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
+            queryBuilder = new QueryBuilder(Code);
+            pointQueue = options.ReadOnly ? null : CreatePointQueue();
+            memoryCache = options.UseMemoryCache ? CreateMemoryCache() : null;
+            cnlDataEqualsFunc = SelectCnlDataEquals();
+            readingLock = new object();
+            writingLock = new object();
+
+            connOptions = null;
+            readingConn = null;
+            thread = null;
+            terminated = false;
+            nextWriteTime = DateTime.MinValue;
+            cnlIndexes = null;
+            prevCnlData = null;
+        }
+
+
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override HistoricalArchiveOptions ArchiveOptions => options;
+
+        /// <summary>
+        /// Gets the current archive status as text.
+        /// </summary>
+        public override string StatusText =>
+            GetStatusText(IsReady, pointQueue?.Stats, pointQueue?.Count);
+
+
+        /// <summary>
+        /// Corrects the size of the data queue.
+        /// </summary>
+        private int FixQueueSize()
+        {
+            return Math.Max(options.MaxQueueSize, CnlNums.Length * 2);
+        }
+
+        /// <summary>
+        /// Creates a point queue.
+        /// </summary>
+        private PointQueue CreatePointQueue()
+        {
+            return new PointQueue(FixQueueSize(), options.BatchSize, queryBuilder.InsertHistoricalDataQuery)
+            {
+                ReturnOnError = true,
+                ArchiveCode = Code,
+                AppLog = appLog,
+                ArcLog = arcLog
+            };
+        }
+
+        /// <summary>
+        /// Creates a memory cache according to the archive options.
+        /// </summary>
+        private MemoryCache<CacheKey, CnlData> CreateMemoryCache()
+        {
+            return new MemoryCache<CacheKey, CnlData>(
+                TimeSpan.FromDays(options.Retention), 
+                (int)(CnlNums.Length * options.CacheSizeRatio));
+        }
+
+        /// <summary>
+        /// Creates database entities if they do not exist.
+        /// </summary>
+        private void CreateDbEntities()
+        {
+            SqlConnection conn = null;
+
+            try
+            {
+                conn = DbUtils.CreateDbConnection(connOptions);
+                conn.Open();
+
+                SqlCommand cmd1 = new(queryBuilder.CreateSchemaQuery, conn);
+                cmd1.ExecuteNonQuery();
+
+                SqlCommand cmd2 = new(queryBuilder.CreateHistoricalTableQuery, conn);
+                cmd2.ExecuteNonQuery();
+            }
+            finally
+            {
+                conn?.Close();
+            }
+        }
+
+        /// <summary>
+        /// Creates a necessary partition if it does not exist.
+        /// </summary>
+        private void CreatePartition(DateTime today, bool throwOnFail)
+        {
+            SqlConnection conn = null;
+
+            try
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                conn = DbUtils.CreateDbConnection(connOptions);
+                conn.Open();
+
+                DbUtils.CreatePartition(conn, queryBuilder.HistoricalTable,
+                    today, options.PartitionSize, out string partitionName);
+                stopwatch.Stop();
+
+                arcLog?.WriteAction(ModulePhrases.CreationPartitionCompleted,
+                    partitionName, stopwatch.ElapsedMilliseconds);
+            }
+            catch (Exception ex)
+            {
+                if (throwOnFail)
+                {
+                    throw;
+                }
+                else
+                {
+                    appLog.WriteError(ex, ServerPhrases.ArchiveMessage, Code, ModulePhrases.CreatePartitionError);
+                    arcLog?.WriteError(ex, ModulePhrases.CreatePartitionError);
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
+                }
+            }
+            finally
+            {
+                conn?.Close();
+            }
+        }
+
+        /// <summary>
+        /// Gets a trend bundle containing the trend of the first channel.
+        /// </summary>
+        private TrendBundle GetFirstTrend(TimeRange timeRange, int[] cnlNums)
+        {
+            try
+            {
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
+
+                TrendBundle trendBundle = new(cnlNums, 0);
+                TrendBundle.CnlDataList trend = trendBundle.Trends[0];
+                SqlCommand cmd = CreateTrendCommand(timeRange, cnlNums[0]);
+                
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        trendBundle.Timestamps.Add(reader.GetDateTimeUtc(0));
+                        trend.Add(new CnlData(
+                            reader.GetDouble(1),
+                            reader.GetInt32(2)));
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
+                    trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
+                return trendBundle;
+            }
+            finally
+            {
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
+            }
+        }
+
+        /// <summary>
+        /// Creates a command to get a trend of the specified channel.
+        /// </summary>
+        private SqlCommand CreateTrendCommand(TimeRange timeRange, int cnlNum)
+        {
+            string endOper = timeRange.EndInclusive ? "<=" : "<";
+            string sql =
+                $"SELECT DISTINCT time_stamp, val, stat FROM {queryBuilder.HistoricalTable} " +
+                $"WHERE cnl_num = @cnlNum AND @startTime <= time_stamp AND time_stamp {endOper} @endTime " +
+                $"ORDER BY time_stamp";
+            SqlCommand cmd = new(sql, readingConn);
+            cmd.Parameters.Add("cnlNum", SqlDbType.Int).Value = cnlNum;
+            cmd.Parameters.Add("startTime", SqlDbType.DateTime2).Value = timeRange.StartTime;
+            cmd.Parameters.Add("endTime", SqlDbType.DateTime2).Value = timeRange.EndTime;
+            return cmd;
+        }
+
+        /// <summary>
+        /// Writes the current data after the writing period has elapsed.
+        /// </summary>
+        private void WriteWithPeriod(ICurrentData curData)
+        {
+            lock (writingLock)
+            {
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, options);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.SubtractWritingPeriod(options) : writeTime;
+                nextWriteTime = writeTime.AddWritingPeriod(options);
+
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                int addedCnt = 0;
+                int lostCnt = 0;
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+
+                if (ArchiveOptions.WriteOnChange)
+                    InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
+
+                lock (pointQueue.SyncRoot)
+                {
+                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+                    {
+                        int cnlNum = CnlNums[i];
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+                        memoryCache?.Set((cnlNum, timestamp), cnlData);
+
+                        if (prevCnlData != null)
+                            prevCnlData[i] = cnlData;
+
+                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(cnlNum, timestamp, cnlData)))
+                        {
+                            addedCnt++;
+                        }
+                        else
+                        {
+                            lostCnt = cnlCnt - i;
+                            break;
+                        }
+                    }
+                }
+
+                stopwatch.Stop();
+
+                if (addedCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
+
+                if (lostCnt > 0)
+                    arcLog?.WriteWarning(ServerPhrases.PointsLost, lostCnt);
+            }
+        }
+
+        /// <summary>
+        /// Writes the current data on change.
+        /// </summary>
+        private void WriteOnChange(ICurrentData curData)
+        {
+            lock (writingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                int addedCnt = 0;
+                int lostCnt = 0;
+                bool justInited = prevCnlData == null;
+                InitCnlIndexes(curData, CnlNums, ref cnlIndexes);
+                InitPrevCnlData(curData, CnlNums, cnlIndexes, ref prevCnlData);
+
+                if (!justInited)
+                {
+                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+                    {
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
+                        {
+                            int cnlNum = CnlNums[i];
+                            memoryCache?.Set((cnlNum, curData.Timestamp), cnlData);
+                            prevCnlData[i] = cnlData;
+
+                            if (pointQueue.Enqueue(new CnlDataPoint(cnlNum, curData.Timestamp, cnlData)))
+                                addedCnt++;
+                            else
+                                lostCnt++;
+                        }
+                    }
+                }
+
+                stopwatch.Stop();
+
+                if (addedCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
+
+                if (lostCnt > 0)
+                    arcLog?.WriteWarning(ServerPhrases.PointsLost, lostCnt);
+            }
+        }
+
+        /// <summary>
+        /// Writing loop running in a separate thread.
+        /// </summary>
+        private void Execute()
+        {
+            while (!terminated)
+            {
+                pointQueue.ProcessItems();
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+        }
+
+
+        /// <summary>
+        /// Makes the archive ready for operating.
+        /// </summary>
+        public override void MakeReady()
+        {
+            // prepare database
+            connOptions = options.UseDefaultConn
+                ? ArchiveContext.InstanceConfig.GetDefaultConnectionOptions()
+                : moduleConfig.GetConnectionOptions(options.Connection);
+            readingConn = DbUtils.CreateDbConnection(connOptions);
+
+            if (!options.ReadOnly)
+            {
+                pointQueue.Connection = DbUtils.CreateDbConnection(connOptions); // a new connection for the queue
+                CreateDbEntities();
+
+                if (options.WriteWithPeriod)
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options);
+
+                if (options.WriteOnChange)
+                    appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
+
+                // start thread for writing data
+                terminated = false;
+                thread = new Thread(Execute);
+                thread.Start();
+            }
+        }
+
+        /// <summary>
+        /// Closes the archive.
+        /// </summary>
+        public override void Close()
+        {
+            if (thread != null)
+            {
+                terminated = true;
+                thread.Join();
+                thread = null;
+            }
+
+            if (pointQueue?.Connection != null)
+            {
+                pointQueue.FlushItems(ArchiveContext.AppConfig.GeneralOptions.StopWait);
+                pointQueue.Connection.Dispose();
+                pointQueue.Connection = null;
+            }
+
+            if (readingConn != null)
+            {
+                readingConn.Dispose();
+                readingConn = null;
+            }
+        }
+
+        /// <summary>
+        /// Deletes the outdated data from the archive.
+        /// </summary>
+        public override void DeleteOutdatedData()
+        {
+            if (options.ReadOnly)
+                return;
+
+            SqlConnection conn = null;
+
+            try
+            {
+                DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
+                appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
+
+                conn = DbUtils.CreateDbConnection(connOptions);
+                conn.Open();
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                int rowsAffected = DbUtils.DeleteOutdatedData(conn, queryBuilder.HistoricalTable, minDT);
+                stopwatch.Stop();
+                arcLog?.WriteAction(ModulePhrases.RowsDeleted, rowsAffected, stopwatch.ElapsedMilliseconds);
+            }
+            finally
+            {
+                conn?.Close();
+            }
+        }
+
+        /// <summary>
+        /// Gets the time (UTC) when the archive was last written to.
+        /// </summary>
+        public override DateTime GetLastWriteTime()
+        {
+            if (!options.ReadOnly)
+                return pointQueue.LastCommitTime;
+
+            try
+            {
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
+                DateTime timestamp = DbUtils.GetLastWriteTime(readingConn, queryBuilder.HistoricalTable);
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingWriteTimeCompleted, stopwatch.ElapsedMilliseconds);
+                return timestamp;
+            }
+            finally
+            {
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
+            }
+        }
+
+        /// <summary>
+        /// Gets the trends of the specified channels.
+        /// </summary>
+        public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
+        {
+            return cnlNums.Length == 1
+                ? GetFirstTrend(timeRange, cnlNums)
+                : MergeTrends(timeRange, cnlNums);
+        }
+
+        /// <summary>
+        /// Gets the trend of the specified channel.
+        /// </summary>
+        public override Trend GetTrend(TimeRange timeRange, int cnlNum)
+        {
+            try
+            {
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
+
+                Trend trend = new(cnlNum, 0);
+                SqlCommand cmd = CreateTrendCommand(timeRange, cnlNum);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        trend.Points.Add(new TrendPoint(
+                            reader.GetDateTimeUtc(0),
+                            reader.GetDouble(1),
+                            reader.GetInt32(2)));
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
+                    trend.Points.Count, stopwatch.ElapsedMilliseconds);
+                return trend;
+            }
+            finally
+            {
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
+            }
+        }
+
+        /// <summary>
+        /// Gets the available timestamps.
+        /// </summary>
+        public override List<DateTime> GetTimestamps(TimeRange timeRange)
+        {
+            try
+            {
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
+                List<DateTime> timestamps = [];
+
+                string endOper = timeRange.EndInclusive ? "<=" : "<";
+                string sql =
+                    $"SELECT DISTINCT time_stamp FROM {queryBuilder.HistoricalTable} " +
+                    $"WHERE @startTime <= time_stamp AND time_stamp {endOper} @endTime " +
+                    $"ORDER BY time_stamp";
+                SqlCommand cmd = new(sql, readingConn);
+                cmd.Parameters.Add("startTime", SqlDbType.DateTime2).Value = timeRange.StartTime;
+                cmd.Parameters.Add("endTime", SqlDbType.DateTime2).Value = timeRange.EndTime;
+                
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        timestamps.Add(reader.GetDateTimeUtc(0));
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTimestampsCompleted,
+                    timestamps.Count, stopwatch.ElapsedMilliseconds);
+                return timestamps;
+            }
+            finally
+            {
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
+            }
+        }
+
+        /// <summary>
+        /// Gets the slice of the specified channels at the timestamp.
+        /// </summary>
+        public override Slice GetSlice(DateTime timestamp, int[] cnlNums)
+        {
+            try
+            {
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
+
+                Slice slice = new(timestamp, cnlNums);
+                Dictionary<int, int> cnlIndexes = GetCnlIndexes(cnlNums);
+
+                string sql =
+                    $"SELECT cnl_num, val, stat FROM {queryBuilder.HistoricalTable} " +
+                    $"WHERE cnl_num IN ({string.Join(",", cnlNums)}) AND time_stamp = @timestamp ";
+                SqlCommand cmd = new(sql, readingConn);
+                cmd.Parameters.Add("timestamp", SqlDbType.DateTime2).Value = timestamp;
+                
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int cnlNum = reader.GetInt32(0);
+
+                        if (cnlIndexes.TryGetValue(cnlNum, out int cnlIndex))
+                        {
+                            slice.CnlData[cnlIndex] = new CnlData
+                            {
+                                Val = reader.GetDouble(1),
+                                Stat = reader.GetInt32(2)
+                            };
+                        }
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted,
+                    cnlNums.Length, stopwatch.ElapsedMilliseconds);
+                return slice;
+            }
+            finally
+            {
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
+            }
+        }
+
+        /// <summary>
+        /// Gets the channel data.
+        /// </summary>
+        public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
+        {
+            if (memoryCache != null && memoryCache.TryGetValue((cnlNum, timestamp), out CnlData cnlData))
+                return cnlData;
+
+            if (CurrentUpdateContext != null &&
+                CurrentUpdateContext.TryGetCnlData(writingLock, timestamp, cnlNum, out cnlData))
+            {
+                return cnlData;
+            }
+
+            try
+            {
+                Monitor.Enter(readingLock);
+                readingConn.Open();
+
+                string sql = $"SELECT val, stat FROM {queryBuilder.HistoricalTable} " +
+                    "WHERE cnl_num = @cnlNum AND time_stamp = @timestamp";
+                SqlCommand cmd = new(sql, readingConn);
+                cmd.Parameters.Add("cnlNum", SqlDbType.Int).Value = cnlNum;
+                cmd.Parameters.Add("timestamp", SqlDbType.DateTime2).Value = timestamp;
+
+                using SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+                cnlData = reader.Read() ?
+                    new CnlData(reader.GetDouble(0), reader.GetInt32(1)) :
+                    CnlData.Empty;
+
+                memoryCache?.Set((cnlNum, timestamp), cnlData);
+                return cnlData;
+            }
+            finally
+            {
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
+            }
+        }
+
+        /// <summary>
+        /// Processes new data.
+        /// </summary>
+        public override void ProcessData(ICurrentData curData)
+        {
+            if (!options.ReadOnly)
+            {
+                if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
+                    WriteWithPeriod(curData);
+                else if (options.WriteOnChange)
+                    WriteOnChange(curData);
+            }
+        }
+
+        /// <summary>
+        /// Accepts or rejects data with the specified timestamp.
+        /// </summary>
+        public override bool AcceptData(ref DateTime timestamp)
+        {
+            if (options.ReadOnly || !options.TimeInsideRetention(timestamp, DateTime.UtcNow))
+            {
+                return false;
+            }
+            else if (options.IsPeriodic)
+            {
+                return options.PullToPeriod > 0
+                    ? PullTimeToPeriod(ref timestamp, options)
+                    : TimeIsMultipleOfPeriod(timestamp, options);
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Maintains performance when data is written one at a time.
+        /// </summary>
+        public override void BeginUpdate(UpdateContext updateContext)
+        {
+            Monitor.Enter(writingLock);
+        }
+
+        /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public override void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData)
+        {
+            if (!options.ReadOnly)
+            {
+                updateContext.UpdatedData[cnlNum] = cnlData;
+                memoryCache?.Set((cnlNum, updateContext.Timestamp), cnlData);
+
+                if (pointQueue.Enqueue(new CnlDataPoint(cnlNum, updateContext.Timestamp, cnlData)))
+                    updateContext.UpdatedCount++;
+                else
+                    updateContext.LostCount++;
+            }
+        }
+
+        /// <summary>
+        /// Completes the update operation.
+        /// </summary>
+        public override void EndUpdate(UpdateContext updateContext)
+        {
+            if (updateContext.UpdatedCount > 0)
+            {
+                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
+                    updateContext.UpdatedCount, updateContext.Stopwatch.ElapsedMilliseconds);
+            }
+
+            if (updateContext.LostCount > 0)
+                arcLog?.WriteWarning(ServerPhrases.PointsLost, updateContext.LostCount);
+
+            Monitor.Exit(writingLock);
+        }
+    }
+}

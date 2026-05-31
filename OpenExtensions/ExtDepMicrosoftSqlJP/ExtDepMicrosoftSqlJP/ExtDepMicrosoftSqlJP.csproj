@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Scada.Admin.Extensions.ExtDepMicrosoftSqlJP</RootNamespace>
+    <Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2026</Copyright>
+    <Version>6.1.0</Version>
+    <AssemblyVersion>6.1.0.1</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ScadaCommon\MicrosoftSqlStorage\MicrosoftSqlStorageShared.cs" Link="MicrosoftSqlStorageShared.cs" />
+    <Compile Include="..\ExtDepAgent\ServiceStarter.cs" Link="ServiceStarter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AgentClient">
+      <HintPath>..\Libraries\AgentClient.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaAdminCommon">
+      <HintPath>..\Libraries\ScadaAdminCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Forms">
+      <HintPath>..\Libraries\ScadaCommon.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lang\ExtDepMicrosoftSqlJP.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ExtDepMicrosoftSqlJP.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="CopyPackageDependenciesToExtensionSubdir" AfterTargets="Build">
+    <ItemGroup>
+      <PackageDependencyDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' and '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+      <PackageDependencyDll Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.NuGetPackageId)' != '' and '%(RuntimeCopyLocalItems.Extension)' == '.dll'" />
+
+    </ItemGroup>
+
+    <Copy SourceFiles="@(PackageDependencyDll)" DestinationFiles="@(PackageDependencyDll->'$(OutDir)$(AssemblyName)\%(DestinationSubDirectory)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+
+
+    <Copy SourceFiles="$(OutDir)$(AssemblyName)\runtimes\win\lib\net8.0\Microsoft.Data.SqlClient.dll" DestinationFolder="$(OutDir)$(AssemblyName)" SkipUnchangedFiles="true" Condition="Exists('$(OutDir)$(AssemblyName)\runtimes\win\lib\net8.0\Microsoft.Data.SqlClient.dll')" />
+
+
+    <Copy SourceFiles="$(OutDir)$(AssemblyName)\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll" DestinationFolder="$(OutDir)$(AssemblyName)" SkipUnchangedFiles="true" Condition="Exists('$(OutDir)$(AssemblyName)\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll')" />
+
+  </Target>
+
+</Project>

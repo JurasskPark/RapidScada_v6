@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Scada.Server.Modules.ModArcMicrosoftSqlJP.Logic</RootNamespace>
+	<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2026</Copyright>
+    <Version>6.2.2</Version>
+    <AssemblyVersion>6.2.2.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaServerCommon">
+      <HintPath>..\Libraries\ScadaServerCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="..\ModArcMicrosoftSqlJP.Shared\ModArcMicrosoftSqlJP.Shared.projitems" Label="Shared" />
+
+  <Target Name="CopyPackageDependenciesToModuleSubdir" AfterTargets="Build">
+    <ItemGroup>
+      <ModuleDependency Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' and '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+      <ModuleDependency Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.Extension)' == '.dll'" />
+    </ItemGroup>
+
+    <MakeDir Directories="$(OutDir)$(AssemblyName)" />
+    <Copy SourceFiles="@(ModuleDependency)" DestinationFiles="@(ModuleDependency->'$(OutDir)$(AssemblyName)\%(DestinationSubDirectory)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+
+    <Copy SourceFiles="$(OutDir)$(AssemblyName)\runtimes\win\lib\net8.0\Microsoft.Data.SqlClient.dll" DestinationFolder="$(OutDir)$(AssemblyName)" SkipUnchangedFiles="true" Condition="Exists('$(OutDir)$(AssemblyName)\runtimes\win\lib\net8.0\Microsoft.Data.SqlClient.dll')" />
+
+    <Copy SourceFiles="$(OutDir)$(AssemblyName)\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll" DestinationFolder="$(OutDir)$(AssemblyName)" SkipUnchangedFiles="true" Condition="Exists('$(OutDir)$(AssemblyName)\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll')" />
+  </Target>
+
+</Project>
