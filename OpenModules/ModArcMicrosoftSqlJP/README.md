@@ -2,8 +2,10 @@
 
 ![ModArcMicrosoftSqlJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ModArcMicrosoftSqlJP_v6.2.2.0/total)
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.4-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+
 
 **Microsoft SQL Server Archive JP** — a Rapid SCADA server module that stores current data, historical data, and events in Microsoft SQL Server.  
 **Архив Microsoft SQL Server JP** — серверный модуль Rapid SCADA для записи текущих данных, исторических данных и событий в Microsoft SQL Server.
