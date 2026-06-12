@@ -15,7 +15,7 @@
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
 
 
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.4-blue.svg)
+![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%2F%20Linux-lightgrey.svg)
 
