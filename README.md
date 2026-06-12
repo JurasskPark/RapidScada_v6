@@ -68,6 +68,42 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDDEJP
 
 -------------------------------------------------------------------------------
 
+# Open Plugins
+
+### PlgMimCalendarJP
+![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.2.1/total)
+![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimCalendarJP
+
+-------------------------------------------------------------------------------
+
+### PlgMimShapesJP
+![PlgMimShapesJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimShapesJP_v6.0.1.1/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimShapesJP
+
+-------------------------------------------------------------------------------
+
+# Open Modules
+
+### ModArcMicrosoftSqlJP
+![ModArcMicrosoftSqlJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ModArcMicrosoftSqlJP_v6.2.2.0/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenModules/ModArcMicrosoftSqlJP
+
+-------------------------------------------------------------------------------
+
+# Open Extensions
+
+### ExtDepMicrosoftSqlJP
+![ExtDepMicrosoftSqlJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ExtDepMicrosoftSqlJP_v6.1.0.1/total)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenExtensions/ExtDepMicrosoftSqlJP
+
+-------------------------------------------------------------------------------
+
+
 # Shareware Drivers
 
 ![DrvParserTextJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextJP_v6.4.0.4/total)
@@ -113,22 +149,5 @@ https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaA
 ![DrvMOXANportJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvMOXANportJP_v6.4.0.2/total)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/MOXANportJP
-
--------------------------------------------------------------------------------
-
-# Open Plugins
-
-### PlgMimCalendarJP
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.2.1/total)
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimCalendarJP
-
--------------------------------------------------------------------------------
-
-### PlgMimShapesJP
-![PlgMimShapesJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimShapesJP_v6.0.1.1/total)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimShapesJP
 
 -------------------------------------------------------------------------------

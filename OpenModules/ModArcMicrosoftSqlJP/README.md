@@ -1,5 +1,7 @@
 # ModArcMicrosoftSqlJP
 
+![ModArcMicrosoftSqlJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/ModArcMicrosoftSqlJP_v6.2.2.0/total)
+
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 

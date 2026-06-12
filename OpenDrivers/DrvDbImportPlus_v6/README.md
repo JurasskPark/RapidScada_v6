@@ -1,7 +1,21 @@
 # DrvDbImportPlus
 
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.1/total)
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.5-blue.svg)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.0/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.4/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.2/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.0/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.6/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.5/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.4/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.3/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.2/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.1/total)
+![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
+
+
+![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.4-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%2F%20Linux-lightgrey.svg)
 
@@ -186,6 +200,8 @@ Duplicate tag codes and duplicate command codes are skipped while generating pro
 
 The driver can receive Rapid SCADA telecontrol commands. A command is matched by command code or command number against enabled export commands and, as a fallback, import command definitions. When a matching database command is found, the driver:
 
+English:
+
 1. Initializes the configured data source.
 2. Adds or updates the database command parameter `cmdVal`.
 3. Uses `CmdVal` for numeric commands, or converts `CmdData` to string for binary/string commands.
@@ -202,6 +218,8 @@ values ('PUMP_SETPOINT', @cmdVal, current_timestamp);
 Use the parameter syntax supported by the selected database provider. The driver creates the logical parameter name `cmdVal`; the provider decides the final placeholder style.
 
 Драйвер принимает команды телеуправления Rapid SCADA. Команда сопоставляется по коду или номеру команды с включёнными командами экспорта, а затем, как fallback, с определениями команд импорта. Когда команда БД найдена, драйвер:
+
+Русский:
 
 1. Инициализирует настроенный источник данных.
 2. Добавляет или обновляет параметр команды БД `cmdVal`.
@@ -231,6 +249,8 @@ InfluxDB support is implemented through the HTTP `/query` API. The driver builds
 
 ## Usage / Использование
 
+English:
+
 1. Add `DrvDbImportPlus` to a communication line in ScadaAdmin.
 2. Open device properties for the required device.
 3. Select the database type and configure connection settings or a custom connection string.
@@ -241,6 +261,7 @@ InfluxDB support is implemented through the HTTP `/query` API. The driver builds
 8. Generate channel prototypes for the device.
 9. Upload the project and restart the communication line.
 
+Русский:
 
 1. Добавьте `DrvDbImportPlus` в линию связи в ScadaAdmin.
 2. Откройте свойства нужного КП.
