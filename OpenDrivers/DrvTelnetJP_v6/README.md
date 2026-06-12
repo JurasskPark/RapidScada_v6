@@ -1,5 +1,6 @@
 # DrvTelnetJP
 
+![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.4.0.0/total)
 ![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.3.0.0/total)
 ![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.0.0.1/total)
 ![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.0.0.0/total)
