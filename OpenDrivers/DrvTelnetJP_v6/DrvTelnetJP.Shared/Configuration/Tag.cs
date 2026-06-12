@@ -1,162 +1,252 @@
-﻿using System.Xml;
+using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP
 {
-
+    /// <summary>
+    /// Represents a group of driver tags.
+    /// <para>Представляет группу тегов драйвера.</para>
+    /// </summary>
     public class GroupTag
     {
-        public GroupTag()
-        {
+        #region Variable
 
-        }
+        private Guid groupTagID;                                  // tag group ID
+        private string groupTagName = string.Empty;               // tag group name
+        private List<Tag> listTag = new List<Tag>();              // tag list
 
-        #region Tag Group
+        #endregion Variable
 
-        //ID of the tag group
-        private Guid groupTagID;
-        public Guid GroupTagID
-        {
-            get { return groupTagID; }
-            set { groupTagID = value; }
-        }
-
-        //Tag group name
-        private string groupTagName;
-        public string GroupTagName
-        {
-            get { return groupTagName; }
-            set { groupTagName = value; }
-        }
-
-        #endregion Tag Group
-
-        #region List of tags
-
-        private List<Tag> listTag;
-        public List<Tag> ListTag
-        {
-            get { return listTag; }
-            set { listTag = value; }
-        }
-
-        #endregion List of tags
-
-    }
-
-    public class Tag
-    {
-        public Tag()
-        {
-
-        }
-
-        public Tag(string tagCode, string tagName, string tagIPAddress, int tagPort, int tagTimeout, bool tagEnabled)
-        {
-            this.TagCode = tagCode;
-            this.TagName = tagName;
-            this.TagIPAddress = tagIPAddress;
-            this.TagTimeout = tagTimeout;
-            this.TagPort = tagPort;
-            this.TagEnabled = tagEnabled;          
-        }
-
-        public Tag(string tagCode, string tagName, string tagIPAddress, int tagPort, int tagTimeout, bool tagEnabled, int tagVal = 0, int tagStat = 0)
-        {
-            this.TagCode = tagCode;
-            this.TagName = tagName;
-            this.TagIPAddress = tagIPAddress;
-            this.TagPort = tagPort;
-            this.TagTimeout = tagTimeout;
-            this.TagEnabled = tagEnabled;
-            this.TagVal = tagVal;
-            this.TagStat = tagStat;
-        }
-
-        #region Tag
-
-        private Guid tagID;
-        public Guid TagID
-        {
-            get { return tagID; }
-            set { tagID = value; }
-        }
-
-        private string tagCode;
-        public string TagCode
-        {
-            get { return tagCode; }
-            set { tagCode = value; }
-        }
-
-        private string tagName;
-        public string TagName
-        {
-            get { return tagName; }
-            set { tagName = value; }
-        }
-
-        private string tagIPAddress;
-        public string TagIPAddress
-        {
-            get { return tagIPAddress; }
-            set { tagIPAddress = value; }
-        }
-
-        private int tagPort;
-        public int TagPort
-        {
-            get { return tagPort; }
-            set { tagPort = value; }
-        }
-
-        private int tagTimeout;
-        public int TagTimeout
-        {
-            get { return tagTimeout; }
-            set { tagTimeout = value; }
-        }
-
-        private bool tagEnabled;
-        public bool TagEnabled
-        {
-            set { tagEnabled = value; }
-            get { return tagEnabled; }
-        }
-
-        private int tagVal;
-        public int TagVal
-        {
-            set { tagVal = value; }
-            get { return tagVal; }
-        }
-
-        private int tagStat;
-        public int TagStat
-        {
-            set { tagStat = value; }
-            get { return tagStat; }
-        }
-
-        private DateTime tagDatetime;
-        public DateTime TagDatetime
-        {
-            set { tagDatetime = value; }
-            get { return tagDatetime; }
-        }
-
-        #endregion Tag
+        #region Property
 
         /// <summary>
-        /// Loads the command from the XML node.
+        /// Gets or sets the tag group ID.
+        /// <para>Возвращает или задает идентификатор группы тегов.</para>
+        /// </summary>
+        public Guid GroupTagID
+        {
+            get => groupTagID;
+            set => groupTagID = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag group name.
+        /// <para>Возвращает или задает имя группы тегов.</para>
+        /// </summary>
+        public string GroupTagName
+        {
+            get => groupTagName;
+            set => groupTagName = value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag list.
+        /// <para>Возвращает или задает список тегов.</para>
+        /// </summary>
+        public List<Tag> ListTag
+        {
+            get => listTag;
+            set => listTag = value ?? new List<Tag>();
+        }
+
+        #endregion Property
+    }
+
+    /// <summary>
+    /// Represents a TCP check tag.
+    /// <para>Представляет тег проверки TCP-порта.</para>
+    /// </summary>
+    public class Tag : IComparable<Tag>
+    {
+        #region Variable
+
+        private Guid tagID;                                       // tag ID
+        private string tagCode = string.Empty;                    // tag code
+        private string tagName = string.Empty;                    // tag name
+        private string tagIPAddress = string.Empty;               // IP address or host name
+        private int tagPort;                                      // TCP port
+        private int tagTimeout;                                   // timeout
+        private bool tagEnabled;                                  // enabled flag
+        private int tagVal;                                       // tag value
+        private int tagStat;                                      // tag status
+        private DateTime tagDatetime;                             // tag date and time
+
+        #endregion Variable
+
+        #region Property
+
+        /// <summary>
+        /// Gets or sets the tag ID.
+        /// <para>Возвращает или задает идентификатор тега.</para>
+        /// </summary>
+        public Guid TagID
+        {
+            get => tagID;
+            set => tagID = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag code.
+        /// <para>Возвращает или задает код тега.</para>
+        /// </summary>
+        public string TagCode
+        {
+            get => tagCode;
+            set => tagCode = value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag name.
+        /// <para>Возвращает или задает имя тега.</para>
+        /// </summary>
+        public string TagName
+        {
+            get => tagName;
+            set => tagName = value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets or sets the IP address or host name.
+        /// <para>Возвращает или задает IP-адрес или имя узла.</para>
+        /// </summary>
+        public string TagIPAddress
+        {
+            get => tagIPAddress;
+            set => tagIPAddress = value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets or sets the TCP port.
+        /// <para>Возвращает или задает TCP-порт.</para>
+        /// </summary>
+        public int TagPort
+        {
+            get => tagPort;
+            set => tagPort = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the timeout.
+        /// <para>Возвращает или задает таймаут.</para>
+        /// </summary>
+        public int TagTimeout
+        {
+            get => tagTimeout;
+            set => tagTimeout = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the tag is enabled.
+        /// <para>Возвращает или задает признак включения тега.</para>
+        /// </summary>
+        public bool TagEnabled
+        {
+            get => tagEnabled;
+            set => tagEnabled = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag value.
+        /// <para>Возвращает или задает значение тега.</para>
+        /// </summary>
+        public int TagVal
+        {
+            get => tagVal;
+            set => tagVal = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag status.
+        /// <para>Возвращает или задает статус тега.</para>
+        /// </summary>
+        public int TagStat
+        {
+            get => tagStat;
+            set => tagStat = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tag date and time.
+        /// <para>Возвращает или задает дату и время тега.</para>
+        /// </summary>
+        public DateTime TagDatetime
+        {
+            get => tagDatetime;
+            set => tagDatetime = value;
+        }
+
+        #endregion Property
+
+        #region Basic
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public Tag()
+        {
+            TagID = Guid.NewGuid();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public Tag(string tagCode, string tagName, string tagIPAddress, int tagPort, int tagTimeout, bool tagEnabled)
+            : this(tagCode, tagName, tagIPAddress, tagPort, tagTimeout, tagEnabled, 0, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public Tag(string tagCode, string tagName, string tagIPAddress, int tagPort, int tagTimeout, bool tagEnabled, int tagVal = 0, int tagStat = 0)
+            : this()
+        {
+            TagCode = tagCode;
+            TagName = tagName;
+            TagIPAddress = tagIPAddress;
+            TagPort = tagPort;
+            TagTimeout = tagTimeout;
+            TagEnabled = tagEnabled;
+            TagVal = tagVal;
+            TagStat = tagStat;
+        }
+
+        /// <summary>
+        /// Compares tags by name and code.
+        /// <para>Сравнивает теги по имени и коду.</para>
+        /// </summary>
+        public int CompareTo(Tag other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            int nameCompare = string.Compare(TagName, other.TagName, StringComparison.OrdinalIgnoreCase);
+            return nameCompare != 0
+                ? nameCompare
+                : string.Compare(TagCode, other.TagCode, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Loads the tag from the XML node.
+        /// <para>Загружает тег из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
             {
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
             }
 
             TagID = DriverUtils.StringToGuid(xmlNode.GetChildAsString("ID"));
+            if (TagID == Guid.Empty)
+            {
+                TagID = Guid.NewGuid();
+            }
+
             TagName = xmlNode.GetChildAsString("Name");
             TagCode = xmlNode.GetChildAsString("Code");
             TagIPAddress = xmlNode.GetChildAsString("IPAddress");
@@ -166,7 +256,8 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
         }
 
         /// <summary>
-        /// Saves the configuration into the XML node.
+        /// Saves the tag into the XML node.
+        /// <para>Сохраняет тег в XML-узел.</para>
         /// </summary>
         public virtual void SaveToXml(XmlElement xmlElem)
         {
@@ -184,6 +275,6 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
             xmlElem.AppendElem("Enable", TagEnabled);
         }
 
+        #endregion Basic
     }
-
 }

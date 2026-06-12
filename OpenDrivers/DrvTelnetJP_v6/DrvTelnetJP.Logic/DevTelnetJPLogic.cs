@@ -1,12 +1,8 @@
-﻿using Scada.Comm.Config;
+using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.Comm.Drivers.DrvTelnetJP;
 using Scada.Data.Models;
-using Scada.Lang;
-using System.Linq.Expressions;
-using System.Reflection;
 
-namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
+namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
 {
     /// <summary>
     /// Implements the device logic.
@@ -14,51 +10,49 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
     /// </summary>
     internal class DevTelnetJPLogic : DeviceLogic
     {
-        /// <summary>
-        /// Supported tag types.
-        /// </summary>
-        private enum TagType { Number, String, DateTime };
+        #region Variable
 
-        private readonly AppDirs appDirs;                       // the application directories
-        private readonly string driverCode;                     // the driver code
-        private readonly int deviceNum;                         // the device number
-        private readonly string configFileName;                 // the configuration file name
-        private readonly DrvTelnetJPConfig config;                // the device configuration  
-        private readonly NetworkInformation networkInformation; // network (ping)
-        private readonly bool writeLog;                         // write log
-        private readonly int pingMode;                          // type ping
-        private List<Tag> deviceTags;                           // tags
-        private ushort countError;                              // count error
+        private readonly string driverCode;                         // driver code
+        private readonly string configFileName;                     // configuration file name
+        private readonly DrvTelnetJPConfig config;                  // device configuration
+        private readonly NetworkInformation networkInformation;     // network information
+        private bool writeLog;                                      // write driver log
+        private List<Tag> deviceTags;                               // device tags
+        private ushort countError;                                  // error count
 
+        #endregion Variable
+
+        #region Basic
 
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public DevTelnetJPLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            CanSendCommands = true;
+            CanSendCommands = false;
             ConnectionRequired = false;
+
+            driverCode = DriverUtils.DriverCode;
             writeLog = false;
+            deviceTags = new List<Tag>();
 
-            this.deviceNum = deviceConfig.DeviceNum;
-            this.driverCode = DriverUtils.DriverCode;
+            networkInformation = new NetworkInformation
+            {
+                OnDebug = DebugerLog,
+                OnDebugTag = DebugerTag,
+                OnDebugTags = DebugerTags
+            };
 
-            this.networkInformation = new NetworkInformation();
-            this.networkInformation.OnDebug = new NetworkInformation.DebugData(DebugerLog);
-            this.networkInformation.OnDebugTag = new NetworkInformation.DebugTag(DebugerTag);
-            this.networkInformation.OnDebugTags = new NetworkInformation.DebugTags(DebugerTags);
-
-            string shortFileName = DrvTelnetJPConfig.GetFileName(deviceNum);
+            string shortFileName = DrvTelnetJPConfig.GetFileName(deviceConfig.DeviceNum);
             configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
-            
-            // load configuration
+
             config = new DrvTelnetJPConfig();
             if (config.Load(configFileName, out string errMsg))
             {
                 writeLog = config.Log;
-                pingMode = config.Mode;
-                deviceTags = config.DeviceTags;
+                deviceTags = config.DeviceTags ?? new List<Tag>();
             }
             else
             {
@@ -66,10 +60,9 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
             }
         }
 
-
-
         /// <summary>
         /// Performs actions after adding the device to a communication line.
+        /// <para>Выполняет действия после добавления КП на линию связи.</para>
         /// </summary>
         public override void OnCommLineStart()
         {
@@ -81,20 +74,18 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
             DebugerLog("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
         }
 
-
         /// <summary>
         /// Performs actions when terminating a communication line.
+        /// <para>Выполняет действия при завершении линии связи.</para>
         /// </summary>
         public override void OnCommLineTerminate()
         {
-            if(config.Mode == 1)
-            {
-                networkInformation.StopTelnet();
-            }
+            networkInformation.StopTelnet();
         }
 
         /// <summary>
         /// Initializes the device tags.
+        /// <para>Инициализирует теги КП.</para>
         /// </summary>
         public override void InitDeviceTags()
         {
@@ -112,23 +103,21 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
 
         /// <summary>
         /// Performs a communication session with the device.
+        /// <para>Выполняет сеанс связи с КП.</para>
         /// </summary>
         public override void Session()
         {
             base.Session();
-
             LastRequestOK = false;
 
-            // request data
             int tryNum = 0;
-
             while (RequestNeeded(ref tryNum))
             {
                 if (Request())
                 {
                     LastRequestOK = true;
                 }
- 
+
                 FinishRequest();
                 tryNum++;
             }
@@ -140,44 +129,24 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
             }
 
             SleepPollingDelay();
-            // calculate session stats
             FinishRequest();
             FinishSession();
         }
 
-        #region ReInitializingOPCserver
+        #endregion Basic
 
-        private void ReinitializingDriver()
-        {
-            try
-            {
-                TeleCommand cmd = new TeleCommand();
-                cmd.CreationTime = DateTime.Now;
-                cmd.CommandID = ScadaUtils.GenerateUniqueID(DateTime.Now);
-                cmd.CmdVal = LineContext.CommLineNum;
-                cmd.CmdCode = CommCmdCode.RestartLine;
-                CommContext.SendCommand(cmd, DriverDictonary.RestartLine);
-            }
-            catch (Exception ex)
-            {
-                DebugerLog(ex.Message.ToString());
-            }
-        }
-        #endregion ReInitializingOPCserver
-
-        #region  Request
+        #region Request
 
         /// <summary>
-        /// Requests data from the database.
+        /// Requests data from the configured TCP endpoints.
+        /// <para>Запрашивает данные с настроенных TCP-узлов.</para>
         /// </summary>
         private bool Request()
         {
             try
             {
-                #region Telnet
                 networkInformation.RunTelnet(deviceTags);
                 return true;
-                #endregion Telnet
             }
             catch (Exception ex)
             {
@@ -186,17 +155,47 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
             }
         }
 
-        #endregion  Request
+        #endregion Request
+
+        #region Reinitialization
+
+        /// <summary>
+        /// Restarts the communication line.
+        /// <para>Перезапускает линию связи.</para>
+        /// </summary>
+        private void ReinitializingDriver()
+        {
+            try
+            {
+                TeleCommand cmd = new TeleCommand
+                {
+                    CreationTime = DateTime.Now,
+                    CommandID = ScadaUtils.GenerateUniqueID(DateTime.Now),
+                    CmdVal = LineContext.CommLineNum,
+                    CmdCode = CommCmdCode.RestartLine
+                };
+
+                CommContext.SendCommand(cmd, DriverDictonary.RestartLine);
+            }
+            catch (Exception ex)
+            {
+                DebugerLog(ex.Message);
+            }
+        }
+
+        #endregion Reinitialization
 
         #region Debug Log
+
         /// <summary>
-        /// Getting logs
+        /// Writes a message to the driver log.
+        /// <para>Записывает сообщение в журнал драйвера.</para>
         /// </summary>
         public void DebugerLog(string text)
         {
             try
             {
-                if (text == string.Empty)
+                if (string.IsNullOrEmpty(text))
                 {
                     return;
                 }
@@ -208,40 +207,42 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
             }
             catch (Exception ex)
             {
-                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                Log.WriteInfo(ex.BuildErrorMessage(DriverDictonary.ErrorMessage));
                 ReinitializingDriver();
             }
         }
+
         #endregion Debug Log
 
         #region Debug Tag
+
+        /// <summary>
+        /// Processes a returned tag.
+        /// <para>Обрабатывает возвращенный тег.</para>
+        /// </summary>
         public void DebugerTag(Tag tag)
         {
             try
             {
                 if (tag == null)
                 {
-                    countError++;
-                    DebugerLog(DriverDictonary.ErrorCount + " " + DriverUtils.NullToString(countError));
-                    if (countError >= 10)
-                    {
-                        ReinitializingDriver();
-                    }
+                    ProcessEmptyTagResult();
                     return;
                 }
 
                 int indexTag = deviceTags.IndexOf(tag);
-
-                if (tag.TagEnabled == true) // enabled
+                if (!tag.TagEnabled || indexTag < 0)
                 {
-                    if (tag.TagCode != string.Empty)
-                    {
-                        SetTagData(tag.TagCode, tag.TagVal, tag.TagStat);
-                    }
-                    else
-                    {
-                        SetTagData(indexTag, tag.TagVal, tag.TagStat);
-                    }
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(tag.TagCode))
+                {
+                    SetTagData(tag.TagCode, tag.TagVal, tag.TagStat);
+                }
+                else
+                {
+                    SetTagData(indexTag, tag.TagVal, tag.TagStat);
                 }
             }
             catch (Exception ex)
@@ -250,46 +251,24 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
                 ReinitializingDriver();
             }
         }
-        #endregion Debug Tag
 
-        #region Debug Tags
+        /// <summary>
+        /// Processes returned tags.
+        /// <para>Обрабатывает возвращенные теги.</para>
+        /// </summary>
         public void DebugerTags(List<Tag> tags)
         {
             try
             {
                 if (tags == null || tags.Count == 0)
                 {
-                    countError++;
-                    DebugerLog(DriverDictonary.ErrorCount + " " + DriverUtils.NullToString(countError));
-                    if (countError >= 10)
-                    {
-                        ReinitializingDriver();
-                    }
+                    ProcessEmptyTagResult();
                     return;
                 }
 
                 for (int index = 0; index < tags.Count; index++)
                 {
-
-                    Tag tmpTag = tags[index];
-                    int indexTag = deviceTags.IndexOf(tags[index]);
-
-                    if (tmpTag == null || tmpTag.TagEnabled == false || indexTag < 0)
-                    {
-                        continue;
-                    }
-
-                    if (tmpTag.TagEnabled == true) // enabled
-                    {
-                        if (tmpTag.TagCode != string.Empty)
-                        {
-                            SetTagData(tmpTag.TagCode, tmpTag.TagVal, tmpTag.TagStat);
-                        }
-                        else
-                        {
-                            SetTagData(indexTag, tmpTag.TagVal, tmpTag.TagStat);
-                        }
-                    }
+                    DebugerTag(tags[index]);
                 }
             }
             catch (Exception ex)
@@ -298,41 +277,42 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
                 ReinitializingDriver();
             }
         }
-        #endregion Debug Tags
+
+        /// <summary>
+        /// Processes an empty tag result.
+        /// <para>Обрабатывает пустой результат тегов.</para>
+        /// </summary>
+        private void ProcessEmptyTagResult()
+        {
+            countError++;
+            DebugerLog(DriverDictonary.ErrorCount + " " + DriverUtils.NullToString(countError));
+
+            if (countError >= 10)
+            {
+                ReinitializingDriver();
+            }
+        }
+
+        #endregion Debug Tag
 
         #region Set Tag Data
 
         /// <summary>
         /// Sets value, status and format of the specified tag.
+        /// <para>Устанавливает значение, статус и формат указанного тега.</para>
         /// </summary>
         private void SetTagData(int tagIndex, object tagVal, int tagStat)
         {
             try
             {
-                if (DeviceTags.Count() > 0)
+                if (tagIndex < 0 || tagIndex >= DeviceTags.Count())
                 {
-                    DeviceTag deviceTag = DeviceTags[tagIndex];
-                    
-
-                    if (tagVal is string strVal)
-                    {
-                        deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagIndex, strVal, tagStat); } catch { }
-                    }
-                    else if (tagVal is DateTime dtVal)
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagIndex, dtVal, tagStat); } catch { }
-                    }
-                    else
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(tagIndex, Convert.ToDouble(tagVal), tagStat); } catch { }
-                    }
+                    return;
                 }
+
+                DeviceTag deviceTag = DeviceTags[tagIndex];
+                SetDeviceTagFormat(deviceTag, tagVal);
+                SetDeviceData(tagIndex, tagVal, tagStat);
             }
             catch (Exception ex)
             {
@@ -342,34 +322,20 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
 
         /// <summary>
         /// Sets value, status and format of the specified tag.
+        /// <para>Устанавливает значение, статус и формат указанного тега.</para>
         /// </summary>
         private void SetTagData(string tagCode, object tagVal, int tagStat)
         {
             try
             {
-                if (DeviceTags.Count() > 0)
+                if (string.IsNullOrEmpty(tagCode) || DeviceTags.Count() == 0)
                 {
-                    DeviceTag deviceTag = DeviceTags[tagCode];
-
-                    if (tagVal is string strVal)
-                    {
-                        deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.Format = TagFormat.String;
-                        try { base.DeviceData.SetUnicode(tagCode, strVal, tagStat); } catch { }
-                    }
-                    else if (tagVal is DateTime dtVal)
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(tagCode, dtVal, tagStat); } catch { }
-                    }
-                    else
-                    {
-                        deviceTag.DataType = TagDataType.Double;
-                        deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(tagCode, Convert.ToDouble(tagVal), tagStat); } catch { }
-                    }
+                    return;
                 }
+
+                DeviceTag deviceTag = DeviceTags[tagCode];
+                SetDeviceTagFormat(deviceTag, tagVal);
+                SetDeviceData(tagCode, tagVal, tagStat);
             }
             catch (Exception ex)
             {
@@ -377,8 +343,69 @@ namespace Scada.Comm.Drivers.DrvTelnetJPLogic.Logic
             }
         }
 
-        #endregion Set Tag Data
+        /// <summary>
+        /// Sets the device tag format according to the value type.
+        /// <para>Устанавливает формат тега КП по типу значения.</para>
+        /// </summary>
+        private static void SetDeviceTagFormat(DeviceTag deviceTag, object tagVal)
+        {
+            if (tagVal is string)
+            {
+                deviceTag.DataType = TagDataType.Unicode;
+                deviceTag.Format = TagFormat.String;
+            }
+            else if (tagVal is DateTime)
+            {
+                deviceTag.DataType = TagDataType.Double;
+                deviceTag.Format = TagFormat.DateTime;
+            }
+            else
+            {
+                deviceTag.DataType = TagDataType.Double;
+                deviceTag.Format = TagFormat.OffOn;
+            }
+        }
 
+        /// <summary>
+        /// Writes device data by tag index.
+        /// <para>Записывает данные КП по индексу тега.</para>
+        /// </summary>
+        private void SetDeviceData(int tagIndex, object tagVal, int tagStat)
+        {
+            if (tagVal is string strVal)
+            {
+                DeviceData.SetUnicode(tagIndex, strVal, tagStat);
+            }
+            else if (tagVal is DateTime dtVal)
+            {
+                DeviceData.SetDateTime(tagIndex, dtVal, tagStat);
+            }
+            else
+            {
+                DeviceData.Set(tagIndex, Convert.ToDouble(tagVal), tagStat);
+            }
+        }
+
+        /// <summary>
+        /// Writes device data by tag code.
+        /// <para>Записывает данные КП по коду тега.</para>
+        /// </summary>
+        private void SetDeviceData(string tagCode, object tagVal, int tagStat)
+        {
+            if (tagVal is string strVal)
+            {
+                DeviceData.SetUnicode(tagCode, strVal, tagStat);
+            }
+            else if (tagVal is DateTime dtVal)
+            {
+                DeviceData.SetDateTime(tagCode, dtVal, tagStat);
+            }
+            else
+            {
+                DeviceData.Set(tagCode, Convert.ToDouble(tagVal), tagStat);
+            }
+        }
+
+        #endregion Set Tag Data
     }
 }
-

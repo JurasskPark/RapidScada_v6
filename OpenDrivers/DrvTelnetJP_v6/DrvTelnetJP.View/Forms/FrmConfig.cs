@@ -1,4 +1,4 @@
-﻿using Scada.Comm.Lang;
+using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
 using System.Data;
@@ -18,7 +18,6 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
 
         #region Variables
         private readonly AppDirs appDirs;                       // the application directories
-        private readonly string driverCode;                     // the driver code
         private readonly int deviceNum;                         // the device number
         private readonly NetworkInformation networkInformation; // network (ping)
         private readonly DrvTelnetJPConfig config;                // the device configuration
@@ -34,7 +33,6 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
         private double TimeRefresh = 1000d;
 
         Stopwatch stopWatch = new Stopwatch();
-        TimeSpan ts;
         #endregion Variables
 
         /// <summary>
@@ -54,7 +52,6 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.deviceNum = deviceNum;
-            this.driverCode = DriverUtils.DriverCode;
 
             this.networkInformation = new NetworkInformation();
             this.networkInformation.OnDebug = new NetworkInformation.DebugData(DebugerLog);
@@ -74,7 +71,6 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
             : this()
         {
             this.configFileName = configFileName;
-            this.driverCode = DriverUtils.DriverCode;
 
             this.networkInformation = new NetworkInformation();
             this.networkInformation.OnDebug = new NetworkInformation.DebugData(DebugerLog);

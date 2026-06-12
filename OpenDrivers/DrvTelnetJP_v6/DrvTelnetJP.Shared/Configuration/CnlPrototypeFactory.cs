@@ -1,4 +1,4 @@
-﻿using Scada.Comm.Devices;
+using Scada.Comm.Devices;
 using Scada.Data.Const;
 using Scada.Lang;
 
@@ -10,27 +10,37 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
     /// </summary>
     internal static class CnlPrototypeFactory
     {
+        #region Basic
 
         /// <summary>
         /// Gets the grouped channel prototypes.
+        /// <para>Возвращает сгруппированные прототипы каналов.</para>
         /// </summary>
         public static List<CnlPrototypeGroup> GetCnlPrototypeGroups(List<Tag> deviceTags)
         {
             List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
-            string nameTagGroup = Locale.IsRussian ? "Теги" : "Tags";
-            CnlPrototypeGroup group = new CnlPrototypeGroup(nameTagGroup);
+            string tagGroupName = Locale.IsRussian ? "Теги" : "Tags";
+            CnlPrototypeGroup group = new CnlPrototypeGroup(tagGroupName);
 
-            for (int i = 0; i < deviceTags.Count; i++)
+            if (deviceTags != null)
             {
-                bool tmpTagEnable = deviceTags[i].TagEnabled;
+                foreach (Tag deviceTag in deviceTags)
+                {
+                    if (deviceTag == null)
+                    {
+                        continue;
+                    }
 
-                group.AddCnlPrototype(deviceTags[i].TagCode, deviceTags[i].TagName).SetFormat(FormatCode.OffOn).Configure(cnl => cnl.Active = tmpTagEnable);
+                    group.AddCnlPrototype(deviceTag.TagCode, deviceTag.TagName)
+                        .SetFormat(FormatCode.OffOn)
+                        .Configure(cnl => cnl.Active = deviceTag.TagEnabled);
+                }
             }
-        
+
             groups.Add(group);
-            return groups;      
+            return groups;
         }
+
+        #endregion Basic
     }
 }
-
-

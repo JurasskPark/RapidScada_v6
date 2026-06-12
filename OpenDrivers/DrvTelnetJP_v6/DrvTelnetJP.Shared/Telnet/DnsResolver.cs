@@ -1,29 +1,45 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Sockets;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP
 {
-    public class DnsResolver
+    /// <summary>
+    /// Resolves host names to IPv4 addresses.
+    /// <para>Преобразует имена узлов в IPv4-адреса.</para>
+    /// </summary>
+    public static class DnsResolver
     {
+        #region Basic
+
+        /// <summary>
+        /// Resolves a host name or returns an empty string if resolving fails.
+        /// <para>Преобразует имя узла или возвращает пустую строку при ошибке.</para>
+        /// </summary>
         public static string ResolveHostName(string hostNameOrAddress)
         {
+            if (string.IsNullOrWhiteSpace(hostNameOrAddress))
+            {
+                return string.Empty;
+            }
+
             try
             {
-                string localIP = "0.0.0.0";
-                IPHostEntry IPHostNameEntry = Dns.GetHostEntry(hostNameOrAddress);
-                foreach (IPAddress ip in IPHostNameEntry.AddressList)
+                IPHostEntry hostEntry = Dns.GetHostEntry(hostNameOrAddress);
+                foreach (IPAddress ipAddress in hostEntry.AddressList)
                 {
-                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        localIP = ip.ToString();
+                        return ipAddress.ToString();
                     }
                 }
-                return localIP;
             }
             catch
             {
-                return "N/A";
             }
+
+            return string.Empty;
         }
+
+        #endregion Basic
     }
 }

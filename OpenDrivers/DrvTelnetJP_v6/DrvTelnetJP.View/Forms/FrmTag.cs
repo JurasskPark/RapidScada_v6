@@ -1,4 +1,4 @@
-﻿using Scada.Forms;
+using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
 {
@@ -6,7 +6,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
     {
 
         public int ModeWork;
-        public Tag Tag;
+        public new Tag Tag;
 
         /// <summary>
         /// Initializes a new instance of the class.

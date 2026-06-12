@@ -1,165 +1,140 @@
-﻿using System.Reflection;
+using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP
 {
     /// <summary>
-    /// The class provides helper methods for the driver.
-    /// <para>Класс, предоставляющий вспомогательные методы для драйвера.</para>
+    /// Provides helper methods for the driver.
+    /// <para>Предоставляет вспомогательные методы драйвера.</para>
     /// </summary>
     public static class DriverUtils
     {
+        #region Variable
+
+        private static readonly Regex guidRegex = new Regex(@"^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$", RegexOptions.Compiled); // GUID regex
+
+        #endregion Variable
+
+        #region Const
+
         /// <summary>
         /// The driver code.
+        /// <para>Код драйвера.</para>
         /// </summary>
         public const string DriverCode = "DrvTelnetJP";
 
         /// <summary>
         /// The driver version.
+        /// <para>Версия драйвера.</para>
         /// </summary>
         public const string Version = "6.3.0.0";
 
         /// <summary>
-        /// The default filename of the configuration.
+        /// The default configuration file name.
+        /// <para>Имя файла конфигурации по умолчанию.</para>
         /// </summary>
         public const string DefaultConfigFileName = DriverCode + ".xml";
 
+        #endregion Const
+
+        #region Basic
+
         /// <summary>
-        /// Writes an configuration file depending on operating system.
+        /// Writes a configuration file from an embedded resource.
+        /// <para>Записывает файл конфигурации из встроенного ресурса.</para>
         /// </summary>
         public static void WriteConfigFile(string fileName, bool windows)
         {
             string suffix = windows ? "Win" : "Linux";
             string resourceName = $"Scada.Comm.Drivers.DrvTelnetJP.{suffix}.xml";
-            string fileContents;
 
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            if (stream == null)
             {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    fileContents = reader.ReadToEnd();
-                }
+                return;
             }
 
-            File.WriteAllText(fileName, fileContents, Encoding.UTF8);
+            using StreamReader reader = new StreamReader(stream);
+            File.WriteAllText(fileName, reader.ReadToEnd(), Encoding.UTF8);
         }
 
         /// <summary>
-        /// Converting string Guid to Guid.
+        /// Converts a string to a GUID.
+        /// <para>Преобразует строку в GUID.</para>
         /// </summary>
-        /// <param name="id">string id</param>
-        /// <returns>Guid id</returns>
         public static Guid StringToGuid(string id)
         {
-            if (id == null || id.Length != 36)
-            {
-                return Guid.Empty;
-            }
-            if (reGuid.IsMatch(id))
-            {
-                return new Guid(id);
-            }
-            else
-            {
-                return Guid.Empty;
-            }
+            return !string.IsNullOrEmpty(id) && guidRegex.IsMatch(id)
+                ? new Guid(id)
+                : Guid.Empty;
         }
 
         /// <summary>
-        /// Regex Guid.
+        /// Converts an object to a string or returns an empty string.
+        /// <para>Преобразует объект в строку или возвращает пустую строку.</para>
         /// </summary>
-        private static Regex reGuid = new Regex(@"^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Сonverting an object to a string, if the object is empty, it returns an empty string.
-        /// </summary>
-        /// <param name="Value">object Value</param>
-        /// <returns>string Value</returns>
-        public static string NullToString(object Value)
+        public static string NullToString(object value)
         {
-            // Value.ToString() allows for Value being DBNull, but will also convert int, double, etc.
-            return Value == null ? "" : Value.ToString();
-
-            // If this is not what you want then this form may suit you better, handles 'Null' and DBNull otherwise tries a straight cast
-            // which will throw if Value isn't actually a string object.
-            //return Value == null || Value == DBNull.Value ? "" : (string)Value;
+            return value == null ? string.Empty : value.ToString();
         }
 
         /// <summary>
-        /// Movement of elements in the listview to the up and down.
+        /// Checks whether the value is an IPv4 address.
+        /// <para>Проверяет, является ли значение IPv4-адресом.</para>
         /// </summary>
-        public enum MoveDirection { Up = -1, Down = 1 };
-
-
-        /// <summary>
-        /// Checking the validity of the IP address
-        /// </summary>
-        /// <param name="Address"></param>
-        /// <returns>True/False</returns>
-        public static bool IsIpAddress(string Address)
+        public static bool IsIpAddress(string address)
         {
-            // initializing a new instance of the System.Text.RegularExpressions.Regex class
-            // for the specified regular expression.
-            Regex IpMatch = new Regex(@"^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$");
-            // checking whether the specified input string matches the regular
-            // the expression specified in the constructor System.Text.RegularExpressions.Regex.
-            // if yes, we return true, if not, false
-            return IpMatch.IsMatch(Address);
+            return IPAddress.TryParse(address, out IPAddress ipAddress) &&
+                ipAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork;
         }
 
+        /// <summary>
+        /// Extracts an address from an address:port string.
+        /// <para>Извлекает адрес из строки адрес:порт.</para>
+        /// </summary>
         public static string IPAddressNoPort(string address)
         {
-            // if the IP passes the validity test
-            if (IsIpAddress(address) == true)
-            {
-                return address;
-            }
-            else if (IsIpAddress(address) == false) // if the IP did not pass the validity test, then let's try to remove the port
-            {
-                // parse IP
-                String[] IP = address.Split(new String[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-
-                // we sort through what we got (Port or IP)
-                foreach (string addressTrue in IP)
-                {
-                    // if you come across an IP that is true
-                    if (IsIpAddress(addressTrue) == true)
-                    {
-                        return addressTrue;
-                    }
-                }
-            }
-            return null;
+            SplitAddressAndPort(address, out string host, out _);
+            return host;
         }
 
+        /// <summary>
+        /// Extracts a port from an address:port string.
+        /// <para>Извлекает порт из строки адрес:порт.</para>
+        /// </summary>
         public static string PortNoIPAddress(string address)
         {
-            // if the IP passes the validity test
-            if (IsIpAddress(address) == true)
-            {
-                // we do nothing
-            }
-            else if (IsIpAddress(address) == false) //Если IP не прошёл на валидатность, то попробуем удалить порт
-            {
-                // parse IP
-                String[] IP = address.Split(new String[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-
-                // we sort through what we got (Port or IP)
-                foreach (string portTrue in IP)
-                {
-                    // if the IP passes the validity test
-                    if (IsIpAddress(portTrue) == true)
-                    {
-                        // we do nothing
-                    }
-                    else
-                    {
-                        return portTrue;
-                    }
-                }
-            }
-            return null;
+            SplitAddressAndPort(address, out _, out string port);
+            return port;
         }
+
+        /// <summary>
+        /// Splits an address and port.
+        /// <para>Разделяет адрес и порт.</para>
+        /// </summary>
+        private static void SplitAddressAndPort(string address, out string host, out string port)
+        {
+            host = string.Empty;
+            port = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                return;
+            }
+
+            string[] parts = address.Trim().Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (parts.Length == 1)
+            {
+                host = parts[0];
+                return;
+            }
+
+            host = parts[0];
+            port = parts[^1];
+        }
+
+        #endregion Basic
     }
 }
