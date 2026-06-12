@@ -2,10 +2,10 @@
 
 ![DrvDebug](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDebug&color=4bb60e)
 
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
-![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows&color=lightgrey)
+[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
 
 **DrvDebug** is a Rapid SCADA communication driver for testing byte-array protocols, transport channels, packet decoding, command sending and simulated tag values.

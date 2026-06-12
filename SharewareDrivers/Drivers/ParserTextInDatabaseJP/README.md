@@ -1,7 +1,7 @@
 	Драйвера для Rapid SCADA.
 	Drivers  for Rapid SCADA.
 
-![DrvParserTextInDatabaseJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvParserTextInDatabaseJP_v6.4.0.5/total)
+![DrvParserTextInDatabaseJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvParserTextInDatabaseJP&color=4bb60e)
 	
 # DrvParserTextInDatabaseJP
 ## Инструкция

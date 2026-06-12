@@ -1,10 +1,10 @@
 # DrvMOXANportJP
 
 
-![DrvMOXANportJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvMOXANportJP_v6.4.0.2/total)
-![DrvMOXANportJP](https://img.shields.io/badge/Rapid%20SCADA-6.4-blue.svg)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
-![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
+![DrvMOXANportJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvMOXANportJP&color=4bb60e)
+![DrvMOXANportJP](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.4&color=blue)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows&color=lightgrey)
 
 **MOXA NPort JP** — Rapid SCADA driver for monitoring and administering MOXA NPort serial device servers.  
 **MOXA NPort JP** — драйвер Rapid SCADA для контроля и администрирования сетевых преобразователей MOXA NPort.

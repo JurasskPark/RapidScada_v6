@@ -1,9 +1,8 @@
 # PlgMimCalendarJP
 
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.2.1/total)
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
+![PlgMimCalendarJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimCalendarJP&color=4bb60e)
+[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](LICENSE)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
 
 **Mimic Calendar** — a Rapid SCADA plugin that provides calendar components for mimic diagrams.  
 **Календарь мнемосхем** — плагин Rapid SCADA, добавляющий календарные компоненты для мнемосхем.

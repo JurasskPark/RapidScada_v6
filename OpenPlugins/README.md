@@ -4,15 +4,14 @@
 </p>
 
 ### PlgMimCalendarJP
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.2.1/total)
-![PlgMimCalendarJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimCalendarJP_v6.0.1.1/total)
+![PlgMimCalendarJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimCalendarJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimCalendarJP
 
 -------------------------------------------------------------------------------
 
 ### PlgMimShapesJP
-![PlgMimShapesJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimShapesJP_v6.0.1.1/total)
+![PlgMimShapesJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimShapesJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimShapesJP
 

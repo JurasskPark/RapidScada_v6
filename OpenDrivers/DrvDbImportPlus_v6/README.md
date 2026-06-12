@@ -2,9 +2,9 @@
 
 ![DrvDbImportPlus](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbImportPlus&color=4bb60e)
 
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
-![Platform](https://img.shields.io/badge/platform-Windows%20%2F%20Linux-lightgrey.svg)
+![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%2F%20Linux&color=lightgrey)
 
 **DrvDbImportPlus** is a Rapid SCADA communication driver for importing current tag values from relational databases and InfluxDB, and for sending Rapid SCADA telecontrol commands back to a database query.
 

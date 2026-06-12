@@ -2,9 +2,9 @@
 
 ![ExtDepMicrosoftSqlJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtDepMicrosoftSqlJP&color=4bb60e)
 
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](../../../License.txt)
+![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](../../../License.txt)
 
 
 **Microsoft SQL Server Deployment JP** — a Rapid SCADA Administrator extension for deploying project configuration to Microsoft SQL Server.  

@@ -1,8 +1,8 @@
 # PlgMimShapesJP
 
-![PlgMimShapesJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimShapesJP_v6.0.1.1/total)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
+![PlgMimShapesJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimShapesJP&color=4bb60e)
+[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](LICENSE)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
 
 **Mimic Shapes** — a Rapid SCADA plugin that provides geometric shape components for mimic diagrams.  
 **Фигуры мнемосхем** — плагин Rapid SCADA, добавляющий геометрические фигуры для мнемосхем.
