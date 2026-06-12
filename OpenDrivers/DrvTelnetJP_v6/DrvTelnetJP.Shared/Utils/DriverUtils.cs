@@ -29,7 +29,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
         /// The driver version.
         /// <para>Версия драйвера.</para>
         /// </summary>
-        public const string Version = "6.3.0.0";
+        public const string Version = "6.4.0.0";
 
         /// <summary>
         /// The default configuration file name.

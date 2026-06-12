@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <DrvTelnetJPDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvTelnetJP.View.Forms.FrmConfig">
 	  <Phrase key="this">Telnet JP - Device {0} Properties Version {1}</Phrase>
@@ -6,9 +6,9 @@
 	  <Phrase key="gbLog">Log</Phrase>
 	  <Phrase key="cbLog">Write logs</Phrase>
 	  <Phrase key="gbMode">Mode</Phrase>
-	  <Phrase key="rdbPingSync">Synchronous</Phrase>
-	  <Phrase key="rdbPingAsync">Asynchronous</Phrase>
-	  <Phrase key="gpbTags">Tags</Phrase>	  
+	  <Phrase key="rdbTelnetSync">Synchronous</Phrase>
+	  <Phrase key="rdbTelnetAsync">Asynchronous</Phrase>
+	  <Phrase key="gpbTags">Tags</Phrase>
 	  <Phrase key="btnSave">Save</Phrase>
 	  <Phrase key="btnClose">Close</Phrase>
 	  <Phrase key="cmnuUp">Up</Phrase>
@@ -21,7 +21,7 @@
 	  <Phrase key="cmnuTagAllDelete">Delete all Tags</Phrase>
 	  <Phrase key="clmTagname">Name</Phrase>
 	  <Phrase key="clmTagCode">Tag code</Phrase>
-	  <Phrase key="clmTagIPAddressPort">IP Address : Port</Phrase>	  
+	  <Phrase key="clmTagIPAddressPort">IP Address : Port</Phrase>
 	  <Phrase key="clmTagEnabled">Enabled</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvTelnetJP.View.Forms.FrmInputBox">

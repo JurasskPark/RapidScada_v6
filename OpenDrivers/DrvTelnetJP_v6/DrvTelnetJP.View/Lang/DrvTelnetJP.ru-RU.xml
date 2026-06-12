@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <DrvTelnetJPDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvTelnetJP.View.Forms.FrmConfig">
     <Phrase key="this">Telnet JP - Свойства драйвера {0} Версия {1}</Phrase>
@@ -6,11 +6,11 @@
 	<Phrase key="gbLog">Лог</Phrase>
 	<Phrase key="cbLog">Записывать логи</Phrase>
 	<Phrase key="gbMode">Метод</Phrase>
-	<Phrase key="rdbPingSync">Синхронный</Phrase>
-	<Phrase key="rdbPingAsync">Асинхронный</Phrase>  
+	<Phrase key="rdbTelnetSync">Синхронный</Phrase>
+	<Phrase key="rdbTelnetAsync">Асинхронный</Phrase>
 	<Phrase key="gpbTags">Теги</Phrase>
 	<Phrase key="btnSave">Сохранить</Phrase>
-    <Phrase key="btnClose">Закрыть</Phrase>	
+    <Phrase key="btnClose">Закрыть</Phrase>
 	<Phrase key="cmnuUp">Поднять вверх</Phrase>
 	<Phrase key="cmnuDown">Опустить вниз</Phrase>
 	<Phrase key="cmnuTagRefresh">Обновить</Phrase>

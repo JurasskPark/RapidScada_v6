@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
     /// Represents a device configuration.
     /// <para>Представляет конфигурацию КП.</para>
     /// </summary>
-    internal class DrvTelnetJPConfig : DeviceConfigBase
+    internal class Project : DeviceConfigBase
     {
         #region Property
 
@@ -39,7 +39,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
         /// Initializes a new instance of the class.
         /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
-        public DrvTelnetJPConfig()
+        public Project()
         {
             SetToDefault();
         }
@@ -105,7 +105,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
-                XmlElement rootElem = xmlDoc.CreateElement("DrvTelnetJPConfig");
+                XmlElement rootElem = xmlDoc.CreateElement("Project");
                 xmlDoc.AppendChild(rootElem);
 
                 rootElem.AppendElem("Log", Log);

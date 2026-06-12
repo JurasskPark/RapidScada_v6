@@ -1,11 +1,9 @@
 using Scada.Comm.Lang;
+using Scada.Comm.Drivers.DrvTelnetJP.View;
 using Scada.Forms;
 using Scada.Lang;
-using System.Data;
 using System.Diagnostics;
 using System.Reflection;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
 {
@@ -15,152 +13,26 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
     /// </summary>
     public partial class FrmConfig : Form
     {
+        #region Variable
 
-        #region Variables
-        private readonly AppDirs appDirs;                       // the application directories
-        private readonly int deviceNum;                         // the device number
-        private readonly NetworkInformation networkInformation; // network (ping)
-        private readonly DrvTelnetJPConfig config;                // the device configuration
-        private string configFileName;                          // the configuration file name
-        private bool modified;                                  // the configuration was modified
+        private readonly NetworkInformation networkInformation;     // network information
+        private readonly Project config;                  // device configuration
+        private readonly int deviceNum;                             // device number
+        private string configFileName = string.Empty;               // configuration file name
+        private bool modified;                                      // configuration was modified
+        private bool polling;                                       // polling is running
+        private List<Tag> deviceTags = new List<Tag>();             // device tags
+        private ListViewItem selected;                              // selected tag item
+        private readonly Stopwatch stopWatch = new Stopwatch();     // refresh stopwatch
+        private double refreshInterval = 1000d;                     // refresh interval
 
-        private List<Tag> deviceTags;                           // tags
-        private ListViewItem selected;                          // selected record tag
-        private int indexSelectTag = 0;                         // index number tag
+        #endregion Variable
 
-        DateTime tmrEndTime = new DateTime();                   // timer
-        private bool tmrStatus = true;
-        private double TimeRefresh = 1000d;
+        #region Property
 
-        Stopwatch stopWatch = new Stopwatch();
-        #endregion Variables
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        private FrmConfig()
-        {
-            InitializeComponent();
-        }
-
-        #region Basic
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public FrmConfig(AppDirs appDirs, int deviceNum)
-            : this()
-        {
-            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
-            this.deviceNum = deviceNum;
-
-            this.networkInformation = new NetworkInformation();
-            this.networkInformation.OnDebug = new NetworkInformation.DebugData(DebugerLog);
-            this.networkInformation.OnDebugTag = new NetworkInformation.DebugTag(DebugerTag);
-            this.networkInformation.OnDebugTags = new NetworkInformation.DebugTags(DebugerTags);
-
-            config = new DrvTelnetJPConfig();
-            configFileName = Path.Combine(appDirs.ConfigDir, DrvTelnetJPConfig.GetFileName(deviceNum));
-            modified = false;
-            deviceTags = new List<Tag>();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public FrmConfig(string configFileName)
-            : this()
-        {
-            this.configFileName = configFileName;
-
-            this.networkInformation = new NetworkInformation();
-            this.networkInformation.OnDebug = new NetworkInformation.DebugData(DebugerLog);
-            this.networkInformation.OnDebugTag = new NetworkInformation.DebugTag(DebugerTag);
-            this.networkInformation.OnDebugTags = new NetworkInformation.DebugTags(DebugerTags);
-
-            config = new DrvTelnetJPConfig();
-            modified = false;
-            deviceTags = new List<Tag>();
-        }
-
-        /// <summary>
-        /// Loading the form
-        /// </summary>
-        private void FrmConfig_Load(object sender, EventArgs e)
-        {
-            // translate the form
-            FormTranslator.Translate(this, GetType().FullName);
-            FormTranslator.Translate(cmnuLstTags, GetType().FullName);
-
-            Text = string.Format(Text, deviceNum, DriverUtils.Version);
-
-            // load a configuration
-            if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
-            {
-                ScadaUiUtils.ShowError(errMsg);
-            }
-
-            // display the configuration
-            ConfigToControls();
-
-            // translate the listview
-            FormTranslator.Translate(lstTags, GetType().FullName);
-
-            Modified = false;
-        }
-
-        /// <summary>
-        /// Shown the form
-        /// </summary>
-        private void FrmConfig_Shown(object sender, EventArgs e)
-        {
-            tmrTimer.Enabled = true;
-            tmrTimer.Start();
-        }
-
-        private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            try
-            {
-                try
-                {
-                    networkInformation.StopTelnet();
-                }
-                catch { }
-
-                if (Modified)
-                {
-                    DialogResult result = MessageBox.Show(CommPhrases.SaveDeviceConfigConfirm,
-                        CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                    switch (result)
-                    {
-                        case DialogResult.Yes:
-                            if (!config.Save(configFileName, out string errMsg))
-                            {
-                                ScadaUiUtils.ShowError(errMsg);
-                                e.Cancel = true;
-                            }
-                            break;
-                        case DialogResult.No:
-                            break;
-                        default:
-                            e.Cancel = true;
-                            break;
-                    }
-                }
-            }
-            catch { }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the configuration was modified.
-        /// </summary>
         private bool Modified
         {
-            get
-            {
-                return modified;
-            }
+            get => modified;
             set
             {
                 modified = value;
@@ -168,156 +40,157 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
             }
         }
 
+        #endregion Property
+
+        #region Basic
+
         /// <summary>
-        /// Gets or sets a value indicating whether the configuration was modified.
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
-        private void control_Changed(object sender, EventArgs e)
+        private FrmConfig()
         {
-            Modified = true;
+            InitializeComponent();
         }
 
         /// <summary>
-        /// Sets the controls according to the configuration.
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public FrmConfig(AppDirs appDirs, int deviceNum)
+            : this()
+        {
+            if (appDirs == null)
+            {
+                throw new ArgumentNullException(nameof(appDirs));
+            }
+
+            this.deviceNum = deviceNum;
+            configFileName = Path.Combine(appDirs.ConfigDir, Project.GetFileName(deviceNum));
+            config = new Project();
+            networkInformation = CreateNetworkInformation();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public FrmConfig(string configFileName)
+            : this()
+        {
+            this.configFileName = configFileName ?? string.Empty;
+            config = new Project();
+            networkInformation = CreateNetworkInformation();
+        }
+
+        /// <summary>
+        /// Loads the form.
+        /// <para>Загружает форму.</para>
+        /// </summary>
+        private void FrmConfig_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(cmnuLstTags, GetType().FullName);
+            FormTranslator.Translate(lstTags, GetType().FullName);
+
+            Text = string.Format(Text, deviceNum, DriverUtils.Version);
+            LoadConfig();
+            ConfigToControls();
+            Modified = false;
+        }
+
+        /// <summary>
+        /// Handles the form shown event.
+        /// <para>Обрабатывает отображение формы.</para>
+        /// </summary>
+        private void FrmConfig_Shown(object sender, EventArgs e)
+        {
+            tmrTimer.Enabled = true;
+            stopWatch.Restart();
+        }
+
+        /// <summary>
+        /// Handles the form closing event.
+        /// <para>Обрабатывает закрытие формы.</para>
+        /// </summary>
+        private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!Modified)
+            {
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                CommPhrases.SaveDeviceConfigConfirm,
+                CommonPhrases.QuestionCaption,
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Save();
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        /// <summary>
+        /// Creates a network information object.
+        /// <para>Создает объект сетевой информации.</para>
+        /// </summary>
+        private NetworkInformation CreateNetworkInformation()
+        {
+            return new NetworkInformation
+            {
+                OnDebug = DebugerLog,
+                OnDebugTag = DebugerTag,
+                OnDebugTags = DebugerTags
+            };
+        }
+
+        /// <summary>
+        /// Loads the configuration file.
+        /// <para>Загружает файл конфигурации.</para>
+        /// </summary>
+        private void LoadConfig()
+        {
+            if (!string.IsNullOrEmpty(configFileName) && File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
+            {
+                ScadaUiUtils.ShowError(errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Displays the configuration in controls.
+        /// <para>Отображает конфигурацию в элементах управления.</para>
         /// </summary>
         private void ConfigToControls()
         {
-            // log
             cbLog.Checked = config.Log;
-
-            // set the control values   
+            deviceTags = config.DeviceTags ?? new List<Tag>();
             SetListViewColumnNames();
-
-            // tags
-            deviceTags = config.DeviceTags;
-
-            if (deviceTags != null)
-            {
-                // update without flicker
-                Type type = lstTags.GetType();
-                PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                propertyInfo.SetValue(lstTags, true, null);
-
-                this.lstTags.BeginUpdate();
-                this.lstTags.Items.Clear();
-
-                #region Data display
-                foreach (var tmpTag in deviceTags)
-                {
-                    // inserted information
-                    this.lstTags.Items.Add(new ListViewItem()
-                    {
-                        // tag name
-                        Text = tmpTag.TagName,
-                        SubItems =
-                            {
-                                // adding tag parameters
-                                DriverUtils.NullToString(tmpTag.TagCode),
-                                DriverUtils.NullToString(tmpTag.TagIPAddress + ":" + tmpTag.TagPort.ToString()),
-                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tmpTag.TagEnabled))
-                            }
-                    }).Tag = tmpTag; // in tag we pass the tag id... so that we can find
-                }
-                #endregion Data display
-
-                this.lstTags.EndUpdate();
-            }
-
-            try
-            {
-                if (indexSelectTag != 0 && indexSelectTag < lstTags.Items.Count)
-                {
-                    // scroll through
-                    lstTags.EnsureVisible(indexSelectTag);
-                    lstTags.TopItem = lstTags.Items[indexSelectTag];
-                    // Making the area active
-                    lstTags.Focus();
-                    // making the desired element selected
-                    lstTags.Items[indexSelectTag].Selected = true;
-                    lstTags.Select();
-                }
-            }
-            catch { }
+            RefreshTagsList();
         }
 
         /// <summary>
-        /// Sets the column names as needed for translation.
-        /// </summary>
-        private void SetListViewColumnNames()
-        {
-            clmTagname.Name = nameof(clmTagname);
-            clmTagCode.Name = nameof(clmTagCode);
-            clmTagIPAddressPort.Name = nameof(clmTagIPAddressPort);
-            clmTagEnabled.Name = nameof(clmTagEnabled);
-        }
-
-        /// <summary>
-        /// Translating values to listview.
-        /// </summary>
-        public string ListViewAsDisplayStringBoolean(bool boolTag)
-        {
-            string result = string.Empty;
-            if (boolTag == false)
-            {
-                result = Locale.IsRussian ?
-                        "Отключен" :
-                        "Disabled";
-                return result;
-            }
-
-            if (boolTag == true)
-            {
-                result = Locale.IsRussian ?
-                       "Включен" :
-                       "Enabled";
-                return result;
-            }
-
-            return result;
-        }
-
-
-        /// <summary>
-        /// Sets the configuration parameters according to the controls.
+        /// Saves controls to the configuration.
+        /// <para>Сохраняет значения элементов управления в конфигурацию.</para>
         /// </summary>
         private void ControlsToConfig()
         {
             config.Log = cbLog.Checked;
-
-            deviceTags.Clear();
-            foreach (ListViewItem itemRow in this.lstTags.Items)
-            {
-                deviceTags.Add((Tag)itemRow.Tag);
-            }
-        
             config.DeviceTags = deviceTags;
         }
 
         /// <summary>
-        /// Saving settings
-        /// </summary>
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            Save();
-        }
-
-        /// <summary>
-        /// Close Form
-        /// </summary>
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        /// <summary>
-        /// Saving the settings by first getting the parameters from the controls, and then displaying
+        /// Saves the configuration.
+        /// <para>Сохраняет конфигурацию.</para>
         /// </summary>
         private void Save()
         {
-            tmrTimer.Stop();
-            // retrieve the configuration
             ControlsToConfig();
-
-            // save the configuration
             if (config.Save(configFileName, out string errMsg))
             {
                 Modified = false;
@@ -326,710 +199,549 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View.Forms
             {
                 ScadaUiUtils.ShowError(errMsg);
             }
+        }
 
-            // set the control values
-            ConfigToControls();
-            tmrTimer.Start();
+        /// <summary>
+        /// Sets list view column names.
+        /// <para>Устанавливает имена столбцов списка.</para>
+        /// </summary>
+        private void SetListViewColumnNames()
+        {
+            clmTagname.Text = Locale.IsRussian ? "Имя" : "Name";
+            clmTagCode.Text = Locale.IsRussian ? "Код тега" : "Tag code";
+            clmTagIPAddressPort.Text = Locale.IsRussian ? "IP-адрес : Порт" : "IP Address : Port";
+            clmTagEnabled.Text = Locale.IsRussian ? "Включен" : "Enabled";
+        }
+
+        /// <summary>
+        /// Converts a boolean value to display text.
+        /// <para>Преобразует логическое значение в отображаемый текст.</para>
+        /// </summary>
+        public string ListViewAsDisplayStringBoolean(bool boolTag)
+        {
+            return boolTag
+                ? Locale.IsRussian ? "Да" : "Yes"
+                : Locale.IsRussian ? "Нет" : "No";
         }
 
         #endregion Basic
 
-        #region Tab Settings
+        #region Control
 
-        #region Tag selection
+        #region Button
+
         /// <summary>
-        /// Tag selection
+        /// Saves the configuration.
+        /// <para>Сохраняет конфигурацию.</para>
+        /// </summary>
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        /// <summary>
+        /// Closes the form.
+        /// <para>Закрывает форму.</para>
+        /// </summary>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        #endregion Button
+
+        #region Common
+
+        /// <summary>
+        /// Marks the configuration as modified.
+        /// <para>Помечает конфигурацию как измененную.</para>
+        /// </summary>
+        private void control_Changed(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
+
+        #endregion Common
+
+        #region ListView
+
+        /// <summary>
+        /// Handles tag selection by mouse click.
+        /// <para>Обрабатывает выбор тега щелчком мыши.</para>
         /// </summary>
         private void lstTags_MouseClick(object sender, MouseEventArgs e)
         {
-            TagSelect();
+            SelectTag();
         }
 
         /// <summary>
-        /// Tag selection
-        /// </summary>
-        private void TagSelect()
-        {
-            System.Windows.Forms.ListView tmplstTags = this.lstTags;
-            if (tmplstTags.SelectedItems.Count <= 0)
-            {
-                return;
-            }
-
-            if (deviceTags != null)
-            {
-                selected = tmplstTags.SelectedItems[0];
-                indexSelectTag = tmplstTags.SelectedIndices[0];
-                Tag tmpTag = (Tag)selected.Tag;
-                Guid SelectTagID = DriverUtils.StringToGuid(tmpTag.TagID.ToString());
-            }
-        }
-
-        #endregion Tag selection
-
-        #region Tag add
-        /// <summary>
-        /// Tag add
-        /// </summary>
-        private void cmnuTagAdd_Click(object sender, EventArgs e)
-        {
-            TagAdd();
-        }
-
-        /// <summary>
-        /// Tag add
-        /// </summary>
-        private void TagAdd()
-        {
-            try
-            {
-                // create tag
-                Tag newTag = new Tag();
-                newTag.TagID = Guid.NewGuid();
-                newTag.TagPort = 1;
-                newTag.TagTimeout = 1000;
-                newTag.TagEnabled = true;
-                // create form
-                FrmTag frmTag = new FrmTag();
-                frmTag.ModeWork = 1;
-                frmTag.Tag = newTag;
-                // showing the form
-                DialogResult dialog = frmTag.ShowDialog();
-                // if you have closed the form, click OK
-                if (DialogResult.OK == dialog)
-                {
-                    #region Data display
-                    // update without flicker
-                    Type type = lstTags.GetType();
-                    PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                    propertyInfo.SetValue(lstTags, true, null);
-
-                    this.lstTags.BeginUpdate();
-
-                    // inserted information
-                    this.lstTags.Items.Add(new ListViewItem()
-                    {
-                        // tag name
-                        Text = frmTag.Tag.TagName,
-                        SubItems =
-                            {
-                                // adding tag parameters
-                                DriverUtils.NullToString(frmTag.Tag.TagCode),
-                                DriverUtils.NullToString(frmTag.Tag.TagIPAddress),
-                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(frmTag.Tag.TagEnabled))
-                            }
-                    }).Tag = frmTag.Tag; // in tag we pass the tag id... so that we can find
-
-                    this.lstTags.EndUpdate();
-                    #endregion Data display
-
-                    tmrTimer.Start();
-                    Modified = true;
-                }
-            }
-            catch { }
-        }
-
-        #endregion Tag add
-
-        #region Tag list add
-        /// <summary>
-        /// Tag list add
-        /// </summary>
-        private void cmnuListTagAdd_Click(object sender, EventArgs e)
-        {
-            ListTagAdd();
-        }
-
-        /// <summary>
-        /// Tag list add
-        /// </summary>
-        private void ListTagAdd()
-        {
-            try
-            {
-                FrmInputBox InputBox = new FrmInputBox();
-                InputBox.Values = string.Empty;
-                InputBox.ShowDialog();
-
-                if (InputBox.DialogResult == DialogResult.OK)
-                {
-                    String[] tagsName = InputBox.Values.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (String tagName in tagsName)
-                    {
-                        string tmpIP = DriverUtils.IPAddressNoPort(tagName);
-                        string tmpPort = DriverUtils.PortNoIPAddress(tagName);
-
-                        Tag newTag = new Tag();
-                        newTag.TagID = Guid.NewGuid();
-                        newTag.TagCode = tagName;
-                        newTag.TagName = tagName;
-                        newTag.TagIPAddress = tmpIP;
-                        newTag.TagPort = Convert.ToInt32(tmpPort);
-                        newTag.TagTimeout = 1000;
-                        newTag.TagEnabled = true;
-
-                        if (!deviceTags.Contains(newTag))
-                        {
-                            #region Data display
-                            // update without flicker
-                            Type type = lstTags.GetType();
-                            PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                            propertyInfo.SetValue(lstTags, true, null);
-
-                            this.lstTags.BeginUpdate();
-
-                            // inserted information
-                            this.lstTags.Items.Add(new ListViewItem()
-                            {
-                                // tag name
-                                Text = newTag.TagName,
-                                SubItems =
-                            {
-                                // adding tag parameters
-                                DriverUtils.NullToString(newTag.TagCode),
-                                DriverUtils.NullToString(newTag.TagIPAddress),
-                                DriverUtils.NullToString(ListViewAsDisplayStringBoolean(newTag.TagEnabled))
-                            }
-                            }).Tag = newTag; // in tag we pass the tag id... so that we can find
-
-                            this.lstTags.EndUpdate();
-                            #endregion Data display
-
-                            tmrTimer.Start();
-
-                            Modified = true;
-                        }
-                    }                   
-                }
-            }
-            catch { }
-        }
-
-        #endregion Tag list add
-
-        #region Tag change
-        /// <summary>
-        /// Tag change
+        /// Handles tag editing by double click.
+        /// <para>Обрабатывает редактирование тега двойным щелчком.</para>
         /// </summary>
         private void lstTags_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            TagChange();
+            ChangeTag();
         }
 
         /// <summary>
-        /// Tag change
-        /// </summary>
-        private void cmnuTagChange_Click(object sender, EventArgs e)
-        {
-            TagChange();
-        }
-
-        /// <summary>
-        /// Tag change
-        /// </summary>
-        private void TagChange()
-        {
-            try
-            {
-                System.Windows.Forms.ListView tmplstTags = this.lstTags;
-                if (tmplstTags.SelectedItems.Count <= 0)
-                {
-                    return;
-                }
-
-                if (deviceTags != null)
-                {
-                    selected = tmplstTags.SelectedItems[0];
-                    indexSelectTag = tmplstTags.SelectedIndices[0];
-                    Tag changeTag = (Tag)selected.Tag;
-
-                    FrmTag frmTag = new FrmTag();
-                    frmTag.ModeWork = 2;
-                    frmTag.Tag = changeTag;
-                    // showing the form
-                    DialogResult dialog = frmTag.ShowDialog();
-                    // if you have closed the form, click OK
-                    if (DialogResult.OK == dialog)
-                    {
-                        #region Data display
-                        // update without flicker
-                        Type type = lstTags.GetType();
-                        PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                        propertyInfo.SetValue(lstTags, true, null);
-
-                        this.lstTags.BeginUpdate();
-
-                        // update information
-                        selected.Text = frmTag.Tag.TagName;
-                        selected.SubItems[0].Text = frmTag.Tag.TagName;
-                        selected.SubItems[1].Text = DriverUtils.NullToString(frmTag.Tag.TagCode);
-                        selected.SubItems[2].Text = DriverUtils.NullToString(frmTag.Tag.TagIPAddress + ":" + frmTag.Tag.TagPort);
-                        selected.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(frmTag.Tag.TagEnabled));
-                        selected.Tag = frmTag.Tag;
-
-                        this.lstTags.EndUpdate();
-                        #endregion Data display
-                        Modified = true;
-                        // scroll through
-                        tmplstTags.EnsureVisible(indexSelectTag);
-                        tmplstTags.TopItem = tmplstTags.Items[indexSelectTag];
-                        // making the area active
-                        tmplstTags.Focus();
-                        // making the desired element selected
-                        tmplstTags.Items[indexSelectTag].Selected = true;
-                        tmplstTags.Select();
-                    }
-                }
-            }
-            catch { }
-        }
-
-        #endregion Tag change
-
-        #region Tag delete
-
-        /// <summary>
-        /// Tag delete
-        /// </summary>
-        private void cmnuTagDelete_Click(object sender, EventArgs e)
-        {
-            TagDelete();
-        }
-
-        /// <summary>
-        /// Tag delete
+        /// Handles tag deletion by keyboard.
+        /// <para>Обрабатывает удаление тега с клавиатуры.</para>
         /// </summary>
         private void lstTags_KeyDown(object sender, KeyEventArgs e)
         {
-            TagDelete();
-        }
-
-        /// <summary>
-        /// Tag delete
-        /// </summary>
-        private void TagDelete()
-        {
-            try
+            if (e.KeyCode == Keys.Delete)
             {
-                System.Windows.Forms.ListView tmplstTags = this.lstTags;
-                if (tmplstTags.SelectedItems.Count <= 0)
-                {
-                    return;
-                }
-
-                if (deviceTags != null)
-                {
-                    selected = tmplstTags.SelectedItems[0];
-
-                    try
-                    {
-                        if (tmplstTags.Items.Count > 0)
-                        {
-                            tmplstTags.Items.Remove(this.selected);
-                        }
-    
-                        if (indexSelectTag >= 1)
-                        {
-                            // scroll through
-                            tmplstTags.EnsureVisible(indexSelectTag - 1);
-                            tmplstTags.TopItem = tmplstTags.Items[indexSelectTag - 1];
-                            // making the area active
-                            tmplstTags.Focus();
-                            // making the desired element selected
-                            tmplstTags.Items[indexSelectTag - 1].Selected = true;
-                            tmplstTags.Select();
-                        }
-                    }
-                    catch { }
-                }
-
-                if (tmplstTags.Items.Count == 0)
-                {
-                    tmrTimer.Stop();
-                }
-                Modified = true;
+                DeleteTag();
             }
-            catch { }
-        }
-
-        #endregion Tag delete
-
-        #region Tag list delete
-        /// <summary>
-        /// Tag list delete
-        /// </summary>
-        private void cmnuTagAllDelete_Click(object sender, EventArgs e)
-        {
-            TagAllDelete();
         }
 
         /// <summary>
-        /// Tag list delete
+        /// Selects the current tag.
+        /// <para>Выбирает текущий тег.</para>
         /// </summary>
-        private void TagAllDelete()
+        private void SelectTag()
         {
+            selected = lstTags.SelectedItems.Count > 0 ? lstTags.SelectedItems[0] : null;
+        }
+
+        /// <summary>
+        /// Refreshes the tag list.
+        /// <para>Обновляет список тегов.</para>
+        /// </summary>
+        private void RefreshTagsList()
+        {
+            EnableDoubleBuffering(lstTags);
+            lstTags.BeginUpdate();
             try
             {
                 lstTags.Items.Clear();
-                Modified = true;
-
-                tmrTimer.Stop();
+                foreach (Tag tag in deviceTags)
+                {
+                    AddTagItem(tag);
+                }
             }
-            catch { }
+            finally
+            {
+                lstTags.EndUpdate();
+            }
         }
 
-        #endregion Tag list delete
-
-        #region Tag Up
         /// <summary>
-        /// Tag Up
+        /// Adds a tag item to the list.
+        /// <para>Добавляет элемент тега в список.</para>
+        /// </summary>
+        private void AddTagItem(Tag tag)
+        {
+            ListViewItem item = new ListViewItem(tag.TagName)
+            {
+                Tag = tag
+            };
+
+            item.SubItems.Add(DriverUtils.NullToString(tag.TagCode));
+            item.SubItems.Add(GetAddressPortText(tag));
+            item.SubItems.Add(ListViewAsDisplayStringBoolean(tag.TagEnabled));
+            SetTagItemColor(item, tag);
+            lstTags.Items.Add(item);
+        }
+
+        /// <summary>
+        /// Updates a tag item.
+        /// <para>Обновляет элемент тега.</para>
+        /// </summary>
+        private void UpdateTagItem(ListViewItem item, Tag tag)
+        {
+            item.Text = tag.TagName;
+            item.Tag = tag;
+            EnsureSubItemCount(item, 4);
+            item.SubItems[1].Text = DriverUtils.NullToString(tag.TagCode);
+            item.SubItems[2].Text = GetAddressPortText(tag);
+            item.SubItems[3].Text = ListViewAsDisplayStringBoolean(tag.TagEnabled);
+            SetTagItemColor(item, tag);
+        }
+
+        /// <summary>
+        /// Ensures the subitem count.
+        /// <para>Проверяет количество подэлементов.</para>
+        /// </summary>
+        private static void EnsureSubItemCount(ListViewItem item, int count)
+        {
+            while (item.SubItems.Count < count)
+            {
+                item.SubItems.Add(string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Gets address and port display text.
+        /// <para>Возвращает отображаемый адрес и порт.</para>
+        /// </summary>
+        private static string GetAddressPortText(Tag tag)
+        {
+            return $"{tag.TagIPAddress}:{tag.TagPort}";
+        }
+
+        /// <summary>
+        /// Enables double buffering for the list view.
+        /// <para>Включает двойную буферизацию списка.</para>
+        /// </summary>
+        private static void EnableDoubleBuffering(ListView listView)
+        {
+            PropertyInfo propertyInfo = typeof(ListView).GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
+            propertyInfo?.SetValue(listView, true, null);
+        }
+
+        #endregion ListView
+
+        #region Menu
+
+        /// <summary>
+        /// Adds a tag.
+        /// <para>Добавляет тег.</para>
+        /// </summary>
+        private void cmnuTagAdd_Click(object sender, EventArgs e)
+        {
+            AddTag();
+        }
+
+        /// <summary>
+        /// Adds tags from a list.
+        /// <para>Добавляет теги из списка.</para>
+        /// </summary>
+        private void cmnuListTagAdd_Click(object sender, EventArgs e)
+        {
+            AddTagsFromList();
+        }
+
+        /// <summary>
+        /// Changes a tag.
+        /// <para>Изменяет тег.</para>
+        /// </summary>
+        private void cmnuTagChange_Click(object sender, EventArgs e)
+        {
+            ChangeTag();
+        }
+
+        /// <summary>
+        /// Deletes a tag.
+        /// <para>Удаляет тег.</para>
+        /// </summary>
+        private void cmnuTagDelete_Click(object sender, EventArgs e)
+        {
+            DeleteTag();
+        }
+
+        /// <summary>
+        /// Deletes all tags.
+        /// <para>Удаляет все теги.</para>
+        /// </summary>
+        private void cmnuTagAllDelete_Click(object sender, EventArgs e)
+        {
+            DeleteAllTags();
+        }
+
+        /// <summary>
+        /// Moves selected tags up.
+        /// <para>Перемещает выбранные теги вверх.</para>
         /// </summary>
         private void cmnuUp_Click(object sender, EventArgs e)
         {
-            // an item must be selected
-            System.Windows.Forms.ListView tmplstTags = this.lstTags;
-            if (tmplstTags.SelectedItems.Count <= 0)
-            {
-                return;
-            }
-
-            if (lstTags.SelectedItems.Count > 0)
-            {
-                if (deviceTags != null)
-                {
-                    ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Up);
-                }
-
-                Modified = true;
-            }
+            lstTags.MoveListViewItems(MoveDirection.Up);
+            SyncTagsFromListView();
+            Modified = true;
         }
-        #endregion Tag Up
 
-        #region Tag Down
         /// <summary>
-        ///  Tag Down
+        /// Moves selected tags down.
+        /// <para>Перемещает выбранные теги вниз.</para>
         /// </summary>
         private void cmnuDown_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.ListView tmplstTags = this.lstTags;
-            if (tmplstTags.SelectedItems.Count <= 0)
-            {
-                return;
-            }
-
-            // an item must be selected
-            if (lstTags.SelectedItems.Count > 0)
-            {
-                if (deviceTags != null)
-                {
-                    ListViewExtensions.MoveListViewItems(lstTags, MoveDirection.Down);
-                }
-
-                Modified = true;
-            }
+            lstTags.MoveListViewItems(MoveDirection.Down);
+            SyncTagsFromListView();
+            Modified = true;
         }
 
-        #endregion Tag Down
+        #endregion Menu
 
         #region Timer
+
         /// <summary>
-        /// Timer
+        /// Handles timer ticks.
+        /// <para>Обрабатывает тики таймера.</para>
         /// </summary>
         private void tmrTimer_Tick(object sender, EventArgs e)
         {
-            TimeSpan leftTime = tmrEndTime.Subtract(DateTime.Now);
-            if (leftTime.TotalSeconds < 0)
-            {
-                tmrTimer.Stop();
-
-                // updating information
-                tmrTimer_InfoDeviceTagRefresh();
-
-                if (tmrStatus == true)
-                {
-                    tmrEndTime = DateTime.Now.AddMilliseconds(TimeRefresh);
-                    tmrTimer.Enabled = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Info Device Tag Refresh
-        /// </summary>
-        private void tmrTimer_InfoDeviceTagRefresh()
-        {
-            try
-            {
-                stopWatch.Start();
-
-                #region Telnet
-                try
-                {
-                    networkInformation.RunTelnet(deviceTags);
-                }
-                catch { }
-                #endregion Telnet      
-            }
-            catch { }
-        }
-
-        public void DebugerLog(string text)
-        {
-
-        }
-
-        public void DebugerTag(Tag tag)
-        {
-            if (lstTags.InvokeRequired)
-            {
-                lstTags.Invoke((MethodInvoker)delegate ()
-                {
-                    ListViewItem tagItem = lstTags.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Text == tag.TagName);
-                    if (tagItem != null)
-                    {
-                        if (tag.TagEnabled == false)
-                        {
-                            tagItem.ForeColor = Color.White;
-                            tagItem.BackColor = Color.Gray;
-                        }
-
-                        if (tag.TagEnabled == true) // enabled
-                        {
-                            if (tag.TagVal == 1)
-                            {
-                                try
-                                {
-                                    tagItem.ForeColor = Color.Black;
-                                    tagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
-                                }
-                                catch { }
-                            }
-                            else if (tag.TagVal == 0)
-                            {
-                                try
-                                {
-                                    tagItem.ForeColor = Color.White;
-                                    tagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
-                                }
-                                catch { }
-                            }
-
-                            // updated the information
-                            tagItem.Text = tag.TagName;
-                            tagItem.Tag = tag;
-
-                            tagItem.SubItems[0].Text = DriverUtils.NullToString(tag.TagName);
-                            tagItem.SubItems[1].Text = DriverUtils.NullToString(tag.TagCode);
-                            tagItem.SubItems[2].Text = DriverUtils.NullToString(tag.TagIPAddress + ":" + tag.TagPort);
-                            tagItem.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tag.TagEnabled));
-                        }
-                    }
-                });
-            }
-            else
-            {
-                ListViewItem tagItem = lstTags.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Text == tag.TagName);
-                if (tagItem != null)
-                {
-                    if (tag.TagEnabled == false)
-                    {
-                        tagItem.ForeColor = Color.White;
-                        tagItem.BackColor = Color.Gray;
-                    }
-
-                    if (tag.TagEnabled == true) // enabled
-                    {
-                        if (tag.TagVal == 1)
-                        {
-                            try
-                            {
-                                tagItem.ForeColor = Color.Black;
-                                tagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
-                            }
-                            catch { }
-                        }
-                        else if (tag.TagVal == 0)
-                        {
-                            try
-                            {
-                                tagItem.ForeColor = Color.White;
-                                tagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
-                            }
-                            catch { }
-                        }
-
-                        // updated the information
-                        tagItem.Text = tag.TagName;
-                        tagItem.Tag = tag;
-
-                        tagItem.SubItems[0].Text = DriverUtils.NullToString(tag.TagName);
-                        tagItem.SubItems[1].Text = DriverUtils.NullToString(tag.TagCode);
-                        tagItem.SubItems[2].Text = DriverUtils.NullToString(tag.TagIPAddress + ":" + tag.TagPort);
-                        tagItem.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tag.TagEnabled));
-                    }
-                }
-            }
-        }
-
-        public void DebugerTags(List<Tag> tags)
-        {
-            if (tags == null || tags.Count == 0)
+            if (stopWatch.Elapsed.TotalMilliseconds < refreshInterval || polling)
             {
                 return;
             }
 
-            if (lstTags.InvokeRequired)
-            {
-                lstTags.Invoke((MethodInvoker)delegate ()
-                {
-                    #region Update Info
-                    System.Windows.Forms.ListView lstTags = this.lstTags;
+            stopWatch.Restart();
+            RunTelnetCheck();
+        }
 
-                    // update without flickering
-                    Type type = this.lstTags.GetType();
-                    PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                    propertyInfo.SetValue(this.lstTags, true, (object[])null);
-
-                    for (int index = 0; index < tags.Count; index++)
-                    {
-                        ListViewItem TagItem = lstTags.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Text == tags[index].TagName);
-
-                        if (TagItem == null)
-                        {
-                            continue;
-                        }
-
-                        Tag tmpTag = (Tag)TagItem.Tag;
-                       
-                        if (tmpTag == null || tmpTag.TagID != tags[index].TagID)
-                        {
-                            continue;
-                        }
-
-                        #region Coloring with color
-
-                        if (tmpTag.TagEnabled == false)
-                        {
-                            TagItem.ForeColor = Color.White;
-                            TagItem.BackColor = Color.Gray;
-                        }
-
-                        if (tmpTag.TagEnabled == true) // enabled
-                        {
-                            if (tmpTag.TagVal == 1)
-                            {
-                                try
-                                {
-                                    TagItem.ForeColor = Color.Black;
-                                    TagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
-                                }
-                                catch { }
-                            }
-                            else if (tmpTag.TagVal == 0)
-                            {
-                                try
-                                {
-                                    TagItem.ForeColor = Color.White;
-                                    TagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
-                                }
-                                catch { }
-                            }
-
-                            // updated the information
-                            TagItem.Text = tmpTag.TagName;
-                            TagItem.Tag = tmpTag;
-
-                            TagItem.SubItems[0].Text = DriverUtils.NullToString(tmpTag.TagName);
-                            TagItem.SubItems[1].Text = DriverUtils.NullToString(tmpTag.TagCode);
-                            TagItem.SubItems[2].Text = DriverUtils.NullToString(tmpTag.TagIPAddress + ":" + tmpTag.TagPort);
-                            TagItem.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tmpTag.TagEnabled));
-                        }
-
-                        #endregion Coloring with color
-
-                    }
-
-                    #endregion Update Info
-                });
-            }
-            else
-            {
-                #region Update Info
-                System.Windows.Forms.ListView lstTags = this.lstTags;
-
-                // update without flickering
-                Type type = this.lstTags.GetType();
-                PropertyInfo propertyInfo = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-                propertyInfo.SetValue(this.lstTags, true, (object[])null);
-
-                for (int index = 0; index < tags.Count; index++)
-                {
-                    ListViewItem TagItem = lstTags.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Text == tags[index].TagName);
-
-                    if (TagItem == null)
-                    {
-                        continue;
-                    }
-
-                    Tag tmpTag = (Tag)TagItem.Tag;
-
-                    if (tmpTag == null || tmpTag.TagID != tags[index].TagID)
-                    {
-                        continue;
-                    }
-
-                    #region Coloring with color
-
-                    if (tmpTag.TagEnabled == false)
-                    {
-                        TagItem.ForeColor = Color.White;
-                        TagItem.BackColor = Color.Gray;
-                    }
-
-                    if (tmpTag.TagEnabled == true) // enabled
-                    {
-                        if (tmpTag.TagVal == 1)
-                        {
-                            try
-                            {
-                                TagItem.ForeColor = Color.Black;
-                                TagItem.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
-                            }
-                            catch { }
-                        }
-                        else if (tmpTag.TagVal == 0)
-                        {
-                            try
-                            {
-                                TagItem.ForeColor = Color.White;
-                                TagItem.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
-                            }
-                            catch { }
-                        }
-
-                        // updated the information
-                        TagItem.Text = tmpTag.TagName;
-                        TagItem.Tag = tmpTag;
-
-                        TagItem.SubItems[0].Text = DriverUtils.NullToString(tmpTag.TagName);
-                        TagItem.SubItems[1].Text = DriverUtils.NullToString(tmpTag.TagCode);
-                        TagItem.SubItems[2].Text = DriverUtils.NullToString(tmpTag.TagIPAddress + ":" + tmpTag.TagPort);
-                        TagItem.SubItems[3].Text = DriverUtils.NullToString(ListViewAsDisplayStringBoolean(tmpTag.TagEnabled));
-                    }
-
-                    #endregion Coloring with color
-
-                }
-
-                #endregion Update Info
-            }
+        /// <summary>
+        /// Refreshes tag information.
+        /// <para>Обновляет информацию тегов.</para>
+        /// </summary>
+        private void tmrTimer_InfoDeviceTagRefresh()
+        {
+            RunTelnetCheck();
         }
 
         #endregion Timer
 
-        #endregion Tab Settings
+        #endregion Control
 
+        #region Tag Operations
+
+        /// <summary>
+        /// Adds a tag.
+        /// <para>Добавляет тег.</para>
+        /// </summary>
+        private void AddTag()
+        {
+            FrmTag frmTag = new FrmTag
+            {
+                ModeWork = 1,
+                Tag = new Tag { TagTimeout = 1000, TagEnabled = true }
+            };
+
+            if (frmTag.ShowDialog() == DialogResult.OK && frmTag.Tag != null)
+            {
+                deviceTags.Add(frmTag.Tag);
+                AddTagItem(frmTag.Tag);
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Adds tags from a list.
+        /// <para>Добавляет теги из списка.</para>
+        /// </summary>
+        private void AddTagsFromList()
+        {
+            FrmInputBox inputBox = new FrmInputBox();
+            if (inputBox.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            string[] tagNames = inputBox.Values.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            foreach (string tagName in tagNames)
+            {
+                if (!TryCreateTagFromAddress(tagName, out Tag newTag))
+                {
+                    continue;
+                }
+
+                deviceTags.Add(newTag);
+                AddTagItem(newTag);
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Tries to create a tag from an address string.
+        /// <para>Пытается создать тег из строки адреса.</para>
+        /// </summary>
+        private static bool TryCreateTagFromAddress(string address, out Tag tag)
+        {
+            tag = null;
+            string host = DriverUtils.IPAddressNoPort(address);
+            string portText = DriverUtils.PortNoIPAddress(address);
+
+            if (string.IsNullOrWhiteSpace(host) || !int.TryParse(portText, out int port))
+            {
+                return false;
+            }
+
+            tag = new Tag
+            {
+                TagID = Guid.NewGuid(),
+                TagCode = address,
+                TagName = address,
+                TagIPAddress = host,
+                TagPort = port,
+                TagTimeout = 1000,
+                TagEnabled = true
+            };
+
+            return true;
+        }
+
+        /// <summary>
+        /// Changes a tag.
+        /// <para>Изменяет тег.</para>
+        /// </summary>
+        private void ChangeTag()
+        {
+            SelectTag();
+            if (selected?.Tag is not Tag tag)
+            {
+                return;
+            }
+
+            FrmTag frmTag = new FrmTag
+            {
+                ModeWork = 2,
+                Tag = tag
+            };
+
+            if (frmTag.ShowDialog() == DialogResult.OK)
+            {
+                UpdateTagItem(selected, frmTag.Tag);
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a tag.
+        /// <para>Удаляет тег.</para>
+        /// </summary>
+        private void DeleteTag()
+        {
+            SelectTag();
+            if (selected?.Tag is not Tag tag)
+            {
+                return;
+            }
+
+            deviceTags.Remove(tag);
+            lstTags.Items.Remove(selected);
+            selected = null;
+            Modified = true;
+        }
+
+        /// <summary>
+        /// Deletes all tags.
+        /// <para>Удаляет все теги.</para>
+        /// </summary>
+        private void DeleteAllTags()
+        {
+            deviceTags.Clear();
+            lstTags.Items.Clear();
+            selected = null;
+            Modified = true;
+        }
+
+        /// <summary>
+        /// Synchronizes tags from the list view order.
+        /// <para>Синхронизирует теги с порядком списка.</para>
+        /// </summary>
+        private void SyncTagsFromListView()
+        {
+            deviceTags = lstTags.Items
+                .Cast<ListViewItem>()
+                .Select(item => item.Tag as Tag)
+                .Where(tag => tag != null)
+                .ToList();
+        }
+
+        #endregion Tag Operations
+
+        #region Telnet
+
+        /// <summary>
+        /// Runs TCP checks in the background.
+        /// <para>Выполняет TCP-проверки в фоне.</para>
+        /// </summary>
+        private void RunTelnetCheck()
+        {
+            polling = true;
+            List<Tag> tagsSnapshot = deviceTags.ToList();
+
+            Task.Run(() => networkInformation.RunTelnet(tagsSnapshot))
+                .ContinueWith(_ =>
+                {
+                    if (!IsDisposed)
+                    {
+                        BeginInvoke(new System.Windows.Forms.MethodInvoker(() => polling = false));
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Writes a debug message.
+        /// <para>Записывает отладочное сообщение.</para>
+        /// </summary>
+        public void DebugerLog(string text)
+        {
+            // the configuration form does not display a text log.
+        }
+
+        /// <summary>
+        /// Updates one tag after a TCP check.
+        /// <para>Обновляет один тег после TCP-проверки.</para>
+        /// </summary>
+        public void DebugerTag(Tag tag)
+        {
+            if (tag == null || IsDisposed)
+            {
+                return;
+            }
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new System.Windows.Forms.MethodInvoker(() => DebugerTag(tag)));
+                return;
+            }
+
+            ListViewItem tagItem = lstTags.Items
+                .Cast<ListViewItem>()
+                .FirstOrDefault(item => item.Tag is Tag itemTag && itemTag.TagID == tag.TagID);
+
+            if (tagItem == null || tagItem.Tag is not Tag existingTag)
+            {
+                return;
+            }
+
+            existingTag.TagVal = tag.TagVal;
+            existingTag.TagStat = tag.TagStat;
+            existingTag.TagIPAddress = tag.TagIPAddress;
+            UpdateTagItem(tagItem, existingTag);
+        }
+
+        /// <summary>
+        /// Updates tags after TCP checks.
+        /// <para>Обновляет теги после TCP-проверок.</para>
+        /// </summary>
+        public void DebugerTags(List<Tag> tags)
+        {
+            if (tags == null)
+            {
+                return;
+            }
+
+            foreach (Tag tag in tags)
+            {
+                DebugerTag(tag);
+            }
+        }
+
+        /// <summary>
+        /// Sets item color according to tag state.
+        /// <para>Устанавливает цвет элемента по состоянию тега.</para>
+        /// </summary>
+        private static void SetTagItemColor(ListViewItem item, Tag tag)
+        {
+            if (!tag.TagEnabled)
+            {
+                item.ForeColor = Color.White;
+                item.BackColor = Color.Gray;
+            }
+            else if (tag.TagVal == 1)
+            {
+                item.ForeColor = Color.Black;
+                item.BackColor = Color.FromArgb(0x79, 0xDA, 0x7C);
+            }
+            else if (tag.TagVal == 0)
+            {
+                item.ForeColor = Color.White;
+                item.BackColor = Color.FromArgb(0xCD, 0x22, 0x30);
+            }
+        }
+
+        #endregion Telnet
     }
 }

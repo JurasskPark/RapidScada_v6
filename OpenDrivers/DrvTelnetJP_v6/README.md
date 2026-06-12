@@ -77,16 +77,16 @@ The driver creates one input channel prototype for each configured tag. The prot
 
 ## Configuration File / Файл конфигурации
 
-The configuration file name is generated from the driver code `DrvTelnetJP` and the device number. The XML root element is `DrvTelnetJPConfig`.
+The configuration file name is generated from the driver code `DrvTelnetJP` and the device number. The XML root element is `Project`.
 
 The configuration contains the log flag, mode value and the list of TCP checks. The current runtime polling path calls the same TCP check method for the tag list; the mode value is loaded and saved, and is used only when terminating the communication line to stop active Telnet tasks when mode is `1`.
 
-Имя файла конфигурации формируется по коду драйвера `DrvTelnetJP` и номеру КП. Корневой XML-элемент - `DrvTelnetJPConfig`.
+Имя файла конфигурации формируется по коду драйвера `DrvTelnetJP` и номеру КП. Корневой XML-элемент - `Project`.
 
 Конфигурация содержит признак журнала, значение режима и список TCP-проверок. Текущий путь выполнения опроса вызывает один и тот же метод TCP-проверки для списка тегов; значение режима загружается и сохраняется, а при завершении линии используется только для остановки активных Telnet-задач, если режим равен `1`.
 
 ```xml
-<DrvTelnetJPConfig>
+<Project>
   <Log>false</Log>
   <Mode>0</Mode>
   <DeviceTags>
@@ -100,7 +100,7 @@ The configuration contains the log flag, mode value and the list of TCP checks. 
       <Enable>true</Enable>
     </Tag>
   </DeviceTags>
-</DrvTelnetJPConfig>
+</Project>
 ```
 
 ## Usage / Использование

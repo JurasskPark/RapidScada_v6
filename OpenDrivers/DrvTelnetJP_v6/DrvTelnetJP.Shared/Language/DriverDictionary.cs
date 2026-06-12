@@ -1,8 +1,8 @@
-﻿using Scada.Lang;
+using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvTelnetJP
 {
-    public static class DriverDictonary
+    public static class DriverDictionary
     {
         public static string StartDriver = Locale.IsRussian? "Запуск драйвера" : "Launching the driver";
         public static string Timeout = Locale.IsRussian ? "Таймаут" : "Timeout";

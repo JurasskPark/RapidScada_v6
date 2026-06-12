@@ -14,7 +14,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View
     {
         #region Variable
 
-        private readonly DrvTelnetJPConfig config = new DrvTelnetJPConfig(); // device configuration
+        private readonly Project config = new Project(); // device configuration
 
         #endregion Variable
 
@@ -61,7 +61,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            string configFileName = Path.Combine(AppDirs.ConfigDir, DrvTelnetJPConfig.GetFileName(DeviceNum));
+            string configFileName = Path.Combine(AppDirs.ConfigDir, Project.GetFileName(DeviceNum));
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
             {
                 ScadaUiUtils.ShowError(errMsg);

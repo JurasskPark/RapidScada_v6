@@ -10,12 +10,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\CnlPrototypeFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverDictonary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverPhrases.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DriverUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\DrvTelnetConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Language\DriverDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Language\DriverPhrases.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Project\Project.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tags\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Telnet\DnsResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Telnet\NetworkInformation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Language\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utils\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Tags\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Project\" />
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
 
         private readonly string driverCode;                         // driver code
         private readonly string configFileName;                     // configuration file name
-        private readonly DrvTelnetJPConfig config;                  // device configuration
+        private readonly Project config;                  // device configuration
         private readonly NetworkInformation networkInformation;     // network information
         private bool writeLog;                                      // write driver log
         private List<Tag> deviceTags;                               // device tags
@@ -45,10 +45,10 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
                 OnDebugTags = DebugerTags
             };
 
-            string shortFileName = DrvTelnetJPConfig.GetFileName(deviceConfig.DeviceNum);
+            string shortFileName = Project.GetFileName(deviceConfig.DeviceNum);
             configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
 
-            config = new DrvTelnetJPConfig();
+            config = new Project();
             if (config.Load(configFileName, out string errMsg))
             {
                 writeLog = config.Log;
@@ -68,10 +68,10 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
         {
             DebugerLog("[Driver " + driverCode + "]");
             DebugerLog("[Version " + DriverUtils.Version + "]");
-            DebugerLog("[" + DriverDictonary.StartDriver + "]");
-            DebugerLog("[" + DriverDictonary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
-            DebugerLog("[" + DriverDictonary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
-            DebugerLog("[" + DriverDictonary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
+            DebugerLog("[" + DriverDictionary.StartDriver + "]");
+            DebugerLog("[" + DriverDictionary.Delay + "][" + DriverUtils.NullToString(PollingOptions.Delay) + "]");
+            DebugerLog("[" + DriverDictionary.Timeout + "][" + DriverUtils.NullToString(PollingOptions.Timeout) + "]");
+            DebugerLog("[" + DriverDictionary.Period + "][" + DriverUtils.NullToString(PollingOptions.Period) + "]");
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
         {
             if (config == null)
             {
-                DebugerLog(DriverDictonary.ProjectNo);
+                DebugerLog(DriverDictionary.ProjectNo);
                 return;
             }
 
@@ -150,7 +150,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
             }
             catch (Exception ex)
             {
-                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                DebugerLog(string.Format(DriverDictionary.ErrorMessage, ex.Message));
                 return false;
             }
         }
@@ -175,7 +175,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
                     CmdCode = CommCmdCode.RestartLine
                 };
 
-                CommContext.SendCommand(cmd, DriverDictonary.RestartLine);
+                CommContext.SendCommand(cmd, DriverDictionary.RestartLine);
             }
             catch (Exception ex)
             {
@@ -207,7 +207,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ex.BuildErrorMessage(DriverDictonary.ErrorMessage));
+                Log.WriteInfo(ex.BuildErrorMessage(DriverDictionary.ErrorMessage));
                 ReinitializingDriver();
             }
         }
@@ -247,7 +247,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
             }
             catch (Exception ex)
             {
-                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                DebugerLog(string.Format(DriverDictionary.ErrorMessage, ex.Message));
                 ReinitializingDriver();
             }
         }
@@ -273,7 +273,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
             }
             catch (Exception ex)
             {
-                DebugerLog(string.Format(DriverDictonary.ErrorMessage, ex.Message));
+                DebugerLog(string.Format(DriverDictionary.ErrorMessage, ex.Message));
                 ReinitializingDriver();
             }
         }
@@ -285,7 +285,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
         private void ProcessEmptyTagResult()
         {
             countError++;
-            DebugerLog(DriverDictonary.ErrorCount + " " + DriverUtils.NullToString(countError));
+            DebugerLog(DriverDictionary.ErrorCount + " " + DriverUtils.NullToString(countError));
 
             if (countError >= 10)
             {
@@ -316,7 +316,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ex.BuildErrorMessage(DriverDictonary.ErrorSetData));
+                Log.WriteInfo(ex.BuildErrorMessage(DriverDictionary.ErrorSetData));
             }
         }
 
@@ -339,7 +339,7 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ex.BuildErrorMessage(DriverDictonary.ErrorSetData));
+                Log.WriteInfo(ex.BuildErrorMessage(DriverDictionary.ErrorSetData));
             }
         }
 
