@@ -1,170 +1,347 @@
-	Драйвера для Rapid SCADA.
-	Drivers  for Rapid SCADA.
+# DrvDbImportPlus
 
-
-	
-### DrvDbImportPlus
 ![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.6/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.5/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.4/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.3/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
+![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.5-blue.svg)
+![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20%2F%20Linux-lightgrey.svg)
 
-Библиотека DrvDbImportPlus (6.5.0.1)
-- Добавлены комбинации горячих клавиш для текстовых полей FastColorTextbox.
+**DrvDbImportPlus** is a Rapid SCADA communication driver for importing current tag values from relational databases and InfluxDB, and for sending Rapid SCADA telecontrol commands back to a database query.
 
-Библиотека DrvDbImportPlus (6.5.0.0)
-- Добавлена возможность получать данные из InfluxDB.
-- Добавлена возможность в драйвере выполнять несколько запросов.
-- Добавлена возможность через код тега не только отправить запись тега, но и выполнить команду импорта данных.
+**DrvDbImportPlus** - драйвер связи Rapid SCADA для импорта текущих значений тегов из реляционных БД и InfluxDB, а также для отправки команд телеуправления Rapid SCADA в запросы БД.
 
-Библиотека DrvDbImportPlus (6.3.0.4)
-- Проверка на значение Null.
+## Overview / Обзор
 
-Библиотека DrvDbImportPlus (6.3.0.2)
-- Изменён интерфейс. Добавлены иконки.
-- Строковые теги теперь отображаются единым значением.
+The driver is configured per Rapid SCADA device. Each device has its own XML configuration file, for example `DrvDbImportPlus_001.xml`. During a polling session the driver executes all enabled import commands, parses returned tables into driver tags, and updates matching Rapid SCADA channels.
 
-Библиотека DrvDbImportPlus (6.3.0.1)
-- Добавлена возможность отправлять команды со строковыми значениями.
-- Исправлена ошибка в отображении команд на форме при сохранении конфигурации.
-- Переход на библиотеку Microsoft.Data.SqlClient. Библиотека Sql.Data.SqlClient больше не поддерживается.
-- Компиляция библиотеки сделана под несколько платформ, чтобы не было проблемы 'Ваша платформа не поддерживается'.
-- Обновлена Справка.
+Драйвер настраивается отдельно для каждого КП Rapid SCADA. У каждого КП есть собственный XML-файл конфигурации, например `DrvDbImportPlus_001.xml`. Во время сеанса опроса драйвер последовательно выполняет все включённые команды импорта, разбирает полученные таблицы в теги драйвера и обновляет соответствующие каналы Rapid SCADA.
 
-Библиотека DrvDbImportPlus (6.3.0.0)
-- Переход на библиотеки RapidScada 6.3.0.0 и переход на Net Core 8.0.
-- Добавлена возможность у строковых данных указывать длину, по которой будут автоматически генерировать теги.
-- Обновление библиотек на более свежие версии Net Core 8.0.
-- Подправление интерфейс под ноутбуки и некоторые недочеты.
-- Удаление источников данных ODBC и OLEDB по причине неактуальности и невозможности использования.
+The driver does not require a persistent device connection. Database connections are opened for query execution and then closed. The default polling period created by the view module is 5 seconds, but it can be changed in the communication line settings.
 
-Библиотека DrvDbImportPlus (6.0.0.6)
-- Добавлен функционал по отображению и округлению значения на количество знаков после запятой.
+Драйверу не требуется постоянное соединение с КП. Соединение с БД открывается на время выполнения запроса и затем закрывается. Период опроса по умолчанию, создаваемый модулем представления, составляет 5 секунд, но его можно изменить в настройках линии связи.
 
-Библиотека DrvDbImportPlus (6.0.0.5)
-- Исправлен режим подключения к MySQL.
-- Исправлены мелкие недочеты в коде и незначительные ошибки.
-                    
-Библиотека DrvDbImportPlus (6.0.0.4)
-- Добавлен функционал по добавлению каналов через Мастер.
-- Исправлены ошибки в файле перевода.
-	
-Библиотека DrvDbImportPlus (6.0.0.3)
-- Убран режим сохранения историчесих данных. Данный режим показал опасную возможность нагрузить сервер большим количеством срезов, которые могу привести к отказу сервера.
-- Изменён способ отображения, добавления, удаления и редактирования тегов.
+## Features / Возможности
 
-Библиотека DrvDbImportPlus (6.0.0.2)
-- У элемента Количество тегов изменено максимальное значение с 100 до 65535.
+- **Multiple import queries** - executes several enabled import commands sequentially in one polling session
+- **Multiple database engines** - supports Microsoft SQL Server, Oracle, PostgreSQL, MySQL, Firebird, InfluxDB 2.x and InfluxDB 3.x
+- **Generated or custom connection string** - builds a connection string from UI fields or uses a custom encrypted connection string
+- **Encrypted secrets** - stores the database password and custom connection string encrypted in the driver XML configuration
+- **Column-based import** - maps result columns to configured tag names
+- **Row-based import** - maps rows with `TAGNAME`, `TAGVALUE` and optional `TAGDATETIME` columns to configured tags
+- **Command export** - runs configured SQL commands from Rapid SCADA telecontrol commands and passes the command value as `cmdVal`
+- **Command import trigger** - import command definitions can also be found by command number or command code when a telecontrol command is received
+- **Channel prototypes** - generates Rapid SCADA channel prototypes for numeric, string and command tags
+- **String tag support** - creates Unicode channels for string import tags and command tags
+- **Value formatting** - supports float, integer, DateTime, string and boolean tag formats
+- **Decimal rounding** - numeric values are rounded by the configured number of decimal places
+- **SQL editor** - configuration forms include SQL syntax highlighting, context menu actions and common keyboard shortcuts
+- **Connection and query testing** - the UI can test database connection and execute SQL queries before saving configuration
+- **Localization** - English and Russian language files are included
 
-Библиотека DrvDbImportPlus (6.0.0.1)
-- В строке подключения теперь не отображается информация о настройках подключения, если это не драйвер OLEDB или ODBC.
-- Включен режим блокирования полей в зависимости от типа использования подключения.
-- Добавлено контекстное меню в редакторы SQL-запросов, чтобы выполнять простейшие действия (копирование, вставка, вырезать) и возможность отменить изменения.
-- Добавлена возможность добавлять заранее статические теги в настройки, чтобы в случае отсутствия данных или записей не сдвигались номера тегов, которые приводили к коллизии данные из-за смещения.
-- Добавлена проверка значения тега, если он отсутствует в полученной таблице, то значение и статус сменяется на 0.
+- **Несколько запросов импорта** - выполняет несколько включённых команд импорта последовательно за один сеанс опроса
+- **Несколько типов БД** - поддерживает Microsoft SQL Server, Oracle, PostgreSQL, MySQL, Firebird, InfluxDB 2.x и InfluxDB 3.x
+- **Автоматическая или пользовательская строка подключения** - формирует строку подключения из полей интерфейса или использует пользовательскую зашифрованную строку
+- **Шифрование секретов** - пароль БД и пользовательская строка подключения хранятся в XML-конфигурации драйвера в зашифрованном виде
+- **Импорт по колонкам** - сопоставляет колонки результата с настроенными именами тегов
+- **Импорт по строкам** - сопоставляет строки с колонками `TAGNAME`, `TAGVALUE` и необязательной `TAGDATETIME` с настроенными тегами
+- **Экспорт команд** - выполняет настроенные SQL-команды по командам телеуправления Rapid SCADA и передаёт значение команды как `cmdVal`
+- **Запуск по команде импорта** - при получении команды телеуправления определения import-команд также могут находиться по номеру или коду команды
+- **Прототипы каналов** - создаёт прототипы каналов Rapid SCADA для числовых, строковых и командных тегов
+- **Поддержка строковых тегов** - создаёт Unicode-каналы для строковых тегов импорта и командных тегов
+- **Форматирование значений** - поддерживает форматы float, integer, DateTime, string и boolean
+- **Округление** - числовые значения округляются по настроенному количеству знаков после запятой
+- **SQL-редактор** - формы настройки содержат подсветку SQL, контекстное меню и стандартные горячие клавиши
+- **Проверка подключения и запросов** - интерфейс позволяет проверить соединение с БД и выполнить SQL-запрос до сохранения настройки
+- **Локализация** - включены английские и русские языковые файлы
 
-Библиотека DrvDbImportPlus (6.0.0.0)
-- В конфигурационном файле теперь шифриуется не только пароль, но и строка подключения.
-- Добавлен сбор данных через драйвера ODBC.
-- Добавлен сбор данных из СУБД Firebird.
-- Проверка подключения из формы драйвера.
-- Проверка SQL-запроса из формы драйвера.
-- Подсветка синтаксиса SQL.
-- Реализован новый режим сбора данных, когда в первом столбце - название тега, во втором - значение тега, в третьем - время значения. (Работает историческая запись данных через срез.)
+## Supported Data Sources / Поддерживаемые источники данных
 
----------------------------------------------------------------------------
+| Data source | Notes | Примечание |
+|---|---|---|
+| `MSSQL` | Uses `Microsoft.Data.SqlClient` | Microsoft SQL Server через `Microsoft.Data.SqlClient` |
+| `Oracle` | Uses `Oracle.ManagedDataAccess.Core` | Oracle через `Oracle.ManagedDataAccess.Core` |
+| `PostgreSQL` | Uses `Npgsql` | PostgreSQL через `Npgsql` |
+| `MySQL` | Uses `MySql.Data` | MySQL через `MySql.Data` |
+| `Firebird` | Uses `FirebirdSql.Data.FirebirdClient` | Firebird через `FirebirdSql.Data.FirebirdClient` |
+| `InfluxDBv2` | HTTP API, password field is used as token, database field is used as bucket | HTTP API, поле password используется как token, поле database используется как bucket |
+| `InfluxDBv3` | HTTP API, password field is used as token, database field is used as database | HTTP API, поле password используется как token, поле database используется как database |
 
-DrvDbImportPlus library (6.5.0.1)
-- Added keyboard shortcuts for FastColorTextbox text fields.
+ODBC and OLE DB data sources are present only as legacy code comments and are not enabled in the current driver build.
 
-DrvDbImportPlus library (6.5.0.0)
-- Added the ability to receive data from InfluxDB.
-- Added the ability to perform multiple queries in the driver.
-- Added the ability to use the tag code not only to send a tag record, but also to execute a data import command.
+Источники ODBC и OLE DB оставлены только как legacy-комментарии в коде и в текущей сборке драйвера не включены.
 
-DrvDbImportPlus library (6.3.0.4)
-- Check for Null value.
+## How Import Works / Как работает импорт
 
-DrvDbImportPlus library (6.3.0.2)
-- Interface changed. Icons have been added.
-- String tags are now displayed as a single value.
+Each import command contains:
 
-DrvDbImportPlus library (6.3.0.1)
-- Added the ability to send commands with string values.
-- Fixed an error in displaying commands on the form when saving the configuration.
-- Switching to the Microsoft.Data.SqlClient library. The Sql.Data.SqlClient library is no longer supported.
-- The library has been compiled for several platforms so that there is no problem of 'Your platform is not supported'.
-- The Help has been updated.
+- command number and command code;
+- display name and description;
+- SQL or Influx query text;
+- processing mode: column-based or row-based;
+- a list of configured driver tags.
 
-DrvDbImportPlus Library (6.3.0.0)
-- Switching to the Rapid Scada 6.3.0.0 libraries and switching to Net Core 8.0.
-- Added the ability for string data to specify the length by which tags will be automatically generated.
-- Updating libraries to more recent versions of Net Core 8.0.
-- Congratulations on the interface for laptops and some bugs.
-- Removal of ODBC and OLEDB data sources due to their irrelevance and inability to use.
+Каждая команда импорта содержит:
 
-DrvDbImportPlus library (6.0.0.6)
-- Added functionality for displaying and rounding values by the number of decimal places.
+- номер и код команды;
+- отображаемое имя и описание;
+- текст SQL- или Influx-запроса;
+- режим обработки: по колонкам или по строкам;
+- список настроенных тегов драйвера.
 
-DrvDbImportPlus library (6.0.0.5)
-- Fixed MySQL connection mode.
-- Fixed minor bugs in the code and minor errors.
-                    
-DrvDbImportPlus library (6.0.0.4)
-- Added functionality for adding channels through the Wizard.
-- Fixed errors in the translation file.
-	
-DrvDbImportPlus library (6.0.0.3)
-- The mode of saving historical data has been removed. This mode showed a dangerous opportunity to load the server with a large number of slices, which can lead to server failure.
-- Changed the way tags are displayed, added, deleted, and edited.
+Only enabled import commands and enabled tags are processed. The tag **Name** is used to find data in the query result. The tag **Code** is used to update the Rapid SCADA channel with the same code.
 
-DrvDbImportPlus library (6.0.0.2)
-- The maximum value of the Number of tags element has been changed from 100 to 65535.
+Обрабатываются только включённые команды импорта и включённые теги. Поле **Name** используется для поиска данных в результате запроса. Поле **Code** используется для обновления канала Rapid SCADA с таким же кодом.
 
-DrvDbImportPlus library (6.0.0.1)
-- The connection string now does not display information about connection settings, unless it is an OLEDB or ODBC driver.
-- The field blocking mode is enabled depending on the type of connection usage.
-- Added a context menu to SQL query editors to perform the simplest actions (copy, paste, cut) and the ability to undo changes.
-- Added the ability to add static tags in advance to the settings so that if there is no data or records, the tag numbers do not shift, which led to a data collision due to the offset.
-- Added a check of the tag value, if it is not in the resulting table, then the value and status is changed to 0.
+### Column-Based Mode / Режим по колонкам
 
-DrvDbImportPlus library (6.0.0.0)
-- The configuration file now encrypts not only the password, but also the connection string.
-- Added data collection via ODBC drivers.
-- Added data collection from the Firebird DBMS.
-- Checking the connection from the driver form.
-- Checking the SQL query from the driver form.
-- SQL syntax highlighting.
-- A new data collection mode has been implemented, when the first column contains the tag name, the second column contains the tag value, and the third column contains the time of the value. (Historical data recording via slice works.)
+In column-based mode the driver reads the first row of the result table. Column names are compared with configured tag names, case-insensitively.
 
-Video on YouTube 
-https://www.youtube.com/watch?v=cZMksoblUgo
-https://www.youtube.com/watch?v=TFZfBMuRMVU
+В режиме по колонкам драйвер читает первую строку результирующей таблицы. Имена колонок сравниваются с настроенными именами тегов без учёта регистра.
+
+Example:
+
+```sql
+select
+  temperature as BoilerTemp,
+  pressure as BoilerPressure,
+  state as PumpState,
+  measured_at as TAGDATETIME
+from process_values
+where unit_id = 1;
+```
+
+If a `TAGDATETIME` column exists, it is parsed as a common timestamp for the values. The current runtime updates current tag data; it does not backfill historical archive slices from `TAGDATETIME`.
+
+Если присутствует колонка `TAGDATETIME`, она разбирается как общий timestamp для значений. Текущая runtime-логика обновляет текущие данные тегов; исторические срезы архива из `TAGDATETIME` не дозаписываются.
+
+The column-based parser also supports a single-row `TAGNAME` plus `TAGVALUE` result.
+
+Парсер режима по колонкам также поддерживает однострочный результат с колонками `TAGNAME` и `TAGVALUE`.
+
+### Row-Based Mode / Режим по строкам
+
+In row-based mode the query result must contain:
+
+- `TAGNAME` - tag name configured in the driver;
+- `TAGVALUE` - value to write to the tag;
+- `TAGDATETIME` - optional timestamp.
+
+В режиме по строкам результат запроса должен содержать:
+
+- `TAGNAME` - имя тега, настроенное в драйвере;
+- `TAGVALUE` - значение для записи в тег;
+- `TAGDATETIME` - необязательное время значения.
+
+Example:
+
+```sql
+select
+  tag_name as TAGNAME,
+  tag_value as TAGVALUE,
+  tag_time as TAGDATETIME
+from current_tag_values
+where device_id = 1;
+```
+
+Every row is matched by `TAGNAME`. Rows with unknown tag names are ignored.
+
+Каждая строка сопоставляется по `TAGNAME`. Строки с неизвестными именами тегов игнорируются.
+
+## Tag Formats / Форматы тегов
+
+| Driver format | Runtime behavior | Поведение |
+|---|---|---|
+| `Float` | Converts to double and applies numeric format `N{NumberDecimalPlaces}` | Преобразует в double и применяет числовой формат `N{NumberDecimalPlaces}` |
+| `Integer` | Writes integer values with integer format | Записывает целые значения с целочисленным форматом |
+| `DateTime` | Writes DateTime values as Rapid SCADA DateTime | Записывает DateTime-значения как DateTime Rapid SCADA |
+| `String` | Writes Unicode string values | Записывает Unicode-строки |
+| `Boolean` | Writes values with Off/On format | Записывает значения в формате Off/On |
+
+If the imported value is `null` or `DBNull`, the corresponding Rapid SCADA tag data is invalidated.
+
+Если импортированное значение равно `null` или `DBNull`, данные соответствующего тега Rapid SCADA помечаются недостоверными.
+
+## Channel Prototypes / Прототипы каналов
+
+The driver view generates channel prototypes from enabled import and export definitions:
+
+| Group | Source | Description |
+|---|---|---|
+| `Tags` / `Теги` | Non-string import tags | Numeric, integer, DateTime and boolean import channels |
+| `String tags` / `Строковые теги` | Import tags with `String` format | Unicode channels. Data length is calculated as `ceil(NumberDecimalPlaces / 4)` |
+| `Command tags` / `Командные теги` | Enabled export commands | Unicode command channels. Data length is calculated as `ceil(Length / 4)` |
+
+Представление драйвера создаёт прототипы каналов из включённых команд импорта и экспорта:
+
+| Группа | Источник | Описание |
+|---|---|---|
+| `Tags` / `Теги` | Нестроковые теги импорта | Числовые, целочисленные, DateTime и boolean-каналы импорта |
+| `String tags` / `Строковые теги` | Теги импорта с форматом `String` | Unicode-каналы. Длина данных вычисляется как `ceil(NumberDecimalPlaces / 4)` |
+| `Command tags` / `Командные теги` | Включённые команды экспорта | Unicode-каналы команд. Длина данных вычисляется как `ceil(Length / 4)` |
+
+Duplicate tag codes and duplicate command codes are skipped while generating prototypes.
+
+Повторяющиеся коды тегов и коды команд пропускаются при генерации прототипов.
+
+## Telecontrol Commands / Команды телеуправления
+
+The driver can receive Rapid SCADA telecontrol commands. A command is matched by command code or command number against enabled export commands and, as a fallback, import command definitions. When a matching database command is found, the driver:
+
+1. Initializes the configured data source.
+2. Adds or updates the database command parameter `cmdVal`.
+3. Uses `CmdVal` for numeric commands, or converts `CmdData` to string for binary/string commands.
+4. Executes the configured SQL command with `ExecuteNonQuery`.
+5. Updates the matching command tag in Rapid SCADA if a tag with the same command code exists.
+
+Драйвер принимает команды телеуправления Rapid SCADA. Команда сопоставляется по коду или номеру команды с включёнными командами экспорта, а затем, как fallback, с определениями команд импорта. Когда команда БД найдена, драйвер:
+
+1. Инициализирует настроенный источник данных.
+2. Добавляет или обновляет параметр команды БД `cmdVal`.
+3. Использует `CmdVal` для числовых команд или преобразует `CmdData` в строку для бинарных/строковых команд.
+4. Выполняет настроенную SQL-команду через `ExecuteNonQuery`.
+5. Обновляет соответствующий командный тег Rapid SCADA, если тег с таким же кодом команды существует.
+
+Example:
+
+```sql
+insert into operator_commands(command_code, command_value, created_at)
+values ('PUMP_SETPOINT', @cmdVal, current_timestamp);
+```
+
+Use the parameter syntax supported by the selected database provider. The driver creates the logical parameter name `cmdVal`; the provider decides the final placeholder style.
+
+Используйте синтаксис параметров, поддерживаемый выбранным провайдером БД. Драйвер создаёт логическое имя параметра `cmdVal`; финальный стиль placeholder зависит от провайдера.
+
+## InfluxDB Notes / Замечания по InfluxDB
+
+InfluxDB support is implemented through the HTTP `/query` API. The driver builds a connection string from UI fields if a custom connection string is not specified:
+
+- `Server` and `Port` become `Url`, default port is `8086`;
+- `Password` is used as the bearer token;
+- `Database` is used as `Bucket` for InfluxDB 2.x;
+- `Database` is used as `Database` for InfluxDB 3.x;
+- `OptionalOptions` are appended to the generated connection string.
+
+Поддержка InfluxDB реализована через HTTP API `/query`. Если пользовательская строка подключения не задана, драйвер формирует её из полей интерфейса:
+
+- `Server` и `Port` формируют `Url`, порт по умолчанию - `8086`;
+- `Password` используется как bearer token;
+- `Database` используется как `Bucket` для InfluxDB 2.x;
+- `Database` используется как `Database` для InfluxDB 3.x;
+- `OptionalOptions` добавляются в сформированную строку подключения.
+
+## Usage / Использование
+
+1. Add `DrvDbImportPlus` to a communication line in ScadaAdmin.
+2. Open device properties for the required device.
+3. Select the database type and configure connection settings or a custom connection string.
+4. Use the connection test to verify access to the database.
+5. Add one or more import commands and define their queries.
+6. Test each query in the SQL editor and configure driver tags.
+7. Add export commands if Rapid SCADA telecontrol commands must write to the database.
+8. Generate channel prototypes for the device.
+9. Upload the project and restart the communication line.
+
+1. Добавьте `DrvDbImportPlus` в линию связи в ScadaAdmin.
+2. Откройте свойства нужного КП.
+3. Выберите тип БД и настройте параметры подключения или пользовательскую строку подключения.
+4. Проверьте доступ к БД через тест соединения.
+5. Добавьте одну или несколько команд импорта и задайте их запросы.
+6. Проверьте каждый запрос в SQL-редакторе и настройте теги драйвера.
+7. Добавьте команды экспорта, если команды телеуправления Rapid SCADA должны записывать данные в БД.
+8. Создайте прототипы каналов для КП.
+9. Загрузите проект и перезапустите линию связи.
+
+## Safety Notes / Замечания по безопасности
+
+- Import queries are executed every polling cycle, so keep them deterministic and fast.
+- Column-based mode reads only the first returned row. Use row-based mode when one result must contain many tag rows.
+- `TAGDATETIME` is parsed, but the current runtime writes current tag values rather than historical archive slices.
+- Command export queries are executed as non-query commands. Use restricted database accounts for write operations.
+- Password and custom connection string are encrypted in the XML configuration, but database-side permissions still remain the main protection.
+- Empty, `null` or `DBNull` values invalidate the target tag data.
+- Detailed driver logging can write query results and tag tables to the communication line log. Avoid enabling it permanently for sensitive data.
+
+- Запросы импорта выполняются каждый цикл опроса, поэтому они должны быть детерминированными и быстрыми.
+- Режим по колонкам читает только первую возвращённую строку. Используйте режим по строкам, если один результат должен содержать много строк тегов.
+- `TAGDATETIME` разбирается, но текущая runtime-логика записывает текущие значения тегов, а не исторические срезы архива.
+- Команды экспорта выполняются как non-query команды. Для операций записи используйте ограниченные учётные записи БД.
+- Пароль и пользовательская строка подключения шифруются в XML-конфигурации, но основная защита всё равно задаётся правами на стороне БД.
+- Пустые значения, `null` и `DBNull` помечают данные целевого тега недостоверными.
+- Подробное логирование драйвера может записывать результаты запросов и таблицы тегов в лог линии связи. Не включайте его постоянно для чувствительных данных.
+
+## Project Structure / Структура проекта
+
+```text
+DrvDbImportPlus_v6/
+├── DrvDbImportPlus.sln                  # Solution file
+├── StartСompilingFull.bat               # Build and deployment helper
+├── README.md                            # This file
+│
+├── DrvDbImportPlus.Logic/               # Runtime driver for ScadaComm
+│   ├── DrvDbImportPlus.Logic.csproj
+│   └── DevDbImportPlusLogic.cs          # Device runtime logic
+│
+├── DrvDbImportPlus.View/                # ScadaAdmin driver UI
+│   ├── DrvDbImportPlus.View.csproj
+│   ├── DevDbImportPlusView.cs           # Device view entry point
+│   ├── Forms/                           # Project, import, export and tag forms
+│   ├── FastColorTextBox/                # SQL editor control
+│   └── Lang/                            # English and Russian language XML files
+│
+├── DrvDbImportPlus.Shared/              # Shared logic used by Logic, View and WinForms
+│   ├── Client/                          # Polling client
+│   ├── Data/                            # Database and InfluxDB data sources
+│   ├── Database/                        # Query execution helpers
+│   ├── Settings/                        # XML configuration classes
+│   └── Tags/                            # Tag and channel prototype generation
+│
+└── DrvDbImportPlus.Winform/             # Standalone WinForms test/admin build
+```
+
+## Build / Сборка
+
+### Prerequisites / Требования
+
+- .NET 8.0 SDK
+- Rapid SCADA 6.5 libraries in `Libraries`
+- Windows for the ScadaAdmin view and standalone WinForms UI
+- Database provider packages used by the selected data source
+
+### Commands / Команды
+
+```powershell
+dotnet build .\DrvDbImportPlus.sln -c Release
+```
+
+The `StartСompilingFull.bat` script publishes runtime packages for Windows x64, Windows x86 and Linux x64 logic, and can copy files to a local Rapid SCADA installation.
+
+Скрипт `StartСompilingFull.bat` публикует пакеты для Windows x64, Windows x86 и runtime-логики Linux x64, а также может копировать файлы в локальную установку Rapid SCADA.
+
+## Videos / Видео
+
+[Video on YouTube](https://www.youtube.com/watch?v=cZMksoblUgo)
+
+[Video on YouTube](https://www.youtube.com/watch?v=TFZfBMuRMVU)
 
 [![Video on YouTube](https://img.youtube.com/vi/cZMksoblUgo/0.jpg)](https://www.youtube.com/watch?v=cZMksoblUgo)
 [![Video on YouTube](https://img.youtube.com/vi/TFZfBMuRMVU/0.jpg)](https://www.youtube.com/watch?v=TFZfBMuRMVU)
-Screenshots
 
-![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_001.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_002.png)
-![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_003.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_004.png)
-![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_005.png) ![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_006.png)
-![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/OpenDrivers/Source/DrvDbImportPlus_007.png)
+## Screenshots / Скриншоты
 
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_001.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_002.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_003.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_004.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_005.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_006.png)
+![DrvDbImportPlus](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbImportPlus_007.png)
 
 ## License / Лицензия
 
-This project is part of the Rapid SCADA ecosystem.  
+This project is part of the Rapid SCADA ecosystem.
+
 Данный проект является частью экосистемы Rapid SCADA.
 
 ## SAST Tools
 
 [PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
-
