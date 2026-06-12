@@ -2,7 +2,7 @@
 
 ![DrvFreeDiskSpaceJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFreeDiskSpaceJP_v6.4.0.4/total)
 
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.4-blue.svg)
+![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
