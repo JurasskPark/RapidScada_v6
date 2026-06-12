@@ -1,42 +1,42 @@
-﻿using ManagerAssistant;
+using ManagerAssistant;
 using Scada.Comm.Drivers.DrvFtpJP;
 
 namespace DebugerLog
 {
     /// <summary>
-    /// Recording logs.
-    /// <para>Запись логов.</para>
+    /// Writes driver log messages.
+    /// <para>Записывает сообщения журнала драйвера.</para>
     /// </summary>
     public class Debuger
     {
-        #region Variables
-        public static bool isDll;
-        public static bool logWrite;
-        public static int logDays;
-        public static string logPath;
-        #endregion Variables
+        #region Variable
+        public static bool isDll;                    // application or dll
+        public static bool logWrite;                 // log write flag
+        public static int logDays;                   // log retention period in days
+        public static string logPath;                // log path
+        #endregion Variable
 
+        #region Basic
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public Debuger()
         {
-            string errMsg = string.Empty;
             isDll = Manager.IsDll;
             logWrite = Manager.LogWrite;
             logPath = Manager.LogPath;
-
         }
 
         /// <summary>
-        /// Recording log
+        /// Writes a log message using manager settings.
+        /// <para>Записывает сообщение журнала с использованием настроек менеджера.</para>
         /// </summary>
+        /// <param name="text">Log message.</param>
         public static void Log(string text)
         {
             try
             {
-                string errMsg = string.Empty;
-
                 if (Manager.IsDll)
                 {
                     if (Manager.LogWrite)
@@ -53,13 +53,17 @@ namespace DebugerLog
                     }
                 }
             }
-            catch { }
-
+            catch
+            {
+            }
         }
 
         /// <summary>
-        /// Recording log
+        /// Writes a log message to the specified folder.
+        /// <para>Записывает сообщение журнала в указанный каталог.</para>
         /// </summary>
+        /// <param name="folder">Log folder.</param>
+        /// <param name="text">Log message.</param>
         public static void Log(string folder, string text)
         {
             try
@@ -70,24 +74,31 @@ namespace DebugerLog
 
                 text = @$"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffff")}] {text}";
 
-                // file log             
+                // file log
                 Directory.CreateDirectory(folder);
                 StreamWriter streamWriter = File.AppendText(Path.Combine(folder, DateTime.Now.ToString("yyyy-MM-dd") + ".log"));
                 streamWriter.WriteLine(text);
                 streamWriter.Close();
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
                 Clear(folder, Manager.LogDays);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         /// <summary>
-        /// Clear log
+        /// Deletes old log files.
+        /// <para>Удаляет старые файлы журнала.</para>
         /// </summary>
+        /// <param name="path">Log folder path.</param>
+        /// <param name="days">Log retention period in days.</param>
         public static void Clear(string path, int days)
         {
             if (!Directory.Exists(path))
@@ -118,15 +129,18 @@ namespace DebugerLog
                                 {
                                     File.Delete(fullPathToUpper);
                                 }
-                                catch { }
+                                catch
+                                {
+                                }
                             }
                         }
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
-
-
+        #endregion Basic
     }
 }

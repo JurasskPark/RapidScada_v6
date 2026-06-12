@@ -1,27 +1,21 @@
-﻿using FluentFTP;
+using FluentFTP;
 using Scada;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvFtpJP
 {
+    /// <summary>
+    /// Represents a scenario operation action.
+    /// <para>Представляет действие сценария.</para>
+    /// </summary>
     public class OperationAction
     {
-        public OperationAction()
-        {
-            ID = Guid.NewGuid();        
-            Operation = OperationsActions.None;
-            IsFile = false;
-            Enabled = true;
-            LocalPath = string.Empty;
-            RemotePath = string.Empty;
-            Mode = FtpFolderSyncMode.Update;
-            RemoteExistsMode = FtpRemoteExists.Skip;
-            LocalExistsMode = FtpLocalExists.Skip;
-            FtpOptions = FtpVerify.None;
-            Formats = new List<string>();
-            MaxSizeFile = 0;
-        }
+        #region Property
 
+        /// <summary>
+        /// Specifies supported operation actions.
+        /// <para>Задает поддерживаемые действия операций.</para>
+        /// </summary>
         public enum OperationsActions : int
         {
             None = 0,
@@ -39,29 +33,111 @@ namespace Scada.Comm.Drivers.DrvFtpJP
             RemoteDownloadDirectory = 12,
         }
 
+        /// <summary>
+        /// Gets or sets the action identifier.
+        /// <para>Возвращает или задает идентификатор действия.</para>
+        /// </summary>
         public Guid ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the action is enabled.
+        /// <para>Возвращает или задает признак включения действия.</para>
+        /// </summary>
         public bool Enabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the operation type.
+        /// <para>Возвращает или задает тип операции.</para>
+        /// </summary>
         public OperationsActions Operation { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the action works with a file.
+        /// <para>Возвращает или задает признак работы действия с файлом.</para>
+        /// </summary>
         public bool IsFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the local path.
+        /// <para>Возвращает или задает локальный путь.</para>
+        /// </summary>
         public string LocalPath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the remote path.
+        /// <para>Возвращает или задает удаленный путь.</para>
+        /// </summary>
         public string RemotePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the folder synchronization mode.
+        /// <para>Возвращает или задает режим синхронизации каталогов.</para>
+        /// </summary>
         public FtpFolderSyncMode Mode { get; set; }
+
+        /// <summary>
+        /// Gets or sets behavior when a remote object exists.
+        /// <para>Возвращает или задает поведение при существующем удаленном объекте.</para>
+        /// </summary>
         public FtpRemoteExists RemoteExistsMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets behavior when a local object exists.
+        /// <para>Возвращает или задает поведение при существующем локальном объекте.</para>
+        /// </summary>
         public FtpLocalExists LocalExistsMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets FTP verification options.
+        /// <para>Возвращает или задает параметры проверки FTP.</para>
+        /// </summary>
         public FtpVerify FtpOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets file extension filters.
+        /// <para>Возвращает или задает фильтры расширений файлов.</para>
+        /// </summary>
         public List<string> Formats { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum file size.
+        /// <para>Возвращает или задает максимальный размер файла.</para>
+        /// </summary>
         public long MaxSizeFile { get; set; }
 
-        #region Xml
-        #region Load
+        #endregion Property
+
+        #region Basic
+
         /// <summary>
-        /// Loads the command from the XML node.
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public OperationAction()
+        {
+            ID = Guid.NewGuid();
+            Operation = OperationsActions.None;
+            IsFile = false;
+            Enabled = true;
+            LocalPath = string.Empty;
+            RemotePath = string.Empty;
+            Mode = FtpFolderSyncMode.Update;
+            RemoteExistsMode = FtpRemoteExists.Skip;
+            LocalExistsMode = FtpLocalExists.Skip;
+            FtpOptions = FtpVerify.None;
+            Formats = new List<string>();
+            MaxSizeFile = 0;
+        }
+
+        /// <summary>
+        /// Loads the action from the XML node.
+        /// <para>Загружает действие из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
             {
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
             }
 
             ID = DriverUtils.StringToGuid(xmlNode.GetChildAsString("ID"));
@@ -76,11 +152,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP
             Formats = xmlNode.GetChildAsString("Formats").Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
             MaxSizeFile = Convert.ToInt64(xmlNode.GetChildAsString("MaxSizeFile"));
         }
-        #endregion Load
 
-        #region Save
         /// <summary>
-        /// Saves the configuration into the XML node.
+        /// Saves the action into the XML node.
+        /// <para>Сохраняет действие в XML-узел.</para>
         /// </summary>
         public virtual void SaveToXml(XmlElement xmlElem)
         {
@@ -98,11 +173,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP
             xmlElem.AppendElem("RemoteExistsMode", Enum.GetName(typeof(FtpRemoteExists), RemoteExistsMode));
             xmlElem.AppendElem("LocalExistsMode", Enum.GetName(typeof(FtpLocalExists), LocalExistsMode));
             xmlElem.AppendElem("FtpOptions", Enum.GetName(typeof(FtpVerify), FtpOptions));
-            xmlElem.AppendElem("Formats", String.Join(", ", Formats));
+            xmlElem.AppendElem("Formats", string.Join(", ", Formats));
             xmlElem.AppendElem("MaxSizeFile", MaxSizeFile);
         }
-        #endregion Save
-        #endregion Xml
 
+        #endregion Basic
     }
 }

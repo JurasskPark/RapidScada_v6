@@ -1,4 +1,4 @@
-﻿using FluentFTP;
+using FluentFTP;
 using ManagerAssistant;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvFtpJP;
@@ -26,18 +26,19 @@ namespace DrvFtpJP.Console
 
         }
 
-        private static bool isDll;                              // application or dll
-        private static string pathLog;                          // path log
-        private static int deviceNum;                           // the device number
-        private static string driverCode;                       // the driver code
-        private static Project project;                         // the device configuration
-        private static string pathProject;                      // the path device configuration
-        private static string configFileName;                   // the configuration file name
-        private static DriverClient driverClient;               // client
-        private static int countFilesConfig;                    // count config files
-
-        private static Dictionary<int, string> ListRemoteFilesDownload = new Dictionary<int, string>();
-        private static object logLock = new object();
+        #region Variable
+        private static bool isDll;                                                   // application or dll
+        private static string pathLog;                                               // path log
+        private static int deviceNum;                                                // device number
+        private static string driverCode;                                            // driver code
+        private static Project project;                                              // device configuration
+        private static string pathProject;                                           // path device configuration
+        private static string configFileName;                                        // configuration file name
+        private static DriverClient driverClient;                                    // driver client
+        private static int countFilesConfig;                                         // count config files
+        private static Dictionary<int, string> listRemoteFilesDownload = new Dictionary<int, string>(); // remote file log items
+        private static object logLock = new object();                                // log lock
+        #endregion Variable
 
 
         /// <summary>
@@ -142,8 +143,10 @@ namespace DrvFtpJP.Console
 
                         tryNum++;
                     }
-                    catch { }
-                } 
+                    catch
+            {
+            }
+                }
             }
         }
 
@@ -177,7 +180,7 @@ namespace DrvFtpJP.Console
         {
             try
             {
-                if (ListRemoteFilesDownload.TryGetValue(fileIndex, out _))
+                if (listRemoteFilesDownload.TryGetValue(fileIndex, out _))
                 {
                     // Обновление существующей записи
                     LogDriver(text + " " + findText);
@@ -186,7 +189,7 @@ namespace DrvFtpJP.Console
                 {
                     // Добавление новой записи
                     LogDriver(text);
-                    ListRemoteFilesDownload[fileIndex] = text;
+                    listRemoteFilesDownload[fileIndex] = text;
                 }
             }
             catch (Exception ex)

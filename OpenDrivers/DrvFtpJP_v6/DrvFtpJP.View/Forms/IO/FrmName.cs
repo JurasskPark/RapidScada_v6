@@ -1,4 +1,4 @@
-﻿using Scada.Forms;
+using Scada.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +13,15 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmName : Form
     {
-        #region Variables
-        public bool isEditName;
+        #region Variable
+        public bool isEditName; // field
         public string FileName { get; set; }
-        #endregion Variables
+        #endregion Variable
 
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmName()
         {
             InitializeComponent();
@@ -26,6 +30,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
 
         
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmName(string n) : this()
         {
             FileName = n;
@@ -33,6 +41,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
         
         #region Form Load
+        /// <summary>
+        /// Handles the NameForm_Load event.
+        /// <para>Обрабатывает событие NameForm_Load.</para>
+        /// </summary>
         private void NameForm_Load(object sender, EventArgs e)
         {
             Translate();
@@ -45,6 +57,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Form Load
 
         #region Form Closing
+        /// <summary>
+        /// Handles the NameForm_FormClosing event.
+        /// <para>Обрабатывает событие NameForm_FormClosing.</para>
+        /// </summary>
         private void NameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == System.Windows.Forms.DialogResult.OK)

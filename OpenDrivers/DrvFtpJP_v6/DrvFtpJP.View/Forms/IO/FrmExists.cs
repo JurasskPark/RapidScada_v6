@@ -1,4 +1,4 @@
-﻿namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
+namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmExists : Form
     {
@@ -6,12 +6,20 @@
         //public XwFileAction DoToAllFiles = XwFileAction.Ask;
 
         
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmExists()
         {
             InitializeComponent();
         }
 
         
+        /// <summary>
+        /// Handles the Cancel_Click event.
+        /// <para>Обрабатывает событие Cancel_Click.</para>
+        /// </summary>
         private void Cancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

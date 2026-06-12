@@ -1,49 +1,41 @@
-﻿using DebugerLog;
+using DebugerLog;
 using Scada.Comm.Drivers.DrvFtpJP;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DrvFtpJP.Shared.FilesDirectorys
 {
+    /// <summary>
+    /// Represents information about a file system object.
+    /// <para>Представляет информацию об объекте файловой системы.</para>
+    /// </summary>
     public class FilesDirectoriesInformation
     {
-        public FilesDirectoriesInformation()
-        {
-            this.Name = string.Empty;
-            this.FullName = string.Empty;
-            this.Type = FilesDirectoriesType.None;
-            this.Size = 0;
-            this.Date = DateTime.MinValue;
-            this.Format = string.Empty;
-        }
+        #region Variable
+        private long size;                       // object size
+        #endregion Variable
 
-        public FilesDirectoriesInformation(string name, string fullname, FilesDirectoriesType type, long size, DateTime date, string format)
-        {
-            this.Name = name;
-            this.FullName = fullname;
-            this.Type = type;
-            this.Size = size;
-            this.Date = date;
-            this.Format = format;
-        }
-
-        public enum FilesDirectoriesType : int
-        {
-            None,
-            File,
-            Directory,
-            Link,
-        }
-
+        #region Property
+        /// <summary>
+        /// Gets or sets object name.
+        /// <para>Возвращает или задает имя объекта.</para>
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets full object path.
+        /// <para>Возвращает или задает полный путь объекта.</para>
+        /// </summary>
         public string FullName { get; set; }
 
+        /// <summary>
+        /// Gets or sets object type.
+        /// <para>Возвращает или задает тип объекта.</para>
+        /// </summary>
         public FilesDirectoriesType Type { get; set; }
 
-
-        private long size;
+        /// <summary>
+        /// Gets or sets object size in bytes.
+        /// <para>Возвращает или задает размер объекта в байтах.</para>
+        /// </summary>
         public long Size
         {
             get
@@ -56,31 +48,82 @@ namespace DrvFtpJP.Shared.FilesDirectorys
                 {
                     return 0;
                 }
+
                 return 0;
             }
             set
             {
-                this.size = value;
-                this.SizeString = DriverUtils.DiskSize(this.size);
+                size = value;
+                SizeString = DriverUtils.DiskSize(size);
             }
         }
-        public DateTime Date { get; set; }
-
-        public string SizeString { get; set; }
-
-        public string Format { get; set; }
 
         /// <summary>
-        /// Getting a list of media on the device (names).
-        /// <para>Получения списка носителей на устройстве (названия).</para>
+        /// Gets or sets last write date.
+        /// <para>Возвращает или задает дату последнего изменения.</para>
         /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets formatted object size.
+        /// <para>Возвращает или задает форматированный размер объекта.</para>
+        /// </summary>
+        public string SizeString { get; set; }
+
+        /// <summary>
+        /// Gets or sets file extension.
+        /// <para>Возвращает или задает расширение файла.</para>
+        /// </summary>
+        public string Format { get; set; }
+        #endregion Property
+
+        #region Basic
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
+        public FilesDirectoriesInformation()
+        {
+            Name = string.Empty;
+            FullName = string.Empty;
+            Type = FilesDirectoriesType.None;
+            Size = 0;
+            Date = DateTime.MinValue;
+            Format = string.Empty;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class with specified values.
+        /// <para>Инициализирует новый экземпляр класса с указанными значениями.</para>
+        /// </summary>
+        /// <param name="name">Object name.</param>
+        /// <param name="fullname">Full object path.</param>
+        /// <param name="type">Object type.</param>
+        /// <param name="size">Object size.</param>
+        /// <param name="date">Last write date.</param>
+        /// <param name="format">File extension.</param>
+        public FilesDirectoriesInformation(string name, string fullname, FilesDirectoriesType type, long size, DateTime date, string format)
+        {
+            Name = name;
+            FullName = fullname;
+            Type = type;
+            Size = size;
+            Date = date;
+            Format = format;
+        }
+
+        /// <summary>
+        /// Gets a list of available drive names.
+        /// <para>Получает список имен доступных дисков.</para>
+        /// </summary>
+        /// <returns>Drive name list.</returns>
         public static List<string> GetPhysicalDrivesNames()
         {
             List<string> disks = new List<string>();
 
             try
             {
-                foreach (var drive in DriveInfo.GetDrives())
+                foreach (DriveInfo drive in DriveInfo.GetDrives())
                 {
                     if (drive.IsReady)
                     {
@@ -90,19 +133,25 @@ namespace DrvFtpJP.Shared.FilesDirectorys
             }
             catch (Exception ex)
             {
-                Debuger.Log(String.Format(DriverDictonary.DiskError, ex.Message));
+                Debuger.Log(string.Format(DriverDictonary.DiskError, ex.Message));
             }
 
             return disks;
         }
 
+        /// <summary>
+        /// Gets directories and files from the specified path.
+        /// <para>Получает каталоги и файлы из указанного пути.</para>
+        /// </summary>
+        /// <param name="path">Directory path.</param>
+        /// <returns>Directory and file information list.</returns>
         public static List<FilesDirectoriesInformation> GetDirectoriesAndFiles(string path)
         {
             List<FilesDirectoriesInformation> list = new List<FilesDirectoriesInformation>();
 
             try
             {
-                var directories = from dir in Directory.GetDirectories(path) select (new DirectoryInfo(dir));
+                IEnumerable<DirectoryInfo> directories = from dir in Directory.GetDirectories(path) select new DirectoryInfo(dir);
                 foreach (DirectoryInfo dir in directories)
                 {
                     try
@@ -117,10 +166,12 @@ namespace DrvFtpJP.Shared.FilesDirectorys
                         directoryInfo.Format = string.Empty;
                         list.Add(directoryInfo);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
-                var files = from file in Directory.GetFiles(path) select (new FileInfo(file));
+                IEnumerable<FileInfo> files = from file in Directory.GetFiles(path) select new FileInfo(file);
                 foreach (FileInfo file in files)
                 {
                     try
@@ -134,15 +185,51 @@ namespace DrvFtpJP.Shared.FilesDirectorys
                         fileInfo.Format = Path.GetExtension(file.Name).TrimStart('.');
                         list.Add(fileInfo);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 return list;
             }
-            catch (Exception ex)
+            catch
             {
                 return list;
             }
         }
+        #endregion Basic
+
+        #region Support class
+        /// <summary>
+        /// Defines file system object types.
+        /// <para>Определяет типы объектов файловой системы.</para>
+        /// </summary>
+        public enum FilesDirectoriesType : int
+        {
+            /// <summary>
+            /// Object type is not defined.
+            /// <para>Тип объекта не задан.</para>
+            /// </summary>
+            None,
+
+            /// <summary>
+            /// File object.
+            /// <para>Файл.</para>
+            /// </summary>
+            File,
+
+            /// <summary>
+            /// Directory object.
+            /// <para>Каталог.</para>
+            /// </summary>
+            Directory,
+
+            /// <summary>
+            /// Link object.
+            /// <para>Ссылка.</para>
+            /// </summary>
+            Link,
+        }
+        #endregion Support class
     }
 }

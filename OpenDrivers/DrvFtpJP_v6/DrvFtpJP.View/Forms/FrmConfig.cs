@@ -1,4 +1,4 @@
-﻿using ManagerAssistant;
+using ManagerAssistant;
 using Scada.Comm.Config;
 using Scada.Forms;
 using Scada.Lang;
@@ -108,7 +108,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             this.modified = false;
         }
 
-        #region Variables
+        #region Variable
         public readonly bool isDll;                     // application or dll
         private readonly string pathLog;                // the path log
         private readonly AppDirs appDirs;               // the application directories
@@ -142,10 +142,14 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         public FrmConfig formParent;                    // parent form
         private Form frmPropertyForm = new Form();      // child form properties
         private List<Scenario> ListScenarios = new List<Scenario>(); // scenarios
-        #endregion Variables
+        #endregion Variable
 
         #region Initialize
 
+        /// <summary>
+        /// Executes InitializeFtpEncryptionMode.
+        /// <para>Выполняет InitializeFtpEncryptionMode.</para>
+        /// </summary>
         private void InitializeFtpEncryptionMode()
         {
             //// Получение отсортированного списка строк
@@ -281,7 +285,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                     this.lstScenarios.Items.Clear();
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
@@ -297,7 +303,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                     lstScenarios.Select();
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         #endregion Config
@@ -431,6 +439,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Toolbar
 
+        /// <summary>
+        /// Handles the tolProperties_Click event.
+        /// <para>Обрабатывает событие tolProperties_Click.</para>
+        /// </summary>
         private void tolProperties_Click(object sender, EventArgs e)
         {
             FrmFTPSettings frmFTPSettings = new FrmFTPSettings(project.FtpClientSettings);
@@ -442,11 +454,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the tolConnect_Click event.
+        /// <para>Обрабатывает событие tolConnect_Click.</para>
+        /// </summary>
         private void tolConnect_Click(object sender, EventArgs e)
         {
             Connect();
         }
 
+        /// <summary>
+        /// Executes Connect.
+        /// <para>Выполняет Connect.</para>
+        /// </summary>
         private void Connect()
         {
             FrmFilesManager frmFilesManager = new FrmFilesManager(project.FtpClientSettings);
@@ -467,11 +487,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             frmPropertyForm.Show();
         }
 
+        /// <summary>
+        /// Handles the tolDisconnect_Click event.
+        /// <para>Обрабатывает событие tolDisconnect_Click.</para>
+        /// </summary>
         private void tolDisconnect_Click(object sender, EventArgs e)
         {
             Disconnect();
         }
 
+        /// <summary>
+        /// Executes Disconnect.
+        /// <para>Выполняет Disconnect.</para>
+        /// </summary>
         private void Disconnect()
         {
             if (frmPropertyForm != null)
@@ -481,11 +509,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
 
 
+        /// <summary>
+        /// Handles the tolSave_Click event.
+        /// <para>Обрабатывает событие tolSave_Click.</para>
+        /// </summary>
         private void tolSave_Click(object sender, EventArgs e)
         {
             SaveData();
         }
 
+        /// <summary>
+        /// Executes SaveData.
+        /// <para>Выполняет SaveData.</para>
+        /// </summary>
         public void SaveData()
         {
             ControlsToConfig();
@@ -499,6 +535,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Modified = false;
         }
 
+        /// <summary>
+        /// Handles the tolClose_Click event.
+        /// <para>Обрабатывает событие tolClose_Click.</para>
+        /// </summary>
         private void tolClose_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -513,6 +553,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
 
         #region Close
+        /// <summary>
+        /// Handles the btnClose_Click event.
+        /// <para>Обрабатывает событие btnClose_Click.</para>
+        /// </summary>
         private void btnClose_Click(object sender, EventArgs e)
         {
 
@@ -520,6 +564,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Close
 
         #region Connection Test
+        /// <summary>
+        /// Handles the btnConnectTest_Click event.
+        /// <para>Обрабатывает событие btnConnectTest_Click.</para>
+        /// </summary>
         private void btnConnectTest_Click(object sender, EventArgs e)
         {
 
@@ -529,6 +577,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Button
 
         #region Settings
+        /// <summary>
+        /// Handles the tolSettings_Click event.
+        /// <para>Обрабатывает событие tolSettings_Click.</para>
+        /// </summary>
         private void tolSettings_Click(object sender, EventArgs e)
         {
             FrmSettings frmSettings = new FrmSettings();
@@ -540,6 +592,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region About
 
+        /// <summary>
+        /// Handles the tolAbout_Click event.
+        /// <para>Обрабатывает событие tolAbout_Click.</para>
+        /// </summary>
         private void tolAbout_Click(object sender, EventArgs e)
         {
             try
@@ -564,6 +620,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             catch (Exception ex) { MessageBox.Show(ex.Message.ToString()); }
         }
 
+        /// <summary>
+        /// Executes GetAutoCopyright.
+        /// <para>Выполняет GetAutoCopyright.</para>
+        /// </summary>
         public static string GetAutoCopyright()
         {
             try
@@ -574,6 +634,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Executes GetAutoDescription.
+        /// <para>Выполняет GetAutoDescription.</para>
+        /// </summary>
         public static string GetAutoDescription()
         {
             try
@@ -584,6 +648,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Executes GetAutoTitle.
+        /// <para>Выполняет GetAutoTitle.</para>
+        /// </summary>
         public static string GetAutoTitle()
         {
             try
@@ -602,6 +670,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             catch (Exception) { return string.Empty; }
         }
 
+        /// <summary>
+        /// Executes GetAutoVersion.
+        /// <para>Выполняет GetAutoVersion.</para>
+        /// </summary>
         public static string GetAutoVersion()
         {
             try
@@ -611,6 +683,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Executes GetAutoCompany.
+        /// <para>Выполняет GetAutoCompany.</para>
+        /// </summary>
         public static string GetAutoCompany()
         {
             try
@@ -620,6 +696,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             catch { return string.Empty; }
         }
 
+        /// <summary>
+        /// Executes GetBuildDateTime.
+        /// <para>Выполняет GetBuildDateTime.</para>
+        /// </summary>
         public static string GetBuildDateTime()
         {
             try
@@ -670,7 +750,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                 idRow = DriverUtils.StringToGuid(tmplstScenarios.SelectedItems[0].Tag.ToString());
                 nameRow = Convert.ToString(tmplstScenarios.SelectedItems[0].SubItems[1].Text.Trim());
             }
-            catch { }
+            catch
+            {
+            }
 
         }
         #endregion Select
@@ -813,6 +895,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Delete
 
         #region Parser Up
+        /// <summary>
+        /// Handles the cmnuListUp_Click event.
+        /// <para>Обрабатывает событие cmnuListUp_Click.</para>
+        /// </summary>
         private void cmnuListUp_Click(object sender, EventArgs e)
         {
             ParserUp();
@@ -858,6 +944,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Parser Up
 
         #region Parser Down
+        /// <summary>
+        /// Handles the cmnuListDown_Click event.
+        /// <para>Обрабатывает событие cmnuListDown_Click.</para>
+        /// </summary>
         private void cmnuListDown_Click(object sender, EventArgs e)
         {
             ParserDown();

@@ -1,23 +1,27 @@
-﻿using Scada.Forms;
+using Scada.Forms;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmSettings : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmSettings()
         {
             InitializeComponent();
         }
 
-        #region Variables
+        #region Variable
         public FrmConfig formParent;                            // parent form
         public Project project;                                 // the project configuration
         private bool isRussian;                                 // language
 
         private bool modified;                                  // the configuration was modified
         private bool connChanging;                              // connection settings are changing
-        #endregion Variables
+        #endregion Variable
 
         #region Form Load
         /// <summary>

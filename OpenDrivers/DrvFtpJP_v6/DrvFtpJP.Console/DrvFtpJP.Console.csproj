@@ -18,10 +18,10 @@
 
   <ItemGroup>
     <Reference Include="ScadaCommCommon">
-      <HintPath>..\dll\ScadaCommCommon.dll</HintPath>
+      <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon">
-      <HintPath>..\dll\ScadaCommon.dll</HintPath>
+      <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

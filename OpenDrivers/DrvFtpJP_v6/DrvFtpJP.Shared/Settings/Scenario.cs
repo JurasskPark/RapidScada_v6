@@ -1,14 +1,53 @@
-﻿using Scada.Comm.Devices;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvFtpJP
 {
+    /// <summary>
+    /// Represents an FTP operation scenario.
+    /// <para>Представляет сценарий FTP-операций.</para>
+    /// </summary>
     public class Scenario
     {
+        #region Property
+
+        /// <summary>
+        /// Gets or sets the scenario identifier.
+        /// <para>Возвращает или задает идентификатор сценария.</para>
+        /// </summary>
+        public Guid ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the scenario is enabled.
+        /// <para>Возвращает или задает признак включения сценария.</para>
+        /// </summary>
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scenario name.
+        /// <para>Возвращает или задает имя сценария.</para>
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scenario description.
+        /// <para>Возвращает или задает описание сценария.</para>
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scenario action list.
+        /// <para>Возвращает или задает список действий сценария.</para>
+        /// </summary>
+        public List<OperationAction> Actions { get; set; }
+
+        #endregion Property
+
+        #region Basic
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public Scenario()
         {
             ID = Guid.NewGuid();
@@ -18,23 +57,15 @@ namespace Scada.Comm.Drivers.DrvFtpJP
             Actions = new List<OperationAction>();
         }
 
-        public Guid ID { get; set; }
-        public bool Enabled { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public List<OperationAction> Actions { get; set; }
-
-        #region Xml
-
-        #region Load
         /// <summary>
-        /// Loads the command from the XML node.
+        /// Loads the scenario from the XML node.
+        /// <para>Загружает сценарий из XML-узла.</para>
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
             {
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
             }
 
             ID = DriverUtils.StringToGuid(xmlNode.GetChildAsString("ID"));
@@ -54,14 +85,14 @@ namespace Scada.Comm.Drivers.DrvFtpJP
                     }
                 }
             }
-            catch { }
-
+            catch
+            {
+            }
         }
-        #endregion Load
 
-        #region Save
         /// <summary>
-        /// Saves the configuration into the XML node.
+        /// Saves the scenario into the XML node.
+        /// <para>Сохраняет сценарий в XML-узел.</para>
         /// </summary>
         public virtual void SaveToXml(XmlElement xmlElem)
         {
@@ -83,10 +114,11 @@ namespace Scada.Comm.Drivers.DrvFtpJP
                     action.SaveToXml(exportActionsElem.AppendElem("Action"));
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
-        #endregion Save
 
-        #endregion Xml
+        #endregion Basic
     }
 }

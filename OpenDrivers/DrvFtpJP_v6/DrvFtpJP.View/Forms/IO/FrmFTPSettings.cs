@@ -1,4 +1,4 @@
-﻿using FluentFTP;
+using FluentFTP;
 using Scada.Forms;
 using Scada.Lang;
 
@@ -6,13 +6,17 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmFTPSettings : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmFTPSettings(FtpClientSettings client)
         {
             InitializeComponent();
             this.client = client;         
         }
 
-        #region Form Load
+        #region Basic
         /// <summary>
         /// Loading the form
         /// </summary>
@@ -21,13 +25,13 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             ConfigToControls();
             Translate();
         }
-        #endregion Form Load
+        #endregion Basic
 
-        #region Variables
+        #region Variable
         public FrmConfig formParent;                     // parent form
-        public FtpClientSettings client = null;
-        private DriverClient driverClient;
-        #endregion Variables
+        public FtpClientSettings client = null;          // ftp client settings
+        private DriverClient driverClient;               // driver client
+        #endregion Variable
 
         #region Config
         /// <summary>
@@ -88,11 +92,13 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
             client.SshKey = txtSshKey.Text;
             client.Encryption = ckbUseTLS.Checked;
+            client.EncryptionMode = ckbUseTLS.Checked ? FtpEncryptionMode.Explicit : FtpEncryptionMode.None;
 
         }
 
         /// <summary>
-        /// 
+        /// Loads FTP data connection types.
+        /// <para>Загружает типы соединения данных FTP.</para>
         /// </summary>
         private void LoadFtpDataType(FtpDataConnectionType type)
         {
@@ -131,6 +137,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Control
 
+        /// <summary>
+        /// Handles the ckbDefaultPort_CheckedChanged event.
+        /// <para>Обрабатывает событие ckbDefaultPort_CheckedChanged.</para>
+        /// </summary>
         private void ckbDefaultPort_CheckedChanged(object sender, EventArgs e)
         {
             if (ckbDefaultPort.Checked)
@@ -144,6 +154,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the txtPassword_KeyDown event.
+        /// <para>Обрабатывает событие txtPassword_KeyDown.</para>
+        /// </summary>
         private void txtPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F12)
@@ -152,11 +166,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the btnShowPassword_Click event.
+        /// <para>Обрабатывает событие btnShowPassword_Click.</para>
+        /// </summary>
         private void btnShowPassword_Click(object sender, EventArgs e)
         {
             txtPassword.UseSystemPasswordChar = !txtPassword.UseSystemPasswordChar;
         }
 
+        /// <summary>
+        /// Handles the btnOpenSshKey_Click event.
+        /// <para>Обрабатывает событие btnOpenSshKey_Click.</para>
+        /// </summary>
         private void btnOpenSshKey_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -170,6 +192,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #region Button
 
         #region Save
+        /// <summary>
+        /// Handles the btnSave_Click event.
+        /// <para>Обрабатывает событие btnSave_Click.</para>
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             ControlsToConfig();
@@ -181,6 +207,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Save
 
         #region Close
+        /// <summary>
+        /// Handles the btnCancel_Click event.
+        /// <para>Обрабатывает событие btnCancel_Click.</para>
+        /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -188,6 +218,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Close
 
         #region Connection Test
+        /// <summary>
+        /// Handles the btnConnectionTest_Click event.
+        /// <para>Обрабатывает событие btnConnectionTest_Click.</para>
+        /// </summary>
         private void btnConnectionTest_Click(object sender, EventArgs e)
         {
             ControlsToConfig();

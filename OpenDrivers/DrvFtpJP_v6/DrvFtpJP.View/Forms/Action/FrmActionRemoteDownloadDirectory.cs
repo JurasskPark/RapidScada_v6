@@ -1,4 +1,4 @@
-﻿using FluentFTP;
+using FluentFTP;
 using Scada.Forms;
 using System.Data;
 using static Scada.Comm.Drivers.DrvFtpJP.DriverUtils;
@@ -8,6 +8,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmActionRemoteDownloadDirectory : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmActionRemoteDownloadDirectory()
         {
             InitializeComponent();
@@ -18,15 +22,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             InitializeTypeSize();
         }
 
-        #region Variables
+        #region Variable
         public FrmConfig formParent;                // parent form
         public Project project;                     // the project configuration
 
         private bool modified;                      // the configuration was modified
 
         public OperationAction operationAction { get; set; }
-        #endregion Variables
+        #endregion Variable
 
+        /// <summary>
+        /// Executes InitializeTypeOperationsActions.
+        /// <para>Выполняет InitializeTypeOperationsActions.</para>
+        /// </summary>
         private void InitializeTypeOperationsActions()
         {
             // Получение отсортированного списка строк
@@ -41,6 +49,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             cmbAction.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Executes InitializeTypeMode.
+        /// <para>Выполняет InitializeTypeMode.</para>
+        /// </summary>
         private void InitializeTypeMode()
         {
             // Получение отсортированного списка строк
@@ -55,6 +67,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             cmbMode.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Executes InitializeTypeLocalExists.
+        /// <para>Выполняет InitializeTypeLocalExists.</para>
+        /// </summary>
         private void InitializeTypeLocalExists()
         {
             // Получение отсортированного списка строк
@@ -69,6 +85,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             cmbLocalExists.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Executes InitializeTypeSize.
+        /// <para>Выполняет InitializeTypeSize.</para>
+        /// </summary>
         private void InitializeTypeSize()
         {
             // Получение отсортированного списка строк
@@ -85,6 +105,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
 
         #region Form Load
+        /// <summary>
+        /// Handles the FrmAction_Load event.
+        /// <para>Обрабатывает событие FrmAction_Load.</para>
+        /// </summary>
         private void FrmAction_Load(object sender, EventArgs e)
         {
             ConfigToControls();
@@ -161,6 +185,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Translate
 
         #region Control
+        /// <summary>
+        /// Handles the ckbSize_CheckedChanged event.
+        /// <para>Обрабатывает событие ckbSize_CheckedChanged.</para>
+        /// </summary>
         private void ckbSize_CheckedChanged(object sender, EventArgs e)
         {
             if (ckbSize.Checked == true)
@@ -181,6 +209,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #region Button
 
         #region Save
+        /// <summary>
+        /// Handles the btnSave_Click event.
+        /// <para>Обрабатывает событие btnSave_Click.</para>
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveData();
@@ -190,6 +222,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Close();
         }
 
+        /// <summary>
+        /// Executes SaveData.
+        /// <para>Выполняет SaveData.</para>
+        /// </summary>
         public void SaveData()
         {
             ControlsToConfig();
@@ -197,6 +233,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Save
 
         #region  Cancel
+        /// <summary>
+        /// Handles the btnCancel_Click event.
+        /// <para>Обрабатывает событие btnCancel_Click.</para>
+        /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

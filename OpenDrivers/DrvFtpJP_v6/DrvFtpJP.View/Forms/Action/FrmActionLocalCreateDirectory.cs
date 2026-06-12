@@ -1,4 +1,4 @@
-﻿using FluentFTP;
+using FluentFTP;
 using Scada.Forms;
 using System.Data;
 using static Scada.Comm.Drivers.DrvFtpJP.DriverUtils;
@@ -8,6 +8,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmLocalCreateDirectoty : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmLocalCreateDirectoty()
         {
             InitializeComponent();
@@ -15,15 +19,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             InitializeTypeOperationsActions();
         }
 
-        #region Variables
+        #region Variable
         public FrmConfig formParent;                // parent form
         public Project project;                     // the project configuration
 
         private bool modified;                      // the configuration was modified
 
         public OperationAction operationAction { get; set; }
-        #endregion Variables
+        #endregion Variable
 
+        /// <summary>
+        /// Executes InitializeTypeOperationsActions.
+        /// <para>Выполняет InitializeTypeOperationsActions.</para>
+        /// </summary>
         private void InitializeTypeOperationsActions()
         {
             // Получение отсортированного списка строк
@@ -39,6 +47,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
 
         #region Form Load
+        /// <summary>
+        /// Handles the FrmAction_Load event.
+        /// <para>Обрабатывает событие FrmAction_Load.</para>
+        /// </summary>
         private void FrmAction_Load(object sender, EventArgs e)
         {
             ConfigToControls();
@@ -91,6 +103,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #region Button
 
         #region Save
+        /// <summary>
+        /// Handles the btnSave_Click event.
+        /// <para>Обрабатывает событие btnSave_Click.</para>
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveData();
@@ -100,6 +116,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Close();
         }
 
+        /// <summary>
+        /// Executes SaveData.
+        /// <para>Выполняет SaveData.</para>
+        /// </summary>
         public void SaveData()
         {
             ControlsToConfig();
@@ -107,6 +127,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Save
 
         #region  Cancel
+        /// <summary>
+        /// Handles the btnCancel_Click event.
+        /// <para>Обрабатывает событие btnCancel_Click.</para>
+        /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

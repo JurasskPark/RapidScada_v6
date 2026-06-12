@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Devices;
@@ -14,57 +14,56 @@ namespace Scada.Comm.Drivers.DrvFtpJP
     /// </summary>
     public class Project
     {
+        #region Property
+
+        /// <summary>
+        /// Gets or sets FTP client settings.
+        /// <para>Возвращает или задает настройки FTP-клиента.</para>
+        /// </summary>
+        public FtpClientSettings FtpClientSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets scenarios as a list.
+        /// <para>Возвращает или задает сценарии в виде списка.</para>
+        /// </summary>
+        public List<Scenario> Scenarios { get; set; }
+
+        /// <summary>
+        /// Gets or sets device tags as a list.
+        /// <para>Возвращает или задает теги КП в виде списка.</para>
+        /// </summary>
+        public List<DriverTag> DeviceTags { get; set; }
+
+        /// <summary>
+        /// Gets or sets debugger settings.
+        /// <para>Возвращает или задает настройки отладчика.</para>
+        /// </summary>
+        public DebugerSettings DebugerSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Russian language is used.
+        /// <para>Возвращает или задает признак использования русского языка.</para>
+        /// </summary>
+        public bool LanguageIsRussian { get; set; }
+
+        #endregion Property
+
+        #region Basic
+
         /// <summary>
         /// Initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
         /// </summary>
         public Project()
         {
             SetToDefault();
         }
 
-        public FtpClientSettings  FtpClientSettings { get; set; }
-
-        /// <summary>
-        /// Gets or sets scenario as a list.
-        /// </summary>
-        public List<Scenario> Scenarios { get; set; }
-
-        /// <summary>
-        /// Gets or sets tag names as a list.
-        /// </summary>
-        public List<DriverTag> DeviceTags { get; set; }
-
-        /// <summary>
-        /// Gets the debuger settings.
-        /// </summary>
-        public DebugerSettings DebugerSettings { get; set; }
-
-        /// <summary>
-        /// Gets the language.
-        /// </summary>
-        public bool LanguageIsRussian { get; set; }
-
-        
-        /// <summary>
-        /// Sets the default values.
-        /// </summary>
-#pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
-        private void SetToDefault()
-        #pragma warning restore CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
-        {
-            FtpClientSettings = new FtpClientSettings();
-            Scenarios = new List<Scenario>();
-            DeviceTags = new List<DriverTag>();
-            DebugerSettings = new DebugerSettings();
-            LanguageIsRussian = false;
-        }
-
         /// <summary>
         /// Loads the configuration from the specified file.
+        /// <para>Загружает конфигурацию из указанного файла.</para>
         /// </summary>
-#pragma warning disable CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
         public bool Load(string fileName, out string errMsg)
-        
         {
             SetToDefault();
 
@@ -82,48 +81,17 @@ namespace Scada.Comm.Drivers.DrvFtpJP
                     }
                 }
 
-
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
 
-                try { FtpClientSettings.LoadFromXml(rootElem.SelectSingleNode("FtpClientSettings")); } catch { FtpClientSettings = new FtpClientSettings(); }
+                LoadFtpClientSettings(rootElem);
+                LoadScenarios(rootElem);
+                LoadDeviceTags(rootElem);
+                LoadDebugerSettings(rootElem);
+                LoadLanguage(rootElem);
 
-                try
-                {
-                    if (rootElem.SelectSingleNode("Scenarios") is XmlNode scenariosNode)
-                    {
-                        foreach (XmlNode scenarioNode in scenariosNode.SelectNodes("Scenario"))
-                        {
-                            Scenario scenario = new Scenario();
-                            scenario.LoadFromXml(scenarioNode);
-                            Scenarios.Add(scenario);
-                        }
-                    }
-                }
-                catch { }
-
-
-                try
-                {
-                    if (rootElem.SelectSingleNode("DeviceTags") is XmlNode exportDeviceTagsNode)
-                    {
-                        foreach (XmlNode exportDeviceTagNode in exportDeviceTagsNode.SelectNodes("Tag"))
-                        {
-                            DriverTag exportDeviceTag = new DriverTag();
-                            exportDeviceTag.LoadFromXml(exportDeviceTagNode);
-                            DeviceTags.Add(exportDeviceTag);
-                        }
-                        DeviceTags.Sort();
-                    }
-                }
-                catch {  }
-
-                try { DebugerSettings.LoadFromXml(rootElem.SelectSingleNode("DebugerSettings")); } catch { DebugerSettings = new DebugerSettings(); }
-
-                try { LanguageIsRussian = rootElem.GetChildAsBool("LanguageIsRussian"); } catch { LanguageIsRussian = false; }
-
-                errMsg = "";
+                errMsg = string.Empty;
                 return true;
             }
             catch (Exception ex)
@@ -132,13 +100,12 @@ namespace Scada.Comm.Drivers.DrvFtpJP
                 return false;
             }
         }
-#pragma warning restore CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
+
         /// <summary>
         /// Saves the configuration to the specified file.
+        /// <para>Сохраняет конфигурацию в указанный файл.</para>
         /// </summary>
-#pragma warning disable CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
         public bool Save(string fileName, out string errMsg)
-       
         {
             try
             {
@@ -149,34 +116,14 @@ namespace Scada.Comm.Drivers.DrvFtpJP
                 XmlElement rootElem = xmlDoc.CreateElement("Project");
                 xmlDoc.AppendChild(rootElem);
 
-                try { FtpClientSettings.SaveToXml(rootElem.AppendElem("FtpClientSettings")); } catch { }
-
-                try
-                {
-                    XmlElement scenariosElem = rootElem.AppendElem("Scenarios");
-                    foreach (Scenario scenario in Scenarios)
-                    {
-                        scenario.SaveToXml(scenariosElem.AppendElem("Scenario"));
-                    }
-                }
-                catch { }
-
-                try
-                {
-                    XmlElement exportDeviceTagsElem = rootElem.AppendElem("DeviceTags");
-                    foreach (DriverTag exportDeviceTag in DeviceTags)
-                    {
-                        exportDeviceTag.SaveToXml(exportDeviceTagsElem.AppendElem("Tag"));
-                    }
-                }
-                catch { }
-
-                try { DebugerSettings.SaveToXml(rootElem.AppendElem("DebugerSettings")); } catch { }
-
-                try { rootElem.AppendElem("LanguageIsRussian", LanguageIsRussian); } catch { }
+                SaveFtpClientSettings(rootElem);
+                SaveScenarios(rootElem);
+                SaveDeviceTags(rootElem);
+                SaveDebugerSettings(rootElem);
+                SaveLanguage(rootElem);
 
                 xmlDoc.Save(fileName);
-                errMsg = "";
+                errMsg = string.Empty;
                 return true;
             }
             catch (Exception ex)
@@ -185,13 +132,216 @@ namespace Scada.Comm.Drivers.DrvFtpJP
                 return false;
             }
         }
-#pragma warning restore CS0108 // Член скрывает унаследованный член: отсутствует новое ключевое слово
+
         /// <summary>
         /// Gets the short name of the device configuration file.
+        /// <para>Возвращает краткое имя файла конфигурации КП.</para>
         /// </summary>
         public static string GetFileName(int deviceNum)
         {
             return DeviceConfigBase.GetFileName(DriverUtils.DriverCode, deviceNum);
         }
+
+        /// <summary>
+        /// Sets the default values.
+        /// <para>Устанавливает значения по умолчанию.</para>
+        /// </summary>
+        private void SetToDefault()
+        {
+            FtpClientSettings = new FtpClientSettings();
+            Scenarios = new List<Scenario>();
+            DeviceTags = new List<DriverTag>();
+            DebugerSettings = new DebugerSettings();
+            LanguageIsRussian = false;
+        }
+
+        #endregion Basic
+
+        #region Load
+
+        /// <summary>
+        /// Loads FTP client settings.
+        /// <para>Загружает настройки FTP-клиента.</para>
+        /// </summary>
+        private void LoadFtpClientSettings(XmlElement rootElem)
+        {
+            try
+            {
+                FtpClientSettings.LoadFromXml(rootElem.SelectSingleNode("FtpClientSettings"));
+            }
+            catch
+            {
+                FtpClientSettings = new FtpClientSettings();
+            }
+        }
+
+        /// <summary>
+        /// Loads scenarios.
+        /// <para>Загружает сценарии.</para>
+        /// </summary>
+        private void LoadScenarios(XmlElement rootElem)
+        {
+            try
+            {
+                if (rootElem.SelectSingleNode("Scenarios") is XmlNode scenariosNode)
+                {
+                    foreach (XmlNode scenarioNode in scenariosNode.SelectNodes("Scenario"))
+                    {
+                        Scenario scenario = new Scenario();
+                        scenario.LoadFromXml(scenarioNode);
+                        Scenarios.Add(scenario);
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Loads device tags.
+        /// <para>Загружает теги КП.</para>
+        /// </summary>
+        private void LoadDeviceTags(XmlElement rootElem)
+        {
+            try
+            {
+                if (rootElem.SelectSingleNode("DeviceTags") is XmlNode deviceTagsNode)
+                {
+                    foreach (XmlNode deviceTagNode in deviceTagsNode.SelectNodes("Tag"))
+                    {
+                        DriverTag deviceTag = new DriverTag();
+                        deviceTag.LoadFromXml(deviceTagNode);
+                        DeviceTags.Add(deviceTag);
+                    }
+
+                    DeviceTags.Sort();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Loads debugger settings.
+        /// <para>Загружает настройки отладчика.</para>
+        /// </summary>
+        private void LoadDebugerSettings(XmlElement rootElem)
+        {
+            try
+            {
+                DebugerSettings.LoadFromXml(rootElem.SelectSingleNode("DebugerSettings"));
+            }
+            catch
+            {
+                DebugerSettings = new DebugerSettings();
+            }
+        }
+
+        /// <summary>
+        /// Loads language settings.
+        /// <para>Загружает настройки языка.</para>
+        /// </summary>
+        private void LoadLanguage(XmlElement rootElem)
+        {
+            try
+            {
+                LanguageIsRussian = rootElem.GetChildAsBool("LanguageIsRussian");
+            }
+            catch
+            {
+                LanguageIsRussian = false;
+            }
+        }
+
+        #endregion Load
+
+        #region Save
+
+        /// <summary>
+        /// Saves FTP client settings.
+        /// <para>Сохраняет настройки FTP-клиента.</para>
+        /// </summary>
+        private void SaveFtpClientSettings(XmlElement rootElem)
+        {
+            try
+            {
+                FtpClientSettings.SaveToXml(rootElem.AppendElem("FtpClientSettings"));
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Saves scenarios.
+        /// <para>Сохраняет сценарии.</para>
+        /// </summary>
+        private void SaveScenarios(XmlElement rootElem)
+        {
+            try
+            {
+                XmlElement scenariosElem = rootElem.AppendElem("Scenarios");
+                foreach (Scenario scenario in Scenarios)
+                {
+                    scenario.SaveToXml(scenariosElem.AppendElem("Scenario"));
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Saves device tags.
+        /// <para>Сохраняет теги КП.</para>
+        /// </summary>
+        private void SaveDeviceTags(XmlElement rootElem)
+        {
+            try
+            {
+                XmlElement deviceTagsElem = rootElem.AppendElem("DeviceTags");
+                foreach (DriverTag deviceTag in DeviceTags)
+                {
+                    deviceTag.SaveToXml(deviceTagsElem.AppendElem("Tag"));
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Saves debugger settings.
+        /// <para>Сохраняет настройки отладчика.</para>
+        /// </summary>
+        private void SaveDebugerSettings(XmlElement rootElem)
+        {
+            try
+            {
+                DebugerSettings.SaveToXml(rootElem.AppendElem("DebugerSettings"));
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Saves language settings.
+        /// <para>Сохраняет настройки языка.</para>
+        /// </summary>
+        private void SaveLanguage(XmlElement rootElem)
+        {
+            try
+            {
+                rootElem.AppendElem("LanguageIsRussian", LanguageIsRussian);
+            }
+            catch
+            {
+            }
+        }
+
+        #endregion Save
     }
 }

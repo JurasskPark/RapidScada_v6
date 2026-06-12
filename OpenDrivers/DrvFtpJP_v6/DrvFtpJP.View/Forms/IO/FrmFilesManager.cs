@@ -1,4 +1,4 @@
-﻿using DrvFtpJP.Shared.FilesDirectorys;
+using DrvFtpJP.Shared.FilesDirectorys;
 using FluentFTP;
 using Scada.Comm.Drivers.DrvFtpJP;
 using Scada.Comm.Drivers.DrvFtpJP.View.Forms;
@@ -19,16 +19,20 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
     public partial class FrmFilesManager : Form
     {
         public FrmConfig formParent;                     // parent form
-        public FtpClientSettings client = null;
-        private DriverClient driverClient = null;
-        private bool Closing = false;
+        public FtpClientSettings client = null; // field
+        private DriverClient driverClient = null; // field
+        private bool Closing = false; // field
 
-        private string currentLocalPath = string.Empty;
-        private string currentRemotePath = string.Empty;
+        private string currentLocalPath = string.Empty; // field
+        private string currentRemotePath = string.Empty; // field
 
-        private Dictionary<int, string> ListRemoteFilesDownload = new Dictionary<int, string>();
-        private object logLock = new object();
+        private Dictionary<int, string> ListRemoteFilesDownload = new Dictionary<int, string>(); // field
+        private object logLock = new object(); // field
 
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmFilesManager(FtpClientSettings client)
         {
             InitializeComponent();
@@ -37,6 +41,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             this.driverClient = new DriverClient(client);
         }
 
+        /// <summary>
+        /// Executes Initialize.
+        /// <para>Выполняет Initialize.</para>
+        /// </summary>
         private void Initialize()
         {
             cmbLocalDrivers.Items.AddRange(FilesDirectoriesInformation.GetPhysicalDrivesNames().ToArray());
@@ -56,6 +64,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Translate();
         }
 
+        /// <summary>
+        /// Executes OnLoad.
+        /// <para>Выполняет OnLoad.</para>
+        /// </summary>
         private void OnLoad(object sender, EventArgs e)
         {
             GetLocalDrives();
@@ -63,6 +75,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             GetRemoteDirectoriesAndFiles("/");
         }
 
+        /// <summary>
+        /// Executes Connect.
+        /// <para>Выполняет Connect.</para>
+        /// </summary>
         public void Connect()
         {        
            if(driverClient.Connect())
@@ -71,6 +87,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
            }
         }
 
+        /// <summary>
+        /// Executes Disconnect.
+        /// <para>Выполняет Disconnect.</para>
+        /// </summary>
         public void Disconnect()
         {
             driverClient.Disconnect();
@@ -94,6 +114,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Local
 
+        /// <summary>
+        /// Executes GetLocalDrives.
+        /// <para>Выполняет GetLocalDrives.</para>
+        /// </summary>
         private void GetLocalDrives()
         {
             DriveInfo[] localDrives;
@@ -140,7 +164,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                     lvi.Tag = drive;
                     this.lstLocalFiles.Items.Add(lvi);
                 }
-                catch { }
+                catch
+            {
+            }
             }
 
             foreach (ColumnHeader col in this.lstLocalFiles.Columns)
@@ -152,6 +178,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             this.txtLocalCurrentPath.Text = this.currentLocalPath;
         }
 
+        /// <summary>
+        /// Executes SetColumnsForDrives.
+        /// <para>Выполняет SetColumnsForDrives.</para>
+        /// </summary>
         private void SetColumnsForDrives()
         {
             this.lstLocalFiles.Columns.Clear();
@@ -178,11 +208,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         }
 
+        /// <summary>
+        /// Handles the cmbLocalDrivers_SelectedIndexChanged event.
+        /// <para>Обрабатывает событие cmbLocalDrivers_SelectedIndexChanged.</para>
+        /// </summary>
         private void cmbLocalDrivers_SelectedIndexChanged(object sender, EventArgs e)
         {
             GetLocalDirectoriesAndFiles(cmbLocalDrivers.Text);
         }
 
+        /// <summary>
+        /// Executes GetLocalDirectoriesAndFiles.
+        /// <para>Выполняет GetLocalDirectoriesAndFiles.</para>
+        /// </summary>
         private void GetLocalDirectoriesAndFiles(string path)
         {
             try
@@ -243,7 +281,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                         lvi.Tag = list[i];
                         this.lstLocalFiles.Items.Add(lvi);
                     }
-                    catch { }
+                    catch
+            {
+            }
                 }
 
                 foreach (ColumnHeader col in this.lstLocalFiles.Columns)
@@ -275,6 +315,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the lstLocalFiles_MouseDoubleClick event.
+        /// <para>Обрабатывает событие lstLocalFiles_MouseDoubleClick.</para>
+        /// </summary>
         private void lstLocalFiles_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ListView lv = sender as ListView;
@@ -324,11 +368,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
 
         #region Menu
+        /// <summary>
+        /// Handles the cmnuLocalOperationUpload_Click event.
+        /// <para>Обрабатывает событие cmnuLocalOperationUpload_Click.</para>
+        /// </summary>
         private void cmnuLocalOperationUpload_Click(object sender, EventArgs e)
         {
             LocalUpload();
         }
 
+        /// <summary>
+        /// Executes LocalUpload.
+        /// <para>Выполняет LocalUpload.</para>
+        /// </summary>
         private void LocalUpload()
         {
             ListView lv = lstLocalFiles as ListView;
@@ -376,21 +428,37 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the cmnuLocalOperationRefresh_Click event.
+        /// <para>Обрабатывает событие cmnuLocalOperationRefresh_Click.</para>
+        /// </summary>
         private void cmnuLocalOperationRefresh_Click(object sender, EventArgs e)
         {
             LocalRefresh();
         }
 
+        /// <summary>
+        /// Executes LocalRefresh.
+        /// <para>Выполняет LocalRefresh.</para>
+        /// </summary>
         private void LocalRefresh()
         {
             this.GetLocalDirectoriesAndFiles(txtLocalCurrentPath.Text.Trim());
         }
 
+        /// <summary>
+        /// Handles the cmnuLocalOperationCreateDirectory_Click event.
+        /// <para>Обрабатывает событие cmnuLocalOperationCreateDirectory_Click.</para>
+        /// </summary>
         private void cmnuLocalOperationCreateDirectory_Click(object sender, EventArgs e)
         {
             LocaleCreateDirectory();
         }
 
+        /// <summary>
+        /// Executes LocaleCreateDirectory.
+        /// <para>Выполняет LocaleCreateDirectory.</para>
+        /// </summary>
         private void LocaleCreateDirectory()
         {
             string path = txtLocalCurrentPath.Text;
@@ -402,11 +470,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the cmnuLocalOperationRename_Click event.
+        /// <para>Обрабатывает событие cmnuLocalOperationRename_Click.</para>
+        /// </summary>
         private void cmnuLocalOperationRename_Click(object sender, EventArgs e)
         {
             LocaleRename();
         }
 
+        /// <summary>
+        /// Executes LocaleRename.
+        /// <para>Выполняет LocaleRename.</para>
+        /// </summary>
         private void LocaleRename()
         {
             string currentPath = txtLocalCurrentPath.Text;
@@ -463,11 +539,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the cmnuLocalOperationDelete_Click event.
+        /// <para>Обрабатывает событие cmnuLocalOperationDelete_Click.</para>
+        /// </summary>
         private void cmnuLocalOperationDelete_Click(object sender, EventArgs e)
         {
             LocaleDelete();
         }
 
+        /// <summary>
+        /// Executes LocaleDelete.
+        /// <para>Выполняет LocaleDelete.</para>
+        /// </summary>
         private void LocaleDelete()
         {
             ListView lv = lstLocalFiles as ListView;
@@ -521,11 +605,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Buttom
 
+        /// <summary>
+        /// Handles the btnLocalRootDirectory_Click event.
+        /// <para>Обрабатывает событие btnLocalRootDirectory_Click.</para>
+        /// </summary>
         private void btnLocalRootDirectory_Click(object sender, EventArgs e)
         {
             GetLocalDirectoriesAndFiles(cmbLocalDrivers.Text);
         }
 
+        /// <summary>
+        /// Handles the btnLocalUpOneDirectory_Click event.
+        /// <para>Обрабатывает событие btnLocalUpOneDirectory_Click.</para>
+        /// </summary>
         private void btnLocalUpOneDirectory_Click(object sender, EventArgs e)
         {
             DirectoryInfo currentDirectory = new DirectoryInfo(txtLocalCurrentPath.Text);
@@ -546,6 +638,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Local
 
         #region Remote
+        /// <summary>
+        /// Executes GetRemoteDirectoriesAndFiles.
+        /// <para>Выполняет GetRemoteDirectoriesAndFiles.</para>
+        /// </summary>
         private void GetRemoteDirectoriesAndFiles(string path)
         {
             try
@@ -610,7 +706,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                         lvi.Tag = list[i];
                         this.lstRemoteFiles.Items.Add(lvi);
                     }
-                    catch { }
+                    catch
+            {
+            }
                 }
 
                 foreach (ColumnHeader col in this.lstRemoteFiles.Columns)
@@ -642,6 +740,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the lstRemoteFiles_DoubleClick event.
+        /// <para>Обрабатывает событие lstRemoteFiles_DoubleClick.</para>
+        /// </summary>
         private void lstRemoteFiles_DoubleClick(object sender, EventArgs e)
         {
             ListView lv = sender as ListView;
@@ -683,11 +785,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
 
         #region Menu
+        /// <summary>
+        /// Handles the cmnuRemoteOperationDownload_Click event.
+        /// <para>Обрабатывает событие cmnuRemoteOperationDownload_Click.</para>
+        /// </summary>
         private void cmnuRemoteOperationDownload_Click(object sender, EventArgs e)
         {
             RemoteDownload();
         }
 
+        /// <summary>
+        /// Executes RemoteDownload.
+        /// <para>Выполняет RemoteDownload.</para>
+        /// </summary>
         private void RemoteDownload()
         {
             ListView lv = lstRemoteFiles as ListView;
@@ -735,21 +845,37 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the cmnuRemoteOperationRefresh_Click event.
+        /// <para>Обрабатывает событие cmnuRemoteOperationRefresh_Click.</para>
+        /// </summary>
         private void cmnuRemoteOperationRefresh_Click(object sender, EventArgs e)
         {
             RemoteRefresh();
         }
 
+        /// <summary>
+        /// Executes RemoteRefresh.
+        /// <para>Выполняет RemoteRefresh.</para>
+        /// </summary>
         private void RemoteRefresh()
         {
             this.GetRemoteDirectoriesAndFiles(txtRemoteCurrentPath.Text.Trim());
         }
 
+        /// <summary>
+        /// Handles the cmnuRemoteOperationCreateDirectory_Click event.
+        /// <para>Обрабатывает событие cmnuRemoteOperationCreateDirectory_Click.</para>
+        /// </summary>
         private void cmnuRemoteOperationCreateDirectory_Click(object sender, EventArgs e)
         {
             RemoteCreateDirectory();
         }
 
+        /// <summary>
+        /// Executes RemoteCreateDirectory.
+        /// <para>Выполняет RemoteCreateDirectory.</para>
+        /// </summary>
         private void RemoteCreateDirectory()
         {
             string path = txtRemoteCurrentPath.Text;
@@ -762,11 +888,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         }
 
 
+        /// <summary>
+        /// Handles the cmnuRemoteOperationRename_Click event.
+        /// <para>Обрабатывает событие cmnuRemoteOperationRename_Click.</para>
+        /// </summary>
         private void cmnuRemoteOperationRename_Click(object sender, EventArgs e)
         {
             RemoteRename();
         }
 
+        /// <summary>
+        /// Executes RemoteRename.
+        /// <para>Выполняет RemoteRename.</para>
+        /// </summary>
         private void RemoteRename()
         {
             string currentPath = txtRemoteCurrentPath.Text;
@@ -816,11 +950,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the cmnuRemoteOperationDelete_Click event.
+        /// <para>Обрабатывает событие cmnuRemoteOperationDelete_Click.</para>
+        /// </summary>
         private void cmnuRemoteOperationDelete_Click(object sender, EventArgs e)
         {
             RemoteDelete();
         }
 
+        /// <summary>
+        /// Executes RemoteDelete.
+        /// <para>Выполняет RemoteDelete.</para>
+        /// </summary>
         private void RemoteDelete()
         {
             ListView lv = lstRemoteFiles as ListView;
@@ -877,11 +1019,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Button
 
+        /// <summary>
+        /// Handles the btnRemoteRootDirectory_Click event.
+        /// <para>Обрабатывает событие btnRemoteRootDirectory_Click.</para>
+        /// </summary>
         private void btnRemoteRootDirectory_Click(object sender, EventArgs e)
         {
             GetLocalDirectoriesAndFiles("/");
         }
 
+        /// <summary>
+        /// Handles the btnRemoteUpOneDirectory_Click event.
+        /// <para>Обрабатывает событие btnRemoteUpOneDirectory_Click.</para>
+        /// </summary>
         private void btnRemoteUpOneDirectory_Click(object sender, EventArgs e)
         {
             string path = DriverClient.GetUnixParentPath(txtRemoteCurrentPath.Text);
@@ -893,6 +1043,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Remote
 
         #region Common
+        /// <summary>
+        /// Executes SetColumns.
+        /// <para>Выполняет SetColumns.</para>
+        /// </summary>
         private void SetColumns(ListView lv)
         {
             lv.Columns.Clear();
@@ -915,6 +1069,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             lv.Columns.Add(ch);
         }
 
+        /// <summary>
+        /// Executes GetImageIndexByName.
+        /// <para>Выполняет GetImageIndexByName.</para>
+        /// </summary>
         public int GetImageIndexByName(string imageName)
         {
             // Перебираем все изображения в ImageList
@@ -929,6 +1087,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             return -1; // Возвращаем -1, если изображение не найдено
         }
 
+        /// <summary>
+        /// Handles the lvFiles_GotFocus event.
+        /// <para>Обрабатывает событие lvFiles_GotFocus.</para>
+        /// </summary>
         private void lvFiles_GotFocus(object sender, EventArgs e)
         {
             ListView lv = sender as ListView;
@@ -944,6 +1106,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the lvFiles_LostFocus event.
+        /// <para>Обрабатывает событие lvFiles_LostFocus.</para>
+        /// </summary>
         private void lvFiles_LostFocus(object sender, EventArgs e)
         {
             ListView lv = sender as ListView;
@@ -959,6 +1125,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Executes ShowConfirmationDialog.
+        /// <para>Выполняет ShowConfirmationDialog.</para>
+        /// </summary>
         private static DialogResult ShowConfirmationDialog(string name)
         {
             return MessageBox.Show(
@@ -972,11 +1142,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Log
 
+        /// <summary>
+        /// Executes Log.
+        /// <para>Выполняет Log.</para>
+        /// </summary>
         public void Log(string text)
         {
             Log(text, Color.Black);
         }
 
+        /// <summary>
+        /// Executes Log.
+        /// <para>Выполняет Log.</para>
+        /// </summary>
         public void Log(string text, Color textColor)
         {
             if (Closing)
@@ -1013,7 +1191,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                         rtbStatus.Select(rtbStatus.Text.Length, 0);
                         rtbStatus.ScrollToCaret();
                     }
-                    catch { }
+                    catch
+            {
+            }
                 }
             }));
         }
@@ -1023,11 +1203,19 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region LogFiles
 
+        /// <summary>
+        /// Executes LogFiles.
+        /// <para>Выполняет LogFiles.</para>
+        /// </summary>
         public void LogFiles(FtpProgress progress, string direction)
         {
             LogFiles(progress, direction, Color.Black);
         }
 
+        /// <summary>
+        /// Executes LogFiles.
+        /// <para>Выполняет LogFiles.</para>
+        /// </summary>
         public void LogFiles(FtpProgress progress, string direction, Color textColor)
         {
             if (Closing)
@@ -1053,6 +1241,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Invoke(() => UpdateLog(progress.FileIndex, text, findText, textColor));
         }
 
+        /// <summary>
+        /// Executes UpdateLog.
+        /// <para>Выполняет UpdateLog.</para>
+        /// </summary>
         private void UpdateLog(int fileIndex, string text, string findText, Color textColor)
         {
             lock (logLock) // Используйте отдельный объект для блокировки
@@ -1079,6 +1271,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Executes AddNewLine.
+        /// <para>Выполняет AddNewLine.</para>
+        /// </summary>
         private void AddNewLine(string text, Color textColor)
         {
             rtbFilesOperation.AppendText(text + Environment.NewLine);
@@ -1086,6 +1282,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             rtbFilesOperation.ScrollToCaret();
         }
 
+        /// <summary>
+        /// Executes UpdateExistingLine.
+        /// <para>Выполняет UpdateExistingLine.</para>
+        /// </summary>
         private void UpdateExistingLine(int fileIndex, string text, string findText, Color textColor)
         {
             // Находим индекс строки
@@ -1105,6 +1305,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Executes FindLineIndexByFileIndex.
+        /// <para>Выполняет FindLineIndexByFileIndex.</para>
+        /// </summary>
         private int FindLineIndexByFileIndex(string findText)
         {
             for (int i = 0; i < rtbFilesOperation.Lines.Length; i++)
@@ -1117,6 +1321,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             return -1;
         }
 
+        /// <summary>
+        /// Executes GetEndOfLineIndex.
+        /// <para>Выполняет GetEndOfLineIndex.</para>
+        /// </summary>
         private int GetEndOfLineIndex(int lineIndex)
         {
             return lineIndex < rtbFilesOperation.Lines.Length - 1
@@ -1124,6 +1332,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                 : rtbFilesOperation.Text.Length;
         }
 
+        /// <summary>
+        /// Executes ApplyColorToLastLine.
+        /// <para>Выполняет ApplyColorToLastLine.</para>
+        /// </summary>
         private void ApplyColorToLastLine(int length, Color color)
         {
             rtbFilesOperation.Select(rtbFilesOperation.Text.Length - length, length);

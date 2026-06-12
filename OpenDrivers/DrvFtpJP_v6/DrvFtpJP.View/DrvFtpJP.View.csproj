@@ -11,7 +11,7 @@
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<RootNamespace>Scada.Comm.Drivers.DrvFtpJP.View</RootNamespace>
-		<Version>6.4.0.5</Version>
+		<Version>6.4.1.1</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Yuriy Pradius</Company>
 		<Product>DrvFtpJP</Product>
@@ -42,16 +42,16 @@
 
 	<ItemGroup>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\dll\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\dll\ScadaCommon.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Forms">
-	    <HintPath>..\dll\ScadaCommon.Forms.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommon.Forms.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\dll\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Lang;
@@ -20,22 +20,28 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         #region Basic
         /// <summary>
         /// The driver code.
+        /// <para>Код драйвера.</para>
         /// </summary>
         public const string DriverCode = "DrvFtpJP";
 
         /// <summary>
         /// The driver version.
+        /// <para>Версия драйвера.</para>
         /// </summary>
-        public const string Version = "6.4.0.0";
+        public const string Version = "6.4.1.1";
 
         /// <summary>
         /// The default filename of the configuration.
+        /// <para>Имя файла конфигурации по умолчанию.</para>
         /// </summary>
         public const string DefaultConfigFileName = DriverCode + ".xml";
 
         /// <summary>
         /// Gets the short name of the device configuration file.
+        /// <para>Получает короткое имя файла конфигурации устройства.</para>
         /// </summary>
+        /// <param name="deviceNum">Device number.</param>
+        /// <returns>Configuration file name.</returns>
         public static string GetFileName(int deviceNum = 0)
         {
             if (deviceNum == 0)
@@ -49,8 +55,11 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         }
 
         /// <summary>
-        /// Gets the short name of the license file activation.
+        /// Gets the short name of the license activation file.
+        /// <para>Получает короткое имя файла активации лицензии.</para>
         /// </summary>
+        /// <param name="deviceNum">Device number.</param>
+        /// <returns>License activation file name.</returns>
         public static string GetFileActivation(int deviceNum = 0)
         {
             if (deviceNum == 0)
@@ -64,16 +73,21 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         }
 
         /// <summary>
-        /// Gets the short name of the device configuration file.
+        /// Gets the default short name of the device configuration file.
+        /// <para>Получает короткое имя файла конфигурации устройства по умолчанию.</para>
         /// </summary>
+        /// <returns>Configuration file name.</returns>
         public static string GetFileName()
         {
             return $"{DriverCode}.xml";
         }
 
         /// <summary>
-        /// Application name.
+        /// Gets the application name.
+        /// <para>Получает имя приложения.</para>
         /// </summary>
+        /// <param name="isRussian">Indicates whether Russian text should be returned.</param>
+        /// <returns>Application name.</returns>
         public static string Name(bool isRussian = false)
         {
             string text = isRussian ? "Ftp клиент" : "Ftp client";
@@ -81,8 +95,11 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         }
 
         /// <summary>
-        /// Description of the application.
+        /// Gets the application description.
+        /// <para>Получает описание приложения.</para>
         /// </summary>
+        /// <param name="isRussian">Indicates whether Russian text should be returned.</param>
+        /// <returns>Application description.</returns>
         public static string Description(bool isRussian = false)
         {
             string text = isRussian ?
@@ -107,8 +124,11 @@ Site: https://github.com/robinrodricks/FluentFTP
         }
 
         /// <summary>
-        /// Writes an configuration file depending on operating system.
+        /// Writes a configuration file depending on operating system.
+        /// <para>Записывает файл конфигурации в зависимости от операционной системы.</para>
         /// </summary>
+        /// <param name="fileName">Configuration file name.</param>
+        /// <param name="windows">Indicates whether Windows configuration should be written.</param>
         public static void WriteConfigFile(string fileName, bool windows)
         {
             string suffix = windows ? "Win" : "Linux";
@@ -166,7 +186,8 @@ Site: https://github.com/robinrodricks/FluentFTP
         }
 
         /// <summary>
-        /// Regex Guid.
+        /// Regular expression for GUID validation.
+        /// <para>Регулярное выражение для проверки GUID.</para>
         /// </summary>
         private static Regex reGuid = new Regex(@"^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$", RegexOptions.Compiled);
         #endregion Guid
@@ -184,7 +205,7 @@ Site: https://github.com/robinrodricks/FluentFTP
                 // check for null
                 if (Value == null) return "";
 
-                var type = Value.GetType();
+                Type type = Value.GetType();
 
                 // check for invalid values in date times.
                 if (type == typeof(DateTime))
@@ -194,7 +215,7 @@ Site: https://github.com/robinrodricks/FluentFTP
                         return string.Empty;
                     }
 
-                    var date = (DateTime)Value;
+                    DateTime date = (DateTime)Value;
 
                     if (date.Millisecond > 0)
                     {
@@ -221,11 +242,11 @@ Site: https://github.com/robinrodricks/FluentFTP
                 // treat byte arrays as a special case.
                 if (type == typeof(byte[]))
                 {
-                    var bytes = (byte[])Value;
+                    byte[] bytes = (byte[])Value;
 
-                    var buffer = new StringBuilder(bytes.Length * 3);
+                    StringBuilder buffer = new StringBuilder(bytes.Length * 3);
 
-                    foreach (var character in bytes)
+                    foreach (byte character in bytes)
                     {
                         buffer.Append(character.ToString("X2"));
                         buffer.Append(".");
@@ -241,7 +262,7 @@ Site: https://github.com/robinrodricks/FluentFTP
                     int index = 0;
                     foreach (object element in (Array)Value)
                     {
-                        result += String.Format("[{0}]", index++) + element.ToString() + Environment.NewLine;
+                        result += string.Format("[{0}]", index++) + element.ToString() + Environment.NewLine;
                     }
                     return $"{type.GetElementType()?.Name}[{((Array)Value).Length}]{result}";
                 }
@@ -253,7 +274,7 @@ Site: https://github.com/robinrodricks/FluentFTP
                     int index = 0;
                     foreach (object element in (Array)Value)
                     {
-                        result += String.Format("[{0}]", index++) + element.ToString() + Environment.NewLine;
+                        result += string.Format("[{0}]", index++) + element.ToString() + Environment.NewLine;
                     }
                     return $"Object[{((Array)Value).Length}]{result}";
                 }
@@ -263,7 +284,7 @@ Site: https://github.com/robinrodricks/FluentFTP
             }
             catch (Exception ex)
             {
-                return ex.Message.ToString();
+                return ex.Message;
             }
         }
 
@@ -271,22 +292,38 @@ Site: https://github.com/robinrodricks/FluentFTP
 
         #region Schedule
         /// <summary>
-        /// ScheduleMode
+        /// Defines schedule modes.
+        /// <para>Определяет режимы расписания.</para>
         /// </summary>
-        public enum ScheduleMode { None = 0, Secondly = 1, Minutly = 2, Hourly = 3, Daily = 4 };
+        public enum ScheduleMode
+        {
+            /// <summary>No schedule.</summary>
+            None = 0,
+
+            /// <summary>Secondly schedule.</summary>
+            Secondly = 1,
+
+            /// <summary>Minutely schedule.</summary>
+            Minutly = 2,
+
+            /// <summary>Hourly schedule.</summary>
+            Hourly = 3,
+
+            /// <summary>Daily schedule.</summary>
+            Daily = 4
+        }
 
         /// <summary>
-        /// Calculate Trigger Time
+        /// Calculates trigger time.
+        /// <para>Вычисляет время срабатывания.</para>
         /// </summary>
-        /// <param name="currentTime">Current Time</param>
-        /// <param name="processTime"></param>
-        /// <param name="scheduleMode">Schedule Mode</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <param name="currentTime">Current time.</param>
+        /// <param name="processTime">Process time.</param>
+        /// <param name="scheduleMode">Schedule mode.</param>
+        /// <returns>Trigger time.</returns>
         public static DateTime CalculateTriggerTime(DateTime currentTime, TimeSpan processTime, ScheduleMode scheduleMode)
         {
-            DateTime nextTime = new DateTime();
-            nextTime = currentTime;
+            DateTime nextTime = currentTime;
 
             switch (scheduleMode)
             {
@@ -324,15 +361,21 @@ Site: https://github.com/robinrodricks/FluentFTP
 
         /// <summary>
         /// Converts the specified date and time to the local time.
+        /// <para>Преобразует указанную дату и время в локальное время.</para>
         /// </summary>
+        /// <param name="dateTime">UTC date and time.</param>
+        /// <returns>Local date and time.</returns>
         public static DateTime UtcToLocalTime(DateTime dateTime)
         {
             return DateTime.SpecifyKind(dateTime, DateTimeKind.Utc).ToLocalTime();
         }
 
         /// <summary>
-        /// Converts local date and time to the univeral time.
+        /// Converts local date and time to the universal time.
+        /// <para>Преобразует локальную дату и время в универсальное время.</para>
         /// </summary>
+        /// <param name="dateTime">Local date and time.</param>
+        /// <returns>UTC date and time.</returns>
         public static DateTime LocalToUtcTime(DateTime dateTime)
         {
             return DateTime.SpecifyKind(dateTime, DateTimeKind.Local).ToUniversalTime();
@@ -341,8 +384,8 @@ Site: https://github.com/robinrodricks/FluentFTP
         /// <summary>
         /// Converts double to the time.
         /// </summary>
-        /// <param name="unixTimeStamp"></param>
-        /// <returns>DateTime</returns>
+        /// <param name="unixTimeStamp">Unix timestamp.</param>
+        /// <returns>Date and time.</returns>
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
@@ -354,8 +397,8 @@ Site: https://github.com/robinrodricks/FluentFTP
         /// <summary>
         /// Converts double to the time.
         /// </summary>
-        /// <param name="unixTimeStamp"></param>
-        /// <returns></returns>
+        /// <param name="unixTimeStamp">OLE Automation date value.</param>
+        /// <returns>Date and time.</returns>
         public static DateTime FromOADate(double unixTimeStamp)
         {
             return new DateTime(DoubleDateToTicks(unixTimeStamp), DateTimeKind.Unspecified);
@@ -364,9 +407,9 @@ Site: https://github.com/robinrodricks/FluentFTP
         /// <summary>
         /// Converts double to the long.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns>Long</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <param name="value">OLE Automation date value.</param>
+        /// <returns>Ticks.</returns>
+        /// <exception cref="ArgumentException">Thrown if the value is not valid.</exception>
         static internal long DoubleDateToTicks(double value)
         {
             if (value >= 2958466.0 || value <= -657435.0)
@@ -386,13 +429,23 @@ Site: https://github.com/robinrodricks/FluentFTP
 
         /// <summary>
         /// The date format used for naming partitions.
+        /// <para>Формат даты для именования разделов.</para>
         /// </summary>
         public const string PartitionDateFormat = "yyyy-MM-ddTHH:mm:ss";
+
+        /// <summary>
+        /// The date and time format used for SQL values.
+        /// <para>Формат даты и времени для SQL-значений.</para>
+        /// </summary>
         public const string PartitionDateTime = "yyyy-MM-dd HH:mm:ss";
 
         /// <summary>
-        /// Converts the specified date to a name string.
+        /// Converts the specified date to a partition string.
+        /// <para>Преобразует указанную дату в строку раздела.</para>
         /// </summary>
+        /// <param name="dateTime">Date and time.</param>
+        /// <param name="result">Partition string.</param>
+        /// <returns>True if conversion is successful.</returns>
         public static bool ParsePartitionString(DateTime dateTime, out string result)
         {
             try
@@ -409,7 +462,11 @@ Site: https://github.com/robinrodricks/FluentFTP
 
         /// <summary>
         /// Converts the specified substring of a partition name to a date.
+        /// <para>Преобразует указанную подстроку имени раздела в дату.</para>
         /// </summary>
+        /// <param name="s">Partition string.</param>
+        /// <param name="result">Date and time.</param>
+        /// <returns>True if parsing is successful.</returns>
         public static bool ParsePartitionDate(string s, out DateTime result)
         {
             return DateTime.TryParseExact(s, PartitionDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
@@ -418,7 +475,13 @@ Site: https://github.com/robinrodricks/FluentFTP
         #endregion SQL
 
         #region Convert String to Object
-
+        /// <summary>
+        /// Converts a string value to an object of the specified type.
+        /// <para>Преобразует строковое значение в объект указанного типа.</para>
+        /// </summary>
+        /// <param name="typeData">Type name.</param>
+        /// <param name="valueData">String value.</param>
+        /// <returns>Converted object.</returns>
         public static object ConvertStringToObject(string typeData, string valueData)
         {
             object obj = null;
@@ -478,8 +541,8 @@ Site: https://github.com/robinrodricks/FluentFTP
         /// <summary>
         /// Checking the validity of the IP address
         /// </summary>
-        /// <param name="Address"></param>
-        /// <returns>True/False</returns>
+        /// <param name="Address">IP address.</param>
+        /// <returns>True if the value is a valid IP address.</returns>
         public static bool IsIpAddress(string Address)
         {
             // initializing a new instance of the System.Text.RegularExpressions.Regex class
@@ -673,19 +736,35 @@ Site: https://github.com/robinrodricks/FluentFTP
         #endregion Double String
 
 
+        /// <summary>
+        /// Defines size units.
+        /// <para>Определяет единицы измерения размера.</para>
+        /// </summary>
         public enum TypeSize : int
         {
+            /// <summary>Bytes.</summary>
             Bytes = 0,
+
+            /// <summary>Kilobytes.</summary>
             KB = 1,
+
+            /// <summary>Megabytes.</summary>
             MB = 2,
+
+            /// <summary>Gigabytes.</summary>
             GB = 3,
+
+            /// <summary>Terabytes.</summary>
             TB = 4,
         }
 
         /// <summary>
-        /// Convert to bytes.
-        /// <para>Конвертирование в байты.</para>
+        /// Converts a size value to bytes.
+        /// <para>Преобразует значение размера в байты.</para>
         /// </summary>
+        /// <param name="value">Size value.</param>
+        /// <param name="unit">Size unit.</param>
+        /// <returns>Byte count.</returns>
         public static long ConvertToBytes(double value, TypeSize unit)
         {
             switch (unit)
@@ -709,6 +788,12 @@ Site: https://github.com/robinrodricks/FluentFTP
         /// Size driver.
         /// <para>Размер носителя.</para>
         /// </summary>
+        /// <summary>
+        /// Gets a size unit for the specified byte count.
+        /// <para>Получает единицу измерения для указанного количества байт.</para>
+        /// </summary>
+        /// <param name="totalBytes">Byte count.</param>
+        /// <returns>Size unit.</returns>
         public static TypeSize DiskTypeSize(long totalBytes)
         {
             TypeSize result = TypeSize.Bytes;
@@ -746,6 +831,12 @@ Site: https://github.com/robinrodricks/FluentFTP
             return result = sizeUnit;
         }
 
+        /// <summary>
+        /// Converts byte count to a rounded size value without unit.
+        /// <para>Преобразует количество байт в округленное значение размера без единицы измерения.</para>
+        /// </summary>
+        /// <param name="totalBytes">Byte count.</param>
+        /// <returns>Rounded size value.</returns>
         public static double DiskSizeNoUnit(long totalBytes)
         {
             double result = 0;
@@ -788,6 +879,12 @@ Site: https://github.com/robinrodricks/FluentFTP
             return result = Math.Round(sizeValue, 3);
         }
 
+        /// <summary>
+        /// Converts byte count to a localized disk size string.
+        /// <para>Преобразует количество байт в локализованную строку размера.</para>
+        /// </summary>
+        /// <param name="totalBytes">Byte count.</param>
+        /// <returns>Formatted size string.</returns>
         public static string DiskSize(long totalBytes)
         {
             string result = string.Empty;
@@ -830,6 +927,12 @@ Site: https://github.com/robinrodricks/FluentFTP
             return result = $"{sizeValue:F2} {sizeUnit}";
         }
 
+        /// <summary>
+        /// Converts bytes per second to a localized speed string.
+        /// <para>Преобразует байты в секунду в локализованную строку скорости.</para>
+        /// </summary>
+        /// <param name="totalBytes">Bytes per second.</param>
+        /// <returns>Formatted speed string.</returns>
         public static string SpeedSize(long totalBytes)
         {
             string result = string.Empty;

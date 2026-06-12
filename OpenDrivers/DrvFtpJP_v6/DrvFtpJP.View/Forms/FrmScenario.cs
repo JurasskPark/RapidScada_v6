@@ -1,4 +1,4 @@
-﻿using Scada.Forms;
+using Scada.Forms;
 using Scada.Lang;
 using System.Reflection;
 using static Scada.Comm.Drivers.DrvFtpJP.OperationAction;
@@ -7,12 +7,16 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmScenario : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmScenario()
         {
             InitializeComponent();
         }
 
-        #region Variables
+        #region Variable
         public FrmConfig formParent;                // parent form
         public Project project;                     // the project configuration
 
@@ -26,13 +30,17 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         public Guid idRow;                              // id row
         public string nameRow;                          // name row
-        #endregion Variables
+        #endregion Variable
 
         #region Initialize
 
         #endregion Initialize
 
         #region Form Load
+        /// <summary>
+        /// Handles the FrmAction_Load event.
+        /// <para>Обрабатывает событие FrmAction_Load.</para>
+        /// </summary>
         private void FrmAction_Load(object sender, EventArgs e)
         {
             ConfigToControls();
@@ -42,6 +50,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Form Load
 
         #region Config
+        /// <summary>
+        /// Executes ConfigToControls.
+        /// <para>Выполняет ConfigToControls.</para>
+        /// </summary>
         private void ConfigToControls()
         {
             ckbEnabled.Checked = scenario.Enabled;
@@ -51,6 +63,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Actions = scenario.Actions;
         }
 
+        /// <summary>
+        /// Executes ControlsToConfig.
+        /// <para>Выполняет ControlsToConfig.</para>
+        /// </summary>
         private void ControlsToConfig()
         {
             scenario.Enabled = ckbEnabled.Checked;
@@ -106,7 +122,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
 
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
@@ -122,7 +140,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                     lstActions.Select();
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
         #endregion Config
 
@@ -212,6 +232,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #region Button
 
         #region Save
+        /// <summary>
+        /// Handles the btnSave_Click event.
+        /// <para>Обрабатывает событие btnSave_Click.</para>
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveData();
@@ -221,6 +245,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             Close();
         }
 
+        /// <summary>
+        /// Executes SaveData.
+        /// <para>Выполняет SaveData.</para>
+        /// </summary>
         public void SaveData()
         {
             ControlsToConfig();
@@ -231,6 +259,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         #region Close
 
+        /// <summary>
+        /// Handles the btnCancel_Click event.
+        /// <para>Обрабатывает событие btnCancel_Click.</para>
+        /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -279,7 +311,9 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
                 idRow = DriverUtils.StringToGuid(tmplstActions.SelectedItems[0].Tag.ToString());
                 nameRow = Convert.ToString(tmplstActions.SelectedItems[0].SubItems[1].Text.Trim());
             }
-            catch { }
+            catch
+            {
+            }
 
         }
         #endregion Select
@@ -916,6 +950,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Delete
 
         #region Parser Up
+        /// <summary>
+        /// Handles the cmnuListUp_Click event.
+        /// <para>Обрабатывает событие cmnuListUp_Click.</para>
+        /// </summary>
         private void cmnuListUp_Click(object sender, EventArgs e)
         {
             ParserUp();
@@ -961,6 +999,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
         #endregion Parser Up
 
         #region Parser Down
+        /// <summary>
+        /// Handles the cmnuListDown_Click event.
+        /// <para>Обрабатывает событие cmnuListDown_Click.</para>
+        /// </summary>
         private void cmnuListDown_Click(object sender, EventArgs e)
         {
             ParserDown();

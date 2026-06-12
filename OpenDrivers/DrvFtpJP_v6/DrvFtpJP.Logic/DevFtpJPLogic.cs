@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 using FluentFTP;
 using ManagerAssistant;
@@ -62,28 +62,24 @@ namespace Scada.Comm.Drivers.DrvFtpJP.Logic
             driverClient = new DriverClient(project);
         }
 
-        #region Variables
-        public readonly bool isDll;                             // application or dll
-        private readonly string pathLog;                        // the path log
-        private readonly AppDirs appDirs;                       // the application directories
-        private readonly string driverCode;                     // the driver code
-        private readonly int deviceNum;                         // the device number
-        private readonly Project project;                       // the device configuration
-        private readonly string pathProject;                    // the path device configuration
-        private string configFileName;                          // the configuration file name
-        private DriverClient driverClient;                      // client
-        private bool validateLicense;                           // the validate license
-        private int countFilesConfig;                           // count config files
-
-        private List<DriverTag> deviceTags;                     // tags
-
-        private bool writeLogDriver;                            // write driver log
-
-        private static DateTime defaultDate = new DateTime(2000, 1, 1, 0, 0, 0);
-
-        private Dictionary<int, string> ListRemoteFilesDownload = new Dictionary<int, string>();
-        private object logLock = new object();
-        #endregion Variables
+        #region Variable
+        public readonly bool isDll;                                                     // application or dll
+        private readonly string pathLog;                                                // path log
+        private readonly AppDirs appDirs;                                               // application directories
+        private readonly string driverCode;                                             // driver code
+        private readonly int deviceNum;                                                 // device number
+        private readonly Project project;                                               // device configuration
+        private readonly string pathProject;                                            // path device configuration
+        private string configFileName;                                                  // configuration file name
+        private DriverClient driverClient;                                              // driver client
+        private bool validateLicense;                                                   // validate license
+        private int countFilesConfig;                                                   // count config files
+        private List<DriverTag> deviceTags;                                             // device tags
+        private bool writeLogDriver;                                                    // write driver log
+        private static DateTime defaultDate = new DateTime(2000, 1, 1, 0, 0, 0);        // default date
+        private Dictionary<int, string> listRemoteFilesDownload = new Dictionary<int, string>(); // remote file log items
+        private object logLock = new object();                                          // log lock
+        #endregion Variable
 
 
         /// <summary>
@@ -233,7 +229,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.Logic
         {
             try
             {
-                if (ListRemoteFilesDownload.TryGetValue(fileIndex, out _))
+                if (listRemoteFilesDownload.TryGetValue(fileIndex, out _))
                 {
                     // Обновление существующей записи
                     LogDriver(text + " " + findText);
@@ -242,7 +238,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.Logic
                 {
                     // Добавление новой записи
                     LogDriver(text);
-                    ListRemoteFilesDownload[fileIndex] = text;
+                    listRemoteFilesDownload[fileIndex] = text;
                 }
             }
             catch (Exception ex)

@@ -1,9 +1,13 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 {
     public partial class FrmAbout : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the form.
+        /// <para>Инициализирует новый экземпляр формы.</para>
+        /// </summary>
         public FrmAbout()
         {
             InitializeComponent();
@@ -178,6 +182,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Executes ReplaceTokens.
+        /// <para>Выполняет ReplaceTokens.</para>
+        /// </summary>
         private string ReplaceTokens(string text, string value)
         {
             text = text.Replace("%title%", value);
@@ -192,6 +200,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             return text;
         }
 
+        /// <summary>
+        /// Executes SearchImageSocialNerwork.
+        /// <para>Выполняет SearchImageSocialNerwork.</para>
+        /// </summary>
         private int SearchImageSocialNerwork(string value)
         {
             Dictionary<int, string> dictionary = new Dictionary<int, string>
@@ -213,26 +225,46 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             return -1;
         }
 
+        /// <summary>
+        /// Handles the linkLabel1_LinkClicked event.
+        /// <para>Обрабатывает событие linkLabel1_LinkClicked.</para>
+        /// </summary>
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenUrl(linkLabel1.Text.Trim());
         }
 
+        /// <summary>
+        /// Handles the linkLabel2_LinkClicked event.
+        /// <para>Обрабатывает событие linkLabel2_LinkClicked.</para>
+        /// </summary>
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenUrl(linkLabel2.Text.Trim());
         }
 
+        /// <summary>
+        /// Handles the linkLabel3_LinkClicked event.
+        /// <para>Обрабатывает событие linkLabel3_LinkClicked.</para>
+        /// </summary>
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenUrl(linkLabel3.Text.Trim());
         }
 
+        /// <summary>
+        /// Handles the linkLabel4_LinkClicked event.
+        /// <para>Обрабатывает событие linkLabel4_LinkClicked.</para>
+        /// </summary>
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenUrl(linkLabel4.Text.Trim());
         }
 
+        /// <summary>
+        /// Executes OpenUrl.
+        /// <para>Выполняет OpenUrl.</para>
+        /// </summary>
         private void OpenUrl(string url)
         {
             try
@@ -249,6 +281,10 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the btnOK_Click event.
+        /// <para>Обрабатывает событие btnOK_Click.</para>
+        /// </summary>
         private void btnOK_Click(object sender, EventArgs e)
         {
             base.DialogResult = DialogResult.OK;

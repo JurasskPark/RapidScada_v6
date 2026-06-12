@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvFtpJP.Logic</RootNamespace>
-		<Version>6.4.0.5</Version>
+		<Version>6.4.1.1</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Pradius Y.A.</Company>
 		<Product>DrvFtpJP</Product>
@@ -22,13 +22,13 @@
 
 	<ItemGroup>
 	  <Reference Include="ScadaCommCommon">
-	    <HintPath>..\dll\ScadaCommCommon.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon">
-	    <HintPath>..\dll\ScadaCommon.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
 	  </Reference>
 	  <Reference Include="ScadaCommon.Log">
-	    <HintPath>..\dll\ScadaCommon.Log.dll</HintPath>
+	    <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
