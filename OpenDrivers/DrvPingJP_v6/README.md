@@ -1,16 +1,6 @@
 # DrvPingJP
 
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.2/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.1/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.0/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.3.0.0/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.3/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.2/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.1/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.0/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.2/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.1/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.0/total)
+![DrvPingJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvPingJP&color=4bb60e)
 
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)

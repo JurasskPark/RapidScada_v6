@@ -1,6 +1,6 @@
 # DrvDebug
 
-![DrvDebug](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDebug_v6.0.0.1/total)
+![DrvDebug](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDebug&color=4bb60e)
 
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)

@@ -4,68 +4,51 @@
 </p>
 
 ### DrvDbImportPlus
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.4/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.6/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.5/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.4/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.3/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
+![DrvDbImportPlus](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbImportPlus&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDbImportPlus_v6
 
 -------------------------------------------------------------------------------
 
 ### DrvPingJP
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.2/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.1/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.4.0.0/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.3.0.0/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.3/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.2/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.1/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.1.0.0/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.2/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.1/total)
-![DrvPingJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvPingJP_v6.0.0.0/total)
+![DrvPingJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvPingJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvPingJP_v6
 
 -------------------------------------------------------------------------------
 
 ### DrvTelnetJP
-![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.3.0.0/total)
-![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.0.0.1/total)
-![DrvTelnetJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvTelnetJP_v6.0.0.0/total)
+![DrvTelnetJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvTelnetJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvTelnetJP_v6
 
 -------------------------------------------------------------------------------
 
 ### DrvFreeDiskSpaceJP
-![DrvFreeDiskSpaceJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFreeDiskSpaceJP_v6.4.0.4/total)
+![DrvFreeDiskSpaceJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvFreeDiskSpaceJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFreeDiskSpaceJP_v6
 
 -------------------------------------------------------------------------------
 
-### DrvFreeDiskSpaceJP
-![DrvFtpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFtpJP_v6.4.0.5/total)
+### DrvFTPJP
+![DrvFtpJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvFtpJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFtpJP_v6
 
 -------------------------------------------------------------------------------
 
 ### DrvDDEJP
-![DrvDDEJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDDEJP_v6.0.0.1/total)
+![DrvDDEJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDDEJP&color=4bb60e)
 
 https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDDEJP
+
+-------------------------------------------------------------------------------
+
+### DrvDebug
+![DrvDDEJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDebug&color=4bb60e)
+
+https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDebug_v6
 
 -------------------------------------------------------------------------------
 

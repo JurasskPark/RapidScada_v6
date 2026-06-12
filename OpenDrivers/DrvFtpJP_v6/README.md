@@ -1,7 +1,6 @@
 # DrvFtpJP
 
-![DrvFtpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFtpJP_v6.4.1.1/total)
-![DrvFtpJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvFtpJP_v6.4.0.5/total)
+![DrvFtpJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvFtpJP&color=4bb60e)
 
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
