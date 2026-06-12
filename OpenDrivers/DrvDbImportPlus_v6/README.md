@@ -1,19 +1,6 @@
 # DrvDbImportPlus
 
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.5.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.4/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.3.0.0/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.6/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.5/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.4/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.3/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.2/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.1/total)
-![DrvDbImportPlus](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/DrvDbImportPlus_v6.0.0.0/total)
-
+![DrvDbImportPlus](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbImportPlus&color=4bb60e)
 
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
