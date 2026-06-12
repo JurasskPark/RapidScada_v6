@@ -13,9 +13,9 @@
 
 The driver is configured per Rapid SCADA device. Each device has its own XML configuration file, for example `DrvDbImportPlus_001.xml`. During a polling session the driver executes all enabled import commands, parses returned tables into driver tags, and updates matching Rapid SCADA channels.
 
-Драйвер настраивается отдельно для каждого КП Rapid SCADA. У каждого КП есть собственный XML-файл конфигурации, например `DrvDbImportPlus_001.xml`. Во время сеанса опроса драйвер последовательно выполняет все включённые команды импорта, разбирает полученные таблицы в теги драйвера и обновляет соответствующие каналы Rapid SCADA.
-
 The driver does not require a persistent device connection. Database connections are opened for query execution and then closed. The default polling period created by the view module is 5 seconds, but it can be changed in the communication line settings.
+
+Драйвер настраивается отдельно для каждого КП Rapid SCADA. У каждого КП есть собственный XML-файл конфигурации, например `DrvDbImportPlus_001.xml`. Во время сеанса опроса драйвер последовательно выполняет все включённые команды импорта, разбирает полученные таблицы в теги драйвера и обновляет соответствующие каналы Rapid SCADA.
 
 Драйверу не требуется постоянное соединение с КП. Соединение с БД открывается на время выполнения запроса и затем закрывается. Период опроса по умолчанию, создаваемый модулем представления, составляет 5 секунд, но его можно изменить в настройках линии связи.
 
@@ -79,6 +79,8 @@ Each import command contains:
 - processing mode: column-based or row-based;
 - a list of configured driver tags.
 
+Only enabled import commands and enabled tags are processed. The tag **Name** is used to find data in the query result. The tag **Code** is used to update the Rapid SCADA channel with the same code.
+
 Каждая команда импорта содержит:
 
 - номер и код команды;
@@ -87,15 +89,11 @@ Each import command contains:
 - режим обработки: по колонкам или по строкам;
 - список настроенных тегов драйвера.
 
-Only enabled import commands and enabled tags are processed. The tag **Name** is used to find data in the query result. The tag **Code** is used to update the Rapid SCADA channel with the same code.
-
 Обрабатываются только включённые команды импорта и включённые теги. Поле **Name** используется для поиска данных в результате запроса. Поле **Code** используется для обновления канала Rapid SCADA с таким же кодом.
 
 ### Column-Based Mode / Режим по колонкам
 
 In column-based mode the driver reads the first row of the result table. Column names are compared with configured tag names, case-insensitively.
-
-В режиме по колонкам драйвер читает первую строку результирующей таблицы. Имена колонок сравниваются с настроенными именами тегов без учёта регистра.
 
 Example:
 
@@ -111,9 +109,11 @@ where unit_id = 1;
 
 If a `TAGDATETIME` column exists, it is parsed as a common timestamp for the values. The current runtime updates current tag data; it does not backfill historical archive slices from `TAGDATETIME`.
 
-Если присутствует колонка `TAGDATETIME`, она разбирается как общий timestamp для значений. Текущая runtime-логика обновляет текущие данные тегов; исторические срезы архива из `TAGDATETIME` не дозаписываются.
-
 The column-based parser also supports a single-row `TAGNAME` plus `TAGVALUE` result.
+
+В режиме по колонкам драйвер читает первую строку результирующей таблицы. Имена колонок сравниваются с настроенными именами тегов без учёта регистра.
+
+Если присутствует колонка `TAGDATETIME`, она разбирается как общий timestamp для значений. Текущая runtime-логика обновляет текущие данные тегов; исторические срезы архива из `TAGDATETIME` не дозаписываются.
 
 Парсер режима по колонкам также поддерживает однострочный результат с колонками `TAGNAME` и `TAGVALUE`.
 
@@ -124,12 +124,6 @@ In row-based mode the query result must contain:
 - `TAGNAME` - tag name configured in the driver;
 - `TAGVALUE` - value to write to the tag;
 - `TAGDATETIME` - optional timestamp.
-
-В режиме по строкам результат запроса должен содержать:
-
-- `TAGNAME` - имя тега, настроенное в драйвере;
-- `TAGVALUE` - значение для записи в тег;
-- `TAGDATETIME` - необязательное время значения.
 
 Example:
 
@@ -143,6 +137,12 @@ where device_id = 1;
 ```
 
 Every row is matched by `TAGNAME`. Rows with unknown tag names are ignored.
+
+В режиме по строкам результат запроса должен содержать:
+
+- `TAGNAME` - имя тега, настроенное в драйвере;
+- `TAGVALUE` - значение для записи в тег;
+- `TAGDATETIME` - необязательное время значения.
 
 Каждая строка сопоставляется по `TAGNAME`. Строки с неизвестными именами тегов игнорируются.
 
@@ -170,6 +170,8 @@ The driver view generates channel prototypes from enabled import and export defi
 | `String tags` / `Строковые теги` | Import tags with `String` format | Unicode channels. Data length is calculated as `ceil(NumberDecimalPlaces / 4)` |
 | `Command tags` / `Командные теги` | Enabled export commands | Unicode command channels. Data length is calculated as `ceil(Length / 4)` |
 
+Duplicate tag codes and duplicate command codes are skipped while generating prototypes.
+
 Представление драйвера создаёт прототипы каналов из включённых команд импорта и экспорта:
 
 | Группа | Источник | Описание |
@@ -177,8 +179,6 @@ The driver view generates channel prototypes from enabled import and export defi
 | `Tags` / `Теги` | Нестроковые теги импорта | Числовые, целочисленные, DateTime и boolean-каналы импорта |
 | `String tags` / `Строковые теги` | Теги импорта с форматом `String` | Unicode-каналы. Длина данных вычисляется как `ceil(NumberDecimalPlaces / 4)` |
 | `Command tags` / `Командные теги` | Включённые команды экспорта | Unicode-каналы команд. Длина данных вычисляется как `ceil(Length / 4)` |
-
-Duplicate tag codes and duplicate command codes are skipped while generating prototypes.
 
 Повторяющиеся коды тегов и коды команд пропускаются при генерации прототипов.
 
@@ -192,14 +192,6 @@ The driver can receive Rapid SCADA telecontrol commands. A command is matched by
 4. Executes the configured SQL command with `ExecuteNonQuery`.
 5. Updates the matching command tag in Rapid SCADA if a tag with the same command code exists.
 
-Драйвер принимает команды телеуправления Rapid SCADA. Команда сопоставляется по коду или номеру команды с включёнными командами экспорта, а затем, как fallback, с определениями команд импорта. Когда команда БД найдена, драйвер:
-
-1. Инициализирует настроенный источник данных.
-2. Добавляет или обновляет параметр команды БД `cmdVal`.
-3. Использует `CmdVal` для числовых команд или преобразует `CmdData` в строку для бинарных/строковых команд.
-4. Выполняет настроенную SQL-команду через `ExecuteNonQuery`.
-5. Обновляет соответствующий командный тег Rapid SCADA, если тег с таким же кодом команды существует.
-
 Example:
 
 ```sql
@@ -208,6 +200,14 @@ values ('PUMP_SETPOINT', @cmdVal, current_timestamp);
 ```
 
 Use the parameter syntax supported by the selected database provider. The driver creates the logical parameter name `cmdVal`; the provider decides the final placeholder style.
+
+Драйвер принимает команды телеуправления Rapid SCADA. Команда сопоставляется по коду или номеру команды с включёнными командами экспорта, а затем, как fallback, с определениями команд импорта. Когда команда БД найдена, драйвер:
+
+1. Инициализирует настроенный источник данных.
+2. Добавляет или обновляет параметр команды БД `cmdVal`.
+3. Использует `CmdVal` для числовых команд или преобразует `CmdData` в строку для бинарных/строковых команд.
+4. Выполняет настроенную SQL-команду через `ExecuteNonQuery`.
+5. Обновляет соответствующий командный тег Rapid SCADA, если тег с таким же кодом команды существует.
 
 Используйте синтаксис параметров, поддерживаемый выбранным провайдером БД. Драйвер создаёт логическое имя параметра `cmdVal`; финальный стиль placeholder зависит от провайдера.
 
