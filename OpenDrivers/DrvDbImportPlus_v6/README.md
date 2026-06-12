@@ -241,6 +241,7 @@ InfluxDB support is implemented through the HTTP `/query` API. The driver builds
 8. Generate channel prototypes for the device.
 9. Upload the project and restart the communication line.
 
+
 1. Добавьте `DrvDbImportPlus` в линию связи в ScadaAdmin.
 2. Откройте свойства нужного КП.
 3. Выберите тип БД и настройте параметры подключения или пользовательскую строку подключения.
