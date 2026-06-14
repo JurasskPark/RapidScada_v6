@@ -6,14 +6,15 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.View</RootNamespace>
-		<Version>6.5.0.1</Version>
+		<Version>6.5.1.1</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
-		<Copyright>Copyright © 2023-2025</Copyright>
+		<Copyright>Copyright © 2023-2026</Copyright>
 		<LangVersion>preview</LangVersion>
 		<Platforms>AnyCPU;x64</Platforms>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<ApplicationIcon>Resources\icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<Import Project="..\DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems" Label="Shared" />
@@ -30,6 +31,7 @@
 	  <Content Include="Lang\DrvDbImportPlus.ru-RU.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
+	  <Content Include="Resources\icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -72,5 +74,25 @@
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
+
+	<Target Name="MoveBuildDependenciesToDriverSubdir" AfterTargets="Build">
+		<ItemGroup>
+			<DriverBuildDependency Include="$(OutDir)**\*.dll" Exclude="$(TargetPath);$(OutDir)Scada*.dll;$(OutDir)Lang\**\*.dll;$(OutDir)$(AssemblyName)\**\*.dll" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(OutDir)$(AssemblyName)" />
+		<Copy SourceFiles="@(DriverBuildDependency)" DestinationFiles="@(DriverBuildDependency->'$(OutDir)$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Delete Files="@(DriverBuildDependency)" TreatErrorsAsWarnings="true" />
+	</Target>
+
+	<Target Name="MovePublishDependenciesToDriverSubdir" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
+		<ItemGroup>
+			<DriverPublishDependency Include="$(PublishDir)**\*.dll" Exclude="$(PublishDir)$(AssemblyName).dll;$(PublishDir)Scada*.dll;$(PublishDir)Lang\**\*.dll;$(PublishDir)$(AssemblyName)\**\*.dll" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(PublishDir)$(AssemblyName)" />
+		<Copy SourceFiles="@(DriverPublishDependency)" DestinationFiles="@(DriverPublishDependency->'$(PublishDir)$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Delete Files="@(DriverPublishDependency)" TreatErrorsAsWarnings="true" />
+	</Target>
 
 </Project>

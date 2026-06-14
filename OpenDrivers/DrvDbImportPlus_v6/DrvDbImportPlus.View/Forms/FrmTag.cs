@@ -56,9 +56,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             try
             {
                 cbTagFormat.Items.AddRange(Enum.GetNames(typeof(DriverTag.FormatTag)));
-                if (tmpTag.Format != null)
+                int selectedIndex = cbTagFormat.FindString(tmpTag.Format.ToString());
+                if (selectedIndex >= 0)
                 {
-                    cbTagFormat.SelectedIndex = cbTagFormat.FindString(tmpTag.Format.ToString());
+                    cbTagFormat.SelectedIndex = selectedIndex;
                 }
             }
             catch { }

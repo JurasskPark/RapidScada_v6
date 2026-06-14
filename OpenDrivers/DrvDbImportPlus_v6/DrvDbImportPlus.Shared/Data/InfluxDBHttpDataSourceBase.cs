@@ -168,7 +168,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             set => _transaction = value;
         }
 
-        public Dictionary<string, object> Parameters => _parameters;
+        public new Dictionary<string, object> Parameters => _parameters;
 
         public override void Cancel()
         {
@@ -184,10 +184,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public override object ExecuteScalar()
         {
             if (_influxClient == null)
+            {
                 throw new InvalidOperationException("InfluxDB client is not initialized. Command was created before Init completed.");
+            }
 
             if (string.IsNullOrEmpty(CommandText))
+            {
                 throw new InvalidOperationException("CommandText is not set");
+            }
 
             var result = _influxClient.ExecuteQueryToDictionary(CommandText);
 

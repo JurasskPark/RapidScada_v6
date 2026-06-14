@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImportPlus.View", "Drv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImportPlus.Winform", "DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj", "{E81A6350-33BA-43F6-B018-47757A2F0F4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImportPlus.Converter", "DrvDbImportPlus.Converter\DrvDbImportPlus.Converter.csproj", "{030025E3-1E0C-494A-9B7E-64F2CF463575}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{2f7c2995-b033-4df2-9fd2-512a074b17c6}*SharedItemsImports = 5
+		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{030025e3-1e0c-494a-9b7e-64f2cf463575}*SharedItemsImports = 5
 		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{71cbb5f0-d4e7-45f2-bcd9-24bc4f2a37a2}*SharedItemsImports = 5
 		DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems*{9181751b-7e14-4a27-aac0-8ae7df4698a7}*SharedItemsImports = 13
 	EndGlobalSection

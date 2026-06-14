@@ -46,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        private void SetToDefault()
+        private new void SetToDefault()
         {
             DbConnSettings = new DbConnSettings();     
             ImportCmds = new List<ImportCmd>();
@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Loads the configuration from the specified file.
         /// </summary>
-        public bool Load(string fileName, out string errMsg)
+        public new bool Load(string fileName, out string errMsg)
         {
             SetToDefault();
 
@@ -139,7 +139,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Saves the configuration to the specified file.
         /// </summary>
-        public bool Save(string fileName, out string errMsg)
+        public new bool Save(string fileName, out string errMsg)
         {
             try
             {

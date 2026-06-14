@@ -43,7 +43,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Getting logs
         /// </summary>
-        public static DebugData OnDebug;
+        public static DebugData OnDebug = null;
         public delegate void DebugData(string msg);
         // transfer to the form and to the file in the Log folder
         internal void DebugerLog(string text)
@@ -59,7 +59,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         #endregion Log
 
         #region Dispose
-        private IntPtr _bufferPtr;
+        private IntPtr _bufferPtr = IntPtr.Zero;
         public int BUFFER_SIZE = 1024 * 1024 * 50; // 50 MB
         private bool _disposed = false;
 
@@ -168,9 +168,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <returns>List of DriverTag objects with updated values and timestamps.</returns>
         public List<DriverTag> GetTagValues(DataTable dtData, List<DriverTag> tags, bool isColumnBased)
         {
+            List<DriverTag> resultTags = new List<DriverTag>();
+
             if (tags == null || tags.Count == 0)
             {
-                return tags;
+                return resultTags;
             }
 
             try
@@ -179,21 +181,22 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 if (!ValidateDataTableStructure(dtData, isColumnBased))
                 {
                     LogValidationError(isColumnBased);
-                    return tags;
+                    return resultTags;
                 }
 
                 // create lookup dictionary for faster tag access
                 var tagLookup = tags
                     .Where(tag => tag != null && tag.Enabled)
-                    .ToDictionary(tag => tag.Name, tag => tag, StringComparer.OrdinalIgnoreCase);
+                    .GroupBy(tag => tag.Name, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
 
                 if (isColumnBased)
                 {
-                    ProcessColumnBasedData(dtData, tagLookup);
+                    ProcessColumnBasedData(dtData, tagLookup, resultTags);
                 }
                 else
                 {
-                    ProcessRowBasedData(dtData, tagLookup);
+                    ProcessRowBasedData(dtData, tagLookup, resultTags);
                 }
             }
             catch (Exception ex)
@@ -201,7 +204,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 Debuger.Log($"Error processing tag values: {ex.Message}");
             }
 
-            return tags;
+            return resultTags;
         }
 
         /// <summary>
@@ -224,15 +227,14 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 // row-based mode requires specific columns for name, value, and time
                 return dtData.Columns.Count >= 2 &&
                        dtData.Columns.Contains("TAGNAME") &&
-                       dtData.Columns.Contains("TAGVALUE") &&
-                     (!dtData.Columns.Contains("TAGDATETIME") || dtData.Columns.Contains("TAGDATETIME"));
+                       dtData.Columns.Contains("TAGVALUE");
             }
         }
 
         /// <summary>
         /// Processes column-based data where tag names are column headers.
         /// </summary>
-        private void ProcessColumnBasedData(DataTable dtData, Dictionary<string, DriverTag> tagLookup)
+        private void ProcessColumnBasedData(DataTable dtData, Dictionary<string, DriverTag> tagLookup, List<DriverTag> resultTags)
         {
             if (dtData.Rows.Count == 0)
             {
@@ -257,7 +259,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 {
                     tagValueColumnIndex = i;
                 }
-                else if (columnName.Equals("TAGDATETIME", StringComparison.OrdinalIgnoreCase))
+                else if (IsTimeColumn(columnName))
                 {
                     tagDateTimeColumnIndex = i;
                 }
@@ -279,8 +281,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     if (!string.IsNullOrEmpty(tagName) && tagLookup.TryGetValue(tagName, out DriverTag tag))
                     {
                         object tagValue = firstRow[tagValueColumnIndex];
-                        DateTime timestamp = commonTimestamp != DateTime.MinValue ? commonTimestamp : DateTime.MinValue;
-                        SetTagDataWithDate(tag, tagValue, timestamp);
+                        resultTags.Add(CreateTagDataWithDate(tag, tagValue, commonTimestamp));
                     }
                 }
             }
@@ -290,7 +291,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 {
                     string columnName = column.ColumnName;
 
-                    if (columnName.Equals("TAGDATETIME", StringComparison.OrdinalIgnoreCase))
+                    if (IsTimeColumn(columnName))
                     {
                         continue;
                     }
@@ -298,8 +299,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     if (tagLookup.TryGetValue(columnName, out DriverTag tag))
                     {
                         object value = firstRow[column];
-                        DateTime timestamp = commonTimestamp != DateTime.MinValue ? commonTimestamp : DateTime.MinValue;
-                        SetTagDataWithDate(tag, value, timestamp);
+                        resultTags.Add(CreateTagDataWithDate(tag, value, commonTimestamp));
                     }
                 }
             }
@@ -308,7 +308,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// <summary>
         /// Processes row-based data where each row represents a tag.
         /// </summary>
-        private void ProcessRowBasedData(DataTable dtData, Dictionary<string, DriverTag> tagLookup)
+        private void ProcessRowBasedData(DataTable dtData, Dictionary<string, DriverTag> tagLookup, List<DriverTag> resultTags)
         {
             int nameColumnIndex = -1;
             int valueColumnIndex = -1;
@@ -326,7 +326,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 {
                     valueColumnIndex = i;
                 }
-                else if (columnName.Equals("TAGDATETIME", StringComparison.OrdinalIgnoreCase))
+                else if (IsTimeColumn(columnName))
                 {
                     timeColumnIndex = i;
                 }
@@ -365,9 +365,18 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                         }
                     }
 
-                    SetTagDataWithDate(tag, value, timestamp);
+                    resultTags.Add(CreateTagDataWithDate(tag, value, timestamp));
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks whether the column stores a tag timestamp.
+        /// </summary>
+        private static bool IsTimeColumn(string columnName)
+        {
+            return columnName.Equals("TAGDATETIME", StringComparison.OrdinalIgnoreCase) ||
+                columnName.Equals("TAGTIME", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -379,7 +388,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             {
                 if (value == null || value == DBNull.Value)
                 {
-                    return DateTime.UtcNow;
+                    return DateTime.MinValue;
                 }
 
                 if (value is DateTime dateTimeValue)
@@ -396,28 +405,36 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
                 if (DateTime.TryParse(value.ToString(), out DateTime parsedDate))
                 {
-                    return parsedDate;
+                    return parsedDate.Kind == DateTimeKind.Utc
+                        ? parsedDate
+                        : parsedDate.ToUniversalTime();
                 }
 
-                return DateTime.UtcNow;
+                return DateTime.MinValue;
             }
             catch
             {
-                return DateTime.UtcNow;
+                return DateTime.MinValue;
             }
         }
 
         /// <summary>
-        /// Updates tag with value and date.
+        /// Creates a tag data object with value and date.
         /// </summary>
-        private DriverTag SetTagDataWithDate(DriverTag tag, object value, DateTime date)
+        private DriverTag CreateTagDataWithDate(DriverTag tag, object value, DateTime date)
         {
-            // update tag value
-            tag.Val = value;
-            tag.Date = date;
-            tag.Stat = 1;
-
-            return tag;
+            return new DriverTag
+            {
+                Id = tag.Id,
+                Name = tag.Name,
+                Code = tag.Code,
+                Format = tag.Format,
+                Enabled = tag.Enabled,
+                Val = value,
+                Stat = 1,
+                Date = date,
+                NumberDecimalPlaces = tag.NumberDecimalPlaces
+            };
         }
 
         /// <summary>
@@ -430,8 +447,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     ? "Недостаточно столбцов или записей для обработки данных в колоночном режиме."
                     : "Insufficient columns or records to process data in column-based mode.")
                 : (Locale.IsRussian
-                    ? "Таблица должна содержать колонки TAGNAME, TAGVALUE или TAGDATETIME для строчного режима."
-                    : "Table must contain TAGNAME, TAGVALUE or TAGDATETIME columns for row-based mode.");
+                    ? "Таблица должна содержать колонки TAGNAME, TAGVALUE и опционально TAGTIME или TAGDATETIME для строчного режима."
+                    : "Table must contain TAGNAME, TAGVALUE and optionally TAGTIME or TAGDATETIME columns for row-based mode.");
 
             Debuger.Log(errorMessage);
         }

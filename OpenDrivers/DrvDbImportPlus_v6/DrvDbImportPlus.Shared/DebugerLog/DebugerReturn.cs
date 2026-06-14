@@ -8,7 +8,7 @@
         }
 
         //Получение логов
-        public static DebugData OnDebug;
+        public static DebugData OnDebug = null;
         public delegate void DebugData(string msg, bool writeDateTime = true);
         //Передача на форму и в файл в папку Log
         internal void DebugerLog(string text, bool writeDateTime = true)

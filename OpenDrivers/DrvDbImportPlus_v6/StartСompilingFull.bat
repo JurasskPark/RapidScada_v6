@@ -1,152 +1,234 @@
 @ECHO OFF
-cd /d "%~dp0"
+SETLOCAL EnableExtensions
+CD /D "%~dp0"
 
-REM ==================
-REM ???+?ö???ð??? ??'???':?'?'? ScadaAdmin
+SET "PACKAGE_VERSION=6.0.0.0"
+SET "PACKAGE_PREFIX=DrvDbImportPlus_%PACKAGE_VERSION%"
+SET "INSTALL_SCADA_DIR=C:\Program Files\SCADA"
+
+IF /I "%~1"=="--package-only" SET "PACKAGE_ONLY=1"
+
+ECHO ==================
+ECHO Building DrvDbImportPlus release packages
+ECHO ==================
+
+CALL :BuildPackage "%PACKAGE_PREFIX%_win-x64" "win-x64" "win-x64" "1"
+IF ERRORLEVEL 1 EXIT /B 1
+
+CALL :BuildPackage "%PACKAGE_PREFIX%_win-x32" "win-x86" "win-x86" "1"
+IF ERRORLEVEL 1 EXIT /B 1
+
+CALL :BuildPackage "%PACKAGE_PREFIX%_linux-x64" "linux-x64" "win-x64" "0"
+IF ERRORLEVEL 1 EXIT /B 1
+
+CALL :BuildPackage "%PACKAGE_PREFIX%_anycpu" "anycpu" "anycpu" "1"
+IF ERRORLEVEL 1 EXIT /B 1
+
+IF DEFINED PACKAGE_ONLY GOTO Summary
+
+ECHO ==================
+ECHO Deploying Windows x64 release package to %INSTALL_SCADA_DIR%
+ECHO ==================
+
 ECHO TASKKILL ScadaAdmin
-taskkill /im ScadaAdmin.exe /F 2>nul
+TASKKILL /IM ScadaAdmin.exe /F 2>NUL
 
-REM ==================
-REM ?³?+??'????ð ???>'? Windows x64
-ECHO BUILDING WINDOWS x64...
-ECHO ===================
-
-REM ?????????ö?>'?':?ö'? ?>?????ö???ö ???>'? Windows x64
-ECHO COMPILE LOGIC for Windows x64...
-dotnet publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime win-x64 --self-contained false --output "./output_win_x64"
-dotnet publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime win-x64 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaComm\Drv"
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaComm\Drv\Scada*.dll" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaComm\Drv\*.pdb" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaComm\Drv\*.json" 2>nul
-
-REM ?????????ö?>'?':?ö'? View ???>'? Windows x64
-ECHO COMPILE VIEW for Windows x64...
-dotnet publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime win-x64 --self-contained false --output "./output_win_x64"
-dotnet publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime win-x64 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lib"
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lib\Scada*.dll" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lib\*.pdb" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lib\*.json" 2>nul
-if exist ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lib\Lang" move ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lib\Lang" ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\" 2>nul
-
-REM ?????????ö?>'?':?ö'? WinForm ???>'? Windows x64
-ECHO COMPILE WINFORM for Windows x64...
-dotnet publish ".\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj" -c Release --framework net8.0-windows --runtime win-x64 --self-contained false --output "./output_win_x64"
-dotnet publish ".\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj" -c Release --framework net8.0-windows --runtime win-x64 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\App\"
-
-REM ==================
-REM ?³?+??'????ð ???>'? Windows x86 (32-bit)
-ECHO BUILDING WINDOWS x86 (32-bit)...
-ECHO ===================
-
-REM ?????????ö?>'?':?ö'? ?>?????ö???ö ???>'? Windows x86
-ECHO COMPILE LOGIC for Windows x86...
-dotnet publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime win-x86 --self-contained false --output "./output_win_x86"
-dotnet publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime win-x86 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaComm\Drv"
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaComm\Drv\Scada*.dll" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaComm\Drv\*.pdb" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaComm\Drv\*.json" 2>nul
-
-REM ?????????ö?>'?':?ö'? View ???>'? Windows x86
-ECHO COMPILE VIEW for Windows x86...
-dotnet publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime win-x86 --self-contained false --output "./output_win_x86"
-dotnet publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime win-x86 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\Lib"
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\Lib\Scada*.dll" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\Lib\*.pdb" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\Lib\*.json" 2>nul
-if exist ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\Lib\Lang" move ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\Lib\Lang" ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\SCADA\ScadaAdmin\" 2>nul
-
-REM ?????????ö?>'?':?ö'? WinForm ???>'? Windows x86 (WinForms ??'??????'''< ??????'?'' ??? ?????????'???ö???ð'''? x86)
-ECHO COMPILE WINFORM for Windows x86...
-dotnet publish ".\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj" -c Release --framework net8.0-windows --runtime win-x86 --self-contained false --output "./output_win_x86"
-dotnet publish ".\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj" -c Release --framework net8.0-windows --runtime win-x86 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_win-x32\App\"
-
-REM ==================
-REM ?³?+??'????ð ???>'? Linux x64
-ECHO BUILDING LINUX x64...
-ECHO ===================
-
-REM ?????????ö?>'?':?ö'? ?>?????ö???ö ???>'? Linux x64
-ECHO COMPILE LOGIC for Linux x64...
-dotnet publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime linux-x64 --self-contained false --output "./output_linux_x64"
-dotnet publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime linux-x64 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaComm\Drv"
-del ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaComm\Drv\Scada*.dll" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaComm\Drv\*.pdb" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaComm\Drv\*.json" 2>nul
-
-REM ?????????ö?>'?':?ö'? View ???>'? Linux x64 (View ??????'' ?+'<'''? Windows-specific)
-ECHO COMPILE VIEW for Linux x64...
-dotnet publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime win-x64 --self-contained false --output "./output_linux_x64"
-dotnet publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime win-x64 --self-contained false --output ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\Lib"
-del ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\Lib\Scada*.dll" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\Lib\*.pdb" 2>nul
-del ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\Lib\*.json" 2>nul
-if exist ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\Lib\Lang" move ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\Lib\Lang" ".\DrvDbImportPlus_6.0.0.0_Release_linux-x64\SCADA\ScadaAdmin\" 2>nul
-
-REM ?????????ö?>'?':?ö'? WinForm ???>'? Linux x64 (WinForms ??? ?????????'???ö???ð?'''?'? ???ð Linux, ????'?''????'? ??????'' ????'''???+?????ð'''?'?'? '?'??>?????ö?)
-ECHO NOTE: WinForms is not supported on Linux, skipping WinForm compilation for Linux
-
-REM ==================
-REM ??'??ö'?''???ð ??'?????????'<': ???ð??????
-ECHO CLEANING TEMP FOLDERS...
-if exist ".\output_win_x64" rmdir /s /q ".\output_win_x64"
-if exist ".\output_win_x86" rmdir /s /q ".\output_win_x86"
-if exist ".\output_linux_x64" rmdir /s /q ".\output_linux_x64"
-
-REM ==================
-REM ?-?ð??'?'??? '??>'???+ ?ö ???????ö'??????ð???ö? '"?ð?¿?>???? (''???>'????? ???>'? Windows)
-ECHO SERVICE OPERATIONS (Windows only)...
-ECHO ===================
-
-REM Stop services before copy so DLL files are not locked
 ECHO STOPPING SERVICES...
-NET STOP ScadaAgent6 2>nul
-NET STOP ScadaComm6 2>nul
-NET STOP ScadaServer6 2>nul
-timeout /t 3 /nobreak >nul
+NET STOP ScadaAgent6 2>NUL
+NET STOP ScadaComm6 2>NUL
+NET STOP ScadaServer6 2>NUL
+TIMEOUT /T 3 /NOBREAK >NUL
 
-ECHO COPY FILES to Program Files...
-IF EXIST ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA" (
-    XCOPY /S /Y /I ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\*.*" "C:\Program Files\SCADA\"
+ECHO COPY FILES to %INSTALL_SCADA_DIR%...
+IF EXIST ".\%PACKAGE_PREFIX%_win-x64\Release\SCADA" (
+    XCOPY /S /Y /I ".\%PACKAGE_PREFIX%_win-x64\Release\SCADA\*.*" "%INSTALL_SCADA_DIR%\"
     IF ERRORLEVEL 1 (
-        ECHO Failed to copy files to C:\Program Files\SCADA
+        ECHO Failed to copy files to %INSTALL_SCADA_DIR%
+        EXIT /B 1
     )
 ) ELSE (
-    ECHO Build output folder not found: .\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA
+    ECHO Build output folder not found: .\%PACKAGE_PREFIX%_win-x64\Release\SCADA
+    EXIT /B 1
 )
 
-ECHO COPY LANG FILES to ScadaAdmin\Lang...
-IF EXIST ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lang" (
-    XCOPY /Y /I ".\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lang\DrvDbImportPlus.*.xml" "C:\Program Files\SCADA\ScadaAdmin\Lang\"
-    IF ERRORLEVEL 1 (
-        ECHO Failed to copy driver language files to C:\Program Files\SCADA\ScadaAdmin\Lang
-    )
-) ELSE (
-    ECHO Lang folder not found in build output: .\DrvDbImportPlus_6.0.0.0_Release_win-x64\SCADA\ScadaAdmin\Lang
-)
 ECHO STARTING SERVICES...
-NET START ScadaAgent6 2>nul || ECHO Failed to start ScadaAgent6
-NET START ScadaComm6 2>nul || ECHO Failed to start ScadaComm6
-NET START ScadaServer6 2>nul || ECHO Failed to start ScadaServer6
+NET START ScadaAgent6 2>NUL || ECHO Failed to start ScadaAgent6
+NET START ScadaComm6 2>NUL || ECHO Failed to start ScadaComm6
+NET START ScadaServer6 2>NUL || ECHO Failed to start ScadaServer6
 
-REM ==================
-REM ?-?ð??'?'??? ??'??ö?>???????ö'?
 ECHO START APP
-if exist "C:\Program Files\SCADA\ScadaAdmin\ScadaAdmin.exe" (
-    start "" "C:\Program Files\SCADA\ScadaAdmin\ScadaAdmin.exe"
-) else (
-    ECHO ScadaAdmin.exe not found at C:\Program Files\SCADA\ScadaAdmin\
+IF EXIST "%INSTALL_SCADA_DIR%\ScadaAdmin\ScadaAdmin.exe" (
+    START "" "%INSTALL_SCADA_DIR%\ScadaAdmin\ScadaAdmin.exe"
+) ELSE (
+    ECHO ScadaAdmin.exe not found at %INSTALL_SCADA_DIR%\ScadaAdmin\
 )
 
+:Summary
 ECHO ==================
-ECHO BUILD COMPLETED!
+ECHO BUILD COMPLETED
 ECHO ==================
-ECHO Created 3 versions:
-ECHO 1. .\DrvDbImportPlus_6.0.0.0_Release_win-x64\ - Windows 64-bit
-ECHO 2. .\DrvDbImportPlus_6.0.0.0_Release_win-x32\ - Windows 32-bit
-ECHO 3. .\DrvDbImportPlus_6.0.0.0_Release_linux-x64\ - Linux 64-bit
+ECHO Created release folders:
+ECHO 1. .\%PACKAGE_PREFIX%_win-x64\Release\SCADA
+ECHO 2. .\%PACKAGE_PREFIX%_win-x32\Release\SCADA
+ECHO 3. .\%PACKAGE_PREFIX%_linux-x64\Release\SCADA
+ECHO 4. .\%PACKAGE_PREFIX%_anycpu\Release\SCADA
+ECHO.
+ECHO Expected release structure:
+ECHO Release
+ECHO   SCADA
+ECHO     ScadaAdmin
+ECHO       Lang
+ECHO       Lib
+ECHO     ScadaComm
+ECHO       Drv
 ECHO ==================
 
-pause
+IF NOT DEFINED PACKAGE_ONLY PAUSE
+EXIT /B 0
 
+:BuildPackage
+SET "PACKAGE_DIR=%~1"
+SET "LOGIC_RUNTIME=%~2"
+SET "VIEW_RUNTIME=%~3"
+SET "BUILD_WINFORM=%~4"
+SET "RELEASE_DIR=.\%PACKAGE_DIR%\Release"
+SET "SCADA_DIR=%RELEASE_DIR%\SCADA"
 
+ECHO.
+ECHO ==================
+ECHO BUILDING %PACKAGE_DIR%
+ECHO ==================
 
+CALL :PrepareReleasePackage "%PACKAGE_DIR%"
+IF ERRORLEVEL 1 EXIT /B 1
+
+ECHO COMPILE LOGIC for %LOGIC_RUNTIME%...
+IF /I "%LOGIC_RUNTIME%"=="anycpu" (
+    DOTNET publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --self-contained false --output "%SCADA_DIR%\ScadaComm\Drv"
+) ELSE (
+    DOTNET publish ".\DrvDbImportPlus.Logic\DrvDbImportPlus.Logic.csproj" -c Release --framework net8.0 --runtime %LOGIC_RUNTIME% --self-contained false --output "%SCADA_DIR%\ScadaComm\Drv"
+)
+IF ERRORLEVEL 1 EXIT /B 1
+CALL :CleanPluginFolder "%SCADA_DIR%\ScadaComm\Drv"
+IF ERRORLEVEL 1 EXIT /B 1
+CALL :MoveRootRuntimeFolder "%SCADA_DIR%\ScadaComm\Drv" "DrvDbImportPlus.Logic"
+IF ERRORLEVEL 1 EXIT /B 1
+
+ECHO COMPILE VIEW for %VIEW_RUNTIME%...
+IF /I "%VIEW_RUNTIME%"=="anycpu" (
+    DOTNET publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --self-contained false --output "%SCADA_DIR%\ScadaAdmin\Lib"
+) ELSE (
+    DOTNET publish ".\DrvDbImportPlus.View\DrvDbImportPlus.View.csproj" -c Release --framework net8.0-windows --runtime %VIEW_RUNTIME% --self-contained false --output "%SCADA_DIR%\ScadaAdmin\Lib"
+)
+IF ERRORLEVEL 1 EXIT /B 1
+CALL :MoveDriverLang "%SCADA_DIR%\ScadaAdmin\Lib" "%SCADA_DIR%\ScadaAdmin\Lang"
+IF ERRORLEVEL 1 EXIT /B 1
+CALL :CleanPluginFolder "%SCADA_DIR%\ScadaAdmin\Lib"
+IF ERRORLEVEL 1 EXIT /B 1
+CALL :MoveRootRuntimeFolder "%SCADA_DIR%\ScadaAdmin\Lib" "DrvDbImportPlus.View"
+IF ERRORLEVEL 1 EXIT /B 1
+
+IF "%BUILD_WINFORM%"=="1" (
+    ECHO COMPILE WINFORM for %VIEW_RUNTIME%...
+    IF /I "%VIEW_RUNTIME%"=="anycpu" (
+        DOTNET publish ".\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj" -c Release --framework net8.0-windows --self-contained false --output "%RELEASE_DIR%\App"
+    ) ELSE (
+        DOTNET publish ".\DrvDbImportPlus.Winform\DrvDbImportPlus.Winform.csproj" -c Release --framework net8.0-windows --runtime %VIEW_RUNTIME% --self-contained false --output "%RELEASE_DIR%\App"
+    )
+    IF ERRORLEVEL 1 EXIT /B 1
+) ELSE (
+    ECHO NOTE: WinForms is not supported on Linux, skipping WinForm compilation.
+)
+
+CALL :AssertScadaStructure "%SCADA_DIR%"
+IF ERRORLEVEL 1 EXIT /B 1
+
+EXIT /B 0
+
+:PrepareReleasePackage
+SET "PACKAGE_DIR=%~1"
+SET "RELEASE_DIR=.\%PACKAGE_DIR%\Release"
+SET "SCADA_DIR=%RELEASE_DIR%\SCADA"
+
+IF EXIST "%RELEASE_DIR%" RMDIR /S /Q "%RELEASE_DIR%"
+MKDIR "%SCADA_DIR%\ScadaAdmin\Lang"
+IF ERRORLEVEL 1 EXIT /B 1
+MKDIR "%SCADA_DIR%\ScadaAdmin\Lib"
+IF ERRORLEVEL 1 EXIT /B 1
+MKDIR "%SCADA_DIR%\ScadaComm\Drv"
+IF ERRORLEVEL 1 EXIT /B 1
+MKDIR "%RELEASE_DIR%\App"
+IF ERRORLEVEL 1 EXIT /B 1
+EXIT /B 0
+
+:MoveDriverLang
+SET "LIB_DIR=%~1"
+SET "LANG_DIR=%~2"
+
+IF EXIST "%LIB_DIR%\Lang\DrvDbImportPlus.*.xml" (
+    XCOPY /Y /I "%LIB_DIR%\Lang\DrvDbImportPlus.*.xml" "%LANG_DIR%\"
+    IF ERRORLEVEL 1 EXIT /B 1
+)
+
+IF EXIST "%LIB_DIR%\Lang" RMDIR /S /Q "%LIB_DIR%\Lang"
+EXIT /B 0
+
+:CleanPluginFolder
+SET "TARGET_DIR=%~1"
+
+DEL /Q "%TARGET_DIR%\Scada*.dll" 2>NUL
+DEL /Q "%TARGET_DIR%\*.pdb" 2>NUL
+DEL /Q "%TARGET_DIR%\*.json" 2>NUL
+FOR %%D IN (de es fr it ja ko pt-BR ru zh-Hans zh-Hant) DO (
+    IF EXIST "%TARGET_DIR%\%%D" RMDIR "%TARGET_DIR%\%%D" 2>NUL
+)
+EXIT /B 0
+
+:MoveRootRuntimeFolder
+SET "TARGET_DIR=%~1"
+SET "DRIVER_SUBDIR=%~2"
+
+IF EXIST "%TARGET_DIR%\runtimes" (
+    XCOPY /E /Y /I "%TARGET_DIR%\runtimes\*.*" "%TARGET_DIR%\%DRIVER_SUBDIR%\runtimes\"
+    IF ERRORLEVEL 1 EXIT /B 1
+    RMDIR /S /Q "%TARGET_DIR%\runtimes"
+)
+EXIT /B 0
+
+:AssertScadaStructure
+SET "SCADA_DIR=%~1"
+
+IF NOT EXIST "%SCADA_DIR%\ScadaAdmin\Lang" (
+    ECHO Missing folder: %SCADA_DIR%\ScadaAdmin\Lang
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaAdmin\Lib" (
+    ECHO Missing folder: %SCADA_DIR%\ScadaAdmin\Lib
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaComm\Drv" (
+    ECHO Missing folder: %SCADA_DIR%\ScadaComm\Drv
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaAdmin\Lang\DrvDbImportPlus.*.xml" (
+    ECHO Missing language files in %SCADA_DIR%\ScadaAdmin\Lang
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaAdmin\Lib\DrvDbImportPlus.View.dll" (
+    ECHO Missing View DLL in %SCADA_DIR%\ScadaAdmin\Lib
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaAdmin\Lib\DrvDbImportPlus.View" (
+    ECHO Missing View dependency folder in %SCADA_DIR%\ScadaAdmin\Lib
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaComm\Drv\DrvDbImportPlus.Logic.dll" (
+    ECHO Missing Logic DLL in %SCADA_DIR%\ScadaComm\Drv
+    EXIT /B 1
+)
+IF NOT EXIST "%SCADA_DIR%\ScadaComm\Drv\DrvDbImportPlus.Logic" (
+    ECHO Missing Logic dependency folder in %SCADA_DIR%\ScadaComm\Drv
+    EXIT /B 1
+)
+
+EXIT /B 0

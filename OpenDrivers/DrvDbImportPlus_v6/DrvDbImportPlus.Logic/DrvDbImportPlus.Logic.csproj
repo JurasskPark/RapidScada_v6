@@ -6,15 +6,20 @@
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbImportPlus.Logic</RootNamespace>
-		<Version>6.5.0.1</Version>
+		<Version>6.5.1.1</Version>
 		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
 		<Company>Rapid Software LLC</Company>
 		<Product>Rapid SCADA</Product>
-		<Copyright>Copyright © 2022-2025</Copyright>
+		<Copyright>Copyright © 2022-2026</Copyright>
 		<LangVersion>preview</LangVersion>
 		<Platforms>AnyCPU;x86;x64</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="icon.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.2" />
@@ -41,6 +46,23 @@
 
 	<Import Project="..\DrvDbImportPlus.Shared\DrvDbImportPlus.Common.projitems" Label="Shared" />
 
-	
-	
+	<Target Name="MoveBuildDependenciesToDriverSubdir" AfterTargets="Build">
+		<ItemGroup>
+			<DriverBuildDependency Include="$(OutDir)**\*.dll" Exclude="$(TargetPath);$(OutDir)Scada*.dll;$(OutDir)$(AssemblyName)\**\*.dll" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(OutDir)$(AssemblyName)" />
+		<Copy SourceFiles="@(DriverBuildDependency)" DestinationFiles="@(DriverBuildDependency->'$(OutDir)$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Delete Files="@(DriverBuildDependency)" TreatErrorsAsWarnings="true" />
+	</Target>
+
+	<Target Name="MovePublishDependenciesToDriverSubdir" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
+		<ItemGroup>
+			<DriverPublishDependency Include="$(PublishDir)**\*.dll" Exclude="$(PublishDir)$(AssemblyName).dll;$(PublishDir)Scada*.dll;$(PublishDir)$(AssemblyName)\**\*.dll" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(PublishDir)$(AssemblyName)" />
+		<Copy SourceFiles="@(DriverPublishDependency)" DestinationFiles="@(DriverPublishDependency->'$(PublishDir)$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Delete Files="@(DriverPublishDependency)" TreatErrorsAsWarnings="true" />
+	</Target>
 </Project>

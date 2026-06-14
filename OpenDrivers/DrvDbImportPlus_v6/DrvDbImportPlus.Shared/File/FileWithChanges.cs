@@ -12,7 +12,7 @@ namespace  Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         #region Dispose
-        private IntPtr _bufferPtr;
+        private IntPtr _bufferPtr = IntPtr.Zero;
         public int BUFFER_SIZE = 1024 * 1024 * 50; // 50 MB
         private bool _disposed = false;
 
@@ -32,7 +32,9 @@ namespace  Scada.Comm.Drivers.DrvDbImportPlus
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
+            {
                 return;
+            }
 
             if (disposing)
             {

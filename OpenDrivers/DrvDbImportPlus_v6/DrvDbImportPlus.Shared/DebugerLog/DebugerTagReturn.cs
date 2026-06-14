@@ -8,7 +8,7 @@
         }
 
         //Получение тегов
-        public static DebugData OnDebug;
+        public static DebugData OnDebug = null;
         public delegate void DebugData(List<DriverTag> tags);
         //Передача на форму
         internal void TagReturn(List<DriverTag> tags)

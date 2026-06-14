@@ -233,6 +233,7 @@
             fctCmdQuery.Cursor = Cursors.IBeam;
             fctCmdQuery.DefaultMarkerSize = 8;
             fctCmdQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            fctCmdQuery.Font = new Font("Courier New", 9.75F);
             fctCmdQuery.Hotkeys = resources.GetString("fctCmdQuery.Hotkeys");
             fctCmdQuery.IsReplaceMode = false;
             fctCmdQuery.Language = FastColoredTextBoxNS.Language.SQL;
@@ -359,6 +360,7 @@
             fctResult.DefaultMarkerSize = 8;
             fctResult.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             fctResult.Dock = DockStyle.Fill;
+            fctResult.Font = new Font("Courier New", 9.75F);
             fctResult.Hotkeys = resources.GetString("fctResult.Hotkeys");
             fctResult.IsReplaceMode = false;
             fctResult.Location = new Point(3, 3);
@@ -502,6 +504,7 @@
             ClientSize = new Size(1177, 918);
             Controls.Add(pnlBottom);
             Controls.Add(gbCommandParams);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "FrmExportCmd";
             Text = "Export Command";

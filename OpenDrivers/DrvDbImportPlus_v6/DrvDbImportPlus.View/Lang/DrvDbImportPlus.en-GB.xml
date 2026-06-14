@@ -42,82 +42,86 @@
 	  <Phrase key="pageHelp">Help</Phrase>
 	  <Phrase key="pageSettings">Settings</Phrase>
 	  <Phrase key="txtHelp">
-		  On the Database tab, you need to specify the database type and specify the parameters of the database connection.
-		  If you need to enter non-standard connection parameters, you can edit the connection string directly.
-		  Examples of connection parameters can be found on the website https://www.connectionstrings.com .
+		  On the Database tab, select the DBMS type and set the connection parameters.
+		  If standard fields are not enough, edit the connection string directly.
+		  Examples of connection strings are available at https://www.connectionstrings.com.
 
-		  The driver assumes two formats for receiving data - these are "Tags based on the list of requested table columns" and
-		  "Tags based on the list of requested table rows".
-		  In the format "KP tags based on the list of requested table columns", the SQL query is compiled so that in the column name
-		  there will be the name of the KP tag, and in the first line the value.
+		  The driver configuration is split into import commands and export commands.
+		  Each import command has its own SQL query, command number, command code, name, description, enabled flag,
+		  data layout mode, and tag list. Disabled commands are skipped by the driver.
 
-		  Example, given the table
+		  Import data layouts.
 
-		  +----------+----------+----------+
-		  | COLUMN_1 | COLUMN_2 | COLUMN_3 |
-		  +----------+----------+----------+
-		  |    1,000 |    2,000 |    3,000 |
-		  +----------+----------+----------+
-		  |    3,000 |    4,000 |    5,000 |
-		  +----------+----------+----------+
-		  |    6,000 |    7,000 |    8,000 |
-		  +----------+----------+----------+
+		  1. Tags based on the list of requested table columns.
+		  Use this mode when one result row contains values of several tags and column names match tag names.
+		  The driver reads the first returned row.
 
-		  If each column in the data source is the value of one variable, then the query will be simple:
-		  SELECT COLUMN_1 AS TAGNAME_1, COLUMN_2 AS TAGNAME_2, COLUMN_3 AS TAGNAME_3
+		  Example:
+		  SELECT COLUMN_1 AS TAGNAME_1,
+		         COLUMN_2 AS TAGNAME_2,
+		         COLUMN_3 AS TAGNAME_3
 		  FROM DATATABLE_NAME
 		  WHERE CONDITION
 
-		  If the data source in this example,
-		  +----------+--------------+----------+
-		  | COLUMN_1 | COLUMN_2     | COLUMN_3 |
-		  +----------+--------------+----------+
-		  |        1 | TAGNAME_1    |    1,000 |
-		  +----------+--------------+----------+
-		  |        2 | TAGNAME_2    |    2,000 |
-		  +----------+--------------+----------+
-		  |        3 | TAGNAME_3    |    3,000 |
-		  +----------+--------------+----------+
+		  The tag Name in the command tag list must match the column alias, for example TAGNAME_1.
+		  The tag Code must match the Rapid SCADA device tag code.
 
-		  then the easiest way to flip would be the following query:
-		  SELECT
-		  MAX(CASE WHEN [COLUMN_2] ='TAGNAME_1' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_1',
-		  MAX(CASE WHEN [COLUMN_2] ='TAGNAME_2' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_2',
-		  MAX(CASE WHEN [COLUMN_2] ='TAGNAME_3' THEN COLUMN_3 ELSE NULL  END) AS 'TAGNAME_3'
+		  2. Tags based on the list of requested table rows.
+		  Use this mode when each returned row contains one tag.
+		  The query must return TAGNAME and TAGVALUE columns.
+		  The TAGTIME or TAGDATETIME column is optional.
+
+		  Example:
+		  SELECT TAGNAME,
+		         TAGVALUE,
+		         TAGTIME
 		  FROM DATATABLE_NAME
 		  WHERE CONDITION
 
-		  MS SQL.
-		  In connection with the transition to the Microsoft.Data.SqlClient library pay attention to using the connection for remote work!
-		  You may need to add a condition in the Additional Parameters field in the connection string
-		  Stored security information=True;Trusted Server Certificate=True;
+		  TAGNAME is matched with the tag Name in the command tag list.
+		  TAGVALUE is converted according to the configured tag format.
+		  TAGTIME and TAGDATETIME are treated as a UTC timestamp after conversion by the driver.
 
-		  MySQL.
-		  MySQL has a feature in SSL mode. For it, you need to specify whether to use SSL or not.
-		  There are several options, but specify only one. They are equivalent in value. You only need to use one word.
-		  1) None or Disabled
-		  2) Preferred or Prefered
-		  3) Required
-		  4) VerifyCA
-		  5) VerifyFull
+		  Historical data and slices.
+		  If TAGTIME or TAGDATETIME is not returned, values are written as current device data.
+		  If TAGTIME or TAGDATETIME is returned, values are sent as historical data.
+		  The driver groups historical tags by timestamp: tags with the same timestamp are placed into one device slice.
+		  Tags with different timestamps are placed into separate slices.
+		  To avoid creating too many slices, return rows ordered by time and use the same timestamp for values that must be archived together.
+		  Timestamp precision is seconds.
 
-		  Commands.
-		  The commands are defined in the configuration.
+		  Import command notes.
+		  For column-based mode, the optional common TAGTIME or TAGDATETIME column applies to all returned tag columns.
+		  For row-based mode, each row can have its own TAGTIME or TAGDATETIME value.
+		  If the timestamp is empty or cannot be parsed, the value is processed as current data.
 
-		  In version 6.3.0.1, it is now possible to write string values command.
-		  If a command is created, a command tag with a length of 20 tags will be automatically generated in the communicator driver.
-		  This size assumes that 80 characters will be enough for any string value.
-		  It is forbidden to create other tags at these addresses! There will be data distortion!
+		  Export commands.
+		  Export commands write values from Rapid SCADA to a database.
+		  Use @cmdVal in SQL for the command value and @cmdNum for the command number.
+		  String command length is configured in the export command properties.
+		  Do not create regular tags at automatically generated command tag addresses.
 
-		  In version 6.3.0.2, commands can now specify the length in characters.
-
-		  Command example:
+		  Export command examples:
 		  INSERT INTO DATATABLE_NAME
 		  (COLUMN_1, COLUMN_2, COLUMN_3)
 		  VALUES
 		  ('TAGNAME00001', @cmdVal, GETDATE());
 
 		  UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum;
+
+		  MS SQL.
+		  Microsoft.Data.SqlClient is used for MS SQL connections.
+		  For remote connections, additional options may be required:
+		  Persist Security Info=True;Trust Server Certificate=True;
+
+		  MySQL.
+		  If SSL mode has to be specified, use one of the following values:
+		  None or Disabled, Preferred or Prefered, Required, VerifyCA, VerifyFull.
+
+		  Old project conversion.
+		  Old DrvDbImportPlus XML configuration files can be converted by the DrvDbImportPlus.Converter console utility.
+		  Run it without arguments, drag XML files or a configuration directory into the console, and press Enter.
+		  The utility creates an output directory near the source files and writes converted project files there.
 	  </Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImportPlus.View.Forms.FrmImportCmd">

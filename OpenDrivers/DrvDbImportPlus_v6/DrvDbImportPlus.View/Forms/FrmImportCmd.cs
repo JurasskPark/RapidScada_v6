@@ -152,7 +152,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             
             try
             {
-                if (indexSelectRow != null && indexSelectRow < lstTags.Items.Count)
+                if (indexSelectRow < lstTags.Items.Count)
                 {
                     lstTags.EnsureVisible(indexSelectRow);
                     lstTags.TopItem = lstTags.Items[indexSelectRow];

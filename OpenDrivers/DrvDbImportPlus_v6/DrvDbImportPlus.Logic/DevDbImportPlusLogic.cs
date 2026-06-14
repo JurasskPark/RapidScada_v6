@@ -181,21 +181,256 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
         private void PollTagGet(List<DriverTag> tags)
         {
             if (tags == null || tags.Count == 0)
+            {
                 return;
+            }
 
             List<DeviceTag> deviceTagList = DeviceTags.ToList();
+            List<DriverTag> currentTags = new List<DriverTag>();
+            List<DriverTag> historicalTags = new List<DriverTag>();
 
             foreach (DriverTag srcTag in tags)
             {
                 if (srcTag == null || !srcTag.Enabled)
+                {
                     continue;
+                }
 
+                if (HasTagTime(srcTag))
+                {
+                    historicalTags.Add(srcTag);
+                }
+                else
+                {
+                    currentTags.Add(srcTag);
+                }
+            }
+
+            foreach (DriverTag srcTag in currentTags)
+            {
                 DeviceTag deviceTag = deviceTagList.Find(t => t.Code == srcTag.Code);
                 if (deviceTag != null)
                 {
                     SetTagData(deviceTag, srcTag.Val, srcTag.NumberDecimalPlaces);
                 }
             }
+
+            SetTagDataWithDateTime(historicalTags, deviceTagList);
+        }
+
+        /// <summary>
+        /// Checks whether the tag contains historical timestamp.
+        /// </summary>
+        private static bool HasTagTime(DriverTag tag)
+        {
+            return tag.Date != DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Normalizes timestamp to UTC seconds.
+        /// </summary>
+        private static DateTime NormalizeTimestamp(DateTime dateTime)
+        {
+            DateTime utc = dateTime.Kind == DateTimeKind.Utc
+                ? dateTime
+                : dateTime.ToUniversalTime();
+
+            return new DateTime(
+                utc.Year,
+                utc.Month,
+                utc.Day,
+                utc.Hour,
+                utc.Minute,
+                utc.Second,
+                DateTimeKind.Utc);
+        }
+
+        /// <summary>
+        /// Sends historical tag data grouped by timestamp.
+        /// </summary>
+        private void SetTagDataWithDateTime(List<DriverTag> tags, List<DeviceTag> deviceTagList)
+        {
+            if (tags == null || tags.Count == 0)
+            {
+                return;
+            }
+
+            var groupedTags = tags
+                .Where(tag => tag != null && tag.Enabled && HasTagTime(tag))
+                .Select(tag => new
+                {
+                    SourceTag = tag,
+                    DeviceTag = deviceTagList.Find(deviceTag => deviceTag.Code == tag.Code),
+                    Timestamp = NormalizeTimestamp(tag.Date)
+                })
+                .Where(tagData => tagData.DeviceTag != null)
+                .OrderBy(tagData => tagData.Timestamp)
+                .ThenBy(tagData => tagData.DeviceTag.Index)
+                .GroupBy(tagData => tagData.Timestamp);
+
+            foreach (var group in groupedTags)
+            {
+                List<(DriverTag SourceTag, DeviceTag DeviceTag, CnlData[] CnlData)> sliceItems =
+                    new List<(DriverTag SourceTag, DeviceTag DeviceTag, CnlData[] CnlData)>();
+
+                foreach (var tagData in group)
+                {
+                    if (TryCreateHistoricalCnlData(tagData.DeviceTag, tagData.SourceTag, out CnlData[] cnlData))
+                    {
+                        sliceItems.Add((tagData.SourceTag, tagData.DeviceTag, cnlData));
+                    }
+                }
+
+                if (sliceItems.Count == 0)
+                {
+                    continue;
+                }
+
+                int dataLength = sliceItems.Sum(item => item.CnlData.Length);
+                DeviceSlice deviceSlice = new DeviceSlice(group.Key, sliceItems.Count, dataLength);
+                int tagIndex = 0;
+                int dataIndex = 0;
+
+                foreach ((DriverTag SourceTag, DeviceTag DeviceTag, CnlData[] CnlData) item in sliceItems)
+                {
+                    deviceSlice.DeviceTags[tagIndex] = item.DeviceTag;
+
+                    for (int i = 0; i < item.CnlData.Length; i++)
+                    {
+                        deviceSlice.CnlData[dataIndex] = item.CnlData[i];
+                        dataIndex++;
+                    }
+
+                    tagIndex++;
+                }
+
+                deviceSlice.Descr = string.Format(Locale.IsRussian ?
+                    "Исторические данные БД. Время = {0}, тегов = {1}" :
+                    "Historical DB data. Time = {0}, tags = {1}",
+                    group.Key.ToString(defaultTimestampFormat),
+                    sliceItems.Count);
+
+                DeviceData.EnqueueSlice(deviceSlice);
+            }
+        }
+
+        /// <summary>
+        /// Creates historical channel data for the specified tag.
+        /// </summary>
+        private bool TryCreateHistoricalCnlData(DeviceTag deviceTag, DriverTag srcTag, out CnlData[] cnlData)
+        {
+            cnlData = CreateEmptyCnlData(deviceTag);
+
+            try
+            {
+                object val = srcTag.Val;
+
+                if (val == DBNull.Value || val == null)
+                {
+                    return true;
+                }
+
+                if (val is string strVal && deviceTag.DataType == TagDataType.Unicode)
+                {
+                    deviceTag.DataType = TagDataType.Unicode;
+                    deviceTag.Format = new TagFormat(TagFormatType.String, "String");
+                    cnlData = CreateStringCnlData(strVal, deviceTag.DataLength, Encoding.Unicode);
+                    return true;
+                }
+
+                if (val is string strVal2 && deviceTag.DataType == TagDataType.Double)
+                {
+                    deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + srcTag.NumberDecimalPlaces.ToString());
+                    cnlData[0] = new CnlData(
+                        Math.Round(DriverUtils.StringToDouble(strVal2), srcTag.NumberDecimalPlaces),
+                        CnlStatusID.Defined);
+                    return true;
+                }
+
+                if (val is DateTime dtVal)
+                {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.DateTime;
+                    cnlData[0] = new CnlData(dtVal.ToUniversalTime().ToOADate(), CnlStatusID.Defined);
+                    return true;
+                }
+
+                if (deviceTag.Format == TagFormat.OffOn)
+                {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.OffOn;
+                    cnlData[0] = new CnlData(Convert.ToDouble(val), CnlStatusID.Defined);
+                    return true;
+                }
+
+                if (val is int)
+                {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.IntNumber;
+                    cnlData[0] = new CnlData(Convert.ToInt32(val), CnlStatusID.Defined);
+                    return true;
+                }
+
+                if (val is long)
+                {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.IntNumber;
+                    cnlData[0] = new CnlData(BitConverter.Int64BitsToDouble(Convert.ToInt64(val)), CnlStatusID.Defined);
+                    return true;
+                }
+
+                deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + srcTag.NumberDecimalPlaces.ToString());
+                cnlData[0] = new CnlData(
+                    Math.Round(Convert.ToDouble(val), srcTag.NumberDecimalPlaces),
+                    CnlStatusID.Defined);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при подготовке исторических данных тега \"{0}\"" :
+                    "Error preparing historical data of \"{0}\" tag", deviceTag.Code));
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Creates undefined channel data for the tag.
+        /// </summary>
+        private static CnlData[] CreateEmptyCnlData(DeviceTag deviceTag)
+        {
+            CnlData[] cnlData = new CnlData[deviceTag.DataLength];
+
+            for (int i = 0; i < cnlData.Length; i++)
+            {
+                cnlData[i] = CnlData.Empty;
+            }
+
+            return cnlData;
+        }
+
+        /// <summary>
+        /// Creates channel data for a string value.
+        /// </summary>
+        private static CnlData[] CreateStringCnlData(string value, int dataLength, Encoding encoding)
+        {
+            double[] doubleArray = new double[Math.Max(dataLength, 1)];
+            byte[] bytes = encoding.GetBytes(value ?? "");
+            int copyLength = Math.Min(bytes.Length, doubleArray.Length * sizeof(double));
+
+            if (copyLength > 0)
+            {
+                Buffer.BlockCopy(bytes, 0, doubleArray, 0, copyLength);
+            }
+
+            CnlData[] cnlData = new CnlData[doubleArray.Length];
+
+            for (int i = 0; i < doubleArray.Length; i++)
+            {
+                cnlData[i] = new CnlData(doubleArray[i], CnlStatusID.Defined);
+            }
+
+            return cnlData;
         }
 
         /// <summary>

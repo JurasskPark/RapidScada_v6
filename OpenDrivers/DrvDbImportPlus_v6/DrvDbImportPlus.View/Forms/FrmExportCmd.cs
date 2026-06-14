@@ -28,8 +28,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         public ExportCmd cmd = new ExportCmd();                 // the export command
         public List<DriverTag> tags = new List<DriverTag>();    // the tags
 
-        private ListViewItem selected;                          // selected row
-        private int indexSelectRow = 0;                         // index select row
         public Guid idRow;                                      // id row
         public string nameRow;                                  // name row
         #endregion Variables

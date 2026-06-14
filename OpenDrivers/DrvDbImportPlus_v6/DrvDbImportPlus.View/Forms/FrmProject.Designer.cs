@@ -83,6 +83,7 @@
             pageSettings = new TabPage();
             ckbWriteDriverLog = new CheckBox();
             pageHelp = new TabPage();
+            txtHelp = new FastColoredTextBoxNS.FastColoredTextBox();
             imgList = new ImageList(components);
             pnlBottom = new Panel();
             btnClose = new Button();
@@ -96,6 +97,8 @@
             pageDatabase.SuspendLayout();
             gbDataSourceType.SuspendLayout();
             pageSettings.SuspendLayout();
+            pageHelp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)txtHelp).BeginInit();
             pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
@@ -474,13 +477,13 @@
             cmnuExportCommands.ImageScalingSize = new Size(24, 24);
             cmnuExportCommands.Items.AddRange(new ToolStripItem[] { cmnuListExportCmdAdd, cmnuListExportCmdChange, cmnuListExportCmdDelete, toolStripSeparator2, cmnuListExportCmdUp, cmnuListExportCmdDown });
             cmnuExportCommands.Name = "cmnuImportCommands";
-            cmnuExportCommands.Size = new Size(249, 203);
+            cmnuExportCommands.Size = new Size(242, 170);
             // 
             // cmnuListExportCmdAdd
             // 
             cmnuListExportCmdAdd.Image = (Image)resources.GetObject("cmnuListExportCmdAdd.Image");
             cmnuListExportCmdAdd.Name = "cmnuListExportCmdAdd";
-            cmnuListExportCmdAdd.Size = new Size(248, 32);
+            cmnuListExportCmdAdd.Size = new Size(241, 32);
             cmnuListExportCmdAdd.Text = "Add Command";
             cmnuListExportCmdAdd.Click += cmnuListExportCmdAdd_Click;
             // 
@@ -488,7 +491,7 @@
             // 
             cmnuListExportCmdChange.Image = (Image)resources.GetObject("cmnuListExportCmdChange.Image");
             cmnuListExportCmdChange.Name = "cmnuListExportCmdChange";
-            cmnuListExportCmdChange.Size = new Size(248, 32);
+            cmnuListExportCmdChange.Size = new Size(241, 32);
             cmnuListExportCmdChange.Text = "Change Command";
             cmnuListExportCmdChange.Click += cmnuListExportCmdChange_Click;
             // 
@@ -496,20 +499,20 @@
             // 
             cmnuListExportCmdDelete.Image = (Image)resources.GetObject("cmnuListExportCmdDelete.Image");
             cmnuListExportCmdDelete.Name = "cmnuListExportCmdDelete";
-            cmnuListExportCmdDelete.Size = new Size(248, 32);
+            cmnuListExportCmdDelete.Size = new Size(241, 32);
             cmnuListExportCmdDelete.Text = "Delete Command";
             cmnuListExportCmdDelete.Click += cmnuListExportCmdDelete_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(245, 6);
+            toolStripSeparator2.Size = new Size(238, 6);
             // 
             // cmnuListExportCmdUp
             // 
             cmnuListExportCmdUp.Image = (Image)resources.GetObject("cmnuListExportCmdUp.Image");
             cmnuListExportCmdUp.Name = "cmnuListExportCmdUp";
-            cmnuListExportCmdUp.Size = new Size(248, 32);
+            cmnuListExportCmdUp.Size = new Size(241, 32);
             cmnuListExportCmdUp.Text = "Up";
             cmnuListExportCmdUp.Click += cmnuListExportCmdDown_Click;
             // 
@@ -517,7 +520,7 @@
             // 
             cmnuListExportCmdDown.Image = (Image)resources.GetObject("cmnuListExportCmdDown.Image");
             cmnuListExportCmdDown.Name = "cmnuListExportCmdDown";
-            cmnuListExportCmdDown.Size = new Size(248, 32);
+            cmnuListExportCmdDown.Size = new Size(241, 32);
             cmnuListExportCmdDown.Text = "Down";
             cmnuListExportCmdDown.Click += cmnuListExportCmdDown_Click;
             // 
@@ -586,6 +589,7 @@
             // 
             // pageHelp
             // 
+            pageHelp.Controls.Add(txtHelp);
             pageHelp.ImageIndex = 5;
             pageHelp.Location = new Point(4, 34);
             pageHelp.Margin = new Padding(6, 5, 6, 5);
@@ -594,6 +598,40 @@
             pageHelp.TabIndex = 5;
             pageHelp.Text = "Help";
             pageHelp.UseVisualStyleBackColor = true;
+            // 
+            // txtHelp
+            // 
+            txtHelp.AutoCompleteBracketsList = new char[]
+    {
+    '(',
+    ')',
+    '{',
+    '}',
+    '[',
+    ']',
+    '"',
+    '"',
+    '\'',
+    '\''
+    };
+            txtHelp.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
+            txtHelp.AutoScrollMinSize = new Size(35, 22);
+            txtHelp.BackBrush = null;
+            txtHelp.CharHeight = 22;
+            txtHelp.CharWidth = 12;
+            txtHelp.DefaultMarkerSize = 8;
+            txtHelp.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            txtHelp.Dock = DockStyle.Fill;
+            txtHelp.Hotkeys = resources.GetString("txtHelp.Hotkeys");
+            txtHelp.IsReplaceMode = false;
+            txtHelp.Location = new Point(0, 0);
+            txtHelp.Name = "txtHelp";
+            txtHelp.Paddings = new Padding(0);
+            txtHelp.SelectionColor = Color.FromArgb(60, 0, 0, 255);
+            txtHelp.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("txtHelp.ServiceColors");
+            txtHelp.Size = new Size(1289, 824);
+            txtHelp.TabIndex = 0;
+            txtHelp.Zoom = 100;
             // 
             // imgList
             // 
@@ -655,11 +693,11 @@
             ClientSize = new Size(1297, 940);
             Controls.Add(tabControl);
             Controls.Add(pnlBottom);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(6, 5, 6, 5);
             MinimizeBox = false;
             MinimumSize = new Size(731, 814);
             Name = "FrmProject";
-            ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DB Import Plus - Device {0} Properties Version {1}";
@@ -677,6 +715,8 @@
             gbDataSourceType.ResumeLayout(false);
             pageSettings.ResumeLayout(false);
             pageSettings.PerformLayout();
+            pageHelp.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)txtHelp).EndInit();
             pnlBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -709,7 +749,6 @@
         private Button btnConnectionTest;
         private TabPage pageSettings;
         private TabPage pageHelp;
-        private FastColoredTextBoxNS.FastColoredTextBox txtHelp;
         private CheckBox ckbWriteDriverLog;
         private ImageList imgList;
         private TextBox txtTimeout;
@@ -740,5 +779,6 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem cmnuListExportCmdUp;
         private ToolStripMenuItem cmnuListExportCmdDown;
+        private FastColoredTextBoxNS.FastColoredTextBox txtHelp;
     }
 }

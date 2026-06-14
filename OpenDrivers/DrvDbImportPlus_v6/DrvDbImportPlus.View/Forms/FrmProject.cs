@@ -33,7 +33,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
             modified = false;
             connChanging = false;
-            cmdSelecting = false;
             dataSource = null;
             listImportCommands = new List<ImportCmd>();
             listExportCommands = new List<ExportCmd>();
@@ -65,7 +64,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             
             modified = false;
             connChanging = false;
-            cmdSelecting = false;
             dataSource = null;
             listImportCommands = new List<ImportCmd>();
             listExportCommands = new List<ExportCmd>();
@@ -90,13 +88,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         public string pathProject;                      // the configuration file path
 
         private readonly string pathLog;                // the path log
-        private readonly string logFileName;            // the log file name
-
         private bool modified;                          // the configuration was modified
         private bool connChanging;                      // connection settings are changing
-        private bool cmdSelecting;                      // a command is selecting
 
-        private string culture = "en-GB";               // the culture
         private bool isRussian;                         // language
 
 
@@ -325,7 +319,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         private void ProjectToControls()
         {
             connChanging = true;
-            cmdSelecting = true;
 
             // set the control values
             // database
@@ -372,7 +365,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
 
             connChanging = false;
-            cmdSelecting = false;
             Modified = false;
         }
 
@@ -416,7 +408,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
             try
             {
-                if (indexSelectRow != null && indexSelectRow < lstImportCommands.Items.Count)
+                if (indexSelectRow < lstImportCommands.Items.Count)
                 {
                     lstImportCommands.EnsureVisible(indexSelectRow);
                     lstImportCommands.TopItem = lstImportCommands.Items[indexSelectRow];
@@ -468,7 +460,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
 
             try
             {
-                if (indexSelectRow != null && indexSelectRow < lstExportCommands.Items.Count)
+                if (indexSelectRow < lstExportCommands.Items.Count)
                 {
                     lstExportCommands.EnsureVisible(indexSelectRow);
                     lstExportCommands.TopItem = lstExportCommands.Items[indexSelectRow];
@@ -1232,8 +1224,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         /// </summary>
         private bool ValidateDataSource(out string errMsg)
         {
-            bool result = false;
-
             // retrieve the configuration
             ControlsToProject();
 
@@ -1244,13 +1234,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
             }
             else
             {
-                return result = false;
+                return false;
             }
 
             // load a configuration
             if (File.Exists(pathProject) && !project.Load(pathProject, out errMsg))
             {
-                return result = false;
+                return false;
             }
 
             // set the control values
@@ -1302,7 +1292,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                     errMsg = Locale.IsRussian ?
                         "Соединение не определено" :
                         "Connection is undefined";
-                    return result = false;
+                    return false;
                 }
                 else
                 {
@@ -1313,19 +1303,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
                         Application.DoEvents();
                         dataSource.Connect();
                         Application.DoEvents();
-                        return result = true;
+                        return true;
                     }
                     catch (Exception ex)
                     {
                         errMsg = string.Format(Locale.IsRussian ?
                             "Ошибка при соединении с БД: {0}" :
                             "Error connecting to DB: {0}", ex.Message);
-                        return result = false;
+                        return false;
                     }
                 }
             }
 
-            return result = false;
+            return false;
         }
 
         #endregion Tab Settings
