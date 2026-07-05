@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbDataTransferProject>
+  <DbConnSettings>
+    <DataSourceType>Firebird</DataSourceType>
+    <Server>source-db-host</Server>
+    <Database>C:\DATABASE_FIREBIRD\SOURCE.GDB</Database>
+    <Port>3050</Port>
+    <User>db_user</User>
+    <Password>
+    </Password>
+    <OptionalOptions>character set=WIN1251</OptionalOptions>
+    <ConnectionString>
+    </ConnectionString>
+    <Timeout>10</Timeout>
+  </DbConnSettings>
+  <ImportCmds>
+    <ImportCmd>
+      <Id>05900dca-68e9-4274-abab-cc1821870b8c</Id>
+      <Enabled>true</Enabled>
+      <CmdNum>1</CmdNum>
+      <CmdCode>DBIMPORT001</CmdCode>
+      <Name>Import</Name>
+      <Description>Converted from old DrvDbDataTransfer configuration.</Description>
+      <Query>SELECT * FROM DATATABLE_SOURCE</Query>
+      <IsColumnBased>false</IsColumnBased>
+      <DeviceTags>
+        <Tag>
+          <ID>68d478f3-a47d-4021-badc-d80028733538</ID>
+          <Name>TAGNAME777</Name>
+          <Code>TAGNAME777</Code>
+          <Format>0</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+      </DeviceTags>
+    </ImportCmd>
+  </ImportCmds>
+  <ExportCmds />
+  <DebugerSettings>
+    <LogWrite>true</LogWrite>
+    <LogDays>7</LogDays>
+  </DebugerSettings>
+</DrvDbDataTransferProject>

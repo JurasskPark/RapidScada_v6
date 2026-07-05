@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Scada.Comm.Drivers.DrvDbDataTransfer.View</RootNamespace>
+		<Version>6.5.1.1</Version>
+		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
+		<Company>Rapid Software LLC</Company>
+		<Product>Rapid SCADA</Product>
+		<Copyright>Copyright © 2023-2026</Copyright>
+		<LangVersion>preview</LangVersion>
+		<Platforms>AnyCPU;x64</Platforms>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+		<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
+	</PropertyGroup>
+
+	<Import Project="..\DrvDbDataTransfer.Shared\DrvDbDataTransfer.Common.projitems" Label="Shared" />
+
+	<ItemGroup>
+	  <None Remove="Lang\DrvDbDataTransfer.en-GB.xml" />
+	  <None Remove="Lang\DrvDbDataTransfer.ru-RU.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Lang\DrvDbDataTransfer.en-GB.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Lang\DrvDbDataTransfer.ru-RU.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Resources\icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.2" />
+	  <PackageReference Include="InfluxDB.Client" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
+	  <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+	  <PackageReference Include="MySql.Data" Version="9.1.0" />
+	  <PackageReference Include="Npgsql" Version="9.0.2" />
+	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
+	  <PackageReference Include="System.Text.Json" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ScadaCommCommon">
+	    <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon">
+	    <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Forms">
+	    <HintPath>..\Libraries\ScadaCommon.Forms.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ScadaCommon.Log">
+	    <HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<Target Name="MoveBuildDependenciesToDriverSubdir" AfterTargets="Build">
+		<ItemGroup>
+			<DriverBuildDependency Include="$(OutDir)**\*.dll" Exclude="$(TargetPath);$(OutDir)Scada*.dll;$(OutDir)Lang\**\*.dll;$(OutDir)$(AssemblyName)\**\*.dll" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(OutDir)$(AssemblyName)" />
+		<Copy SourceFiles="@(DriverBuildDependency)" DestinationFiles="@(DriverBuildDependency->'$(OutDir)$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Delete Files="@(DriverBuildDependency)" TreatErrorsAsWarnings="true" />
+	</Target>
+
+	<Target Name="MovePublishDependenciesToDriverSubdir" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
+		<ItemGroup>
+			<DriverPublishDependency Include="$(PublishDir)**\*.dll" Exclude="$(PublishDir)$(AssemblyName).dll;$(PublishDir)Scada*.dll;$(PublishDir)Lang\**\*.dll;$(PublishDir)$(AssemblyName)\**\*.dll" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(PublishDir)$(AssemblyName)" />
+		<Copy SourceFiles="@(DriverPublishDependency)" DestinationFiles="@(DriverPublishDependency->'$(PublishDir)$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Delete Files="@(DriverPublishDependency)" TreatErrorsAsWarnings="true" />
+	</Target>
+
+</Project>

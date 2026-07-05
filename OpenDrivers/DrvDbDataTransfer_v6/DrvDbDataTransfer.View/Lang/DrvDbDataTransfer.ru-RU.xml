@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DrvDbDataTransferDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms.FrmProject">
+    <Phrase key="this">Импорт из БД Плюс - Свойства драйвера {0} Версия {1}</Phrase>
+	  <Phrase key="btnClose">Закрыть</Phrase>
+	  <Phrase key="btnConnectionTest">Проверка подключения...</Phrase>
+	  <Phrase key="btnSave">Сохранить</Phrase>
+	  <Phrase key="ckbWriteDriverLog">Записывать в лог результат запроса из базы данных (отладка)</Phrase>
+	  <Phrase key="clmExportCmdCode">Код</Phrase>
+	  <Phrase key="clmExportCmdDescription">Описание</Phrase>
+	  <Phrase key="clmExportCmdEnabled">Включено</Phrase>
+	  <Phrase key="clmExportCmdName">Название</Phrase>
+	  <Phrase key="clmExportCmdNum">Номер</Phrase>
+	  <Phrase key="clmImportCmdCode">Код</Phrase>
+	  <Phrase key="clmImportCmdDescription">Описание</Phrase>
+	  <Phrase key="clmImportCmdEnabled">Включено</Phrase>
+	  <Phrase key="clmImportCmdName">Название</Phrase>
+	  <Phrase key="clmImportCmdNum">Номер</Phrase>
+	  <Phrase key="cmnuListExportCmdAdd">Добавить команду</Phrase>
+	  <Phrase key="cmnuListExportCmdChange">Изменить команду</Phrase>
+	  <Phrase key="cmnuListExportCmdDelete">Удалить команду</Phrase>
+	  <Phrase key="cmnuListExportCmdDown">Опустить вниз</Phrase>
+	  <Phrase key="cmnuListExportCmdUp">Поднять вверх</Phrase>
+	  <Phrase key="cmnuListImportCmdAdd">Добавить команду</Phrase>
+	  <Phrase key="cmnuListImportCmdChange">Изменить команду</Phrase>
+	  <Phrase key="cmnuListImportCmdDelete">Удалить команду</Phrase>
+	  <Phrase key="cmnuListImportCmdDown">Опустить вниз</Phrase>
+	  <Phrase key="cmnuListImportCmdUp">Поднять вверх</Phrase>
+	  <Phrase key="gbConnection">Соединение</Phrase>
+	  <Phrase key="gbDataSourceType">Тип источника данных</Phrase>
+	  <Phrase key="lblConnectionString">Строка подключения</Phrase>
+	  <Phrase key="lblDatabase">База данных</Phrase>
+	  <Phrase key="lblOptionalOptions">Дополнительные параметры</Phrase>
+	  <Phrase key="lblPassword">Пароль</Phrase>
+	  <Phrase key="lblPort">Порт</Phrase>
+	  <Phrase key="lblServer">Сервер</Phrase>
+	  <Phrase key="lblTimeout">Таймаут (сек.)</Phrase>
+	  <Phrase key="lblUser">Пользователь</Phrase>
+	  <Phrase key="pageCommandsExport">Команды экспорта</Phrase>
+	  <Phrase key="pageCommandsImport">Команды импорта</Phrase>
+	  <Phrase key="pageDatabase">База данных</Phrase>
+	  <Phrase key="pageHelp">Справка</Phrase>
+	  <Phrase key="pageSettings">Настройки</Phrase>
+	<Phrase key="txtHelp">
+		На вкладке База данных необходимо выбрать тип СУБД и указать параметры подключения.
+		Если стандартных полей недостаточно, можно редактировать строку подключения напрямую.
+		Примеры строк подключения доступны на сайте https://www.connectionstrings.com.
+
+		Конфигурация драйвера разделена на команды импорта и команды экспорта.
+		У каждой команды импорта есть собственный SQL-запрос, номер, код, название, описание, признак включения,
+		режим представления данных и список тегов. Отключенные команды драйвер не выполняет.
+
+		Режимы получения данных.
+
+		1. Теги на основе списка запрошенных столбцов таблицы.
+		Используйте этот режим, если одна строка результата содержит значения нескольких тегов, а имена столбцов совпадают с именами тегов.
+		Драйвер читает первую возвращенную строку.
+
+		Пример:
+		SELECT COLUMN_1 AS TAGNAME_1,
+		       COLUMN_2 AS TAGNAME_2,
+		       COLUMN_3 AS TAGNAME_3
+		FROM DATATABLE_NAME
+		WHERE УСЛОВИЕ
+
+		Поле Name в списке тегов команды должно совпадать с псевдонимом столбца, например TAGNAME_1.
+		Поле Code должно совпадать с кодом тега КП в Rapid SCADA.
+
+		2. Теги на основе списка запрошенных строк таблицы.
+		Используйте этот режим, если каждая возвращенная строка содержит один тег.
+		Запрос должен возвращать столбцы TAGNAME и TAGVALUE.
+		Столбец TAGTIME или TAGDATETIME является необязательным.
+
+		Пример:
+		SELECT TAGNAME,
+		       TAGVALUE,
+		       TAGTIME
+		FROM DATATABLE_NAME
+		WHERE УСЛОВИЕ
+
+		TAGNAME сопоставляется с полем Name в списке тегов команды.
+		TAGVALUE преобразуется согласно выбранному формату тега.
+		TAGTIME и TAGDATETIME после преобразования драйвером используются как метка времени UTC.
+
+		Исторические данные и срезы.
+		Если TAGTIME или TAGDATETIME не возвращается, значения записываются как текущие данные КП.
+		Если TAGTIME или TAGDATETIME возвращается, значения передаются как исторические данные.
+		Драйвер группирует исторические теги по времени: теги с одинаковой меткой времени попадают в один срез КП.
+		Теги с разным временем передаются отдельными срезами.
+		Чтобы не создавать слишком много срезов, возвращайте строки, отсортированные по времени, и используйте одинаковую метку времени для значений, которые должны попасть в один архивный срез.
+		Точность метки времени - до секунд.
+
+		Примечания по импорту.
+		В режиме столбцов необязательный общий столбец TAGTIME или TAGDATETIME применяется ко всем возвращенным тегам.
+		В режиме строк каждая строка может иметь собственный TAGTIME или TAGDATETIME.
+		Если время пустое или не распознано, значение обрабатывается как текущее.
+
+		Команды экспорта.
+		Команды экспорта записывают значения из Rapid SCADA в базу данных.
+		Используйте @cmdVal в SQL для значения команды и @cmdNum для номера команды.
+		Длина строковой команды задается в свойствах команды экспорта.
+		Не создавайте обычные теги по адресам автоматически сгенерированных тегов команд.
+
+		Примеры команд экспорта:
+		INSERT INTO DATATABLE_NAME
+		(COLUMN_1, COLUMN_2, COLUMN_3)
+		VALUES
+		('TAGNAME00001', @cmdVal, GETDATE());
+
+		UPDATE DATATABLE_NAME SET COLUMN_2 = @cmdVal WHERE COLUMN_1 = @cmdNum;
+
+		MSSQL.
+		Для подключения к MS SQL используется Microsoft.Data.SqlClient.
+		Для удаленного подключения могут потребоваться дополнительные параметры:
+		Persist Security Info=True;Trust Server Certificate=True;
+
+		MySQL.
+		Если нужно указать режим SSL, используйте одно из значений:
+		None или Disabled, Preferred или Prefered, Required, VerifyCA, VerifyFull.
+
+		Конвертация старых проектов.
+		Старые XML-файлы конфигурации DrvDbDataTransfer можно преобразовать консольной утилитой DrvDbDataTransfer.Converter.
+		Запустите ее без аргументов, перетащите XML-файлы или папку конфигурации в консоль и нажмите Enter.
+		Утилита создаст рядом с исходными файлами папку output и запишет туда преобразованные файлы проекта.
+	</Phrase>
+</Dictionary>
+	<Dictionary key="Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms.FrmImportCmd">
+		<Phrase key="this">Команда импорта</Phrase>
+		<Phrase key="btnClose">Закрыть</Phrase>
+		<Phrase key="btnExecuteSQLQuery">Выполнить SQL-запрос</Phrase>
+		<Phrase key="btnSave">Сохранить</Phrase>
+		<Phrase key="clmCode">Код</Phrase>
+		<Phrase key="clmEnabled">Включено</Phrase>
+		<Phrase key="clmFormat">Формат</Phrase>
+		<Phrase key="clmName">Название</Phrase>
+		<Phrase key="cmnuScriptQueryCopy">Копировать</Phrase>
+		<Phrase key="cmnuScriptQueryCut">Вырезать</Phrase>
+		<Phrase key="cmnuScriptQueryPaste">Вставить</Phrase>
+		<Phrase key="cmnuScriptQueryRedo">Повторить</Phrase>
+		<Phrase key="cmnuScriptQuerySelectAll">Выбрать все</Phrase>
+		<Phrase key="cmnuScriptQueryUndo">Отменить</Phrase>
+		<Phrase key="cmnuTagAdd">Добавить тег</Phrase>
+		<Phrase key="cmnuTagChange">Изменить тег</Phrase>
+		<Phrase key="cmnuTagDelete">Удалить тег</Phrase>
+		<Phrase key="cmnuTagDown">Вниз</Phrase>
+		<Phrase key="cmnuTagListAdd">Добавить список тегов</Phrase>
+		<Phrase key="cmnuTagListDelete">Удалить все теги</Phrase>
+		<Phrase key="cmnuTagUp">Вверх</Phrase>
+		<Phrase key="gbCommandParams">Параметры команды</Phrase>
+		<Phrase key="gpbTagFormatDatabase">Формат тегов из базы данных</Phrase>
+		<Phrase key="gpbTags">Теги</Phrase>
+		<Phrase key="lblCmdCode">Код команды</Phrase>
+		<Phrase key="lblCmdEnabled">Включено</Phrase>
+		<Phrase key="lblCmdName">Название</Phrase>
+		<Phrase key="lblCmdNum">Номер команды</Phrase>
+		<Phrase key="lblCmdQuery">SQL</Phrase>
+		<Phrase key="lblCmdStringLenght">Максимальное количество символов в команде со строкой</Phrase>
+		<Phrase key="lblData">Данные</Phrase>
+		<Phrase key="lblDescription">Описание</Phrase>
+		<Phrase key="pageData">Данные</Phrase>
+		<Phrase key="pageResult">Результат</Phrase>
+		<Phrase key="pageTags">Теги</Phrase>
+		<Phrase key="rdbTagsBasedRequestedTableColumns">Теги на основе списка запрошенных столбцов таблицы</Phrase>
+		<Phrase key="rdbTagsBasedRequestedTableRows">Теги на основе списка запрошенных строк таблицы</Phrase>
+	</Dictionary>
+	<Dictionary key="Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms.FrmExportCmd">
+		<Phrase key="this">Команда экспорта</Phrase>
+		<Phrase key="btnClose">Закрыть</Phrase>
+		<Phrase key="btnExecuteSQLQuery">Выполнить SQL-запрос</Phrase>
+		<Phrase key="btnSave">Сохранить</Phrase>
+		<Phrase key="clmCode">Код</Phrase>
+		<Phrase key="clmEnabled">Включено</Phrase>
+		<Phrase key="clmFormat">Формат</Phrase>
+		<Phrase key="clmName">Название</Phrase>
+		<Phrase key="cmnuScriptQueryCopy">Копировать</Phrase>
+		<Phrase key="cmnuScriptQueryCut">Вырезать</Phrase>
+		<Phrase key="cmnuScriptQueryPaste">Вставить</Phrase>
+		<Phrase key="cmnuScriptQueryRedo">Повторить</Phrase>
+		<Phrase key="cmnuScriptQuerySelectAll">Выбрать все</Phrase>
+		<Phrase key="cmnuScriptQueryUndo">Отменить</Phrase>
+		<Phrase key="cmnuTagAdd">Добавить тег</Phrase>
+		<Phrase key="cmnuTagChange">Изменить тег</Phrase>
+		<Phrase key="cmnuTagDelete">Удалить тег</Phrase>
+		<Phrase key="cmnuTagDown">Вниз</Phrase>
+		<Phrase key="cmnuTagListAdd">Добавить список тегов</Phrase>
+		<Phrase key="cmnuTagListDelete">Удалить все теги</Phrase>
+		<Phrase key="cmnuTagUp">Вверх</Phrase>
+		<Phrase key="gbCommandParams">Параметры команды</Phrase>
+		<Phrase key="gpbTagFormatDatabase">Формат тегов из базы данных</Phrase>
+		<Phrase key="gpbTags">Теги</Phrase>
+		<Phrase key="lblCmdCode">Код команды</Phrase>
+		<Phrase key="lblCmdEnabled">Включено</Phrase>
+		<Phrase key="lblCmdName">Название</Phrase>
+		<Phrase key="lblCmdNum">Номер команды</Phrase>
+		<Phrase key="lblCmdQuery">SQL</Phrase>
+		<Phrase key="lblCmdStringLenght">Максимальное количество символов в команде со строкой</Phrase>
+		<Phrase key="lblData">Данные</Phrase>
+		<Phrase key="lblDescription">Описание</Phrase>
+		<Phrase key="pageData">Данные</Phrase>
+		<Phrase key="pageResult">Результат</Phrase>
+		<Phrase key="pageTags">Теги</Phrase>
+		<Phrase key="rdbTagsBasedRequestedTableColumns">Теги на основе списка запрошенных столбцов таблицы</Phrase>
+		<Phrase key="rdbTagsBasedRequestedTableRows">Теги на основе списка запрошенных строк таблицы</Phrase>
+	</Dictionary>
+	<Dictionary key="Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms.FrmInputBox">
+	<Phrase key="btnOk">Ок</Phrase>
+	<Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms.FrmTag">
+	<Phrase key="lblTagCode">Код тега</Phrase>
+	<Phrase key="lblTagname">Название тега</Phrase>
+	<Phrase key="lblFormat">Формат</Phrase>
+	<Phrase key="lblNumberOfDecimalPlaces">Кол-во знаков после запятой</Phrase>
+	  <Phrase key="lblMaxNumberCharactersInWord">Максимальное кол-во знаков в слове</Phrase>
+	<Phrase key="lblEnabled">Включен</Phrase>
+	<Phrase key="btnAdd">Добавить</Phrase>
+	<Phrase key="btnSave">Сохранить</Phrase>
+	<Phrase key="btnClose">Закрыть</Phrase>
+  </Dictionary>
+</DrvDbDataTransferDictionaries>
