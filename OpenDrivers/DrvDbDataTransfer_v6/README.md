@@ -795,15 +795,6 @@ The `StartСompilingFull.bat` script publishes runtime packages for Windows x64,
 
 Скрипт `StartСompilingFull.bat` публикует пакеты для Windows x64, Windows x86 и runtime-логики Linux x64, а также может копировать файлы в локальную установку Rapid SCADA.
 
-## Videos / Видео
-
-[Video on YouTube](https://www.youtube.com/watch?v=cZMksoblUgo)
-
-[Video on YouTube](https://www.youtube.com/watch?v=TFZfBMuRMVU)
-
-[![Video on YouTube](https://img.youtube.com/vi/cZMksoblUgo/0.jpg)](https://www.youtube.com/watch?v=cZMksoblUgo)
-[![Video on YouTube](https://img.youtube.com/vi/TFZfBMuRMVU/0.jpg)](https://www.youtube.com/watch?v=TFZfBMuRMVU)
-
 ## Screenshots / Скриншоты
 
 ![DrvDbDataTransfer](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/Source/DrvDbDataTransfer_001.png)
