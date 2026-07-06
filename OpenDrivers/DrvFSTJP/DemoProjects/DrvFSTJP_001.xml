@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DrvFSTJPConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MasterAddress>0</MasterAddress>
+  <DeviceAddress>1</DeviceAddress>
+  <PollLinkCheck>true</PollLinkCheck>
+  <PollStatus>true</PollStatus>
+  <DetailedPacketLog>true</DetailedPacketLog>
+  <RequestDelayMs>50</RequestDelayMs>
+  <Channels>
+    <Channel>
+      <Order>0</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>1</ChannelNo>
+      <Name>Channel 1</Name>
+      <CodePrefix>CH1</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>1</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>2</ChannelNo>
+      <Name>Channel 2</Name>
+      <CodePrefix>CH2</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>2</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>3</ChannelNo>
+      <Name>Channel 3</Name>
+      <CodePrefix>CH3</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>3</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>4</ChannelNo>
+      <Name>Channel 4</Name>
+      <CodePrefix>CH4</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>4</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>5</ChannelNo>
+      <Name>Channel 5</Name>
+      <CodePrefix>CH5</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>5</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>6</ChannelNo>
+      <Name>Channel 6</Name>
+      <CodePrefix>CH6</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>6</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>7</ChannelNo>
+      <Name>Channel 7</Name>
+      <CodePrefix>CH7</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+    <Channel>
+      <Order>7</Order>
+      <Enabled>true</Enabled>
+      <ChannelNo>8</ChannelNo>
+      <Name>Channel 8</Name>
+      <CodePrefix>CH8</CodePrefix>
+      <Coefficient>1</Coefficient>
+      <Offset>0</Offset>
+      <Precision>2</Precision>
+      <Units></Units>
+    </Channel>
+  </Channels>
+  <RelayDevices>
+  </RelayDevices>
+</DrvFSTJPConfig>

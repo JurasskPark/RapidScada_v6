@@ -23,11 +23,6 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
         }
 
         /// <summary>
-        /// Gets the legacy DB connection settings.
-        /// </summary>
-        public DbConnSettings DbConnSettings => SourceDbConnSettings;
-
-        /// <summary>
         /// Gets the source DB connection settings.
         /// </summary>
         public DbConnSettings SourceDbConnSettings { get; private set; }

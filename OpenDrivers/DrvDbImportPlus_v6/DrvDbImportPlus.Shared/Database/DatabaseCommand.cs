@@ -663,13 +663,53 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
         /// <returns>True if the query starts with SELECT; otherwise, False.</returns>
         private bool IsSelectQuery(string request)
         {
-            if (string.IsNullOrEmpty(request))
+            if (string.IsNullOrWhiteSpace(request))
             {
                 return false;
             }
 
-            string trimmedRequest = request.Trim();
+            string trimmedRequest = TrimLeadingSqlComments(request);
             return trimmedRequest.StartsWith("select", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string TrimLeadingSqlComments(string request)
+        {
+            int position = 0;
+
+            while (position < request.Length)
+            {
+                while (position < request.Length && char.IsWhiteSpace(request[position]))
+                {
+                    position++;
+                }
+
+                if (position + 1 < request.Length && request[position] == '-' && request[position + 1] == '-')
+                {
+                    position += 2;
+                    while (position < request.Length && request[position] != '\r' && request[position] != '\n')
+                    {
+                        position++;
+                    }
+
+                    continue;
+                }
+
+                if (position + 1 < request.Length && request[position] == '/' && request[position + 1] == '*')
+                {
+                    int commentEnd = request.IndexOf("*/", position + 2, StringComparison.Ordinal);
+                    if (commentEnd < 0)
+                    {
+                        return string.Empty;
+                    }
+
+                    position = commentEnd + 2;
+                    continue;
+                }
+
+                break;
+            }
+
+            return request.Substring(position).TrimStart();
         }
 
         /// <summary>

@@ -35,22 +35,19 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             gbCommandParams = new GroupBox();
             lblCmdEnabled = new Label();
             ckbEnabled = new CheckBox();
+            chkStopOnError = new CheckBox();
+            lblBatchSize = new Label();
+            nudBatchSize = new NumericUpDown();
             tabControlCommand = new TabControl();
             pageData = new TabPage();
             tlpPanel = new TableLayoutPanel();
             btnExecuteSQLQuery = new Button();
             dgvData = new DataGridView();
             lblData = new Label();
-            fctCmdQuery = new FastColoredTextBoxNS.FastColoredTextBox();
-            cmnuMenuScriptQuery = new ContextMenuStrip(components);
-            cmnuScriptQueryCut = new ToolStripMenuItem();
-            cmnuScriptQueryCopy = new ToolStripMenuItem();
-            cmnuScriptQueryPaste = new ToolStripMenuItem();
-            cmnuScriptQuerySelectAll = new ToolStripMenuItem();
-            cmnuSeparator01 = new ToolStripSeparator();
-            cmnuScriptQueryUndo = new ToolStripMenuItem();
-            cmnuScriptQueryRedo = new ToolStripMenuItem();
             lblCmdQuery = new Label();
+            fctCmdQuery = new FastColoredTextBoxNS.FastColoredTextBox();
+            lblInsertQuery = new Label();
+            fctInsertQuery = new FastColoredTextBoxNS.FastColoredTextBox();
             pageTags = new TabPage();
             gpbTags = new GroupBox();
             tlpTags = new TableLayoutPanel();
@@ -85,16 +82,25 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             lblCmdName = new Label();
             nudCmdNum = new NumericUpDown();
             lblCmdNum = new Label();
+            cmnuMenuScriptQuery = new ContextMenuStrip(components);
+            cmnuScriptQueryCut = new ToolStripMenuItem();
+            cmnuScriptQueryCopy = new ToolStripMenuItem();
+            cmnuScriptQueryPaste = new ToolStripMenuItem();
+            cmnuScriptQuerySelectAll = new ToolStripMenuItem();
+            cmnuSeparator01 = new ToolStripSeparator();
+            cmnuScriptQueryUndo = new ToolStripMenuItem();
+            cmnuScriptQueryRedo = new ToolStripMenuItem();
             pnlBottom = new Panel();
             btnClose = new Button();
             btnSave = new Button();
             gbCommandParams.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudBatchSize).BeginInit();
             tabControlCommand.SuspendLayout();
             pageData.SuspendLayout();
             tlpPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvData).BeginInit();
             ((System.ComponentModel.ISupportInitialize)fctCmdQuery).BeginInit();
-            cmnuMenuScriptQuery.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)fctInsertQuery).BeginInit();
             pageTags.SuspendLayout();
             gpbTags.SuspendLayout();
             tlpTags.SuspendLayout();
@@ -104,6 +110,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             ((System.ComponentModel.ISupportInitialize)fctResult).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCmdStringLenght).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCmdNum).BeginInit();
+            cmnuMenuScriptQuery.SuspendLayout();
             pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
@@ -112,6 +119,9 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             gbCommandParams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gbCommandParams.Controls.Add(lblCmdEnabled);
             gbCommandParams.Controls.Add(ckbEnabled);
+            gbCommandParams.Controls.Add(chkStopOnError);
+            gbCommandParams.Controls.Add(lblBatchSize);
+            gbCommandParams.Controls.Add(nudBatchSize);
             gbCommandParams.Controls.Add(tabControlCommand);
             gbCommandParams.Controls.Add(txtCmdDescription);
             gbCommandParams.Controls.Add(lblDescription);
@@ -151,6 +161,35 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             ckbEnabled.TabIndex = 14;
             ckbEnabled.UseVisualStyleBackColor = true;
             // 
+            // chkStopOnError
+            // 
+            chkStopOnError.AutoSize = true;
+            chkStopOnError.Checked = true;
+            chkStopOnError.CheckState = CheckState.Checked;
+            chkStopOnError.Location = new Point(614, 64);
+            chkStopOnError.Name = "chkStopOnError";
+            chkStopOnError.Size = new Size(144, 29);
+            chkStopOnError.TabIndex = 19;
+            chkStopOnError.Text = "Stop on error";
+            chkStopOnError.UseVisualStyleBackColor = true;
+            // 
+            // lblBatchSize
+            // 
+            lblBatchSize.AutoSize = true;
+            lblBatchSize.Location = new Point(511, 28);
+            lblBatchSize.Name = "lblBatchSize";
+            lblBatchSize.Size = new Size(93, 25);
+            lblBatchSize.TabIndex = 20;
+            lblBatchSize.Text = "Batch size:";
+            // 
+            // nudBatchSize
+            // 
+            nudBatchSize.Location = new Point(511, 63);
+            nudBatchSize.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            nudBatchSize.Name = "nudBatchSize";
+            nudBatchSize.Size = new Size(80, 31);
+            nudBatchSize.TabIndex = 21;
+            // 
             // tabControlCommand
             // 
             tabControlCommand.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -178,19 +217,23 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             // 
             tlpPanel.ColumnCount = 1;
             tlpPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlpPanel.Controls.Add(btnExecuteSQLQuery, 0, 4);
+            tlpPanel.Controls.Add(btnExecuteSQLQuery, 0, 6);
             tlpPanel.Controls.Add(dgvData, 0, 1);
             tlpPanel.Controls.Add(lblData, 0, 0);
-            tlpPanel.Controls.Add(fctCmdQuery, 0, 3);
             tlpPanel.Controls.Add(lblCmdQuery, 0, 2);
+            tlpPanel.Controls.Add(fctCmdQuery, 0, 3);
+            tlpPanel.Controls.Add(lblInsertQuery, 0, 4);
+            tlpPanel.Controls.Add(fctInsertQuery, 0, 5);
             tlpPanel.Dock = DockStyle.Fill;
             tlpPanel.Location = new Point(3, 3);
             tlpPanel.Name = "tlpPanel";
-            tlpPanel.RowCount = 5;
+            tlpPanel.RowCount = 7;
             tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 34F));
             tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33F));
+            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
+            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33F));
             tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tlpPanel.Size = new Size(1116, 448);
             tlpPanel.TabIndex = 0;
@@ -198,10 +241,10 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             // btnExecuteSQLQuery
             // 
             btnExecuteSQLQuery.Dock = DockStyle.Fill;
-            btnExecuteSQLQuery.Location = new Point(6, 403);
+            btnExecuteSQLQuery.Location = new Point(6, 401);
             btnExecuteSQLQuery.Margin = new Padding(6, 5, 6, 5);
             btnExecuteSQLQuery.Name = "btnExecuteSQLQuery";
-            btnExecuteSQLQuery.Size = new Size(1104, 40);
+            btnExecuteSQLQuery.Size = new Size(1104, 42);
             btnExecuteSQLQuery.TabIndex = 16;
             btnExecuteSQLQuery.Text = "Execute SQL query";
             btnExecuteSQLQuery.UseVisualStyleBackColor = true;
@@ -233,7 +276,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             dgvData.Name = "dgvData";
             dgvData.ReadOnly = true;
             dgvData.RowHeadersWidth = 62;
-            dgvData.Size = new Size(1104, 162);
+            dgvData.Size = new Size(1104, 97);
             dgvData.TabIndex = 15;
             dgvData.DataError += dgvData_DataError;
             // 
@@ -246,9 +289,18 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             lblData.TabIndex = 14;
             lblData.Text = "Data";
             // 
+            // lblCmdQuery
+            // 
+            lblCmdQuery.AutoSize = true;
+            lblCmdQuery.Location = new Point(6, 134);
+            lblCmdQuery.Margin = new Padding(6, 0, 6, 0);
+            lblCmdQuery.Name = "lblCmdQuery";
+            lblCmdQuery.Size = new Size(44, 25);
+            lblCmdQuery.TabIndex = 4;
+            lblCmdQuery.Text = "SQL";
+            // 
             // fctCmdQuery
             // 
-            fctCmdQuery.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             fctCmdQuery.AutoCompleteBracketsList = new char[]
     {
     '(',
@@ -262,108 +314,72 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
     '\'',
     '\''
     };
-            fctCmdQuery.AutoIndentCharsPatterns = "";
-            fctCmdQuery.AutoScrollMinSize = new Size(0, 22);
+            fctCmdQuery.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
+            fctCmdQuery.AutoScrollMinSize = new Size(35, 22);
             fctCmdQuery.BackBrush = null;
             fctCmdQuery.BorderStyle = BorderStyle.FixedSingle;
             fctCmdQuery.CharHeight = 22;
             fctCmdQuery.CharWidth = 12;
-            fctCmdQuery.CommentPrefix = "--";
-            fctCmdQuery.ContextMenuStrip = cmnuMenuScriptQuery;
-            fctCmdQuery.Cursor = Cursors.IBeam;
             fctCmdQuery.DefaultMarkerSize = 8;
             fctCmdQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            fctCmdQuery.Dock = DockStyle.Fill;
             fctCmdQuery.Hotkeys = resources.GetString("fctCmdQuery.Hotkeys");
             fctCmdQuery.IsReplaceMode = false;
             fctCmdQuery.Language = FastColoredTextBoxNS.Language.SQL;
-            fctCmdQuery.LeftBracket = '(';
-            fctCmdQuery.Location = new Point(4, 231);
-            fctCmdQuery.Margin = new Padding(4, 5, 4, 5);
+            fctCmdQuery.Location = new Point(3, 164);
             fctCmdQuery.Name = "fctCmdQuery";
             fctCmdQuery.Paddings = new Padding(0);
-            fctCmdQuery.RightBracket = ')';
             fctCmdQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctCmdQuery.ServiceColors = null;
-            fctCmdQuery.Size = new Size(1108, 162);
-            fctCmdQuery.TabIndex = 6;
-            fctCmdQuery.WordWrap = true;
+            fctCmdQuery.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctCmdQuery.ServiceColors");
+            fctCmdQuery.Size = new Size(1110, 98);
+            fctCmdQuery.TabIndex = 17;
             fctCmdQuery.Zoom = 100;
             // 
-            // cmnuMenuScriptQuery
+            // lblInsertQuery
             // 
-            cmnuMenuScriptQuery.ImageScalingSize = new Size(24, 24);
-            cmnuMenuScriptQuery.Items.AddRange(new ToolStripItem[] { cmnuScriptQueryCut, cmnuScriptQueryCopy, cmnuScriptQueryPaste, cmnuScriptQuerySelectAll, cmnuSeparator01, cmnuScriptQueryUndo, cmnuScriptQueryRedo });
-            cmnuMenuScriptQuery.Name = "cmnuSelectQuery";
-            cmnuMenuScriptQuery.Size = new Size(227, 202);
+            lblInsertQuery.AutoSize = true;
+            lblInsertQuery.Dock = DockStyle.Fill;
+            lblInsertQuery.Location = new Point(3, 265);
+            lblInsertQuery.Name = "lblInsertQuery";
+            lblInsertQuery.Size = new Size(1110, 27);
+            lblInsertQuery.TabIndex = 17;
+            lblInsertQuery.Text = "INSERT / UPSERT";
             // 
-            // cmnuScriptQueryCut
+            // fctInsertQuery
             // 
-            cmnuScriptQueryCut.Image = (Image)resources.GetObject("cmnuScriptQueryCut.Image");
-            cmnuScriptQueryCut.Name = "cmnuScriptQueryCut";
-            cmnuScriptQueryCut.ShortcutKeys = Keys.Control | Keys.X;
-            cmnuScriptQueryCut.Size = new Size(226, 32);
-            cmnuScriptQueryCut.Text = "Cut";
-            cmnuScriptQueryCut.Click += cmnuScriptQueryCut_Click;
-            // 
-            // cmnuScriptQueryCopy
-            // 
-            cmnuScriptQueryCopy.Image = (Image)resources.GetObject("cmnuScriptQueryCopy.Image");
-            cmnuScriptQueryCopy.Name = "cmnuScriptQueryCopy";
-            cmnuScriptQueryCopy.ShortcutKeys = Keys.Control | Keys.C;
-            cmnuScriptQueryCopy.Size = new Size(226, 32);
-            cmnuScriptQueryCopy.Text = "Copy";
-            cmnuScriptQueryCopy.Click += cmnuScriptQueryCopy_Click;
-            // 
-            // cmnuScriptQueryPaste
-            // 
-            cmnuScriptQueryPaste.Image = (Image)resources.GetObject("cmnuScriptQueryPaste.Image");
-            cmnuScriptQueryPaste.Name = "cmnuScriptQueryPaste";
-            cmnuScriptQueryPaste.ShortcutKeys = Keys.Control | Keys.V;
-            cmnuScriptQueryPaste.Size = new Size(226, 32);
-            cmnuScriptQueryPaste.Text = "Paste";
-            cmnuScriptQueryPaste.Click += cmnuScriptQueryPaste_Click;
-            // 
-            // cmnuScriptQuerySelectAll
-            // 
-            cmnuScriptQuerySelectAll.Image = (Image)resources.GetObject("cmnuScriptQuerySelectAll.Image");
-            cmnuScriptQuerySelectAll.Name = "cmnuScriptQuerySelectAll";
-            cmnuScriptQuerySelectAll.ShortcutKeys = Keys.Control | Keys.A;
-            cmnuScriptQuerySelectAll.Size = new Size(226, 32);
-            cmnuScriptQuerySelectAll.Text = "Select All";
-            cmnuScriptQuerySelectAll.Click += cmnuScriptQuerySelectAll_Click;
-            // 
-            // cmnuSeparator01
-            // 
-            cmnuSeparator01.Name = "cmnuSeparator01";
-            cmnuSeparator01.Size = new Size(223, 6);
-            // 
-            // cmnuScriptQueryUndo
-            // 
-            cmnuScriptQueryUndo.Image = (Image)resources.GetObject("cmnuScriptQueryUndo.Image");
-            cmnuScriptQueryUndo.Name = "cmnuScriptQueryUndo";
-            cmnuScriptQueryUndo.ShortcutKeys = Keys.Control | Keys.Z;
-            cmnuScriptQueryUndo.Size = new Size(226, 32);
-            cmnuScriptQueryUndo.Text = "Undo";
-            cmnuScriptQueryUndo.Click += cmnuScriptQueryUndo_Click;
-            // 
-            // cmnuScriptQueryRedo
-            // 
-            cmnuScriptQueryRedo.Image = (Image)resources.GetObject("cmnuScriptQueryRedo.Image");
-            cmnuScriptQueryRedo.Name = "cmnuScriptQueryRedo";
-            cmnuScriptQueryRedo.ShortcutKeys = Keys.Control | Keys.Y;
-            cmnuScriptQueryRedo.Size = new Size(226, 32);
-            cmnuScriptQueryRedo.Text = "Redo";
-            cmnuScriptQueryRedo.Click += cmnuScriptQueryRedo_Click;
-            // 
-            // lblCmdQuery
-            // 
-            lblCmdQuery.AutoSize = true;
-            lblCmdQuery.Location = new Point(6, 199);
-            lblCmdQuery.Margin = new Padding(6, 0, 6, 0);
-            lblCmdQuery.Name = "lblCmdQuery";
-            lblCmdQuery.Size = new Size(44, 25);
-            lblCmdQuery.TabIndex = 4;
-            lblCmdQuery.Text = "SQL";
+            fctInsertQuery.AutoCompleteBracketsList = new char[]
+    {
+    '(',
+    ')',
+    '{',
+    '}',
+    '[',
+    ']',
+    '"',
+    '"',
+    '\'',
+    '\''
+    };
+            fctInsertQuery.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
+            fctInsertQuery.AutoScrollMinSize = new Size(35, 22);
+            fctInsertQuery.BackBrush = null;
+            fctInsertQuery.BorderStyle = BorderStyle.FixedSingle;
+            fctInsertQuery.CharHeight = 22;
+            fctInsertQuery.CharWidth = 12;
+            fctInsertQuery.DefaultMarkerSize = 8;
+            fctInsertQuery.DisabledColor = Color.FromArgb(100, 180, 180, 180);
+            fctInsertQuery.Dock = DockStyle.Fill;
+            fctInsertQuery.Hotkeys = resources.GetString("fctInsertQuery.Hotkeys");
+            fctInsertQuery.IsReplaceMode = false;
+            fctInsertQuery.Language = FastColoredTextBoxNS.Language.SQL;
+            fctInsertQuery.Location = new Point(3, 295);
+            fctInsertQuery.Name = "fctInsertQuery";
+            fctInsertQuery.Paddings = new Padding(0);
+            fctInsertQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
+            fctInsertQuery.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctInsertQuery.ServiceColors");
+            fctInsertQuery.Size = new Size(1110, 98);
+            fctInsertQuery.TabIndex = 18;
+            fctInsertQuery.Zoom = 100;
             // 
             // pageTags
             // 
@@ -582,30 +598,24 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
     '\'',
     '\''
     };
-            fctResult.AutoIndentCharsPatterns = "";
-            fctResult.AutoScrollMinSize = new Size(0, 22);
+            fctResult.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
+            fctResult.AutoScrollMinSize = new Size(35, 22);
             fctResult.BackBrush = null;
             fctResult.BorderStyle = BorderStyle.FixedSingle;
             fctResult.CharHeight = 22;
             fctResult.CharWidth = 12;
-            fctResult.CommentPrefix = "--";
-            fctResult.Cursor = Cursors.IBeam;
             fctResult.DefaultMarkerSize = 8;
             fctResult.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             fctResult.Dock = DockStyle.Fill;
             fctResult.Hotkeys = resources.GetString("fctResult.Hotkeys");
             fctResult.IsReplaceMode = false;
-            fctResult.LeftBracket = '(';
             fctResult.Location = new Point(0, 0);
-            fctResult.Margin = new Padding(4, 5, 4, 5);
             fctResult.Name = "fctResult";
             fctResult.Paddings = new Padding(0);
-            fctResult.RightBracket = ')';
             fctResult.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctResult.ServiceColors = null;
+            fctResult.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctResult.ServiceColors");
             fctResult.Size = new Size(1122, 454);
-            fctResult.TabIndex = 7;
-            fctResult.WordWrap = true;
+            fctResult.TabIndex = 0;
             fctResult.Zoom = 100;
             // 
             // txtCmdDescription
@@ -702,6 +712,72 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             lblCmdNum.TabIndex = 0;
             lblCmdNum.Text = "Command number";
             // 
+            // cmnuMenuScriptQuery
+            // 
+            cmnuMenuScriptQuery.ImageScalingSize = new Size(24, 24);
+            cmnuMenuScriptQuery.Items.AddRange(new ToolStripItem[] { cmnuScriptQueryCut, cmnuScriptQueryCopy, cmnuScriptQueryPaste, cmnuScriptQuerySelectAll, cmnuSeparator01, cmnuScriptQueryUndo, cmnuScriptQueryRedo });
+            cmnuMenuScriptQuery.Name = "cmnuSelectQuery";
+            cmnuMenuScriptQuery.Size = new Size(227, 202);
+            // 
+            // cmnuScriptQueryCut
+            // 
+            cmnuScriptQueryCut.Image = (Image)resources.GetObject("cmnuScriptQueryCut.Image");
+            cmnuScriptQueryCut.Name = "cmnuScriptQueryCut";
+            cmnuScriptQueryCut.ShortcutKeys = Keys.Control | Keys.X;
+            cmnuScriptQueryCut.Size = new Size(226, 32);
+            cmnuScriptQueryCut.Text = "Cut";
+            cmnuScriptQueryCut.Click += cmnuScriptQueryCut_Click;
+            // 
+            // cmnuScriptQueryCopy
+            // 
+            cmnuScriptQueryCopy.Image = (Image)resources.GetObject("cmnuScriptQueryCopy.Image");
+            cmnuScriptQueryCopy.Name = "cmnuScriptQueryCopy";
+            cmnuScriptQueryCopy.ShortcutKeys = Keys.Control | Keys.C;
+            cmnuScriptQueryCopy.Size = new Size(226, 32);
+            cmnuScriptQueryCopy.Text = "Copy";
+            cmnuScriptQueryCopy.Click += cmnuScriptQueryCopy_Click;
+            // 
+            // cmnuScriptQueryPaste
+            // 
+            cmnuScriptQueryPaste.Image = (Image)resources.GetObject("cmnuScriptQueryPaste.Image");
+            cmnuScriptQueryPaste.Name = "cmnuScriptQueryPaste";
+            cmnuScriptQueryPaste.ShortcutKeys = Keys.Control | Keys.V;
+            cmnuScriptQueryPaste.Size = new Size(226, 32);
+            cmnuScriptQueryPaste.Text = "Paste";
+            cmnuScriptQueryPaste.Click += cmnuScriptQueryPaste_Click;
+            // 
+            // cmnuScriptQuerySelectAll
+            // 
+            cmnuScriptQuerySelectAll.Image = (Image)resources.GetObject("cmnuScriptQuerySelectAll.Image");
+            cmnuScriptQuerySelectAll.Name = "cmnuScriptQuerySelectAll";
+            cmnuScriptQuerySelectAll.ShortcutKeys = Keys.Control | Keys.A;
+            cmnuScriptQuerySelectAll.Size = new Size(226, 32);
+            cmnuScriptQuerySelectAll.Text = "Select All";
+            cmnuScriptQuerySelectAll.Click += cmnuScriptQuerySelectAll_Click;
+            // 
+            // cmnuSeparator01
+            // 
+            cmnuSeparator01.Name = "cmnuSeparator01";
+            cmnuSeparator01.Size = new Size(223, 6);
+            // 
+            // cmnuScriptQueryUndo
+            // 
+            cmnuScriptQueryUndo.Image = (Image)resources.GetObject("cmnuScriptQueryUndo.Image");
+            cmnuScriptQueryUndo.Name = "cmnuScriptQueryUndo";
+            cmnuScriptQueryUndo.ShortcutKeys = Keys.Control | Keys.Z;
+            cmnuScriptQueryUndo.Size = new Size(226, 32);
+            cmnuScriptQueryUndo.Text = "Undo";
+            cmnuScriptQueryUndo.Click += cmnuScriptQueryUndo_Click;
+            // 
+            // cmnuScriptQueryRedo
+            // 
+            cmnuScriptQueryRedo.Image = (Image)resources.GetObject("cmnuScriptQueryRedo.Image");
+            cmnuScriptQueryRedo.Name = "cmnuScriptQueryRedo";
+            cmnuScriptQueryRedo.ShortcutKeys = Keys.Control | Keys.Y;
+            cmnuScriptQueryRedo.Size = new Size(226, 32);
+            cmnuScriptQueryRedo.Text = "Redo";
+            cmnuScriptQueryRedo.Click += cmnuScriptQueryRedo_Click;
+            // 
             // pnlBottom
             // 
             pnlBottom.Controls.Add(btnClose);
@@ -756,13 +832,14 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             KeyDown += FrmImportCmd_KeyDown;
             gbCommandParams.ResumeLayout(false);
             gbCommandParams.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudBatchSize).EndInit();
             tabControlCommand.ResumeLayout(false);
             pageData.ResumeLayout(false);
             tlpPanel.ResumeLayout(false);
             tlpPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvData).EndInit();
             ((System.ComponentModel.ISupportInitialize)fctCmdQuery).EndInit();
-            cmnuMenuScriptQuery.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)fctInsertQuery).EndInit();
             pageTags.ResumeLayout(false);
             gpbTags.ResumeLayout(false);
             tlpTags.ResumeLayout(false);
@@ -773,6 +850,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             ((System.ComponentModel.ISupportInitialize)fctResult).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudCmdStringLenght).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudCmdNum).EndInit();
+            cmnuMenuScriptQuery.ResumeLayout(false);
             pnlBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -835,5 +913,10 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripMenuItem cmnuTagUp;
         private ToolStripMenuItem cmnuTagDown;
+        private FastColoredTextBoxNS.FastColoredTextBox fctInsertQuery;
+        private Label lblInsertQuery;
+        private CheckBox chkStopOnError;
+        private NumericUpDown nudBatchSize;
+        private Label lblBatchSize;
     }
 }

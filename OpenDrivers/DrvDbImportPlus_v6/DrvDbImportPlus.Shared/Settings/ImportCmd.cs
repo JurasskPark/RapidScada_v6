@@ -1,4 +1,4 @@
-﻿using InfluxDB.Client.Api.Domain;
+using InfluxDB.Client.Api.Domain;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -22,6 +22,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             Name = "";
             Description = "";
             Query = "";
+            HistoryEnabled = false;
+            HistoryWindowMinutes = 60;
+            HistoryBatchSize = 0;
+            HistoryStopOnError = true;
             IsColumnBased = true;
             DeviceTags = new List<DriverTag>();
         }
@@ -62,6 +66,26 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         public string Query { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether historical SQL window import is enabled.
+        /// </summary>
+        public bool HistoryEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets historical query window length in minutes.
+        /// </summary>
+        public int HistoryWindowMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets read batch size reserved for historical import. Zero means provider default.
+        /// </summary>
+        public int HistoryBatchSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether historical import stops on first error.
+        /// </summary>
+        public bool HistoryStopOnError { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating the driver tags based on the list of requested table columns.
         /// </summary>
         public bool IsColumnBased { get; set; }
@@ -88,6 +112,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             Name = xmlNode.GetChildAsString("Name");
             Description = xmlNode.GetChildAsString("Description");
             Query = xmlNode.GetChildAsString("Query");
+            HistoryEnabled = xmlNode.GetChildAsBool("HistoryEnabled");
+            HistoryWindowMinutes = xmlNode.SelectSingleNode("HistoryWindowMinutes") == null ?
+                60 :
+                xmlNode.GetChildAsInt("HistoryWindowMinutes");
+            HistoryBatchSize = xmlNode.GetChildAsInt("HistoryBatchSize");
+            HistoryStopOnError = xmlNode.SelectSingleNode("HistoryStopOnError") == null ||
+                xmlNode.GetChildAsBool("HistoryStopOnError");
 
             IsColumnBased = xmlNode.GetChildAsBool("IsColumnBased");
 
@@ -119,6 +150,10 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             xmlElem.AppendElem("Name", Name);
             xmlElem.AppendElem("Description", Description);
             xmlElem.AppendElem("Query", Query);
+            xmlElem.AppendElem("HistoryEnabled", HistoryEnabled);
+            xmlElem.AppendElem("HistoryWindowMinutes", HistoryWindowMinutes);
+            xmlElem.AppendElem("HistoryBatchSize", HistoryBatchSize);
+            xmlElem.AppendElem("HistoryStopOnError", HistoryStopOnError);
 
             xmlElem.AppendElem("IsColumnBased", IsColumnBased); 
 
@@ -146,3 +181,5 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
     }
 }
+
+

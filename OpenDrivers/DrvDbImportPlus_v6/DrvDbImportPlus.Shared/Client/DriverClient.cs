@@ -16,6 +16,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         private readonly List<ImportCmd> lstImportCmds;                     // import cmds
         private readonly List<ExportCmd> lstExportCmds;                     // export cmds
         private DatabaseCommand databaseCommand;                            // database command
+        private const string PgTimestampFormat = "yyyy-MM-dd HH:mm:ss.ffffff";
 
         public DriverClient()
         {
@@ -134,6 +135,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             try
             {
                 databaseCommand = new DatabaseCommand();
+
+                if (cmd.HistoryEnabled || HistoryQueryHelper.HasPeriodComments(cmd.Query))
+                {
+                    ProcessHistoryTagImport(cmd);
+                    return dtData;
+                }
+
                 dtData = databaseCommand.Reguest(cmd.Query, out int rowCount, out string errMsg);
 
                 Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
@@ -156,6 +164,104 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
         #endregion Process
 
+        private void ProcessHistoryTagImport(ImportCmd cmd)
+        {
+            if (!HistoryQueryHelper.TryParsePeriod(cmd.Query, out DateTime startTime, out DateTime endTime, out string errMsg))
+            {
+                Debuger.Log(errMsg);
+                return;
+            }
+
+            List<HistoryQueryWindow> windows = HistoryQueryHelper.BuildWindows(
+                startTime,
+                endTime,
+                cmd.HistoryWindowMinutes);
+
+            LogHistoryStart(cmd, startTime, endTime, windows.Count);
+
+            for (int i = 0; i < windows.Count; i++)
+            {
+                HistoryQueryWindow window = windows[i];
+                string query = HistoryQueryHelper.RenderWindowQuery(cmd.Query, window);
+                LogHistoryWindow(i + 1, windows.Count, window, query);
+
+                DataTable windowData = databaseCommand.Reguest(query, out int rowCount, out string requestErrMsg);
+                if (!string.IsNullOrEmpty(requestErrMsg))
+                {
+                    Debuger.Log(string.Format(Locale.IsRussian ?
+                        "Ошибка исторического импорта: {0}" :
+                        "Historical import error: {0}", requestErrMsg));
+
+                    if (cmd.HistoryStopOnError)
+                    {
+                        break;
+                    }
+                }
+
+                List<DriverTag> tags = GetTagValues(windowData, cmd.DeviceTags, cmd.IsColumnBased);
+                int historyCount = tags.Count(tag => tag.Date != DateTime.MinValue);
+
+                Debuger.Log(string.Format(Locale.IsRussian ?
+                    "Исторический импорт: прочитано строк {0}, подготовлено исторических значений {1}." :
+                    "Historical import: read rows {0}, prepared historical values {1}.",
+                    rowCount,
+                    historyCount));
+
+                ReturnTags(cmd, tags);
+            }
+        }
+
+
+        private static void ReturnTags(ImportCmd cmd, List<DriverTag> tags)
+        {
+            if (tags == null || tags.Count == 0)
+            {
+                return;
+            }
+
+            int batchSize = cmd.HistoryBatchSize;
+            if (batchSize <= 0 || batchSize >= tags.Count)
+            {
+                DebugerTagReturn tagReturn = new DebugerTagReturn();
+                tagReturn.Return(tags);
+                return;
+            }
+
+            for (int index = 0; index < tags.Count; index += batchSize)
+            {
+                DebugerTagReturn tagReturn = new DebugerTagReturn();
+                tagReturn.Return(tags.Skip(index).Take(batchSize).ToList());
+            }
+        }
+        private static void LogHistoryStart(ImportCmd cmd, DateTime startTime, DateTime endTime, int windowCount)
+        {
+            string cmdName = string.IsNullOrWhiteSpace(cmd.Name) ? cmd.CmdCode : cmd.Name;
+
+            Debuger.Log(string.Format(Locale.IsRussian ?
+                "Исторический импорт: {0}. Период: {1} - {2}. Окон: {3}." :
+                "Historical import: {0}. Period: {1} - {2}. Windows: {3}.",
+                cmdName,
+                startTime.ToString(PgTimestampFormat),
+                endTime.ToString(PgTimestampFormat),
+                windowCount));
+        }
+
+        private static void LogHistoryWindow(
+            int windowNumber,
+            int windowCount,
+            HistoryQueryWindow window,
+            string query)
+        {
+            Debuger.Log(string.Format(Locale.IsRussian ?
+                "Окно {0}/{1}: {2} - {3}." :
+                "Window {0}/{1}: {2} - {3}.",
+                windowNumber,
+                windowCount,
+                window.StartTime.ToString(PgTimestampFormat),
+                window.EndTime.ToString(PgTimestampFormat)));
+
+            Debuger.Log(query);
+        }
         #region Get tag values from table
 
         /// <summary>
@@ -177,6 +283,17 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
             try
             {
+                if (dtData == null || dtData.Columns.Count == 0)
+                {
+                    LogValidationError(isColumnBased);
+                    return resultTags;
+                }
+
+                if (dtData.Rows.Count == 0)
+                {
+                    return resultTags;
+                }
+
                 // validate data table structure
                 if (!ValidateDataTableStructure(dtData, isColumnBased))
                 {
@@ -212,23 +329,36 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         private bool ValidateDataTableStructure(DataTable dtData, bool isColumnBased)
         {
-            if (dtData == null || dtData.Columns.Count == 0 || dtData.Rows.Count == 0)
+            if (dtData == null || dtData.Columns.Count == 0)
             {
                 return false;
             }
 
             if (isColumnBased)
             {
-                // column-based mode requires at least one column and one row
-                return dtData.Columns.Count >= 1 && dtData.Rows.Count >= 1;
+                // column-based mode requires at least one column.
+                return dtData.Columns.Count >= 1;
             }
             else
             {
-                // row-based mode requires specific columns for name, value, and time
+                // row-based mode requires specific columns for name, value, and time.
                 return dtData.Columns.Count >= 2 &&
-                       dtData.Columns.Contains("TAGNAME") &&
-                       dtData.Columns.Contains("TAGVALUE");
+                       ContainsColumn(dtData, "TAGNAME") &&
+                       ContainsColumn(dtData, "TAGVALUE");
             }
+        }
+
+        private static bool ContainsColumn(DataTable dtData, string columnName)
+        {
+            foreach (DataColumn column in dtData.Columns)
+            {
+                if (column.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -240,8 +370,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             {
                 return;
             }
-
-            DataRow firstRow = dtData.Rows[0];
 
             int tagNameColumnIndex = -1;
             int tagValueColumnIndex = -1;
@@ -265,12 +393,13 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 }
             }
 
-            DateTime commonTimestamp = DateTime.MinValue;
             if (tagDateTimeColumnIndex >= 0)
             {
-                object dateTimeValue = firstRow[tagDateTimeColumnIndex];
-                commonTimestamp = ConvertToDateTime(dateTimeValue);
+                ProcessColumnBasedRows(dtData, tagLookup, resultTags, tagDateTimeColumnIndex);
+                return;
             }
+
+            DataRow firstRow = dtData.Rows[0];
 
             if (tagNameColumnIndex >= 0 && tagValueColumnIndex >= 0)
             {
@@ -281,7 +410,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     if (!string.IsNullOrEmpty(tagName) && tagLookup.TryGetValue(tagName, out DriverTag tag))
                     {
                         object tagValue = firstRow[tagValueColumnIndex];
-                        resultTags.Add(CreateTagDataWithDate(tag, tagValue, commonTimestamp));
+                        resultTags.Add(CreateTagDataWithDate(tag, tagValue, DateTime.MinValue));
                     }
                 }
             }
@@ -299,12 +428,42 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     if (tagLookup.TryGetValue(columnName, out DriverTag tag))
                     {
                         object value = firstRow[column];
-                        resultTags.Add(CreateTagDataWithDate(tag, value, commonTimestamp));
+                        resultTags.Add(CreateTagDataWithDate(tag, value, DateTime.MinValue));
                     }
                 }
             }
         }
 
+        private void ProcessColumnBasedRows(
+            DataTable dtData,
+            Dictionary<string, DriverTag> tagLookup,
+            List<DriverTag> resultTags,
+            int tagDateTimeColumnIndex)
+        {
+            foreach (DataRow row in dtData.Rows)
+            {
+                DateTime timestamp = ConvertToDateTime(row[tagDateTimeColumnIndex]);
+
+                foreach (DataColumn column in dtData.Columns)
+                {
+                    string columnName = column.ColumnName;
+
+                    if (IsTimeColumn(columnName))
+                    {
+                        continue;
+                    }
+
+                    if (tagLookup.TryGetValue(columnName, out DriverTag tag))
+                    {
+                        object value = row[column];
+                        if (value != null && value != DBNull.Value)
+                        {
+                            resultTags.Add(CreateTagDataWithDate(tag, value, timestamp));
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Processes row-based data where each row represents a tag.
         /// </summary>

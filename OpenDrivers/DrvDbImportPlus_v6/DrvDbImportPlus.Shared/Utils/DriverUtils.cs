@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Azure;
@@ -656,5 +656,39 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             return result;
         }
         #endregion Double String
+        #region DateTimePattern
+
+        /// <summary>
+        /// Replaces datetime patterns in curly braces with actual date/time values.
+        /// Tokens: YYYY, YY, MM, DD, HH, mm, ss
+        /// </summary>
+        /// <param name="input">String containing {YYYY}, {MM}, etc.</param>
+        /// <param name="dateTime">Base datetime (default: DateTime.Now)</param>
+        public static string ResolveDateTimePatterns(string input, DateTime? dateTime = null)
+        {
+            if (string.IsNullOrEmpty(input) || !input.Contains('{'))
+            {
+                return input;
+            }
+
+            DateTime dt = dateTime ?? DateTime.Now;
+
+            return Regex.Replace(input, @"\{([^{}]+)\}", match =>
+            {
+                string pattern = match.Groups[1].Value;
+
+                pattern = pattern.Replace("YYYY", dt.Year.ToString("D4"));
+                pattern = pattern.Replace("YY", dt.Year.ToString().Substring(2, 2));
+                pattern = pattern.Replace("MM", dt.Month.ToString("D2"));
+                pattern = pattern.Replace("DD", dt.Day.ToString("D2"));
+                pattern = pattern.Replace("HH", dt.Hour.ToString("D2"));
+                pattern = pattern.Replace("mm", dt.Minute.ToString("D2"));
+                pattern = pattern.Replace("ss", dt.Second.ToString("D2"));
+
+                return pattern;
+            });
+        }
+
+        #endregion DateTimePattern
     }
 }

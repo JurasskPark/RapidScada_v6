@@ -20,8 +20,14 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
         public FrmImportCmd()
         {
             InitializeComponent();
+
             SetupHotkeys(fctCmdQuery);
+            SetupHotkeys(fctInsertQuery);
             SetupHotkeys(fctResult);
+
+            chkStopOnError.CheckedChanged += (sender, args) => Modified = true;
+            nudBatchSize.ValueChanged += (sender, args) => Modified = true;
+            fctInsertQuery.TextChanged += (sender, args) => Modified = true;
         }
 
         #region Variables
@@ -30,11 +36,6 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
         public DrvDbDataTransferProject project;                // the configuration
         public ImportCmd cmd = new ImportCmd();                 // the import commands
         public List<DriverTag> tags = new List<DriverTag>();    // the tags
-        private FastColoredTextBox fctInsertQuery;               // target INSERT/UPSERT query
-        private Label lblInsertQuery;                            // target query label
-        private CheckBox chkStopOnError;                         // stop on error checkbox
-        private NumericUpDown nudBatchSize;                      // batch size input
-        private Label lblBatchSize;                              // batch size label
 
         private ListViewItem selected;                          // selected row
         private int indexSelectRow = 0;                         // index select row
@@ -48,10 +49,9 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
         /// </summary>
         private void FrmImportCmd_Load(object sender, EventArgs e)
         {
-            EnsureTransferControls();
+            lblCmdQuery.Text = "SELECT";
             Translate();
             ProjectToControls();
-            SetupHotkeys();
         }
 
         /// <summary>
@@ -196,85 +196,6 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
                 cmd.DeviceTags = tags;
         }
 
-        private void EnsureTransferControls()
-        {
-            if (fctInsertQuery != null)
-            {
-                return;
-            }
-
-            lblCmdQuery.Text = "SELECT";
-
-            lblInsertQuery = new Label
-            {
-                AutoSize = true,
-                Dock = DockStyle.Fill,
-                Name = "lblInsertQuery",
-                Text = "INSERT / UPSERT"
-            };
-
-            fctInsertQuery = new FastColoredTextBox
-            {
-                AutoCompleteBrackets = true,
-                AutoCompleteBracketsList = new char[] { '(', ')', '{', '}', '[', ']', '"', '"', '\'', '\'' },
-                ContextMenuStrip = cmnuMenuScriptQuery,
-                Dock = DockStyle.Fill,
-                Name = "fctInsertQuery"
-            };
-
-            fctInsertQuery.TextChanged += (sender, args) => Modified = true;
-            SetupHotkeys(fctInsertQuery);
-
-            chkStopOnError = new CheckBox
-            {
-                AutoSize = true,
-                Name = "chkStopOnError",
-                Text = Locale.IsRussian ? "Остановить при ошибке" : "Stop on error",
-                Checked = true,
-                Location = new Point(160, 68)
-            };
-            chkStopOnError.CheckedChanged += (sender, args) => Modified = true;
-            gbCommandParams.Controls.Add(chkStopOnError);
-
-            lblBatchSize = new Label
-            {
-                AutoSize = true,
-                Name = "lblBatchSize",
-                Text = Locale.IsRussian ? "Размер батча:" : "Batch size:",
-                Location = new Point(330, 70)
-            };
-            gbCommandParams.Controls.Add(lblBatchSize);
-
-            nudBatchSize = new NumericUpDown
-            {
-                Name = "nudBatchSize",
-                Minimum = 0,
-                Maximum = 10000,
-                Value = 0,
-                Location = new Point(460, 67),
-                Width = 80
-            };
-            nudBatchSize.ValueChanged += (sender, args) => Modified = true;
-            gbCommandParams.Controls.Add(nudBatchSize);
-
-            // add INSERT/UPSERT controls to the table layout panel
-            tlpPanel.SuspendLayout();
-            tlpPanel.Controls.Remove(btnExecuteSQLQuery);
-            tlpPanel.RowCount = 7;
-            tlpPanel.RowStyles.Clear();
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 34F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33F));
-            tlpPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tlpPanel.Controls.Add(lblInsertQuery, 0, 4);
-            tlpPanel.Controls.Add(fctInsertQuery, 0, 5);
-            tlpPanel.Controls.Add(btnExecuteSQLQuery, 0, 6);
-            tlpPanel.ResumeLayout();
-        }
-
         #endregion Project
 
         #region Translate
@@ -410,57 +331,6 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
         }
 
         #endregion DataGridView
-
-        #region FastColorTextBox
-
-        /// <summary>
-        /// Hotkeys Mapping.
-        /// </summary>
-        private void SetupHotkeys()
-        {
-            fctCmdQuery.HotkeysMapping.Clear();
-
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.C] = FCTBAction.Copy;
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.X] = FCTBAction.Cut;
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.V] = FCTBAction.Paste;
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.A] = FCTBAction.SelectAll;
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.Z] = FCTBAction.Undo;
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.Y] = FCTBAction.Redo;
-
-            fctCmdQuery.HotkeysMapping[Keys.Control | Keys.Insert] = FCTBAction.Copy;
-            fctCmdQuery.HotkeysMapping[Keys.Shift | Keys.Insert] = FCTBAction.Paste;
-            fctCmdQuery.HotkeysMapping[Keys.Shift | Keys.Delete] = FCTBAction.Cut;
-
-            fctCmdQuery.HotkeysMapping[Keys.Up] = FCTBAction.GoUp;
-            fctCmdQuery.HotkeysMapping[Keys.Down] = FCTBAction.GoDown;
-            fctCmdQuery.HotkeysMapping[Keys.Left] = FCTBAction.GoLeft;
-            fctCmdQuery.HotkeysMapping[Keys.Right] = FCTBAction.GoRight;
-
-            fctResult.HotkeysMapping.Clear();
-
-            fctResult.HotkeysMapping[Keys.Control | Keys.C] = FCTBAction.Copy;
-            fctResult.HotkeysMapping[Keys.Control | Keys.X] = FCTBAction.Cut;
-            fctResult.HotkeysMapping[Keys.Control | Keys.V] = FCTBAction.Paste;
-            fctResult.HotkeysMapping[Keys.Control | Keys.A] = FCTBAction.SelectAll;
-            fctResult.HotkeysMapping[Keys.Control | Keys.Z] = FCTBAction.Undo;
-            fctResult.HotkeysMapping[Keys.Control | Keys.Y] = FCTBAction.Redo;
-
-            fctResult.HotkeysMapping[Keys.Control | Keys.Insert] = FCTBAction.Copy;
-            fctResult.HotkeysMapping[Keys.Shift | Keys.Insert] = FCTBAction.Paste;
-            fctResult.HotkeysMapping[Keys.Shift | Keys.Delete] = FCTBAction.Cut;
-
-            fctResult.HotkeysMapping[Keys.Up] = FCTBAction.GoUp;
-            fctResult.HotkeysMapping[Keys.Down] = FCTBAction.GoDown;
-            fctResult.HotkeysMapping[Keys.Left] = FCTBAction.GoLeft;
-            fctResult.HotkeysMapping[Keys.Right] = FCTBAction.GoRight;
-
-            if (fctInsertQuery != null)
-            {
-                SetupHotkeys(fctInsertQuery);
-            }
-        }
-
-        #endregion FastColorTextBox
 
         #region Button
 

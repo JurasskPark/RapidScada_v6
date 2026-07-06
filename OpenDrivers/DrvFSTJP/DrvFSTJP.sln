@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36401.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFSTJP.Logic", "DrvFSTJP.Logic\DrvFSTJP.Logic.csproj", "{8B4E5F4C-1E41-49F4-9284-393B83F6D433}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvFSTJP.View", "DrvFSTJP.View\DrvFSTJP.View.csproj", "{01B5468A-D060-44E2-A884-6F60CF792E71}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvFSTJP.Shared", "DrvFSTJP.Shared\DrvFSTJP.Shared.shproj", "{772D5F56-D486-4647-A5A2-7D0E12BF70D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B4E5F4C-1E41-49F4-9284-393B83F6D433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B4E5F4C-1E41-49F4-9284-393B83F6D433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B4E5F4C-1E41-49F4-9284-393B83F6D433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4E5F4C-1E41-49F4-9284-393B83F6D433}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B5468A-D060-44E2-A884-6F60CF792E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B5468A-D060-44E2-A884-6F60CF792E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B5468A-D060-44E2-A884-6F60CF792E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B5468A-D060-44E2-A884-6F60CF792E71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10F33C00-FC58-479A-A80C-1590A9BB2EBA}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvFSTJP.Shared\DrvFSTJP.Shared.projitems*{01b5468a-d060-44e2-a884-6f60cf792e71}*SharedItemsImports = 5
+		DrvFSTJP.Shared\DrvFSTJP.Shared.projitems*{772d5f56-d486-4647-a5a2-7d0e12bf70d7}*SharedItemsImports = 13
+		DrvFSTJP.Shared\DrvFSTJP.Shared.projitems*{8b4e5f4c-1e41-49f4-9284-393b83f6d433}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

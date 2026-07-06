@@ -442,9 +442,9 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferLogic.Logic
 
             if (dataSource != null)
             {
-                string connStr = string.IsNullOrEmpty(project.DbConnSettings.ConnectionString) ?
-                    dataSource.BuildConnectionString(project.DbConnSettings) :
-                    project.DbConnSettings.ConnectionString;
+                string connStr = string.IsNullOrEmpty(project.SourceDbConnSettings.ConnectionString) ?
+                    dataSource.BuildConnectionString(project.SourceDbConnSettings) :
+                    project.SourceDbConnSettings.ConnectionString;
 
                 if (string.IsNullOrEmpty(connStr))
                 {

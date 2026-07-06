@@ -141,7 +141,14 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
 
                 if (!string.IsNullOrWhiteSpace(cmd.InsertQuery))
                 {
+                    if (cmd.HistoryEnabled || HistoryQueryHelper.HasPeriodComments(cmd.SelectQuery))
+                    {
+                        ProcessHistoryTransfer(cmd);
+                        return dtData;
+                    }
+
                     string selectQuery = ResolveSelectQuery(cmd);
+                    Debuger.Log(selectQuery);
                     DateTime selectStart = DateTime.Now;
 
                     // temporarily swap SelectQuery for this execution
@@ -161,7 +168,13 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
                     return dtData;
                 }
 
-                dtData = databaseCommand.Reguest(cmd.Query, out int rowCount, out string errMsg);
+                if (cmd.HistoryEnabled || HistoryQueryHelper.HasPeriodComments(cmd.SelectQuery))
+                {
+                    ProcessHistoryTagImport(cmd);
+                    return dtData;
+                }
+
+                dtData = databaseCommand.Reguest(cmd.SelectQuery, out int rowCount, out string errMsg);
 
                 Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
 
@@ -179,6 +192,175 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
                 Debuger.Log(ex.Message.ToString());
                 return dtData;
             }
+        }
+
+        private void ProcessHistoryTransfer(ImportCmd cmd)
+        {
+            if (!HistoryQueryHelper.TryParsePeriod(cmd.SelectQuery, out DateTime startTime, out DateTime endTime, out string errMsg))
+            {
+                Debuger.Log(errMsg);
+                return;
+            }
+
+            List<HistoryQueryWindow> windows = HistoryQueryHelper.BuildWindows(
+                startTime,
+                endTime,
+                cmd.HistoryWindowMinutes);
+
+            DbTransferResult totalResult = new DbTransferResult();
+            string originalSelect = cmd.SelectQuery;
+            bool originalStopOnError = cmd.StopOnError;
+            int originalBatchSize = cmd.BatchSize;
+
+            cmd.StopOnError = cmd.HistoryStopOnError;
+            if (cmd.HistoryBatchSize > 0)
+            {
+                cmd.BatchSize = cmd.HistoryBatchSize;
+            }
+
+            try
+            {
+                LogHistoryStart(cmd, startTime, endTime, windows.Count);
+
+                for (int i = 0; i < windows.Count; i++)
+                {
+                    HistoryQueryWindow window = windows[i];
+                    string selectQuery = HistoryQueryHelper.RenderWindowQuery(originalSelect, window);
+                    cmd.SelectQuery = selectQuery;
+
+                    LogHistoryWindow(cmd, i + 1, windows.Count, window, selectQuery);
+                    DbTransferResult windowResult = databaseCommand.Transfer(project, cmd);
+                    totalResult.ReadRows += windowResult.ReadRows;
+                    totalResult.WrittenRows += windowResult.WrittenRows;
+
+                    Debuger.Log(string.Format(Locale.IsRussian ?
+                        "Исторический перенос: прочитано {0}, записано {1}." :
+                        "Historical transfer: read {0}, written {1}.",
+                        windowResult.ReadRows,
+                        windowResult.WrittenRows));
+
+                    if (!windowResult.Success)
+                    {
+                        totalResult.ErrorMessage = windowResult.ErrorMessage;
+                        Debuger.Log(string.Format(Locale.IsRussian ?
+                            "Ошибка исторического переноса: {0}" :
+                            "Historical transfer error: {0}", windowResult.ErrorMessage));
+
+                        if (cmd.HistoryStopOnError)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                cmd.SelectQuery = originalSelect;
+                cmd.StopOnError = originalStopOnError;
+                cmd.BatchSize = originalBatchSize;
+            }
+
+            LogTransferResult(cmd, totalResult);
+        }
+
+        private void ProcessHistoryTagImport(ImportCmd cmd)
+        {
+            if (!HistoryQueryHelper.TryParsePeriod(cmd.SelectQuery, out DateTime startTime, out DateTime endTime, out string errMsg))
+            {
+                Debuger.Log(errMsg);
+                return;
+            }
+
+            List<HistoryQueryWindow> windows = HistoryQueryHelper.BuildWindows(
+                startTime,
+                endTime,
+                cmd.HistoryWindowMinutes);
+
+            LogHistoryStart(cmd, startTime, endTime, windows.Count);
+
+            for (int i = 0; i < windows.Count; i++)
+            {
+                HistoryQueryWindow window = windows[i];
+                string selectQuery = HistoryQueryHelper.RenderWindowQuery(cmd.SelectQuery, window);
+                LogHistoryWindow(cmd, i + 1, windows.Count, window, selectQuery);
+
+                DataTable windowData = databaseCommand.Reguest(selectQuery, out int rowCount, out string requestErrMsg);
+                if (!string.IsNullOrEmpty(requestErrMsg))
+                {
+                    Debuger.Log(string.Format(Locale.IsRussian ?
+                        "Ошибка исторического импорта: {0}" :
+                        "Historical import error: {0}", requestErrMsg));
+
+                    if (cmd.HistoryStopOnError)
+                    {
+                        break;
+                    }
+                }
+
+                List<DriverTag> tags = GetTagValues(windowData, cmd.DeviceTags, cmd.IsColumnBased);
+                int historyCount = tags.Count(tag => tag.Date != DateTime.MinValue);
+
+                Debuger.Log(string.Format(Locale.IsRussian ?
+                    "Исторический импорт: прочитано строк {0}, подготовлено исторических значений {1}." :
+                    "Historical import: read rows {0}, prepared historical values {1}.",
+                    rowCount,
+                    historyCount));
+
+                ReturnTags(cmd, tags);
+            }
+        }
+
+        private static void ReturnTags(ImportCmd cmd, List<DriverTag> tags)
+        {
+            if (tags == null || tags.Count == 0)
+            {
+                return;
+            }
+
+            int batchSize = cmd.HistoryBatchSize;
+            if (batchSize <= 0 || batchSize >= tags.Count)
+            {
+                DebugerTagReturn tagReturn = new DebugerTagReturn();
+                tagReturn.Return(tags);
+                return;
+            }
+
+            for (int index = 0; index < tags.Count; index += batchSize)
+            {
+                DebugerTagReturn tagReturn = new DebugerTagReturn();
+                tagReturn.Return(tags.Skip(index).Take(batchSize).ToList());
+            }
+        }
+
+        private static void LogHistoryStart(ImportCmd cmd, DateTime startTime, DateTime endTime, int windowCount)
+        {
+            string cmdName = string.IsNullOrWhiteSpace(cmd.Name) ? cmd.CmdCode : cmd.Name;
+
+            Debuger.Log(string.Format(Locale.IsRussian ?
+                "Исторический импорт: {0}. Период: {1} - {2}. Окон: {3}." :
+                "Historical import: {0}. Period: {1} - {2}. Windows: {3}.",
+                cmdName,
+                startTime.ToString(PgTimestampFormat),
+                endTime.ToString(PgTimestampFormat),
+                windowCount));
+        }
+
+        private static void LogHistoryWindow(
+            ImportCmd cmd,
+            int windowNumber,
+            int windowCount,
+            HistoryQueryWindow window,
+            string selectQuery)
+        {
+            Debuger.Log(string.Format(Locale.IsRussian ?
+                "Окно {0}/{1}: {2} - {3}." :
+                "Window {0}/{1}: {2} - {3}.",
+                windowNumber,
+                windowCount,
+                window.StartTime.ToString(PgTimestampFormat),
+                window.EndTime.ToString(PgTimestampFormat)));
+
+            Debuger.Log(selectQuery);
         }
 
         #endregion Process
@@ -267,7 +449,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
         /// </summary>
         private string ResolveSelectQuery(ImportCmd cmd)
         {
-            string selectQuery = string.IsNullOrWhiteSpace(cmd.SelectQuery) ? cmd.Query : cmd.SelectQuery;
+            string selectQuery = cmd.SelectQuery ?? "";
 
             if (!selectQuery.Contains("LAST_RUN") && !selectQuery.Contains('{'))
             {

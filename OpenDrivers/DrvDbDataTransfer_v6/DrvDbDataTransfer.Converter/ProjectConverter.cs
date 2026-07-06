@@ -154,7 +154,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.Converter
                 CmdCode = "DBIMPORT001",
                 Name = "Import",
                 Description = "Converted from old DrvDbDataTransfer configuration.",
-                Query = XmlUtils.GetChildText(rootElem, "SelectQuery"),
+                SelectQuery = XmlUtils.GetChildText(rootElem, "SelectQuery"),
                 IsColumnBased = XmlUtils.GetChildBool(rootElem, "DeviceTagsBasedRequestedTableColumns", true)
             };
 
@@ -169,7 +169,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.Converter
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(importCmd.Query) || importCmd.DeviceTags.Count > 0)
+            if (!string.IsNullOrWhiteSpace(importCmd.SelectQuery) || importCmd.DeviceTags.Count > 0)
             {
                 project.ImportCmds.Add(importCmd);
             }

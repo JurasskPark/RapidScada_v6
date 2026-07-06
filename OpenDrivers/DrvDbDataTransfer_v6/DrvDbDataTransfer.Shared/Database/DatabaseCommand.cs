@@ -176,7 +176,7 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
             project = Manager.Project;
 
             // load configuration if the connection string is empty
-            if (string.IsNullOrEmpty(Manager.Project.DbConnSettings.ConnectionString))
+            if (string.IsNullOrEmpty(Manager.Project.SourceDbConnSettings.ConnectionString))
             {
                 string projectPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                     DriverUtils.GetFileName(Manager.DeviceNum));
@@ -238,9 +238,9 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
             if (dataSource != null)
             {
                 // build connection string
-                string connStr = string.IsNullOrEmpty(project.DbConnSettings.ConnectionString) ?
-                    dataSource.BuildConnectionString(project.DbConnSettings) :
-                    project.DbConnSettings.ConnectionString;
+                string connStr = string.IsNullOrEmpty(project.SourceDbConnSettings.ConnectionString) ?
+                    dataSource.BuildConnectionString(project.SourceDbConnSettings) :
+                    project.SourceDbConnSettings.ConnectionString;
 
                 if (string.IsNullOrEmpty(connStr))
                 {
@@ -531,7 +531,7 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
                 return result;
             }
 
-            string selectQuery = string.IsNullOrWhiteSpace(cmd.SelectQuery) ? cmd.Query : cmd.SelectQuery;
+            string selectQuery = cmd.SelectQuery ?? "";
             if (string.IsNullOrWhiteSpace(selectQuery) || string.IsNullOrWhiteSpace(cmd.InsertQuery))
             {
                 result.ErrorMessage = Locale.IsRussian ?
@@ -641,11 +641,28 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
             {
                 target.Connect();
 
+                if (batchSize > 0)
+                {
+                    ExecuteTargetWritesInBatches(
+                        target,
+                        insertQuery,
+                        sourceData,
+                        stopOnError,
+                        batchSize,
+                        parameterNames,
+                        out writtenRows,
+                        out errorRowCount);
+                    return;
+                }
+
                 using (DbTransaction transaction = target.BeginTransaction())
                 using (DbCommand insertCommand = target.CreateDbCommand())
                 {
                     insertCommand.CommandText = target.NormalizeCommandText(insertQuery);
                     insertCommand.Transaction = transaction;
+
+                    // Log INSERT text with first-row parameter values
+                    LogInsertPreview(insertCommand, insertQuery, sourceData, parameterNames);
 
                     try
                     {
@@ -695,6 +712,75 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
             finally
             {
                 target.Disconnect();
+            }
+        }
+
+        private void ExecuteTargetWritesInBatches(
+            DataSource target,
+            string insertQuery,
+            DataTable sourceData,
+            bool stopOnError,
+            int batchSize,
+            List<string> parameterNames,
+            out int writtenRows,
+            out int errorRowCount)
+        {
+            writtenRows = 0;
+            errorRowCount = 0;
+            int rowNumber = 0;
+
+            while (rowNumber < sourceData.Rows.Count)
+            {
+                using (DbTransaction transaction = target.BeginTransaction())
+                using (DbCommand insertCommand = target.CreateDbCommand())
+                {
+                    insertCommand.CommandText = target.NormalizeCommandText(insertQuery);
+                    insertCommand.Transaction = transaction;
+
+                    if (rowNumber == 0)
+                    {
+                        LogInsertPreview(insertCommand, insertQuery, sourceData, parameterNames);
+                    }
+
+                    try
+                    {
+                        int batchEnd = Math.Min(rowNumber + batchSize, sourceData.Rows.Count);
+
+                        while (rowNumber < batchEnd)
+                        {
+                            DataRow row = sourceData.Rows[rowNumber];
+                            rowNumber++;
+
+                            try
+                            {
+                                ApplyParameters(target, insertCommand, sourceData, row, parameterNames);
+                                writtenRows += insertCommand.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                errorRowCount++;
+
+                                string errorMsg = string.Format(Locale.IsRussian ?
+                                    "Ошибка записи строки {0}: {1}" :
+                                    "Error writing row {0}: {1}", rowNumber, ex.Message);
+
+                                Debuger.Log(errorMsg);
+
+                                if (stopOnError)
+                                {
+                                    throw new InvalidOperationException(errorMsg, ex);
+                                }
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
 
@@ -784,6 +870,37 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
             return string.IsNullOrWhiteSpace(parameterName) ?
                 string.Empty :
                 parameterName.Trim().TrimStart('@', ':');
+        }
+
+        /// <summary>
+        /// Logs INSERT query text and first-row parameter values for debugging.
+        /// </summary>
+        private static void LogInsertPreview(
+            System.Data.Common.DbCommand insertCommand,
+            string insertQuery,
+            DataTable sourceData,
+            List<string> parameterNames)
+        {
+            if (sourceData.Rows.Count == 0)
+            {
+                return;
+            }
+
+            Debuger.Log(insertQuery);
+
+            DataRow firstRow = sourceData.Rows[0];
+            var paramParts = new List<string>();
+
+            foreach (string paramName in parameterNames)
+            {
+                string colName = NormalizeParameterName(paramName);
+                DataColumn col = sourceData.Columns[colName];
+                object val = col != null ? firstRow[col] : DBNull.Value;
+                string display = val == DBNull.Value || val == null ? "NULL" : val.ToString();
+                paramParts.Add($"{paramName}={display}");
+            }
+
+            Debuger.Log(string.Join("; ", paramParts));
         }
 
         #endregion Main execution methods

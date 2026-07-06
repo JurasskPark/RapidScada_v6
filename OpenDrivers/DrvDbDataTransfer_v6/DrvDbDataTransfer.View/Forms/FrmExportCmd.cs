@@ -249,7 +249,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms
             DriverClient driverClient = new DriverClient(formParent.pathProject, formParent.project, formParent.deviceNum, formParent.pathProject, false);
             ImportCmd importCmd = new ImportCmd
             {
-                Query = cmd.Query,
+                SelectQuery = cmd.Query,
                 IsColumnBased = true,
                 DeviceTags = new List<DriverTag>()
             };

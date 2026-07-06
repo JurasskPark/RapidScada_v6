@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverDictonary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lang\DriverPhrases.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tags\DriverTagExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\HistoryQueryHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DriverUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\DrvDbDataTransferConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\ElementType.cs" />

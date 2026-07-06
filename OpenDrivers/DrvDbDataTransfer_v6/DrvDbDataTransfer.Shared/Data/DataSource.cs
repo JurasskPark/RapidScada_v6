@@ -224,9 +224,9 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
                 throw new ArgumentNullException("project");
             }
 
-            ConnectionString = string.IsNullOrEmpty(project.DbConnSettings.ConnectionString) ?
-                BuildConnectionString(project.DbConnSettings) :
-                project.DbConnSettings.ConnectionString;
+            ConnectionString = string.IsNullOrEmpty(project.SourceDbConnSettings.ConnectionString) ?
+                BuildConnectionString(project.SourceDbConnSettings) :
+                project.SourceDbConnSettings.ConnectionString;
 
             if (String.IsNullOrEmpty(ConnectionString))
             {
@@ -246,7 +246,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
             foreach (ImportCmd importCmd in project.ImportCmds)
             {
                 DbCommand importCommand = CreateCommand();
-                importCommand.CommandText = importCmd.Query;
+                importCommand.CommandText = importCmd.SelectQuery;
                 importCommand.Connection = Connection;
 
                 ExportCommandsNum[importCmd.CmdNum] = importCommand;
@@ -298,7 +298,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
         /// </summary>
         public static DataSource GetDataSourceType(DrvDbDataTransferProject project)
         {
-            return project == null ? null : GetDataSourceType(project.DbConnSettings.DataSourceType);
+            return project == null ? null : GetDataSourceType(project.SourceDbConnSettings.DataSourceType);
         }
 
         /// <summary>

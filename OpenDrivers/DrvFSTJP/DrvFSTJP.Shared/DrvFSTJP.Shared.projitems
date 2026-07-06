@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>772d5f56-d486-4647-a5a2-7d0e12bf70d7</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DrvFSTJP.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Project\Project.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Protocol\FstPacket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Protocol\FstProtocol.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Protocol\FstStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Protocol\FstTagCatalog.cs" />
+  </ItemGroup>
+</Project>
