@@ -677,6 +677,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             {
                 string pattern = match.Groups[1].Value;
 
+                if (!ContainsDateTimeToken(pattern))
+                {
+                    return match.Value;
+                }
+
                 pattern = pattern.Replace("YYYY", dt.Year.ToString("D4"));
                 pattern = pattern.Replace("YY", dt.Year.ToString().Substring(2, 2));
                 pattern = pattern.Replace("MM", dt.Month.ToString("D2"));
@@ -687,6 +692,17 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
                 return pattern;
             });
+        }
+
+        private static bool ContainsDateTimeToken(string pattern)
+        {
+            return pattern.Contains("YYYY") ||
+                pattern.Contains("YY") ||
+                pattern.Contains("MM") ||
+                pattern.Contains("DD") ||
+                pattern.Contains("HH") ||
+                pattern.Contains("mm") ||
+                pattern.Contains("ss");
         }
 
         #endregion DateTimePattern

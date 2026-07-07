@@ -1,4 +1,4 @@
-using DataTablePrettyPrinter;
+﻿using DataTablePrettyPrinter;
 using Engine;
 using Google.Protobuf.WellKnownTypes;
 using Scada.Comm.Drivers.DrvTextParserInDatabaseJP;
@@ -141,7 +141,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
 
                 if (!string.IsNullOrWhiteSpace(cmd.InsertQuery))
                 {
-                    if (cmd.HistoryEnabled || HistoryQueryHelper.HasPeriodComments(cmd.SelectQuery))
+                    if (HistoryQueryHelper.HasPeriodComments(cmd.SelectQuery))
                     {
                         ProcessHistoryTransfer(cmd);
                         return dtData;
@@ -168,13 +168,21 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
                     return dtData;
                 }
 
-                if (cmd.HistoryEnabled || HistoryQueryHelper.HasPeriodComments(cmd.SelectQuery))
+                if (HistoryQueryHelper.HasPeriodComments(cmd.SelectQuery))
                 {
                     ProcessHistoryTagImport(cmd);
                     return dtData;
                 }
 
-                dtData = databaseCommand.Reguest(cmd.SelectQuery, out int rowCount, out string errMsg);
+                string selectQueryForImport = ResolveSelectQuery(cmd);
+                DateTime importStart = DateTime.Now;
+
+                dtData = databaseCommand.Reguest(selectQueryForImport, out int rowCount, out string errMsg);
+                if (!string.IsNullOrEmpty(errMsg))
+                {
+                    Debuger.Log(errMsg);
+                    return dtData;
+                }
 
                 Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
 
@@ -184,6 +192,11 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
 
                 DebugerTagReturn tagReturn = new DebugerTagReturn();
                 tagReturn.Return(tags);
+
+                if (rowCount > 0)
+                {
+                    UpdateLastRunTime(cmd, importStart);
+                }
 
                 return dtData;
             }

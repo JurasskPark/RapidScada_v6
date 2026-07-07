@@ -1,6 +1,7 @@
-using Scada.Comm.Drivers.DrvDbDataTransfer;
+﻿using Scada.Comm.Drivers.DrvDbDataTransfer;
 using System.Data;
 using System.Xml;
+using DataTablePrettyPrinter;
 
 internal static class Program
 {
@@ -14,7 +15,9 @@ internal static class Program
             NewXmlRoundTripsSourceTargetAndTransferQueries,
             HistoryCommentsParseAndWindowsStayInsideDays,
             HistoryWindowQueryRendersDatePatternsAndWindowBounds,
-            HistoryWindowQueryRendersBareWindowPlaceholders
+            HistoryWindowQueryRendersBareWindowPlaceholders,
+            DateTimePatternResolverKeepsUnknownBraces,
+            PrettyPrinterHandlesEmptyTables
         };
 
         int failed = 0;
@@ -250,6 +253,28 @@ WHERE "Time" >= WINDOW_START
         Assert(rendered.Contains(@"public.""20251119.Data"""), rendered);
         Assert(!rendered.Contains("WINDOW_START"), rendered);
         Assert(!rendered.Contains("WINDOW_END"), rendered);
+    }
+
+    private static void PrettyPrinterHandlesEmptyTables()
+    {
+        DataTable tableWithoutColumns = new DataTable("Empty");
+        AssertEqual("Empty: no columns", tableWithoutColumns.ToPrettyPrintedString());
+
+        DataTable tableWithoutRows = new DataTable("NoRows");
+        tableWithoutRows.Columns.Add("Tag", typeof(string));
+
+        string rendered = tableWithoutRows.ToPrettyPrintedString();
+        Assert(rendered.Contains("Tag"), rendered);
+    }
+
+    private static void DateTimePatternResolverKeepsUnknownBraces()
+    {
+        string sql = DriverUtils.ResolveDateTimePatterns(
+            @"SELECT '{NOT_A_DATE}' AS literal FROM public.""{YYYY}{MM}{DD}.Data""",
+            new DateTime(2025, 11, 19, 10, 20, 30));
+
+        Assert(sql.Contains("'{NOT_A_DATE}'"), sql);
+        Assert(sql.Contains(@"public.""20251119.Data"""), sql);
     }
 
     private static void Assert(bool condition, string message)

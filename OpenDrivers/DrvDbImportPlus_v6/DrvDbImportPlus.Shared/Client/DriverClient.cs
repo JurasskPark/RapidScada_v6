@@ -136,13 +136,19 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             {
                 databaseCommand = new DatabaseCommand();
 
-                if (cmd.HistoryEnabled || HistoryQueryHelper.HasPeriodComments(cmd.Query))
+                if (HistoryQueryHelper.HasPeriodComments(cmd.Query))
                 {
                     ProcessHistoryTagImport(cmd);
                     return dtData;
                 }
 
-                dtData = databaseCommand.Reguest(cmd.Query, out int rowCount, out string errMsg);
+                string query = DriverUtils.ResolveDateTimePatterns(cmd.Query);
+                dtData = databaseCommand.Reguest(query, out int rowCount, out string errMsg);
+                if (!string.IsNullOrEmpty(errMsg))
+                {
+                    Debuger.Log(errMsg);
+                    return dtData;
+                }
 
                 Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
 

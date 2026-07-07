@@ -152,6 +152,16 @@ namespace DataTablePrettyPrinter
         /// </returns>
         public static string ToPrettyPrintedString(this DataTable table)
         {
+            if (table == null)
+            {
+                return "No data table available";
+            }
+
+            if (table.Columns.Count == 0)
+            {
+                return string.Format("{0}: no columns", string.IsNullOrEmpty(table.TableName) ? "Data" : table.TableName);
+            }
+
             int x2 = table.Columns.Cast<DataColumn>().Last().GetDataX2();
             int y2 = table.Columns.Cast<DataColumn>().Last().GetDataY2();
 
