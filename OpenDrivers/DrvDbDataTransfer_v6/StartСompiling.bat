@@ -12,16 +12,16 @@ ECHO ==================
 ECHO Building DrvDbDataTransfer release packages
 ECHO ==================
 
-CALL :BuildPackage "%PACKAGE_PREFIX%_Release_win-x64" "win-x64" "win-x64" "1"
+CALL :BuildPackage "%PACKAGE_PREFIX%_win-x64" "win-x64" "win-x64" "1"
 IF ERRORLEVEL 1 EXIT /B 1
 
-CALL :BuildPackage "%PACKAGE_PREFIX%_Release_win-x32" "win-x86" "win-x86" "1"
+CALL :BuildPackage "%PACKAGE_PREFIX%_win-x32" "win-x86" "win-x86" "1"
 IF ERRORLEVEL 1 EXIT /B 1
 
-CALL :BuildPackage "%PACKAGE_PREFIX%_Release_linux-x64" "linux-x64" "win-x64" "0"
+CALL :BuildPackage "%PACKAGE_PREFIX%_linux-x64" "linux-x64" "win-x64" "0"
 IF ERRORLEVEL 1 EXIT /B 1
 
-CALL :BuildPackage "%PACKAGE_PREFIX%_Release_anycpu" "anycpu" "anycpu" "1"
+CALL :BuildPackage "%PACKAGE_PREFIX%_anycpu" "anycpu" "anycpu" "1"
 IF ERRORLEVEL 1 EXIT /B 1
 
 IF DEFINED PACKAGE_ONLY GOTO Summary
@@ -40,14 +40,14 @@ NET STOP ScadaServer6 2>NUL
 TIMEOUT /T 3 /NOBREAK >NUL
 
 ECHO COPY FILES to %INSTALL_SCADA_DIR%...
-IF EXIST ".\%PACKAGE_PREFIX%_Release_win-x64\SCADA" (
-    XCOPY /S /Y /I ".\%PACKAGE_PREFIX%_Release_win-x64\SCADA\*.*" "%INSTALL_SCADA_DIR%\"
+IF EXIST ".\%PACKAGE_PREFIX%_win-x64\Release\SCADA" (
+    XCOPY /S /Y /I ".\%PACKAGE_PREFIX%_win-x64\Release\SCADA\*.*" "%INSTALL_SCADA_DIR%\"
     IF ERRORLEVEL 1 (
         ECHO Failed to copy files to %INSTALL_SCADA_DIR%
         EXIT /B 1
     )
 ) ELSE (
-    ECHO Build output folder not found: .\%PACKAGE_PREFIX%_Release_win-x64\SCADA
+    ECHO Build output folder not found: .\%PACKAGE_PREFIX%_win-x64\Release\SCADA
     EXIT /B 1
 )
 
@@ -68,13 +68,13 @@ ECHO ==================
 ECHO BUILD COMPLETED
 ECHO ==================
 ECHO Created release folders:
-ECHO 1. .\%PACKAGE_PREFIX%_Release_win-x64\SCADA
-ECHO 2. .\%PACKAGE_PREFIX%_Release_win-x32\SCADA
-ECHO 3. .\%PACKAGE_PREFIX%_Release_linux-x64\SCADA
-ECHO 4. .\%PACKAGE_PREFIX%_Release_anycpu\SCADA
+ECHO 1. .\%PACKAGE_PREFIX%_win-x64\Release\SCADA
+ECHO 2. .\%PACKAGE_PREFIX%_win-x32\Release\SCADA
+ECHO 3. .\%PACKAGE_PREFIX%_linux-x64\Release\SCADA
+ECHO 4. .\%PACKAGE_PREFIX%_anycpu\Release\SCADA
 ECHO.
 ECHO Expected release structure:
-ECHO DrvDbDataTransfer_%PACKAGE_VERSION%_Release_PLATFORM
+ECHO Release
 ECHO   SCADA
 ECHO     ScadaAdmin
 ECHO       Lang
@@ -91,7 +91,7 @@ SET "PACKAGE_DIR=%~1"
 SET "LOGIC_RUNTIME=%~2"
 SET "VIEW_RUNTIME=%~3"
 SET "BUILD_WINFORM=%~4"
-SET "RELEASE_DIR=.\%PACKAGE_DIR%"
+SET "RELEASE_DIR=.\%PACKAGE_DIR%\Release"
 SET "SCADA_DIR=%RELEASE_DIR%\SCADA"
 
 ECHO.
@@ -147,7 +147,7 @@ EXIT /B 0
 
 :PrepareReleasePackage
 SET "PACKAGE_DIR=%~1"
-SET "RELEASE_DIR=.\%PACKAGE_DIR%"
+SET "RELEASE_DIR=.\%PACKAGE_DIR%\Release"
 SET "SCADA_DIR=%RELEASE_DIR%\SCADA"
 
 IF EXIST "%RELEASE_DIR%" RMDIR /S /Q "%RELEASE_DIR%"
