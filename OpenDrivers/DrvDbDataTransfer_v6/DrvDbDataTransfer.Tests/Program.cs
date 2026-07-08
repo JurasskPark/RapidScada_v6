@@ -13,9 +13,6 @@ internal static class Program
             ValuesConvertWithoutStringSerialization,
             LegacyXmlLoadsIntoSourceAndTargetSettings,
             NewXmlRoundTripsSourceTargetAndTransferQueries,
-            HistoryCommentsParseAndWindowsStayInsideDays,
-            HistoryWindowQueryRendersDatePatternsAndWindowBounds,
-            HistoryWindowQueryRendersBareWindowPlaceholders,
             DateTimePatternResolverKeepsUnknownBraces,
             PrettyPrinterHandlesEmptyTables
         };
@@ -157,11 +154,7 @@ internal static class Program
                 SelectQuery = "SELECT id FROM src",
                 InsertQuery = "INSERT INTO dst(id) VALUES (@id)",
                 StopOnError = true,
-                BatchSize = 0,
-                HistoryEnabled = true,
-                HistoryWindowMinutes = 30,
-                HistoryBatchSize = 100,
-                HistoryStopOnError = false
+                BatchSize = 0
             });
 
             Assert(project.Save(fileName, out string errMsg), errMsg);
@@ -181,78 +174,11 @@ internal static class Program
             AssertEqual("target-host", loaded.TargetDbConnSettings.Server);
             AssertEqual("SELECT id FROM src", loaded.ImportCmds[0].SelectQuery);
             AssertEqual("INSERT INTO dst(id) VALUES (@id)", loaded.ImportCmds[0].InsertQuery);
-            AssertEqual(true, loaded.ImportCmds[0].HistoryEnabled);
-            AssertEqual(30, loaded.ImportCmds[0].HistoryWindowMinutes);
-            AssertEqual(100, loaded.ImportCmds[0].HistoryBatchSize);
-            AssertEqual(false, loaded.ImportCmds[0].HistoryStopOnError);
         }
         finally
         {
             File.Delete(fileName);
         }
-    }
-
-    private static void HistoryCommentsParseAndWindowsStayInsideDays()
-    {
-        string sql = """
--- HISTORY_START=2025-11-19 23:30:00
--- HISTORY_END=2025-11-20 01:30:00
-SELECT * FROM "{YYYY}{MM}{DD}"."Data"
-WHERE "Time" >= {WINDOW_START}
-  AND "Time" < {WINDOW_END}
-""";
-
-        Assert(HistoryQueryHelper.TryParsePeriod(sql, out DateTime startTime, out DateTime endTime, out string errMsg), errMsg);
-        List<HistoryQueryWindow> windows = HistoryQueryHelper.BuildWindows(startTime, endTime, 60);
-
-        AssertEqual(3, windows.Count);
-        AssertEqual(new DateTime(2025, 11, 19, 23, 30, 0), windows[0].StartTime);
-        AssertEqual(new DateTime(2025, 11, 20, 0, 0, 0), windows[0].EndTime);
-        AssertEqual(new DateTime(2025, 11, 20, 0, 0, 0), windows[1].StartTime);
-        AssertEqual(new DateTime(2025, 11, 20, 1, 0, 0), windows[1].EndTime);
-        AssertEqual(new DateTime(2025, 11, 20, 1, 0, 0), windows[2].StartTime);
-        AssertEqual(new DateTime(2025, 11, 20, 1, 30, 0), windows[2].EndTime);
-    }
-
-    private static void HistoryWindowQueryRendersDatePatternsAndWindowBounds()
-    {
-        string sql = """
--- HISTORY_START=2025-11-19 00:00:00
--- HISTORY_END=2025-11-19 01:00:00
-SELECT * FROM "{YYYY}{MM}{DD}"."Data"
-WHERE "Time" >= {WINDOW_START}
-  AND "Time" < {WINDOW_END}
-""";
-
-        HistoryQueryWindow window = new HistoryQueryWindow(
-            new DateTime(2025, 11, 19, 0, 0, 0),
-            new DateTime(2025, 11, 19, 1, 0, 0));
-
-        string rendered = HistoryQueryHelper.RenderWindowQuery(sql, window);
-        Assert(rendered.Contains(@"""20251119"".""Data"""), rendered);
-        Assert(rendered.Contains("'2025-11-19 00:00:00.000000'"), rendered);
-        Assert(rendered.Contains("'2025-11-19 01:00:00.000000'"), rendered);
-    }
-
-    private static void HistoryWindowQueryRendersBareWindowPlaceholders()
-    {
-        string sql = """
--- HISTORY_START=2025-11-19 00:00:00
--- HISTORY_END=2025-11-19 01:00:00
-SELECT * FROM public."{YYYY}{MM}{DD}.Data"
-WHERE "Time" >= WINDOW_START
-  AND "Time" < WINDOW_END
-""";
-
-        HistoryQueryWindow window = new HistoryQueryWindow(
-            new DateTime(2025, 11, 19, 0, 0, 0),
-            new DateTime(2025, 11, 19, 1, 0, 0));
-
-        Assert(HistoryQueryHelper.HasPeriodComments(sql), "History period comments not detected.");
-        string rendered = HistoryQueryHelper.RenderWindowQuery(sql, window);
-        Assert(rendered.Contains(@"public.""20251119.Data"""), rendered);
-        Assert(!rendered.Contains("WINDOW_START"), rendered);
-        Assert(!rendered.Contains("WINDOW_END"), rendered);
     }
 
     private static void PrettyPrinterHandlesEmptyTables()

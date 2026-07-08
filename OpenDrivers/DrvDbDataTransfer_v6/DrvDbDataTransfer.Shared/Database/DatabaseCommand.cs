@@ -531,7 +531,7 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
                 return result;
             }
 
-            string selectQuery = cmd.SelectQuery ?? "";
+            string selectQuery = DriverUtils.ResolveDateTimePatterns(cmd.SelectQuery ?? "");
             if (string.IsNullOrWhiteSpace(selectQuery) || string.IsNullOrWhiteSpace(cmd.InsertQuery))
             {
                 result.ErrorMessage = Locale.IsRussian ?

@@ -656,6 +656,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             return result;
         }
         #endregion Double String
+
         #region DateTimePattern
 
         /// <summary>
