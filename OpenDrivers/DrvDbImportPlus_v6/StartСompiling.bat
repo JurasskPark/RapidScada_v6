@@ -140,6 +140,9 @@ IF "%BUILD_WINFORM%"=="1" (
     ECHO NOTE: WinForms is not supported on Linux, skipping WinForm compilation.
 )
 
+CALL :RemoveEmptyLocalizationFolders "%RELEASE_DIR%"
+IF ERRORLEVEL 1 EXIT /B 1
+
 CALL :AssertScadaStructure "%SCADA_DIR%"
 IF ERRORLEVEL 1 EXIT /B 1
 
@@ -181,6 +184,18 @@ DEL /Q "%TARGET_DIR%\*.pdb" 2>NUL
 DEL /Q "%TARGET_DIR%\*.json" 2>NUL
 FOR %%D IN (de es fr it ja ko pt-BR ru zh-Hans zh-Hant) DO (
     IF EXIST "%TARGET_DIR%\%%D" RMDIR "%TARGET_DIR%\%%D" 2>NUL
+)
+EXIT /B 0
+
+:RemoveEmptyLocalizationFolders
+SET "TARGET_DIR=%~1"
+
+IF NOT EXIST "%TARGET_DIR%" EXIT /B 0
+
+FOR %%L IN (ar bg cs da de el en en-GB en-US es fi fr he hi hr hu id it ja ko ms nb nl pl pt-BR pt-PT ro ru sk sl sr sv th tr uk vi zh-Hans zh-Hant zh-CN zh-TW) DO (
+    FOR /D /R "%TARGET_DIR%" %%D IN (%%L) DO (
+        RMDIR "%%D" 2>NUL
+    )
 )
 EXIT /B 0
 
