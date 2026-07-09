@@ -108,13 +108,13 @@ from process_values
 where unit_id = 1;
 ```
 
-If a `TAGDATETIME` column exists, it is parsed as a common timestamp for the values. The current runtime updates current tag data; it does not backfill historical archive slices from `TAGDATETIME`.
+If a `TAGTIME` or `TAGDATETIME` column exists, it is parsed as a common timestamp for the values and the runtime enqueues historical archive slices.
 
 The column-based parser also supports a single-row `TAGNAME` plus `TAGVALUE` result.
 
 В режиме по колонкам драйвер читает первую строку результирующей таблицы. Имена колонок сравниваются с настроенными именами тегов без учёта регистра.
 
-Если присутствует колонка `TAGDATETIME`, она разбирается как общий timestamp для значений. Текущая runtime-логика обновляет текущие данные тегов; исторические срезы архива из `TAGDATETIME` не дозаписываются.
+Если присутствует колонка `TAGTIME` или `TAGDATETIME`, она разбирается как общая метка времени для значений, а runtime ставит исторические срезы в очередь архива.
 
 Парсер режима по колонкам также поддерживает однострочный результат с колонками `TAGNAME` и `TAGVALUE`.
 
@@ -264,7 +264,7 @@ English:
 
 - Import queries are executed every polling cycle, so keep them deterministic and fast.
 - Column-based mode reads only the first returned row. Use row-based mode when one result must contain many tag rows.
-- `TAGDATETIME` is parsed, but the current runtime writes current tag values rather than historical archive slices.
+- Without `TAGTIME` or `TAGDATETIME`, values are written as current tag data. With `TAGTIME` or `TAGDATETIME`, values are sent as historical archive slices.
 - Command export queries are executed as non-query commands. Use restricted database accounts for write operations.
 - Password and custom connection string are encrypted in the XML configuration, but database-side permissions still remain the main protection.
 - Empty, `null` or `DBNull` values invalidate the target tag data.
@@ -272,7 +272,7 @@ English:
 
 - Запросы импорта выполняются каждый цикл опроса, поэтому они должны быть детерминированными и быстрыми.
 - Режим по колонкам читает только первую возвращённую строку. Используйте режим по строкам, если один результат должен содержать много строк тегов.
-- `TAGDATETIME` разбирается, но текущая runtime-логика записывает текущие значения тегов, а не исторические срезы архива.
+- Без `TAGTIME` или `TAGDATETIME` значения записываются как текущие данные тегов. С `TAGTIME` или `TAGDATETIME` значения передаются как исторические срезы архива.
 - Команды экспорта выполняются как non-query команды. Для операций записи используйте ограниченные учётные записи БД.
 - Пароль и пользовательская строка подключения шифруются в XML-конфигурации, но основная защита всё равно задаётся правами на стороне БД.
 - Пустые значения, `null` и `DBNull` помечают данные целевого тега недостоверными.

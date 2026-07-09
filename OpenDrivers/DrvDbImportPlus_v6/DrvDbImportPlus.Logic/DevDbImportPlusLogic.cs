@@ -375,7 +375,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 {
                     deviceTag.DataType = TagDataType.Double;
                     deviceTag.Format = TagFormat.IntNumber;
-                    cnlData[0] = new CnlData(BitConverter.Int64BitsToDouble(Convert.ToInt64(val)), CnlStatusID.Defined);
+                    cnlData[0] = new CnlData(Convert.ToDouble(val), CnlStatusID.Defined);
                     return true;
                 }
 
@@ -551,7 +551,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                 }
                 else
                 {
-                    if (val is string strVal && deviceTag.DataType == TagDataType.Unicode)
+                    if (val is string && deviceTag.DataType == TagDataType.Unicode)
                     {
                         try
                         {
@@ -562,47 +562,82 @@ namespace Scada.Comm.Drivers.DrvDbImportPlusLogic.Logic
                         }
                         catch (Exception e) 
                         {
-                            LogDriver(e.Message.ToString());
+                            LogDriver(e.Message);
                         }
 
                     }
-                    else if (val is string strVal2 && deviceTag.DataType == TagDataType.Double)
+                    else if (val is string && deviceTag.DataType == TagDataType.Double)
                     {
                         deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString());
                         try { base.DeviceData.Set(deviceTag.Index, Math.Round(DriverUtils.StringToDouble(val.ToString()), numberDecimalPlaces), CnlStatusID.Defined); }
                         catch (Exception e)
                         {
-                            LogDriver(e.Message.ToString());
+                            LogDriver(e.Message);
                         }
                     }
                     else if (val is DateTime dtVal)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.DateTime;
-                        try { base.DeviceData.SetDateTime(deviceTag.Index, dtVal, CnlStatusID.Defined); } catch { }
+                        try
+                        {
+                            base.DeviceData.SetDateTime(deviceTag.Index, dtVal, CnlStatusID.Defined);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogDriver(ex.Message);
+                        }
                     }
-                    else if (deviceTag.Format == TagFormat.OffOn && Convert.ToBoolean(val) is System.Boolean bolVal)
+                    else if (deviceTag.Format == TagFormat.OffOn)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.OffOn;
-                        try { base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined); } catch { }
+                        try
+                        {
+                            base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogDriver(ex.Message);
+                        }
                     }
-                    else if (val is Int32 intVal)
+                    else if (val is Int32)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.IntNumber;
-                        try { base.DeviceData.Set(deviceTag, Convert.ToInt32(val), CnlStatusID.Defined); } catch { }
+                        try
+                        {
+                            base.DeviceData.Set(deviceTag, Convert.ToInt32(val), CnlStatusID.Defined);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogDriver(ex.Message);
+                        }
                     }
-                    else if (val is Int64 int64Val)
+                    else if (val is Int64)
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.IntNumber;
-                        try { base.DeviceData.SetInt64(deviceTag.Index, Convert.ToInt64(val), CnlStatusID.Defined); } catch { }
+                        try
+                        {
+                            base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogDriver(ex.Message);
+                        }
                     }
                     else
                     {
                         deviceTag.Format = new TagFormat(TagFormatType.Number, "N" + numberDecimalPlaces.ToString()); 
-                        try { base.DeviceData.Set(deviceTag.Index, Math.Round(Convert.ToDouble(val), numberDecimalPlaces), CnlStatusID.Defined); } catch { }
+                        try
+                        {
+                            base.DeviceData.Set(deviceTag.Index, Math.Round(Convert.ToDouble(val), numberDecimalPlaces), CnlStatusID.Defined);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogDriver(ex.Message);
+                        }
                     }
                 }                 
             }

@@ -1,75 +1,69 @@
-﻿using DataTablePrettyPrinter;
+﻿using System.Data;
+
+using DataTablePrettyPrinter;
 using Engine;
-using Google.Protobuf.WellKnownTypes;
 using Scada.Comm.Drivers.DrvTextParserInDatabaseJP;
 using Scada.Lang;
-using System.Data;
-
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
 {
-    internal class DriverClient
+    /// <summary>
+    /// processes database import commands.
+    /// <para>Обрабатывает команды импорта из базы данных.</para>
+    /// </summary>
+    internal class DriverClient : IDisposable
     {
-        private readonly string pathProject;                                // path project
-        private readonly DrvDbImportPlusProject project;                    // configuration
-        private readonly List<ImportCmd> lstImportCmds;                     // import cmds
-        private readonly List<ExportCmd> lstExportCmds;                     // export cmds
-        private DatabaseCommand databaseCommand;                            // database command
+        #region Variable
 
+        private readonly DrvDbImportPlusProject project;                    // driver configuration
+        private readonly List<ImportCmd> lstImportCmds;                     // import commands
+        private DatabaseCommand databaseCommand;                            // database command executor
+        public static DebugData OnDebug = null;                             // debug callback
+
+        #endregion Variable
+
+        #region Basic
+
+        /// <summary>
+        /// initializes a new instance of the class.
+        /// <para>Инициализирует новый экземпляр класса.</para>
+        /// </summary>
         public DriverClient()
         {
-            this.pathProject = string.Empty;
             this.project = new DrvDbImportPlusProject();
+            this.lstImportCmds = new List<ImportCmd>();
+            this.databaseCommand = new DatabaseCommand();
         }
 
+        /// <summary>
+        /// initializes a new instance of the class with driver settings.
+        /// <para>Инициализирует новый экземпляр класса с настройками драйвера.</para>
+        /// </summary>
         public DriverClient(string path, DrvDbImportPlusProject project, int deviceNum, string pathLog, bool isDll)
         {
-            this.pathProject = path;
-            this.project = new DrvDbImportPlusProject();
-            this.project = project;
-            this.lstImportCmds = project?.ImportCmds ?? new List<ImportCmd>();
-            this.lstExportCmds = project?.ExportCmds ?? new List<ExportCmd>();
+            this.project = project ?? new DrvDbImportPlusProject();
+            this.lstImportCmds = this.project.ImportCmds ?? new List<ImportCmd>();
             this.databaseCommand = new DatabaseCommand();
-  
+
             Manager.PathLog = pathLog;
             Manager.PathProject = path;
-            Manager.Project = project;
+            Manager.Project = this.project;
             Manager.DeviceNum = deviceNum;
             Manager.IsDll = isDll;
         }
 
-        #region Log
         /// <summary>
-        /// Getting logs
+        /// releases the resources used by the object.
+        /// <para>Освобождает ресурсы, используемые объектом.</para>
         /// </summary>
-        public static DebugData OnDebug = null;
-        public delegate void DebugData(string msg);
-        // transfer to the form and to the file in the Log folder
-        internal void DebugerLog(string text)
-        {
-            if (OnDebug == null)
-            {
-                return;
-            }
-
-            OnDebug(text);
-        }
-
-        #endregion Log
-
-        #region Dispose
-
         public void Dispose()
         {
             databaseCommand?.Dispose();
             databaseCommand = null;
         }
 
-        #endregion Dispose
-
-        #region Process
         /// <summary>
-        /// Sequential execution of tasks
+        /// sequentially executes import commands.
         /// <para>Последовательное выполнение задач</para>
         /// </summary>
         public void Process()
@@ -77,30 +71,37 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
             try
             {
                 Debuger.Log(Locale.IsRussian ?
-                       @$"Количество команд импорта данных: {lstImportCmds.Count}." :
-                       @$"Count of data import commands: {lstImportCmds.Count}.");
+                    @$"Количество команд импорта данных: {lstImportCmds.Count}." :
+                    @$"Count of data import commands: {lstImportCmds.Count}.");
 
                 if (lstImportCmds.Count > 0)
                 {
                     foreach (ImportCmd cmd in lstImportCmds)
                     {
-                        if (cmd.Enabled == true)
+                        if (cmd.Enabled)
                         {
                             try
                             {
                                 Process(cmd);
                             }
-                            catch { }
+                            catch (Exception ex)
+                            {
+                                Debuger.Log(ex.Message);
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debuger.Log(ex.Message.ToString());
+                Debuger.Log(ex.Message);
             }
         }
 
+        /// <summary>
+        /// executes an import command.
+        /// <para>Выполняет команду импорта.</para>
+        /// </summary>
         public DataTable Process(ImportCmd cmd)
         {
             DataTable dtData = new DataTable();
@@ -118,36 +119,78 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                     return dtData;
                 }
 
-                Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
+                if (rowCount == 0)
+                {
+                    return dtData;
+                }
 
-                List<DriverTag> tags = GetTagValues(dtData, cmd.DeviceTags, cmd.IsColumnBased);
-
-                Debuger.Log(Environment.NewLine + tags.ConvertTagsToTable("Tags"), false);
-
-                DebugerTagReturn tagReturn = new DebugerTagReturn();
-                tagReturn.Return(tags);
+                ReturnTagsFromDataTable(dtData, cmd);
 
                 return dtData;
             }
             catch (Exception ex)
             {
-                Debuger.Log(ex.Message.ToString());
+                Debuger.Log(ex.Message);
                 return dtData;
             }
         }
 
-        #endregion Process
+        /// <summary>
+        /// converts a data table to Rapid SCADA tags and returns them to the driver runtime.
+        /// <para>Преобразует таблицу данных в теги Rapid SCADA и возвращает их среде выполнения драйвера.</para>
+        /// </summary>
+        /// <param name="dtData">source data table.</param>
+        /// <param name="cmd">import command settings.</param>
+        private void ReturnTagsFromDataTable(DataTable dtData, ImportCmd cmd)
+        {
+            if (dtData == null || dtData.Rows.Count == 0 || cmd?.DeviceTags == null || cmd.DeviceTags.Count == 0)
+            {
+                return;
+            }
+
+            Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
+
+            List<DriverTag> tags = GetTagValues(dtData, cmd.DeviceTags, cmd.IsColumnBased);
+            if (tags.Count == 0)
+            {
+                return;
+            }
+
+            Debuger.Log(Environment.NewLine + tags.ConvertTagsToTable("Tags"), false);
+
+            DebugerTagReturn tagReturn = new DebugerTagReturn();
+            tagReturn.Return(tags);
+        }
+
+        #endregion Basic
+
+        #region Log
+
+        public delegate void DebugData(string msg);
+
+        // transfer to the form and to the file in the Log folder
+        internal void DebugerLog(string text)
+        {
+            if (OnDebug == null)
+            {
+                return;
+            }
+
+            OnDebug(text);
+        }
+
+        #endregion Log
 
         #region Get tag values from table
 
         /// <summary>
-        /// Parses a DataTable to extract tag values, including timestamp information.
+        /// parses a DataTable to extract tag values, including timestamp information.
         /// </summary>
-        /// <param name="dtData">Source DataTable with tag data.</param>
-        /// <param name="tags">List of tags to search for.</param>
-        /// <param name="isColumnBased">True if tags are organized by columns (tag name = column name),
-        /// False if tags are organized by rows (tag name in first column).</param>
-        /// <returns>List of DriverTag objects with updated values and timestamps.</returns>
+        /// <param name="dtData">source DataTable with tag data.</param>
+        /// <param name="tags">list of tags to search for.</param>
+        /// <param name="isColumnBased">true if tags are organized by columns (tag name = column name),
+        /// false if tags are organized by rows (tag name in first column).</param>
+        /// <returns>list of DriverTag objects with updated values and timestamps.</returns>
         public List<DriverTag> GetTagValues(DataTable dtData, List<DriverTag> tags, bool isColumnBased)
         {
             List<DriverTag> resultTags = new List<DriverTag>();
@@ -201,7 +244,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         /// <summary>
-        /// Validates the DataTable structure based on processing mode.
+        /// validates the DataTable structure based on processing mode.
         /// </summary>
         private bool ValidateDataTableStructure(DataTable dtData, bool isColumnBased)
         {
@@ -212,12 +255,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
             if (isColumnBased)
             {
-                // column-based mode requires at least one column.
+                // column-based mode requires at least one column
                 return dtData.Columns.Count >= 1;
             }
             else
             {
-                // row-based mode requires specific columns for name, value, and time.
+                // row-based mode requires specific columns for name, value, and time
                 return dtData.Columns.Count >= 2 &&
                        ContainsColumn(dtData, "TAGNAME") &&
                        ContainsColumn(dtData, "TAGVALUE");
@@ -238,7 +281,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         /// <summary>
-        /// Processes column-based data where tag names are column headers.
+        /// processes column-based data where tag names are column headers.
         /// </summary>
         private void ProcessColumnBasedData(DataTable dtData, Dictionary<string, DriverTag> tagLookup, List<DriverTag> resultTags)
         {
@@ -340,8 +383,9 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
                 }
             }
         }
+
         /// <summary>
-        /// Processes row-based data where each row represents a tag.
+        /// processes row-based data where each row represents a tag.
         /// </summary>
         private void ProcessRowBasedData(DataTable dtData, Dictionary<string, DriverTag> tagLookup, List<DriverTag> resultTags)
         {
@@ -406,16 +450,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         /// <summary>
-        /// Checks whether the column stores a tag timestamp.
+        /// checks whether the column stores a tag timestamp.
         /// </summary>
         private static bool IsTimeColumn(string columnName)
         {
             return columnName.Equals("TAGDATETIME", StringComparison.OrdinalIgnoreCase) ||
-                columnName.Equals("TAGTIME", StringComparison.OrdinalIgnoreCase);
+                   columnName.Equals("TAGTIME", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        /// Converts object to DateTime with error handling.
+        /// converts object to DateTime with error handling.
         /// </summary>
         private DateTime ConvertToDateTime(object value)
         {
@@ -454,7 +498,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         /// <summary>
-        /// Creates a tag data object with value and date.
+        /// creates a tag data object with value and date.
         /// </summary>
         private DriverTag CreateTagDataWithDate(DriverTag tag, object value, DateTime date)
         {
@@ -473,7 +517,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         /// <summary>
-        /// Logs validation error based on locale.
+        /// logs validation error based on locale.
         /// </summary>
         private void LogValidationError(bool isColumnBased)
         {
@@ -489,7 +533,5 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         }
 
         #endregion Get tag values from table
-
-
     }
 }
