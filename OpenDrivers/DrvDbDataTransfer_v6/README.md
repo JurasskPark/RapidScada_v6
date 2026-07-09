@@ -174,20 +174,6 @@ Matching tags:
 | `AU_DateReport` | `AU_DateReport_Code` | `DateTime` |
 | `AU_Message` | `AU_Message_Code` | `String` |
 
-Important rules:
-
-- The tag **Name** must match the `SELECT` column name, not a JSON field inside a text column.
-- If `AU_Message` contains JSON, a tag named `APM_CheEx_LifeTime` will not read the JSON property. Add `APM_CheEx_LifeTime` as a separate `SELECT` column if it must be a tag.
-- String tags use Unicode channels. The configured string length must be large enough for the value.
-- Numeric `bigint` values from PostgreSQL are written as normal numeric tag values.
-
-Русский:
-
-- **Name** тега должен совпадать с именем колонки `SELECT`, а не с полем внутри JSON-строки.
-- Если `AU_Message` содержит JSON, тег `APM_CheEx_LifeTime` не прочитает свойство JSON. Добавьте `APM_CheEx_LifeTime` отдельной колонкой `SELECT`, если это должен быть тег.
-- Строковые теги используют Unicode-каналы. Длина строки должна быть достаточной для значения.
-- PostgreSQL `bigint` записывается как обычное числовое значение тега.
-
 ## Legacy Tag Import / Старый режим импорта тегов
 
 If `InsertQuery` is empty, the command does not transfer data to a target database. It works as a tag import command.
