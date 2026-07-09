@@ -109,7 +109,7 @@ If a source column has spaces or punctuation, give it a simple alias:
 
 ```sql
 SELECT
-    "APM Che-Ex Life Time" AS APM_CheEx_LifeTime
+    "Parametr" AS Parametr
 FROM public."{YYYY}{MM}{DD}.Data";
 ```
 
