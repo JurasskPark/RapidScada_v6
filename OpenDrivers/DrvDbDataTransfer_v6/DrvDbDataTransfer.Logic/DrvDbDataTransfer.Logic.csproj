@@ -6,11 +6,11 @@
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbDataTransfer.Logic</RootNamespace>
-		<Version>6.5.1.1</Version>
-		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
-		<Company>Rapid Software LLC</Company>
+		<Version>6.5.0.1</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>
-		<Copyright>Copyright © 2022-2026</Copyright>
+		<Copyright>Copyright © 2026</Copyright>
 		<LangVersion>preview</LangVersion>
 		<Platforms>AnyCPU;x86;x64</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>

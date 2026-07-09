@@ -26,7 +26,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.5.0.0";
+        public const string Version = "6.5.0.1";
 
         /// <summary>
         /// The default filename of the configuration.

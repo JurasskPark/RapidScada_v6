@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace Scada.Comm.Drivers.DrvDbDataTransfer
 {
     /// <summary>
@@ -17,6 +19,12 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
         /// <para>Возвращает или задает количество строк, записанных в целевую БД.</para>
         /// </summary>
         public int WrittenRows { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data table read from the source database.
+        /// <para>Возвращает или задает таблицу данных, прочитанную из исходной БД.</para>
+        /// </summary>
+        public DataTable SourceData { get; set; } = new DataTable();
 
         /// <summary>
         /// Gets or sets the transfer error message.

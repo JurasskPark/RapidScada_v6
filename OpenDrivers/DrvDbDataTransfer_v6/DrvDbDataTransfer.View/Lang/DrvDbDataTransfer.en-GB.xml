@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <DrvDbDataTransferDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvDbDataTransfer.View.Forms.FrmProject">
-	  <Phrase key="this">DB Import Plus - Device {0} Properties Version {1}</Phrase>
+	  <Phrase key="this">DB Data Transfer - Device {0} Properties Version {1}</Phrase>
 	  <Phrase key="btnClose">Close</Phrase>
 	  <Phrase key="btnConnectionTest">Testing connection...</Phrase>
 	  <Phrase key="btnSave">Save</Phrase>
@@ -42,61 +42,64 @@
 	  <Phrase key="pageHelp">Help</Phrase>
 	  <Phrase key="pageSettings">Settings</Phrase>
 	  <Phrase key="txtHelp">
-		  On the Database tab, select the DBMS type and set the connection parameters.
+		  The driver executes SQL commands according to the Rapid SCADA communication line period.
+		  The main DrvDbDataTransfer mode transfers rows from a source database to a target database.
+
+		  Databases.
+		  The Database tab contains two connections:
+		  Source Database - the database where SELECT is executed;
+		  Target Database - the database where INSERT or UPSERT is executed.
 		  If standard fields are not enough, edit the connection string directly.
 		  Examples of connection strings are available at https://www.connectionstrings.com.
 
-		  The driver configuration is split into import commands and export commands.
-		  Each import command has its own SQL query, command number, command code, name, description, enabled flag,
-		  data layout mode, and tag list. Disabled commands are skipped by the driver.
+		  Import and transfer commands.
+		  Disabled commands are skipped by the driver.
+		  If only SELECT is specified, the command works in the legacy mode that imports tags from a database into Rapid SCADA.
+		  If SELECT and INSERT / UPSERT are specified, the command transfers data Source -&gt; Target.
+		  In this mode the tag list is not used for writing to the target database.
+		  If tags are configured in the command, they are also updated from the same SELECT result.
 
-		  Import data layouts.
+		  SELECT is executed against Source Database.
+		  Before execution, SELECT is processed for date and time patterns:
+		  {YYYY}, {YY}, {MM}, {DD}, {HH}, {mm}, {ss}.
+		  For example, public."{YYYY}{MM}{DD}.Data" becomes public."20260709.Data".
+		  Unknown expressions in curly braces are not replaced.
 
-		  1. Tags based on the list of requested table columns.
-		  Use this mode when one result row contains values of several tags and column names match tag names.
-		  The driver reads the first returned row.
-
+		  INSERT / UPSERT is executed against Target Database.
+		  The query must be parameterized, and parameter names must match SELECT column names or aliases.
 		  Example:
-		  SELECT COLUMN_1 AS TAGNAME_1,
-		         COLUMN_2 AS TAGNAME_2,
-		         COLUMN_3 AS TAGNAME_3
-		  FROM DATATABLE_NAME
-		  WHERE CONDITION
+		  SELECT occur_time AS AU_DateReport,
+		         description AS AU_Message
+		  FROM public.event_data
+		  WHERE occur_time &gt;= localtimestamp - interval '5 hour 5 minute 10 second'
+		    AND occur_time &lt;  localtimestamp - interval '5 hour 5 minute';
 
-		  The tag Name in the command tag list must match the column alias, for example TAGNAME_1.
+		  INSERT INTO dbo.AlarmLog
+		  (AU_DateReport, AU_Message)
+		  VALUES
+		  (@AU_DateReport, @AU_Message);
+
+		  For periodic polling, use a bounded time window [start, end), not only a &gt;= condition.
+		  Otherwise, the same trailing interval is selected again on every polling cycle.
+		  Add a unique index or UPSERT in the target database if duplicate protection is required.
+
+		  Writes and errors.
+		  Batch size = 0 writes rows in one transaction.
+		  Batch size greater than 0 splits writes into batches of the specified size.
+		  Stop on error stops transfer on the first target write error.
+		  If Stop on error is disabled, the driver continues writing following rows and logs the number of errors.
+		  If SELECT returns 0 rows, INSERT / UPSERT is not executed and the command result is not logged.
+		  If rows are read or an error occurs, the log contains the command, source, target, read row count, written row count, and error text.
+
+		  Legacy tag import mode.
+		  If INSERT / UPSERT is empty, SELECT is read from Source Database and the result is converted to Rapid SCADA tags.
+		  In column-based mode, the first result row contains several tag values, and column aliases match Name in the tag list.
+		  In row-based mode, the query must return TAGNAME and TAGVALUE, where TAGNAME is matched with Name in the tag list.
 		  The tag Code must match the Rapid SCADA device tag code.
-
-		  2. Tags based on the list of requested table rows.
-		  Use this mode when each returned row contains one tag.
-		  The query must return TAGNAME and TAGVALUE columns.
-		  The TAGTIME or TAGDATETIME column is optional.
-
-		  Example:
-		  SELECT TAGNAME,
-		         TAGVALUE,
-		         TAGTIME
-		  FROM DATATABLE_NAME
-		  WHERE CONDITION
-
-		  TAGNAME is matched with the tag Name in the command tag list.
-		  TAGVALUE is converted according to the configured tag format.
-		  TAGTIME and TAGDATETIME are treated as a UTC timestamp after conversion by the driver.
-
-		  Historical data and slices.
-		  If TAGTIME or TAGDATETIME is not returned, values are written as current device data.
-		  If TAGTIME or TAGDATETIME is returned, values are sent as historical data.
-		  The driver groups historical tags by timestamp: tags with the same timestamp are placed into one device slice.
-		  Tags with different timestamps are placed into separate slices.
-		  To avoid creating too many slices, return rows ordered by time and use the same timestamp for values that must be archived together.
-		  Timestamp precision is seconds.
-
-		  Import command notes.
-		  For column-based mode, the optional common TAGTIME or TAGDATETIME column applies to all returned tag columns.
-		  For row-based mode, each row can have its own TAGTIME or TAGDATETIME value.
-		  If the timestamp is empty or cannot be parsed, the value is processed as current data.
+		  The same rules are used to update tags after Source -&gt; Target transfer.
 
 		  Export commands.
-		  Export commands write values from Rapid SCADA to a database.
+		  Export commands write Rapid SCADA command values to a database.
 		  Use @cmdVal in SQL for the command value and @cmdNum for the command number.
 		  String command length is configured in the export command properties.
 		  Do not create regular tags at automatically generated command tag addresses.
@@ -111,6 +114,8 @@
 
 		  MS SQL.
 		  Microsoft.Data.SqlClient is used for MS SQL connections.
+		  When deploying, choose the package that matches the server platform: win-x64, win-x32, or linux-x64.
+		  If an incompatible build is used, the message Microsoft.Data.SqlClient is not supported on this platform may appear.
 		  For remote connections, additional options may be required:
 		  Persist Security Info=True;Trust Server Certificate=True;
 

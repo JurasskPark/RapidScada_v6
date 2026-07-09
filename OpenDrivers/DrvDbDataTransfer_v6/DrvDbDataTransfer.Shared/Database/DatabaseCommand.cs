@@ -543,6 +543,7 @@ namespace Scada.Comm.Drivers.DrvTextParserInDatabaseJP
             try
             {
                 DataTable sourceData = ExecuteSelect(project.SourceDbConnSettings, selectQuery);
+                result.SourceData = sourceData;
                 result.ReadRows = sourceData.Rows.Count;
 
                 if (sourceData.Rows.Count == 0)

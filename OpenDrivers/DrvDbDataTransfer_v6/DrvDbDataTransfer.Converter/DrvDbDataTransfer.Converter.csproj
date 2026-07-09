@@ -7,8 +7,8 @@
 		<Nullable>disable</Nullable>
 		<RootNamespace>Scada.Comm.Drivers.DrvDbDataTransfer.Converter</RootNamespace>
 		<Version>6.5.0.1</Version>
-		<Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
-		<Company>Rapid Software LLC</Company>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Community Rapid Software</Company>
 		<Product>Rapid SCADA</Product>
 		<Copyright>Copyright © 2026</Copyright>
 		<LangVersion>preview</LangVersion>

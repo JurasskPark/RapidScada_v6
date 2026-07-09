@@ -135,10 +135,16 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
                 if (!string.IsNullOrWhiteSpace(cmd.InsertQuery))
                 {
                     DbTransferResult transferResult = databaseCommand.Transfer(project, cmd);
+                    dtData = transferResult.SourceData ?? new DataTable();
 
                     if (!transferResult.Success || transferResult.ReadRows > 0)
                     {
                         LogTransferResult(cmd, transferResult);
+                    }
+
+                    if (transferResult.Success && transferResult.ReadRows > 0)
+                    {
+                        ReturnTagsFromDataTable(dtData, cmd);
                     }
 
                     return dtData;
@@ -158,14 +164,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
                     return dtData;
                 }
 
-                Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
-
-                List<DriverTag> tags = GetTagValues(dtData, cmd.DeviceTags, cmd.IsColumnBased);
-
-                Debuger.Log(Environment.NewLine + tags.ConvertTagsToTable("Tags"), false);
-
-                DebugerTagReturn tagReturn = new DebugerTagReturn();
-                tagReturn.Return(tags);
+                ReturnTagsFromDataTable(dtData, cmd);
 
                 return dtData;
             }
@@ -227,6 +226,33 @@ namespace Scada.Comm.Drivers.DrvDbDataTransfer
             }
 
             return resultTags;
+        }
+
+        /// <summary>
+        /// Converts a data table to Rapid SCADA tags and returns them to the driver runtime.
+        /// <para>Преобразует таблицу данных в теги Rapid SCADA и возвращает их среде выполнения драйвера.</para>
+        /// </summary>
+        /// <param name="dtData">Source data table.</param>
+        /// <param name="cmd">Import command settings.</param>
+        private void ReturnTagsFromDataTable(DataTable dtData, ImportCmd cmd)
+        {
+            if (dtData == null || dtData.Rows.Count == 0 || cmd?.DeviceTags == null || cmd.DeviceTags.Count == 0)
+            {
+                return;
+            }
+
+            Debuger.Log(Environment.NewLine + dtData.ToPrettyPrintedString(), false);
+
+            List<DriverTag> tags = GetTagValues(dtData, cmd.DeviceTags, cmd.IsColumnBased);
+            if (tags.Count == 0)
+            {
+                return;
+            }
+
+            Debuger.Log(Environment.NewLine + tags.ConvertTagsToTable("Tags"), false);
+
+            DebugerTagReturn tagReturn = new DebugerTagReturn();
+            tagReturn.Return(tags);
         }
 
         /// <summary>

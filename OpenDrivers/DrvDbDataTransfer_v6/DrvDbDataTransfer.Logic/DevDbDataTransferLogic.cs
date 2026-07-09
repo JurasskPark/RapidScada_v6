@@ -375,7 +375,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferLogic.Logic
                 {
                     deviceTag.DataType = TagDataType.Double;
                     deviceTag.Format = TagFormat.IntNumber;
-                    cnlData[0] = new CnlData(BitConverter.Int64BitsToDouble(Convert.ToInt64(val)), CnlStatusID.Defined);
+                    cnlData[0] = new CnlData(Convert.ToDouble(val), CnlStatusID.Defined);
                     return true;
                 }
 
@@ -597,7 +597,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferLogic.Logic
                     {
                         deviceTag.DataType = TagDataType.Double;
                         deviceTag.Format = TagFormat.IntNumber;
-                        try { base.DeviceData.SetInt64(deviceTag.Index, Convert.ToInt64(val), CnlStatusID.Defined); } catch { }
+                        try { base.DeviceData.Set(deviceTag.Index, Convert.ToDouble(val), CnlStatusID.Defined); } catch { }
                     }
                     else
                     {

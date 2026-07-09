@@ -4,7 +4,6 @@ using Google.Protobuf.WellKnownTypes;
 using Scada.Comm.Drivers.DrvTextParserInDatabaseJP;
 using Scada.Lang;
 using System.Data;
-using System.Runtime.InteropServices;
 
 
 namespace Scada.Comm.Drivers.DrvDbImportPlus
@@ -16,7 +15,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         private readonly List<ImportCmd> lstImportCmds;                     // import cmds
         private readonly List<ExportCmd> lstExportCmds;                     // export cmds
         private DatabaseCommand databaseCommand;                            // database command
-        private const string PgTimestampFormat = "yyyy-MM-dd HH:mm:ss.ffffff";
 
         public DriverClient()
         {
@@ -60,36 +58,11 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         #endregion Log
 
         #region Dispose
-        private IntPtr _bufferPtr = IntPtr.Zero;
-        public int BUFFER_SIZE = 1024 * 1024 * 50; // 50 MB
-        private bool _disposed = false;
-
-        ~DriverClient()
-        {
-            Dispose(false);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                // free any other managed objects here.
-            }
-
-            // free any unmanaged objects here.
-            Marshal.FreeHGlobal(_bufferPtr);
-            _disposed = true;
-        }
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            databaseCommand?.Dispose();
+            databaseCommand = null;
         }
 
         #endregion Dispose
@@ -134,13 +107,8 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
             try
             {
+                databaseCommand?.Dispose();
                 databaseCommand = new DatabaseCommand();
-
-                if (HistoryQueryHelper.HasPeriodComments(cmd.Query))
-                {
-                    ProcessHistoryTagImport(cmd);
-                    return dtData;
-                }
 
                 string query = DriverUtils.ResolveDateTimePatterns(cmd.Query);
                 dtData = databaseCommand.Reguest(query, out int rowCount, out string errMsg);
@@ -170,104 +138,6 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
 
         #endregion Process
 
-        private void ProcessHistoryTagImport(ImportCmd cmd)
-        {
-            if (!HistoryQueryHelper.TryParsePeriod(cmd.Query, out DateTime startTime, out DateTime endTime, out string errMsg))
-            {
-                Debuger.Log(errMsg);
-                return;
-            }
-
-            List<HistoryQueryWindow> windows = HistoryQueryHelper.BuildWindows(
-                startTime,
-                endTime,
-                cmd.HistoryWindowMinutes);
-
-            LogHistoryStart(cmd, startTime, endTime, windows.Count);
-
-            for (int i = 0; i < windows.Count; i++)
-            {
-                HistoryQueryWindow window = windows[i];
-                string query = HistoryQueryHelper.RenderWindowQuery(cmd.Query, window);
-                LogHistoryWindow(i + 1, windows.Count, window, query);
-
-                DataTable windowData = databaseCommand.Reguest(query, out int rowCount, out string requestErrMsg);
-                if (!string.IsNullOrEmpty(requestErrMsg))
-                {
-                    Debuger.Log(string.Format(Locale.IsRussian ?
-                        "Ошибка исторического импорта: {0}" :
-                        "Historical import error: {0}", requestErrMsg));
-
-                    if (cmd.HistoryStopOnError)
-                    {
-                        break;
-                    }
-                }
-
-                List<DriverTag> tags = GetTagValues(windowData, cmd.DeviceTags, cmd.IsColumnBased);
-                int historyCount = tags.Count(tag => tag.Date != DateTime.MinValue);
-
-                Debuger.Log(string.Format(Locale.IsRussian ?
-                    "Исторический импорт: прочитано строк {0}, подготовлено исторических значений {1}." :
-                    "Historical import: read rows {0}, prepared historical values {1}.",
-                    rowCount,
-                    historyCount));
-
-                ReturnTags(cmd, tags);
-            }
-        }
-
-
-        private static void ReturnTags(ImportCmd cmd, List<DriverTag> tags)
-        {
-            if (tags == null || tags.Count == 0)
-            {
-                return;
-            }
-
-            int batchSize = cmd.HistoryBatchSize;
-            if (batchSize <= 0 || batchSize >= tags.Count)
-            {
-                DebugerTagReturn tagReturn = new DebugerTagReturn();
-                tagReturn.Return(tags);
-                return;
-            }
-
-            for (int index = 0; index < tags.Count; index += batchSize)
-            {
-                DebugerTagReturn tagReturn = new DebugerTagReturn();
-                tagReturn.Return(tags.Skip(index).Take(batchSize).ToList());
-            }
-        }
-        private static void LogHistoryStart(ImportCmd cmd, DateTime startTime, DateTime endTime, int windowCount)
-        {
-            string cmdName = string.IsNullOrWhiteSpace(cmd.Name) ? cmd.CmdCode : cmd.Name;
-
-            Debuger.Log(string.Format(Locale.IsRussian ?
-                "Исторический импорт: {0}. Период: {1} - {2}. Окон: {3}." :
-                "Historical import: {0}. Period: {1} - {2}. Windows: {3}.",
-                cmdName,
-                startTime.ToString(PgTimestampFormat),
-                endTime.ToString(PgTimestampFormat),
-                windowCount));
-        }
-
-        private static void LogHistoryWindow(
-            int windowNumber,
-            int windowCount,
-            HistoryQueryWindow window,
-            string query)
-        {
-            Debuger.Log(string.Format(Locale.IsRussian ?
-                "Окно {0}/{1}: {2} - {3}." :
-                "Window {0}/{1}: {2} - {3}.",
-                windowNumber,
-                windowCount,
-                window.StartTime.ToString(PgTimestampFormat),
-                window.EndTime.ToString(PgTimestampFormat)));
-
-            Debuger.Log(query);
-        }
         #region Get tag values from table
 
         /// <summary>
