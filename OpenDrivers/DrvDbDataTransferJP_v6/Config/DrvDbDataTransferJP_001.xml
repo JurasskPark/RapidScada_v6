@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbDataTransferJPProject>
+  <SourceDbConnSettings>
+    <DataSourceType>MySQL</DataSourceType>
+    <Server>source-db-host</Server>
+    <Database>source</Database>
+    <Port>3306</Port>
+    <User>db_user</User>
+    <Password>
+    </Password>
+    <OptionalOptions>None</OptionalOptions>
+    <ConnectionString>
+    </ConnectionString>
+    <Timeout>10</Timeout>
+  </SourceDbConnSettings>
+  <TargetDbConnSettings>
+    <DataSourceType>PostgreSQL</DataSourceType>
+    <Server>target-db-host</Server>
+    <Database>target</Database>
+    <Port>5432</Port>
+    <User>db_user</User>
+    <Password>
+    </Password>
+    <OptionalOptions />
+    <ConnectionString />
+    <Timeout>10</Timeout>
+  </TargetDbConnSettings>
+  <ImportCmds>
+    <ImportCmd>
+      <Id>ab1ee023-6c79-47fb-b981-340ebf2fbbf5</Id>
+      <Enabled>true</Enabled>
+      <CmdNum>1</CmdNum>
+      <CmdCode>DBIMPORT001</CmdCode>
+      <Name>Import</Name>
+      <Description>DB-to-DB transfer: MySQL source -&gt; PostgreSQL target with row-based tags.</Description>
+      <Query>SELECT TAGNAME, TAGVALUE FROM source.cource;</Query>
+      <SelectQuery>SELECT TAGNAME, TAGVALUE FROM source.cource;</SelectQuery>
+      <InsertQuery>INSERT INTO target.cource(TAGNAME, TAGVALUE) VALUES (@TAGNAME, @TAGVALUE)
+ON CONFLICT (TAGNAME) DO UPDATE SET TAGVALUE = EXCLUDED.TAGVALUE;</InsertQuery>
+      <StopOnError>true</StopOnError>
+      <BatchSize>0</BatchSize>
+      <IsColumnBased>false</IsColumnBased>
+      <DeviceTags>
+        <Tag>
+          <ID>2669fef6-5505-401a-b5d6-b6a2b6693da6</ID>
+          <Name>TAGNAME1</Name>
+          <Code>TAGNAME1</Code>
+          <Format>0</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>c5a53a05-c6b2-4f61-bc7a-c829009bc2b6</ID>
+          <Name>TAGNAME2</Name>
+          <Code>TAGNAME2</Code>
+          <Format>0</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>7cf9e908-5169-40c7-a231-5268f1866b92</ID>
+          <Name>TAGNAME3</Name>
+          <Code>TAGNAME3</Code>
+          <Format>0</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+      </DeviceTags>
+    </ImportCmd>
+  </ImportCmds>
+  <ExportCmds />
+  <DebugerSettings>
+    <LogWrite>true</LogWrite>
+    <LogDays>7</LogDays>
+  </DebugerSettings>
+</DrvDbDataTransferJPProject>

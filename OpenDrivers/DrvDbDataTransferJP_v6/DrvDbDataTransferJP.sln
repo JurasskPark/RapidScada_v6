@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbDataTransferJP.Logic", "DrvDbDataTransferJP.Logic\DrvDbDataTransferJP.Logic.csproj", "{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDbDataTransferJP.Shared", "DrvDbDataTransferJP.Shared\DrvDbDataTransferJP.Shared.shproj", "{9181751B-7E14-4A27-AAC0-8AE7DF4698A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbDataTransferJP.View", "DrvDbDataTransferJP.View\DrvDbDataTransferJP.View.csproj", "{2F7C2995-B033-4DF2-9FD2-512A074B17C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbDataTransferJP.Winform", "DrvDbDataTransferJP.Winform\DrvDbDataTransferJP.Winform.csproj", "{E81A6350-33BA-43F6-B018-47757A2F0F4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbDataTransferJP.Converter", "DrvDbDataTransferJP.Converter\DrvDbDataTransferJP.Converter.csproj", "{030025E3-1E0C-494A-9B7E-64F2CF463575}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbDataTransferJP.Tests", "DrvDbDataTransferJP.Tests\DrvDbDataTransferJP.Tests.csproj", "{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|x64.Build.0 = Release|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{71CBB5F0-D4E7-45F2-BCD9-24BC4F2A37A2}.Release|x86.Build.0 = Release|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|x64.Build.0 = Release|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{2F7C2995-B033-4DF2-9FD2-512A074B17C6}.Release|x86.Build.0 = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|x64.Build.0 = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Debug|x86.Build.0 = Debug|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|x64.ActiveCfg = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|x64.Build.0 = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|x86.ActiveCfg = Release|Any CPU
+		{E81A6350-33BA-43F6-B018-47757A2F0F4D}.Release|x86.Build.0 = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|x64.Build.0 = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Debug|x86.Build.0 = Debug|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|Any CPU.Build.0 = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|x64.ActiveCfg = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|x64.Build.0 = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|x86.ActiveCfg = Release|Any CPU
+		{030025E3-1E0C-494A-9B7E-64F2CF463575}.Release|x86.Build.0 = Release|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Debug|x64.Build.0 = Debug|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Release|x64.ActiveCfg = Release|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Release|x64.Build.0 = Release|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{1F1CF963-47EB-4BEC-9449-D3A8DBDD5BFD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD17063E-6627-4526-A328-18AEF48A0583}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvDbDataTransferJP.Shared\DrvDbDataTransferJP.Common.projitems*{2f7c2995-b033-4df2-9fd2-512a074b17c6}*SharedItemsImports = 5
+		DrvDbDataTransferJP.Shared\DrvDbDataTransferJP.Common.projitems*{030025e3-1e0c-494a-9b7e-64f2cf463575}*SharedItemsImports = 5
+		DrvDbDataTransferJP.Shared\DrvDbDataTransferJP.Common.projitems*{71cbb5f0-d4e7-45f2-bcd9-24bc4f2a37a2}*SharedItemsImports = 5
+		DrvDbDataTransferJP.Shared\DrvDbDataTransferJP.Common.projitems*{9181751b-7e14-4a27-aac0-8ae7df4698a7}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

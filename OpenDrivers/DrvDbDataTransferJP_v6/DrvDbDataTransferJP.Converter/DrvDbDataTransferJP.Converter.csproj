@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<RootNamespace>Scada.Comm.Drivers.DrvDbDataTransferJP.Converter</RootNamespace>
+		<Version>6.5.0.1</Version>
+		<Authors>Yuriy Pradius</Authors>
+		<Company>Community Rapid Software</Company>
+		<Product>Rapid SCADA</Product>
+		<Copyright>Copyright © 2026</Copyright>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.2" />
+		<PackageReference Include="InfluxDB.Client" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+		<PackageReference Include="MySql.Data" Version="9.1.0" />
+		<PackageReference Include="Npgsql" Version="9.0.2" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
+		<PackageReference Include="System.Text.Json" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="ScadaCommCommon">
+			<HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
+		</Reference>
+		<Reference Include="ScadaCommon">
+			<HintPath>..\Libraries\ScadaCommon.dll</HintPath>
+		</Reference>
+		<Reference Include="ScadaCommon.Log">
+			<HintPath>..\Libraries\ScadaCommon.Log.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<Import Project="..\DrvDbDataTransferJP.Shared\DrvDbDataTransferJP.Common.projitems" Label="Shared" />
+
+</Project>

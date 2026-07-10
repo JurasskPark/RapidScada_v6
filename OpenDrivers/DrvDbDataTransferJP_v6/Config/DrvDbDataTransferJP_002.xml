@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbDataTransferJPProject>
+  <SourceDbConnSettings>
+    <DataSourceType>PostgreSQL</DataSourceType>
+    <Server>source-db-host</Server>
+    <Database>postgres</Database>
+    <Port>5432</Port>
+    <User>db_user</User>
+    <Password>
+    </Password>
+    <OptionalOptions />
+    <ConnectionString>
+    </ConnectionString>
+    <Timeout>10</Timeout>
+  </SourceDbConnSettings>
+  <TargetDbConnSettings>
+    <DataSourceType>PostgreSQL</DataSourceType>
+    <Server>target-db-host</Server>
+    <Database>target</Database>
+    <Port>5432</Port>
+    <User>db_user</User>
+    <Password>
+    </Password>
+    <OptionalOptions />
+    <ConnectionString />
+    <Timeout>10</Timeout>
+  </TargetDbConnSettings>
+  <ImportCmds>
+    <ImportCmd>
+      <Id>f3913750-1bf2-486b-872b-e74d4f74526f</Id>
+      <Enabled>true</Enabled>
+      <CmdNum>1</CmdNum>
+      <CmdCode>DBIMPORT001</CmdCode>
+      <Name>Import</Name>
+      <Description>DB-to-DB transfer: PostgreSQL source -&gt; PostgreSQL target with column-based tags.</Description>
+      <Query>SELECT * FROM public.longsurname ORDER BY "TAGNAME" ASC</Query>
+      <SelectQuery>SELECT * FROM public.longsurname ORDER BY "TAGNAME" ASC</SelectQuery>
+      <InsertQuery>INSERT INTO target.longsurname("TAGNAME", "TAGVALUE") VALUES (@TAGNAME, @TAGVALUE)
+ON CONFLICT ("TAGNAME") DO UPDATE SET "TAGVALUE" = EXCLUDED."TAGVALUE";</InsertQuery>
+      <StopOnError>true</StopOnError>
+      <BatchSize>0</BatchSize>
+      <IsColumnBased>false</IsColumnBased>
+      <DeviceTags>
+        <Tag>
+          <ID>09dd26b3-910a-4b1a-acc9-825326b2491c</ID>
+          <Name>TAG4</Name>
+          <Code>COD4</Code>
+          <Format>2</Format>
+          <NumberDecimalPlaces>45</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>0b08a1c6-fc47-4242-9311-1af7373a4b24</ID>
+          <Name>TAG2</Name>
+          <Code>COD2</Code>
+          <Format>2</Format>
+          <NumberDecimalPlaces>12</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>ce4974ea-f3e1-49c3-9ba7-7f8ba27fa7ab</ID>
+          <Name>TAG1</Name>
+          <Code>COD1</Code>
+          <Format>0</Format>
+          <NumberDecimalPlaces>4</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>7bf12d0e-a522-49e2-b968-c221d4800102</ID>
+          <Name>TAG3</Name>
+          <Code>COD3</Code>
+          <Format>1</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>499107eb-7cb0-4224-8c32-9a0e76a910d3</ID>
+          <Name>TAG5</Name>
+          <Code>COD5</Code>
+          <Format>3</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+        <Tag>
+          <ID>1a51f78e-f1e0-4525-a842-6545378165a0</ID>
+          <Name>TAG6</Name>
+          <Code>COD6</Code>
+          <Format>4</Format>
+          <NumberDecimalPlaces>0</NumberDecimalPlaces>
+          <Enable>true</Enable>
+        </Tag>
+      </DeviceTags>
+    </ImportCmd>
+  </ImportCmds>
+  <ExportCmds>
+    <ExportCmd>
+      <Id>5352584a-71ab-4356-9a41-c3b8b69e409d</Id>
+      <Enabled>true</Enabled>
+      <CmdNum>1</CmdNum>
+      <CmdCode>TAGNAME1</CmdCode>
+      <Name>UPDATE_TAGNAME1</Name>
+      <Description />
+      <Query>UPDATE public.source
+SET "TAGVALUE"=777, 
+    "TAGDATETIME"=CURRENT_TIMESTAMP
+WHERE source."TAGNAME"='TAGNAME1';</Query>
+      <Length>80</Length>
+    </ExportCmd>
+  </ExportCmds>
+  <DebugerSettings>
+    <LogWrite>false</LogWrite>
+    <LogDays>7</LogDays>
+  </DebugerSettings>
+</DrvDbDataTransferJPProject>
