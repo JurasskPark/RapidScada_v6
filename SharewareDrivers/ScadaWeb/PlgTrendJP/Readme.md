@@ -641,7 +641,7 @@ The demonstration shows the capacitance components on the Rapid SCADA working di
 
 ## License / Лицензия
 
-`PlgTrendJP` is distributed as shareware/commercial software. A valid product license is required to place new tank components. Existing licensed mimic diagrams remain readable when a license is temporarily unavailable, but editing and new placement are restricted as described above. Do not rename the plugin DLL, activation request or license file.
+PlgTrendJP is distributed as shareware/commercial software. Adding new trend components requires a valid product license. Existing trend diagrams will continue to open if a license is temporarily unavailable, but editing and adding new components is restricted as described above. Do not rename the plugin DLL, activation request, or license file.
 
-`PlgTrendJP` распространяется как условно-бесплатное/коммерческое программное обеспечение. Для добавления новых компонентов резервуаров требуется действующая лицензия продукта. Существующие мнемосхемы продолжают открываться при временном отсутствии лицензии, но редактирование и добавление новых компонентов ограничиваются, как описано выше. Не переименовывайте DLL плагина, запрос активации и файл лицензии.
+`PlgTrendJP` распространяется как условно-бесплатное/коммерческое программное обеспечение. Для добавления новых компонентов трендов требуется действующая лицензия продукта. Существующие мнемосхемы продолжают открываться при временном отсутствии лицензии, но редактирование и добавление новых компонентов ограничиваются, как описано выше. Не переименовывайте DLL плагина, запрос активации и файл лицензии.
 
