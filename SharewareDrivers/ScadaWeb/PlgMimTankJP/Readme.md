@@ -560,6 +560,14 @@ English:
 - плагин не выполняет автоматическую стыковку или привязку к трубопроводам;
 - старые компоненты `Tank` автоматически не мигрируются.
 
+## Video / Видео
+
+The demonstration shows the capacitance components on the Rapid SCADA working diagram and their configuration in the editor.
+
+В демонстрации показаны компоненты емкостей на работающей мнемосхеме Rapid SCADA и их настройка в редакторе.
+
+[Watch the PlgMimPipesJP demonstration / Посмотреть демонстрацию PlgMimPipesJP](https://jurasskpark.ru/files/github/PlgMimPimpJP.mp4)
+
 ## Screenshots / Скриншоты
 
 ### Runtime mimic / Рабочая мнемосхема
