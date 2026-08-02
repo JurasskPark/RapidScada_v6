@@ -560,6 +560,18 @@ English:
 - плагин не выполняет автоматическую стыковку или привязку к трубопроводам;
 - старые компоненты `Tank` автоматически не мигрируются.
 
+## Screenshots / Скриншоты
+
+### Runtime mimic / Рабочая мнемосхема
+
+![PlgMimTankJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimTankJP/Source/PlgMimTankJP_001.png)
+
+### Mimic editor / Редактор мнемосхемы
+
+![PlgMimTankJP components and properties in the mimic editor](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimTankJP/Source/PlgMimTankJP_002.png)
+
+
+
 ## License / Лицензия
 
 `PlgMimTankJP` is distributed as shareware/commercial software. A valid product license is required to place new tank components. Existing licensed mimic diagrams remain readable when a license is temporarily unavailable, but editing and new placement are restricted as described above. Do not rename the plugin DLL, activation request or license file.
