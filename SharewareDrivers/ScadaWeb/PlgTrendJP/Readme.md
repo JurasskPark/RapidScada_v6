@@ -622,8 +622,26 @@ The signed license must contain `AppName=PlgTrendJP` and a positive `CountTags`.
 | No controls are visible / Элементы управления не видны | `showToolbar=false` hides **Actions** too. Use `showControlPanel=false` to keep **Actions**. / `showToolbar=false` скрывает и **Действия**. Используйте `showControlPanel=false`, чтобы сохранить меню. |
 | Excel export is rejected / Экспорт Excel отклонён | Load the trend first, keep the page open and check the point and licensed channel limits. / Сначала загрузите тренд, не закрывайте страницу и проверьте лимиты точек и каналов. |
 
+## Video / Видео
+
+The demonstration shows the capacitance components on the Rapid SCADA working diagram and their configuration in the editor.
+
+В демонстрации показаны компоненты емкостей на работающей мнемосхеме Rapid SCADA и их настройка в редакторе.
+
+[Watch the PlgTrendJP demonstration / Посмотреть демонстрацию PlgTrendJP](https://jurasskpark.ru/files/github/PlgTrendJP.mp4)
+
+## Screenshots / Скриншоты
+
+### Runtime mimic / Рабочая мнемосхема
+
+![PlgTrendJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgTrendJP/Source/PlgTrendJP_001.png)
+![PlgTrendJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgTrendJP/Source/PlgTrendJP_002.png)
+![PlgTrendJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgTrendJP/Source/PlgTrendJP_003.png)
+![PlgTrendJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgTrendJP/Source/PlgTrendJP_004.png)
+
 ## License / Лицензия
 
-`PlgTrendJP` is distributed as shareware/commercial software. A valid installation-specific license is required. Do not rename the plugin DLL, activation request or license file.
+`PlgTrendJP` is distributed as shareware/commercial software. A valid product license is required to place new tank components. Existing licensed mimic diagrams remain readable when a license is temporarily unavailable, but editing and new placement are restricted as described above. Do not rename the plugin DLL, activation request or license file.
 
-`PlgTrendJP` распространяется как условно-бесплатное/коммерческое программное обеспечение. Требуется действующая лицензия, привязанная к установке. Не переименовывайте DLL плагина, запрос активации и файл лицензии.
+`PlgTrendJP` распространяется как условно-бесплатное/коммерческое программное обеспечение. Для добавления новых компонентов резервуаров требуется действующая лицензия продукта. Существующие мнемосхемы продолжают открываться при временном отсутствии лицензии, но редактирование и добавление новых компонентов ограничиваются, как описано выше. Не переименовывайте DLL плагина, запрос активации и файл лицензии.
+
