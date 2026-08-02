@@ -566,7 +566,7 @@ The demonstration shows the capacitance components on the Rapid SCADA working di
 
 В демонстрации показаны компоненты емкостей на работающей мнемосхеме Rapid SCADA и их настройка в редакторе.
 
-[Watch the PlgMimPipesJP demonstration / Посмотреть демонстрацию PlgMimPipesJP](https://jurasskpark.ru/files/github/PlgMimPimpJP.mp4)
+[Watch the PlgMimTankJP demonstration / Посмотреть демонстрацию PlgMimPipesJP](https://jurasskpark.ru/files/github/PlgMimTankJP.mp4)
 
 ## Screenshots / Скриншоты
 
