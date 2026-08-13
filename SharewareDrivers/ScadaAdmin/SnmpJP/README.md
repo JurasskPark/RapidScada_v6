@@ -17,7 +17,7 @@ ExtSNMPJP  library (6.1.1.3)
 
 ## Video / Видео
 
-[Watch the PlgMimTankJP demonstration / Посмотреть демонстрацию PlgMimTankJP](https://jurasskpark.ru/files/github/PlgMimTankJP.mp4)
+[Watch the ExtSnmpJP demonstration / Посмотреть демонстрацию ExtSnmpJP ](https://jurasskpark.ru/files/github/ExtSnmpJP.mp4)
 
 ## Screenshots / Скриншоты
 
