@@ -31,7 +31,9 @@ namespace Scada.Web.Plugins.PlgMimShapesJP
         public override void LoadDictionaries()
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, Code, out string errMsg))
+            {
                 Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
+            }
 
             PluginPhrases.Init();
         }

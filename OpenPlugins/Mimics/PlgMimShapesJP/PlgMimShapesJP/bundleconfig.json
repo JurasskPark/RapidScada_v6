@@ -1,11 +1,11 @@
 [
   {
-    "outputFileName": "wwwroot/plugins/MimShapes/js/shapes-bundle.js",
+    "outputFileName": "wwwroot/plugins/MimShapesJP/js/shapes-bundle.js",
     "inputFiles": [
-      "wwwroot/plugins/MimShapes/js/shapes-subtypes.js",
-      "wwwroot/plugins/MimShapes/js/shapes-descr.js",
-      "wwwroot/plugins/MimShapes/js/shapes-factory.js",
-      "wwwroot/plugins/MimShapes/js/shapes-render.js"
+      "wwwroot/plugins/MimShapesJP/js/shapes-subtypes.js",
+      "wwwroot/plugins/MimShapesJP/js/shapes-descr.js",
+      "wwwroot/plugins/MimShapesJP/js/shapes-factory.js",
+      "wwwroot/plugins/MimShapesJP/js/shapes-render.js"
     ]
   }
 ]

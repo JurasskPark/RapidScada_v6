@@ -6,7 +6,6 @@ rs.mimic.ShapeSubtype = class {
     static POLYGON_POINT_MODE = "ShapePolygonPointMode";
     static LINE_ORIENTATION = "ShapeLineOrientation";
     static ARROW_DIRECTION = "ShapeArrowDirection";
-    static STAR_POINTS = "ShapeStarPoints";
 };
 
 rs.mimic.ShapePolygonPointMode = class {

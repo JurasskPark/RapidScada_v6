@@ -5,12 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <RootNamespace>Scada.Web.Plugins.PlgMimShapesJP</RootNamespace>
-	<Authors>Yuriy Pradius</Authors>
-	<Company>Community Rapid Software</Company>
-	<Product>Rapid SCADA</Product>
-	<Copyright>Copyright © 2026</Copyright>
-    <Version>6.0.1</Version>
-    <AssemblyVersion>6.0.1.1</AssemblyVersion>
+    <Authors>Yuriy Pradius</Authors>
+    <Company>Community Rapid Software</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2026</Copyright>
+    <Version>6.0.1.2</Version>
+    <AssemblyVersion>6.0.1.2</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
@@ -22,6 +22,7 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
+    <None Include="lang\*.xml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PlgMimic.Common">

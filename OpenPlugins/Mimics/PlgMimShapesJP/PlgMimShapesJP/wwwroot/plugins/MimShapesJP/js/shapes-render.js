@@ -1,10 +1,12 @@
 // Contains renderers for shape components.
 
 rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
+    // Suppresses the regular HTML border because SVG renders the shape stroke.
     _setBorder(jqObj, border) {
         jqObj.css("border", "");
     }
 
+    // Creates the SVG surface and resize handles for a shape component.
     _completeDom(componentElem, component, renderContext) {
         componentElem.append("<svg class='shape-svg' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'></svg>" +
             "<div class='shape-resize-handles'>" +
@@ -13,15 +15,18 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
             "<span class='sw'></span><span class='w'></span></div>");
     }
 
+    // Adds the shared shape class to the regular component element.
     _setClasses(componentElem, component, renderContext) {
         super._setClasses(componentElem, component, renderContext);
         componentElem.addClass("shape-comp");
     }
 
+    // Resolves an optional project image through the active render context.
     _imageHref(renderContext, imageName) {
         return imageName && renderContext.getImage ? renderContext.getImage(imageName) : "";
     }
 
+    // Resets the SVG surface and applies the shared background image.
     _setCommonSvg(svg, component, renderContext) {
         let props = component.properties;
         let width = Math.max(1, component.innerWidth || component.width || props.size.width);
@@ -47,6 +52,7 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
         return { width, height };
     }
 
+    // Creates a background rectangle that covers the complete SVG surface.
     _createBackground(width, height, color) {
         return $(document.createElementNS("http://www.w3.org/2000/svg", "rect"))
             .attr("x", 0)
@@ -56,6 +62,7 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
             .attr("fill", color || "transparent");
     }
 
+    // Applies fill, stroke and dash properties to an SVG geometry element.
     _applyPaint(shapeElem, props) {
         shapeElem
             .attr("fill", props.fillColor || "transparent")
@@ -70,6 +77,7 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
         }
     }
 
+    // Applies component opacity and rotation to the HTML wrapper.
     _applyTransform(componentElem, props) {
         let opacity = Math.max(0, Math.min(100, props.opacity)) / 100;
         componentElem.css("opacity", opacity);
@@ -82,6 +90,7 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
         }
     }
 
+    // Parses a persisted percentage point list and drops invalid coordinates.
     _parsePercentPoints(points) {
         let nums = String(points || "")
             .replace(/[;|]/g, " ")
@@ -99,65 +108,101 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
         return result;
     }
 
+    // Converts percentage points to SVG pixel coordinates.
     _pointsToSvg(points, width, height) {
         return points.map(p => (p.x / 100 * width) + "," + (p.y / 100 * height)).join(" ");
     }
 
-    // JP добавлено начало (закомментировано) //
-    // _clampPercent(value) {
-    //     return Math.max(0, Math.min(100, Math.round(value)));
-    // }
-    // 
-    // _formatPercentPoints(points) {
-    //     return points
-    //         .map(p => this._clampPercent(p.x) + "," + this._clampPercent(p.y))
-    //         .join(" ");
-    // }
-    // 
-    // _mimicPointToComponentPercent(component, mimicPoint) {
-    //     let width = Math.max(1, component.width);
-    //     let height = Math.max(1, component.height);
-    //     return {
-    //         x: this._clampPercent((mimicPoint.x - component.x) / width * 100),
-    //         y: this._clampPercent((mimicPoint.y - component.y) / height * 100)
-    //     };
-    // }
-    // 
-    // _componentPointToPercent(component, componentPoint) {
-    //     let width = Math.max(1, component.width);
-    //     let height = Math.max(1, component.height);
-    //     return {
-    //         x: this._clampPercent(componentPoint.x / width * 100),
-    //         y: this._clampPercent(componentPoint.y / height * 100)
-    //     };
-    // }
-    // 
-    // _renderPointHandles(componentElem, component, points) {
-    //     let handlesElem = componentElem.children(".shape-point-handles:first");
-    // 
-    //     if (handlesElem.length === 0) {
-    //         handlesElem = $("<div class='shape-point-handles'></div>").appendTo(componentElem);
-    //     }
-    // 
-    //     handlesElem.empty();
-    // 
-    //     if (!component.isSelected || !Array.isArray(points)) {
-    //         return;
-    //     }
-    // 
-    //     for (let i = 0; i < points.length; i++) {
-    //         $("<span class='jp-point-handle'></span>")
-    //             .attr("title", "Point " + (i + 1))
-    //             .attr("data-point-index", i)
-    //             .css({
-    //                 left: points[i].x + "%",
-    //                 top: points[i].y + "%"
-    //             })
-    //             .appendTo(handlesElem);
-    //     }
-    // }
-    // JP добавлено конец (закомментировано) //
+    // Clamps a component-relative coordinate to a percentage range.
+    _clampPercent(value) {
+        return Math.max(0, Math.min(100, Math.round(value * 100) / 100));
+    }
 
+    // Serializes component-relative points for persistence.
+    _formatPercentPoints(points) {
+        return points
+            .map(point => this._clampPercent(point.x) + "," + this._clampPercent(point.y))
+            .join(" ");
+    }
+
+    // Converts a parent-local editor point to component-relative percentages.
+    _mimicPointToComponentPercent(component, mimicPoint) {
+        const width = Math.max(1, component.width);
+        const height = Math.max(1, component.height);
+        return {
+            x: this._clampPercent((mimicPoint.x - component.x) / width * 100),
+            y: this._clampPercent((mimicPoint.y - component.y) / height * 100)
+        };
+    }
+
+    // Calculates the squared pixel distance from a point to a finite segment.
+    _pointSegmentDistanceSquared(component, point, start, end) {
+        const scaleX = Math.max(1, component.width) / 100;
+        const scaleY = Math.max(1, component.height) / 100;
+        const pointX = point.x * scaleX;
+        const pointY = point.y * scaleY;
+        const startX = start.x * scaleX;
+        const startY = start.y * scaleY;
+        const deltaX = (end.x - start.x) * scaleX;
+        const deltaY = (end.y - start.y) * scaleY;
+        const lengthSquared = deltaX * deltaX + deltaY * deltaY;
+
+        if (lengthSquared < 0.000001) {
+            return (pointX - startX) ** 2 + (pointY - startY) ** 2;
+        }
+
+        const factor = Math.max(0, Math.min(1,
+            ((pointX - startX) * deltaX + (pointY - startY) * deltaY) / lengthSquared));
+        const nearestX = startX + factor * deltaX;
+        const nearestY = startY + factor * deltaY;
+        return (pointX - nearestX) ** 2 + (pointY - nearestY) ** 2;
+    }
+
+    // Finds the insertion index belonging to the segment nearest the new point.
+    _findNearestSegmentInsertIndex(component, points, point, closed) {
+        const segmentCount = closed ? points.length : points.length - 1;
+        let bestIndex = points.length;
+        let bestDistance = Infinity;
+
+        for (let i = 0; i < segmentCount; i++) {
+            const nextIndex = (i + 1) % points.length;
+            const distance = this._pointSegmentDistanceSquared(component, point, points[i], points[nextIndex]);
+
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                bestIndex = i + 1;
+            }
+        }
+
+        return bestIndex;
+    }
+
+    // Rebuilds the point handles consumed by the current Mimic editor contract.
+    _renderPointHandles(componentElem, component, points) {
+        let handlesElem = componentElem.children(".shape-point-handles:first");
+
+        if (handlesElem.length === 0) {
+            handlesElem = $("<div class='shape-point-handles'></div>").appendTo(componentElem);
+        }
+
+        handlesElem.empty();
+
+        if (!component.isSelected || !Array.isArray(points)) {
+            return;
+        }
+
+        for (let i = 0; i < points.length; i++) {
+            $("<span class='shape-point-handle'></span>")
+                .attr("data-point-index", i)
+                .css({
+                    left: points[i].x + "%",
+                    top: points[i].y + "%"
+                })
+                .appendTo(handlesElem);
+        }
+    }
+
+    // Applies shape properties and redraws its SVG geometry.
     _setProps(componentElem, component, renderContext) {
         super._setProps(componentElem, component, renderContext);
         component._shapeRenderContext = renderContext;
@@ -165,6 +210,7 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
         this._renderShape(componentElem, component, renderContext);
     }
 
+    // Redraws SVG geometry after a regular component resize.
     setSize(component, width, height) {
         super.setSize(component, width, height);
         this._renderShape(component.dom, component, component._shapeRenderContext || {});
@@ -172,6 +218,7 @@ rs.mimic.ShapeRendererBase = class extends rs.mimic.RegularComponentRenderer {
 };
 
 rs.mimic.ShapeRectangleRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a rectangle inside the available SVG bounds.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -188,11 +235,13 @@ rs.mimic.ShapeRectangleRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeSquareRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Keeps square width and height equal during resizing.
     setSize(component, width, height) {
         let side = Math.max(width, height);
         super.setSize(component, side, side);
     }
 
+    // Renders a square inside the available SVG bounds.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -210,6 +259,7 @@ rs.mimic.ShapeSquareRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeEllipseRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders an ellipse centered in the SVG surface.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -226,11 +276,13 @@ rs.mimic.ShapeEllipseRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeCircleRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Keeps circle width and height equal during resizing.
     setSize(component, width, height) {
         let side = Math.max(width, height);
         super.setSize(component, side, side);
     }
 
+    // Renders a circle centered in the SVG surface.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -247,6 +299,7 @@ rs.mimic.ShapeCircleRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeRoundedRectRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a rectangle with a size-limited corner radius.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -266,6 +319,7 @@ rs.mimic.ShapeRoundedRectRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapePolygonRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Generates evenly distributed percentage points for an automatic polygon.
     _autoPoints(pointCount) {
         pointCount = Math.max(2, Math.min(12, Number.parseInt(pointCount) || 5));
         let result = [];
@@ -284,6 +338,7 @@ rs.mimic.ShapePolygonRenderer = class extends rs.mimic.ShapeRendererBase {
         return result;
     }
 
+    // Resolves automatic or custom polygon points for SVG rendering.
     _normalizePoints(props, width, height) {
         let pointCount = Math.max(2, Math.min(12, Number.parseInt(props.pointCount) || 5));
         let points = props.pointMode === rs.mimic.ShapePolygonPointMode.CUSTOM
@@ -304,6 +359,7 @@ rs.mimic.ShapePolygonRenderer = class extends rs.mimic.ShapeRendererBase {
         return this._pointsToSvg(points, width, height);
     }
 
+    // Renders polygon geometry and its selected-state point handles.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -312,114 +368,110 @@ rs.mimic.ShapePolygonRenderer = class extends rs.mimic.ShapeRendererBase {
             .attr("points", this._normalizePoints(props, size.width, size.height));
         this._applyPaint(polygon, props);
         svg.append(polygon);
-        // JP добавлено начало (закомментировано) //
-        // this._renderPointHandles(componentElem, component, this._getEditablePoints(props));
-        // JP добавлено конец (закомментировано) //
+        this._renderPointHandles(componentElem, component, this._getEditablePoints(props));
     }
 
-    // JP добавлено начало (закомментировано) //
-    // _getEditablePoints(props) {
-    //     let pointCount = Math.max(2, Math.min(12, Number.parseInt(props.pointCount) || 5));
-    //     let points = props.pointMode === rs.mimic.ShapePolygonPointMode.CUSTOM
-    //         ? this._parsePercentPoints(props.points)
-    //         : this._autoPoints(pointCount);
-    //     let defaults = this._autoPoints(pointCount);
-    // 
-    //     if (points.length < 2) {
-    //         points = defaults;
-    //     }
-    // 
-    //     while (points.length < pointCount) {
-    //         points.push(defaults[points.length]);
-    //     }
-    // 
-    //     return points.slice(0, pointCount);
-    // }
-    // 
-    // startPointEdit(component, pointIndex, mimicPoint) {
-    //     let props = component.properties;
-    //     let points = this._getEditablePoints(props);
-    // 
-    //     props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
-    //     props.pointCount = points.length;
-    //     props.points = this._formatPercentPoints(points);
-    // 
-    //     return {
-    //         component,
-    //         pointIndex: Number.parseInt(pointIndex),
-    //         propertyName: "points",
-    //         oldValue: props.points,
-    //         moved: false
-    //     };
-    // }
-    // 
-    // movePointEdit(component, action, mimicPoint) {
-    //     let props = component.properties;
-    //     let points = this._getEditablePoints(props);
-    //     let index = Math.max(0, Math.min(points.length - 1, action.pointIndex));
-    //     points[index] = this._mimicPointToComponentPercent(component, mimicPoint);
-    //     props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
-    //     props.points = this._formatPercentPoints(points);
-    //     return true;
-    // }
-    // 
-    // finishPointEdit(component, action) {
-    //     return {
-    //         properties: {
-    //             pointMode: component.properties.pointMode,
-    //             pointCount: component.properties.pointCount,
-    //             points: component.properties.points
-    //         }
-    //     };
-    // }
-    // 
-    // addPointEdit(component, componentPoint) {
-    //     let props = component.properties;
-    //     let points = this._getEditablePoints(props);
-    // 
-    //     if (points.length >= 12) {
-    //         return null;
-    //     }
-    // 
-    //     points.push(this._componentPointToPercent(component, componentPoint));
-    //     props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
-    //     props.pointCount = points.length;
-    //     props.points = this._formatPercentPoints(points);
-    // 
-    //     return {
-    //         properties: {
-    //             pointMode: props.pointMode,
-    //             pointCount: props.pointCount,
-    //             points: props.points
-    //         }
-    //     };
-    // }
-    // 
-    // removePointEdit(component, pointIndex) {
-    //     let props = component.properties;
-    //     let points = this._getEditablePoints(props);
-    // 
-    //     if (points.length <= 2) {
-    //         return null;
-    //     }
-    // 
-    //     points.splice(Number.parseInt(pointIndex), 1);
-    //     props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
-    //     props.pointCount = points.length;
-    //     props.points = this._formatPercentPoints(points);
-    // 
-    //     return {
-    //         properties: {
-    //             pointMode: props.pointMode,
-    //             pointCount: props.pointCount,
-    //             points: props.points
-    //         }
-    //     };
-    // }
-    // JP добавлено конец (закомментировано) //
+    // Returns the normalized polygon points used by editor operations.
+    _getEditablePoints(props) {
+        let pointCount = Math.max(2, Math.min(12, Number.parseInt(props.pointCount) || 5));
+        let points = props.pointMode === rs.mimic.ShapePolygonPointMode.CUSTOM
+            ? this._parsePercentPoints(props.points)
+            : this._autoPoints(pointCount);
+        let defaults = this._autoPoints(pointCount);
+
+        if (points.length < 2) {
+            points = defaults;
+        }
+
+        while (points.length < pointCount) {
+            points.push(defaults[points.length]);
+        }
+
+        return points.slice(0, pointCount);
+    }
+
+    // Creates the editor action used to drag one polygon point.
+    startPointEdit(component, pointIndex) {
+        const index = Number.parseInt(pointIndex);
+        const points = this._getEditablePoints(component.properties);
+
+        if (!Number.isInteger(index) || index < 0 || index >= points.length) {
+            return null;
+        }
+
+        return {
+            actionType: "point-edit",
+            component,
+            pointIndex: index,
+            moved: false,
+            getCursor: () => "crosshair"
+        };
+    }
+
+    // Applies a dragged parent-local point to the custom polygon geometry.
+    movePointEdit(component, action, mimicPoint) {
+        const props = component.properties;
+        const points = this._getEditablePoints(props);
+        const index = Math.max(0, Math.min(points.length - 1, action.pointIndex));
+        points[index] = this._mimicPointToComponentPercent(component, mimicPoint);
+        props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
+        props.pointCount = points.length;
+        props.points = this._formatPercentPoints(points);
+        return true;
+    }
+
+    // Returns the polygon properties changed by point dragging.
+    finishPointEdit(component) {
+        return { properties: this._pointProperties(component.properties) };
+    }
+
+    // Inserts a point into the geometrically nearest polygon edge.
+    addPointEdit(component, mimicPoint) {
+        const props = component.properties;
+        const points = this._getEditablePoints(props);
+
+        if (points.length >= 12) {
+            return null;
+        }
+
+        const point = this._mimicPointToComponentPercent(component, mimicPoint);
+        const insertIndex = this._findNearestSegmentInsertIndex(component, points, point, true);
+        points.splice(insertIndex, 0, point);
+        props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
+        props.pointCount = points.length;
+        props.points = this._formatPercentPoints(points);
+        return { properties: this._pointProperties(props) };
+    }
+
+    // Removes a polygon point while preserving the two-point minimum.
+    removePointEdit(component, pointIndex) {
+        const props = component.properties;
+        const points = this._getEditablePoints(props);
+        const index = Number.parseInt(pointIndex);
+
+        if (points.length <= 2 || !Number.isInteger(index) || index < 0 || index >= points.length) {
+            return null;
+        }
+
+        points.splice(index, 1);
+        props.pointMode = rs.mimic.ShapePolygonPointMode.CUSTOM;
+        props.pointCount = points.length;
+        props.points = this._formatPercentPoints(points);
+        return { properties: this._pointProperties(props) };
+    }
+
+    // Returns all persisted polygon properties changed by point operations.
+    _pointProperties(props) {
+        return {
+            pointMode: props.pointMode,
+            pointCount: props.pointCount,
+            points: props.points
+        };
+    }
 };
 
 rs.mimic.ShapeTriangleRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a triangle that fills the SVG surface.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -432,6 +484,7 @@ rs.mimic.ShapeTriangleRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeDiamondRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a diamond that fills the SVG surface.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -445,6 +498,7 @@ rs.mimic.ShapeDiamondRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeHexagonRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a regular six-sided polygon.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -452,8 +506,6 @@ rs.mimic.ShapeHexagonRenderer = class extends rs.mimic.ShapeRendererBase {
         let w = size.width;
         let h = size.height;
         let qw = w / 4;
-        let hw = w / 2;
-        let qh = h / 4;
         let hh = h / 2;
         let polygon = $(document.createElementNS("http://www.w3.org/2000/svg", "polygon"))
             .attr("points", qw + ",0 " + (w - qw) + ",0 " + w + "," + hh + " " +
@@ -464,6 +516,7 @@ rs.mimic.ShapeHexagonRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeParallelogramRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a right-leaning parallelogram.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -477,6 +530,7 @@ rs.mimic.ShapeParallelogramRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeTrapezoidRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a centered trapezoid.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -490,6 +544,7 @@ rs.mimic.ShapeTrapezoidRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeCrossRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a cross with proportional arms.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -510,6 +565,7 @@ rs.mimic.ShapeCrossRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeHalfCircleRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders the upper half of an ellipse closed along its diameter.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -525,6 +581,7 @@ rs.mimic.ShapeHalfCircleRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeDonutRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a ring with an independently sized transparent center.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -551,75 +608,64 @@ rs.mimic.ShapeDonutRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapePieRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Renders a sector or a full circle when the sweep covers a complete turn.
     _renderShape(componentElem, component, renderContext) {
-        let props = component.properties;
-        let svg = componentElem.children("svg.shape-svg:first");
-        let size = this._setCommonSvg(svg, component, renderContext);
-        let w = size.width;
-        let h = size.height;
-        let cx = w / 2;
-        let cy = h / 2;
-        let r = Math.min(w, h) / 2;
-        let startAngle = (Number.parseInt(props.startAngle) || 0) * Math.PI / 180;
-        let sweepAngle = (Number.parseInt(props.sweepAngle) || 90) * Math.PI / 180;
-        let endAngle = startAngle + sweepAngle;
+        const props = component.properties;
+        const svg = componentElem.children("svg.shape-svg:first");
+        const size = this._setCommonSvg(svg, component, renderContext);
+        const w = size.width;
+        const h = size.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const r = Math.min(w, h) / 2;
+        const parsedStartAngle = Number.parseInt(props.startAngle);
+        const parsedSweepAngle = Number.parseInt(props.sweepAngle);
+        const startAngle = (Number.isFinite(parsedStartAngle) ? parsedStartAngle : 0) * Math.PI / 180;
+        const sweepAngleDegrees = Number.isFinite(parsedSweepAngle) ? parsedSweepAngle : 90;
 
-        let x1 = cx + r * Math.cos(startAngle);
-        let y1 = cy + r * Math.sin(startAngle);
-        let x2 = cx + r * Math.cos(endAngle);
-        let y2 = cy + r * Math.sin(endAngle);
-        let largeArc = sweepAngle > Math.PI ? 1 : 0;
+        if (Math.abs(sweepAngleDegrees) >= 360) {
+            const circle = $(document.createElementNS("http://www.w3.org/2000/svg", "circle"))
+                .attr("cx", cx)
+                .attr("cy", cy)
+                .attr("r", r);
+            this._applyPaint(circle, props);
+            svg.append(circle);
+            return;
+        }
 
-        let path = $(document.createElementNS("http://www.w3.org/2000/svg", "path"))
+        if (sweepAngleDegrees === 0) {
+            return;
+        }
+
+        const sweepAngle = sweepAngleDegrees * Math.PI / 180;
+        const endAngle = startAngle + sweepAngle;
+
+        const x1 = cx + r * Math.cos(startAngle);
+        const y1 = cy + r * Math.sin(startAngle);
+        const x2 = cx + r * Math.cos(endAngle);
+        const y2 = cy + r * Math.sin(endAngle);
+        const largeArc = Math.abs(sweepAngle) > Math.PI ? 1 : 0;
+        const sweepFlag = sweepAngle > 0 ? 1 : 0;
+
+        const path = $(document.createElementNS("http://www.w3.org/2000/svg", "path"))
             .attr("d", "M " + cx + "," + cy + " L " + x1 + "," + y1 +
-                " A " + r + "," + r + " 0 " + largeArc + ",1 " + x2 + "," + y2 + " Z");
+                " A " + r + "," + r + " 0 " + largeArc + "," + sweepFlag + " " + x2 + "," + y2 + " Z");
         this._applyPaint(path, props);
         svg.append(path);
     }
 };
 
-rs.mimic.ShapeStarRenderer = class extends rs.mimic.ShapeRendererBase {
-    _starPoints(props, width, height) {
-        let pointCount = Math.max(3, Math.min(12, Number.parseInt(props.pointCount) || 5));
-        let innerRadius = Math.max(10, Math.min(50, Number.parseInt(props.innerRadius) || 40));
-        let outerRadius = 50;
-        let cx = 50;
-        let cy = 50;
-        let points = [];
-
-        for (let i = 0; i < pointCount * 2; i++) {
-            let angle = -Math.PI / 2 + i * Math.PI / pointCount;
-            let r = i % 2 === 0 ? outerRadius : innerRadius;
-            points.push({
-                x: cx + r * Math.cos(angle),
-                y: cy + r * Math.sin(angle)
-            });
-        }
-
-        return this._pointsToSvg(points, width, height);
-    }
-
-    _renderShape(componentElem, component, renderContext) {
-        let props = component.properties;
-        let svg = componentElem.children("svg.shape-svg:first");
-        let size = this._setCommonSvg(svg, component, renderContext);
-        let polygon = $(document.createElementNS("http://www.w3.org/2000/svg", "polygon"))
-            .attr("points", this._starPoints(props, size.width, size.height));
-        this._applyPaint(polygon, props);
-        svg.append(polygon);
-    }
-};
-
 rs.mimic.ShapeArrowRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Builds direction-specific arrow points for the current component size.
     _arrowPoints(props, width, height) {
         const ShapeArrowDirection = rs.mimic.ShapeArrowDirection;
-        let dir = props.direction || ShapeArrowDirection.RIGHT;
-        let w = width;
-        let h = height;
-        let shaftW = Math.max(1, w * 0.5);
-        let shaftH = Math.max(1, h * 0.4);
-        let headW = Math.max(1, w * 0.5);
-        let headH = Math.max(1, h * 0.5);
+        const dir = props.direction || ShapeArrowDirection.RIGHT;
+        const w = width;
+        const h = height;
+        const shaftW = Math.max(1, w * 0.5);
+        const shaftH = Math.max(1, h * 0.4);
+        const headW = Math.max(1, w * 0.5);
+        const headH = Math.max(1, h * 0.5);
 
         switch (dir) {
             case ShapeArrowDirection.RIGHT:
@@ -633,15 +679,15 @@ rs.mimic.ShapeArrowRenderer = class extends rs.mimic.ShapeRendererBase {
                     headW + "," + h + " " + headW + "," + ((h + shaftH) / 2) + " " +
                     w + "," + ((h + shaftH) / 2);
             case ShapeArrowDirection.UP:
-                return ((w - shaftH) / 2) + "," + h + " " + ((w - shaftH) / 2) + "," + headH + " " +
+                return ((w - shaftW) / 2) + "," + h + " " + ((w - shaftW) / 2) + "," + headH + " " +
                     "0," + headH + " " + (w / 2) + ",0 " +
-                    w + "," + headH + " " + ((w + shaftH) / 2) + "," + headH + " " +
-                    ((w + shaftH) / 2) + "," + h;
+                    w + "," + headH + " " + ((w + shaftW) / 2) + "," + headH + " " +
+                    ((w + shaftW) / 2) + "," + h;
             case ShapeArrowDirection.DOWN:
-                return ((w - shaftH) / 2) + ",0 " + ((w - shaftH) / 2) + "," + (h - headH) + " " +
+                return ((w - shaftW) / 2) + ",0 " + ((w - shaftW) / 2) + "," + (h - headH) + " " +
                     "0," + (h - headH) + " " + (w / 2) + "," + h + " " +
-                    w + "," + (h - headH) + " " + ((w + shaftH) / 2) + "," + (h - headH) + " " +
-                    ((w + shaftH) / 2) + ",0";
+                    w + "," + (h - headH) + " " + ((w + shaftW) / 2) + "," + (h - headH) + " " +
+                    ((w + shaftW) / 2) + ",0";
             default:
                 return "0," + ((h - shaftH) / 2) + " " + (w - headW) + "," + ((h - shaftH) / 2) + " " +
                     (w - headW) + ",0 " + w + "," + (h / 2) + " " +
@@ -650,6 +696,7 @@ rs.mimic.ShapeArrowRenderer = class extends rs.mimic.ShapeRendererBase {
         }
     }
 
+    // Renders an arrow polygon for the selected direction.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -662,6 +709,7 @@ rs.mimic.ShapeArrowRenderer = class extends rs.mimic.ShapeRendererBase {
 };
 
 rs.mimic.ShapeLineRenderer = class extends rs.mimic.ShapeRendererBase {
+    // Resets the line SVG without adding the filled-shape background layer.
     _setCommonSvg(svg, component, renderContext) {
         let props = component.properties;
         let width = Math.max(1, component.innerWidth || component.width || props.size.width);
@@ -671,6 +719,7 @@ rs.mimic.ShapeLineRenderer = class extends rs.mimic.ShapeRendererBase {
         return { width, height };
     }
 
+    // Renders a line and its selected-state endpoint handles.
     _renderShape(componentElem, component, renderContext) {
         let props = component.properties;
         let svg = componentElem.children("svg.shape-svg:first");
@@ -692,14 +741,13 @@ rs.mimic.ShapeLineRenderer = class extends rs.mimic.ShapeRendererBase {
         }
 
         svg.append(line);
-        // JP добавлено начало (закомментировано) //
-        // this._renderPointHandles(componentElem, component, [
-        //     { x: p.x1, y: p.y1 },
-        //     { x: p.x2, y: p.y2 }
-        // ]);
-        // JP добавлено конец (закомментировано) //
+        this._renderPointHandles(componentElem, component, [
+            { x: p.x1, y: p.y1 },
+            { x: p.x2, y: p.y2 }
+        ]);
     }
 
+    // Resolves line endpoints for the selected orientation mode.
     _getLinePoints(props) {
         const ShapeLineOrientation = rs.mimic.ShapeLineOrientation;
 
@@ -720,226 +768,239 @@ rs.mimic.ShapeLineRenderer = class extends rs.mimic.ShapeRendererBase {
         }
     }
 
-    // JP добавлено начало (закомментировано) //
-    // startPointEdit(component, pointIndex, mimicPoint) {
-    //     component.properties.orientation = rs.mimic.ShapeLineOrientation.CUSTOM;
-    //     return {
-    //         component,
-    //         pointIndex: Number.parseInt(pointIndex),
-    //         propertyName: "orientation",
-    //         oldValue: component.properties.orientation,
-    //         moved: false
-    //     };
-    // }
-    // 
-    // movePointEdit(component, action, mimicPoint) {
-    //     let point = this._mimicPointToComponentPercent(component, mimicPoint);
-    // 
-    //     if (action.pointIndex === 0) {
-    //         component.properties.x1 = point.x;
-    //         component.properties.y1 = point.y;
-    //     } else {
-    //         component.properties.x2 = point.x;
-    //         component.properties.y2 = point.y;
-    //     }
-    // 
-    //     component.properties.orientation = rs.mimic.ShapeLineOrientation.CUSTOM;
-    //     return true;
-    // }
-    // 
-    // finishPointEdit(component, action) {
-    //     return {
-    //         properties: {
-    //             orientation: component.properties.orientation,
-    //             x1: component.properties.x1,
-    //             y1: component.properties.y1,
-    //             x2: component.properties.x2,
-    //             y2: component.properties.y2
-    //         }
-    //     };
-    // }
-    // JP добавлено конец (закомментировано) //
+    // Creates the editor action used to drag one line endpoint.
+    startPointEdit(component, pointIndex) {
+        const index = Number.parseInt(pointIndex);
+
+        if (index !== 0 && index !== 1) {
+            return null;
+        }
+
+        return {
+            actionType: "point-edit",
+            component,
+            pointIndex: index,
+            moved: false,
+            getCursor: () => "crosshair"
+        };
+    }
+
+    // Applies a dragged parent-local point to one custom line endpoint.
+    movePointEdit(component, action, mimicPoint) {
+        const point = this._mimicPointToComponentPercent(component, mimicPoint);
+
+        if (action.pointIndex === 0) {
+            component.properties.x1 = point.x;
+            component.properties.y1 = point.y;
+        } else {
+            component.properties.x2 = point.x;
+            component.properties.y2 = point.y;
+        }
+
+        component.properties.orientation = rs.mimic.ShapeLineOrientation.CUSTOM;
+        return true;
+    }
+
+    // Returns the line properties changed by endpoint dragging.
+    finishPointEdit(component) {
+        return {
+            properties: {
+                orientation: component.properties.orientation,
+                x1: component.properties.x1,
+                y1: component.properties.y1,
+                x2: component.properties.x2,
+                y2: component.properties.y2
+            }
+        };
+    }
 };
 
-// Polyline временно отключен - будет доработан после добавления точек привязки в редакторе
-//rs.mimic.ShapePolylineRenderer = class extends rs.mimic.ShapeLineRenderer {
-//    _defaultPoints(pointCount) {
-//        pointCount = Math.max(2, Math.min(12, Number.parseInt(pointCount) || 4));
-//        let result = [];
-//        for (let i = 0; i < pointCount; i++) {
-//            let x = pointCount === 1 ? 0 : i * 100 / (pointCount - 1);
-//            let y = i % 2 === 0 ? 75 : 25;
-//            result.push({ x, y });
-//        }
-//        return result;
-//    }
-//
-//    _snapPointsToAxis(points, threshold) {
-//        threshold = Math.max(0, Math.min(50, Number.parseInt(threshold) || 0));
-//        if (threshold <= 0 || points.length < 2) {
-//            return points;
-//        }
-//
-//        let snapped = [points[0]];
-//        for (let i = 1; i < points.length; i++) {
-//            let prev = snapped[i - 1];
-//            let point = { ...points[i] };
-//            if (Math.abs(point.x - prev.x) <= threshold) {
-//                point.x = prev.x;
-//            }
-//            if (Math.abs(point.y - prev.y) <= threshold) {
-//                point.y = prev.y;
-//            }
-//            snapped.push(point);
-//        }
-//        return snapped;
-//    }
-//
-//    _normalizePoints(props, width, height) {
-//        let pointCount = Math.max(2, Math.min(12, Number.parseInt(props.pointCount) || 4));
-//        let points = this._parsePercentPoints(props.points);
-//        let defaults = this._defaultPoints(pointCount);
-//
-//        if (points.length < 2) {
-//            points = defaults;
-//        } else {
-//            while (points.length < pointCount) {
-//                points.push(defaults[points.length]);
-//            }
-//            points = points.slice(0, pointCount);
-//        }
-//
-//        if (props.snapToAxis) {
-//            points = this._snapPointsToAxis(points, props.snapThreshold);
-//        }
-//
-//        return this._pointsToSvg(points, width, height);
-//    }
-//
-//    _renderShape(componentElem, component, renderContext) {
-//        let props = component.properties;
-//        let svg = componentElem.children("svg.shape-svg:first");
-//        let size = this._setCommonSvg(svg, component, renderContext);
-//        let stroke = Math.max(1, props.strokeWidth || 1);
-//        let polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"))
-//            .attr("points", this._normalizePoints(props, size.width, size.height))
-//            .attr("fill", "none")
-//            .attr("stroke", props.strokeColor || "Black")
-//            .attr("stroke-width", stroke)
-//            .attr("stroke-linecap", "round")
-//            .attr("stroke-linejoin", "round")
-//            .attr("vector-effect", "non-scaling-stroke");
-//
-//        if (props.strokeDasharray) {
-//            polyline.attr("stroke-dasharray", props.strokeDasharray);
-//        }
-//
-//        svg.append(polyline);
-//        // this._renderPointHandles(componentElem, component, this._getEditablePoints(props));
-//    }
-//
-//    // _getEditablePoints(props) {
-//    //     let pointCount = Math.max(2, Math.min(12, Number.parseInt(props.pointCount) || 4));
-//    //     let points = this._parsePercentPoints(props.points);
-//    //     let defaults = this._defaultPoints(pointCount);
-//    //
-//    //     if (points.length < 2) {
-//    //         points = defaults;
-//    //     }
-//    //
-//    //     while (points.length < pointCount) {
-//    //         points.push(defaults[points.length]);
-//    //     }
-//    //
-//    //     points = points.slice(0, pointCount);
-//    //
-//    //     if (props.snapToAxis) {
-//    //         points = this._snapPointsToAxis(points, props.snapThreshold);
-//    //     }
-//    //
-//    //     return points;
-//    // }
-//    //
-//    // startPointEdit(component, pointIndex, mimicPoint) {
-//    //     return {
-//    //         component,
-//    //         pointIndex: Number.parseInt(pointIndex),
-//    //         propertyName: "points",
-//    //         oldValue: component.properties.points,
-//    //         moved: false
-//    //     };
-//    // }
-//    //
-//    // movePointEdit(component, action, mimicPoint) {
-//    //     let props = component.properties;
-//    //     let points = this._getEditablePoints(props);
-//    //     let index = Math.max(0, Math.min(points.length - 1, action.pointIndex));
-//    //     points[index] = this._mimicPointToComponentPercent(component, mimicPoint);
-//    //
-//    //     if (props.snapToAxis) {
-//    //         points = this._snapPointsToAxis(points, props.snapThreshold);
-//    //     }
-//    //
-//    //     props.pointCount = points.length;
-//    //     props.points = this._formatPercentPoints(points);
-//    //     return true;
-//    // }
-//    //
-//    // finishPointEdit(component, action) {
-//    //     return {
-//    //         properties: {
-//    //             pointCount: component.properties.pointCount,
-//    //             points: component.properties.points
-//    //         }
-//    //     };
-//    // }
-//    //
-//    // addPointEdit(component, componentPoint) {
-//    //     let props = component.properties;
-//    //     let points = this._getEditablePoints(props);
-//    //
-//    //     if (points.length >= 12) {
-//    //         return null;
-//    //     }
-//    //
-//    //     points.push(this._componentPointToPercent(component, componentPoint));
-//    //
-//    //     if (props.snapToAxis) {
-//    //         points = this._snapPointsToAxis(points, props.snapThreshold);
-//    //     }
-//    //
-//    //     props.pointCount = points.length;
-//    //     props.points = this._formatPercentPoints(points);
-//    //
-//    //     return {
-//    //         properties: {
-//    //             pointCount: props.pointCount,
-//    //             points: props.points
-//    //         }
-//    //     };
-//    // }
-//    //
-//    // removePointEdit(component, pointIndex) {
-//    //     let props = component.properties;
-//    //     let points = this._getEditablePoints(props);
-//    //
-//    //     if (points.length <= 2) {
-//    //         return null;
-//    //     }
-//    //
-//    //     points.splice(Number.parseInt(pointIndex), 1);
-//    //     props.pointCount = points.length;
-//    //     props.points = this._formatPercentPoints(points);
-//    //
-//    //     return {
-//    //         properties: {
-//    //             pointCount: props.pointCount,
-//    //             points: props.points
-//    //         }
-//    //     };
-//    // }
-//};
+rs.mimic.ShapePolylineRenderer = class extends rs.mimic.ShapeLineRenderer {
+    // Generates the requested number of alternating default points.
+    _defaultPoints(pointCount) {
+        pointCount = Math.max(2, Number.parseInt(pointCount) || 4);
+        let result = [];
+        for (let i = 0; i < pointCount; i++) {
+            let x = i * 100 / (pointCount - 1);
+            let y = i % 2 === 0 ? 75 : 25;
+            result.push({ x, y });
+        }
+        return result;
+    }
 
+    // Snaps each point to the previous point when it is near one axis.
+    _snapPointsToAxis(points, threshold) {
+        threshold = Math.max(0, Math.min(50, Number.parseInt(threshold) || 0));
+        if (threshold <= 0 || points.length < 2) {
+            return points;
+        }
+
+        let snapped = [points[0]];
+        for (let i = 1; i < points.length; i++) {
+            let prev = snapped[i - 1];
+            let point = { ...points[i] };
+            if (Math.abs(point.x - prev.x) <= threshold) {
+                point.x = prev.x;
+            }
+            if (Math.abs(point.y - prev.y) <= threshold) {
+                point.y = prev.y;
+            }
+            snapped.push(point);
+        }
+        return snapped;
+    }
+
+    // Resolves persisted polyline points and converts them to SVG coordinates.
+    _normalizePoints(props, width, height) {
+        let pointCount = Math.max(2, Number.parseInt(props.pointCount) || 4);
+        let points = this._parsePercentPoints(props.points);
+        let defaults = this._defaultPoints(pointCount);
+
+        if (points.length < 2) {
+            points = defaults;
+        } else {
+            while (points.length < pointCount) {
+                points.push(defaults[points.length]);
+            }
+            points = points.slice(0, pointCount);
+        }
+
+        if (props.snapToAxis) {
+            points = this._snapPointsToAxis(points, props.snapThreshold);
+        }
+
+        return this._pointsToSvg(points, width, height);
+    }
+
+    // Renders connected adjacent segments and selected-state point handles.
+    _renderShape(componentElem, component, renderContext) {
+        let props = component.properties;
+        let svg = componentElem.children("svg.shape-svg:first");
+        let size = this._setCommonSvg(svg, component, renderContext);
+        let stroke = Math.max(1, props.strokeWidth || 1);
+        let polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"))
+            .attr("points", this._normalizePoints(props, size.width, size.height))
+            .attr("fill", "none")
+            .attr("stroke", props.strokeColor || "Black")
+            .attr("stroke-width", stroke)
+            .attr("stroke-linecap", "round")
+            .attr("stroke-linejoin", "round")
+            .attr("vector-effect", "non-scaling-stroke");
+
+        if (props.strokeDasharray) {
+            polyline.attr("stroke-dasharray", props.strokeDasharray);
+        }
+
+        svg.append(polyline);
+        this._renderPointHandles(componentElem, component, this._getEditablePoints(props));
+    }
+
+    // Returns the normalized polyline points used by editor operations.
+    _getEditablePoints(props) {
+        let pointCount = Math.max(2, Number.parseInt(props.pointCount) || 4);
+        let points = this._parsePercentPoints(props.points);
+        let defaults = this._defaultPoints(pointCount);
+
+        if (points.length < 2) {
+            points = defaults;
+        }
+
+        while (points.length < pointCount) {
+            points.push(defaults[points.length]);
+        }
+
+        points = points.slice(0, pointCount);
+
+        if (props.snapToAxis) {
+            points = this._snapPointsToAxis(points, props.snapThreshold);
+        }
+
+        return points;
+    }
+
+    // Creates the editor action used to drag one polyline point.
+    startPointEdit(component, pointIndex) {
+        const index = Number.parseInt(pointIndex);
+        const points = this._getEditablePoints(component.properties);
+
+        if (!Number.isInteger(index) || index < 0 || index >= points.length) {
+            return null;
+        }
+
+        return {
+            actionType: "point-edit",
+            component,
+            pointIndex: index,
+            moved: false,
+            getCursor: () => "crosshair"
+        };
+    }
+
+    // Applies a dragged parent-local point to the polyline geometry.
+    movePointEdit(component, action, mimicPoint) {
+        let props = component.properties;
+        let points = this._getEditablePoints(props);
+        let index = Math.max(0, Math.min(points.length - 1, action.pointIndex));
+        points[index] = this._mimicPointToComponentPercent(component, mimicPoint);
+
+        if (props.snapToAxis) {
+            points = this._snapPointsToAxis(points, props.snapThreshold);
+        }
+
+        props.pointCount = points.length;
+        props.points = this._formatPercentPoints(points);
+        return true;
+    }
+
+    // Returns the polyline properties changed by point dragging.
+    finishPointEdit(component) {
+        return { properties: this._pointProperties(component.properties) };
+    }
+
+    // Inserts a point into the geometrically nearest polyline segment.
+    addPointEdit(component, mimicPoint) {
+        let props = component.properties;
+        let points = this._getEditablePoints(props);
+
+        const point = this._mimicPointToComponentPercent(component, mimicPoint);
+        const insertIndex = this._findNearestSegmentInsertIndex(component, points, point, false);
+        points.splice(insertIndex, 0, point);
+
+        if (props.snapToAxis) {
+            points = this._snapPointsToAxis(points, props.snapThreshold);
+        }
+
+        props.pointCount = points.length;
+        props.points = this._formatPercentPoints(points);
+        return { properties: this._pointProperties(props) };
+    }
+
+    // Removes a polyline point while preserving the two-point minimum.
+    removePointEdit(component, pointIndex) {
+        let props = component.properties;
+        let points = this._getEditablePoints(props);
+        const index = Number.parseInt(pointIndex);
+
+        if (points.length <= 2 || !Number.isInteger(index) || index < 0 || index >= points.length) {
+            return null;
+        }
+
+        points.splice(index, 1);
+        props.pointCount = points.length;
+        props.points = this._formatPercentPoints(points);
+        return { properties: this._pointProperties(props) };
+    }
+
+    // Returns all persisted polyline properties changed by point operations.
+    _pointProperties(props) {
+        return {
+            pointCount: props.pointCount,
+            points: props.points
+        };
+    }
+};
+
+// Registers every shape renderer with the shared mimic renderer set.
 function registerShapeRenderers() {
     let componentRenderers = rs.mimic.RendererSet.componentRenderers;
     componentRenderers.set("ShapeRectangle", new rs.mimic.ShapeRectangleRenderer());
@@ -957,10 +1018,9 @@ function registerShapeRenderers() {
     componentRenderers.set("ShapeHalfCircle", new rs.mimic.ShapeHalfCircleRenderer());
     componentRenderers.set("ShapeDonut", new rs.mimic.ShapeDonutRenderer());
     componentRenderers.set("ShapePie", new rs.mimic.ShapePieRenderer());
-    componentRenderers.set("ShapeStar", new rs.mimic.ShapeStarRenderer());
     componentRenderers.set("ShapeArrow", new rs.mimic.ShapeArrowRenderer());
     componentRenderers.set("ShapeLine", new rs.mimic.ShapeLineRenderer());
-    //componentRenderers.set("ShapePolyline", new rs.mimic.ShapePolylineRenderer());
+    componentRenderers.set("ShapePolyline", new rs.mimic.ShapePolylineRenderer());
 }
 
 registerShapeRenderers();

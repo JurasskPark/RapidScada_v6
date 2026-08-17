@@ -37,23 +37,23 @@
 .shape-resize-handles .sw { left: -4px; bottom: -4px; }
 .shape-resize-handles .w { left: -4px; top: calc(50% - 4px); }
 
-/* JP добавлено начало (закомментировано) */
-/* .shape-point-handles { */
-/*   pointer-events: none; */
-/* } */
-/*  */
-/* .shape-point-handles .jp-point-handle { */
-/*   background-color: #fff; */
-/*   border: 2px solid lime; */
-/*   border-radius: 50%; */
-/*   box-sizing: border-box; */
-/*   cursor: crosshair; */
-/*   height: 11px; */
-/*   margin-left: -5px; */
-/*   margin-top: -5px; */
-/*   pointer-events: auto; */
-/*   position: absolute; */
-/*   width: 11px; */
-/*   z-index: 3; */
-/* } */
-/* JP добавлено конец (закомментировано) */
+.shape-point-handles {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.shape-point-handles .shape-point-handle {
+  background-color: #fff;
+  border: 2px solid lime;
+  border-radius: 50%;
+  box-sizing: border-box;
+  cursor: crosshair;
+  height: 11px;
+  margin-left: -5px;
+  margin-top: -5px;
+  pointer-events: auto;
+  position: absolute;
+  width: 11px;
+  z-index: 3;
+}

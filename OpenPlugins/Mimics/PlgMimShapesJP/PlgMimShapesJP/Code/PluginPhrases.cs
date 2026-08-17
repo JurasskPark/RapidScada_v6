@@ -6,7 +6,7 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
     /// Provides localized phrases for the plugin.
     /// <para>Предоставляет локализованные фразы для плагина.</para>
     /// </summary>
-    internal class PluginPhrases
+    internal static class PluginPhrases
     {
         #region Variable
 
@@ -26,7 +26,6 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
         private static string halfCircleComponent;                  // half circle component name
         private static string donutComponent;                       // donut component name
         private static string pieComponent;                         // pie component name
-        private static string starComponent;                        // star component name
         private static string arrowComponent;                       // arrow component name
         private static string lineComponent;                        // line component name
         private static string polylineComponent;                    // polyline component name
@@ -132,12 +131,6 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
         public static string PieComponent => pieComponent;
 
         /// <summary>
-        /// Gets the star component name.
-        /// <para>Возвращает название компонента звезды.</para>
-        /// </summary>
-        public static string StarComponent => starComponent;
-
-        /// <summary>
         /// Gets the arrow component name.
         /// <para>Возвращает название компонента стрелки.</para>
         /// </summary>
@@ -182,7 +175,6 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
             halfCircleComponent = dict[nameof(HalfCircleComponent)];
             donutComponent = dict[nameof(DonutComponent)];
             pieComponent = dict[nameof(PieComponent)];
-            starComponent = dict[nameof(StarComponent)];
             arrowComponent = dict[nameof(ArrowComponent)];
             lineComponent = dict[nameof(LineComponent)];
             polylineComponent = dict[nameof(PolylineComponent)];

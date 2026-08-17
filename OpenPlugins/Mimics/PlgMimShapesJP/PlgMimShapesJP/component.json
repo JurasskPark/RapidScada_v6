@@ -1,0 +1,59 @@
+{
+  "id": "plg-mim-shapes-jp",
+  "type": "plugin",
+  "name": "PlgMimShapesJP",
+  "description": "Adds geometric shape components to standard Mimic diagrams.",
+  "version": "6.0.1",
+  "localization": {
+    "keyPrefixes": [
+      "Shape",
+      "Shapes"
+    ]
+  },
+  "assembly": "PlgMimShapesJP.dll",
+  "entryPoint": "Scada.Web.Plugins.PlgMimShapesJP.PlgMimShapesJPLogic",
+  "enabled": true,
+  "required": false,
+  "capabilities": [
+    "mimic.component.shapes"
+  ],
+  "routes": [],
+  "assets": {
+    "basePath": "/plugins/MimShapesJP",
+    "checks": [
+      "css/shapes.min.css",
+      "images/arrow-icon.svg",
+      "images/circle-icon.svg",
+      "images/cross-icon.svg",
+      "images/diamond-icon.svg",
+      "images/donut-icon.svg",
+      "images/ellipse-icon.svg",
+      "images/half-circle-icon.svg",
+      "images/hexagon-icon.svg",
+      "images/line-icon.svg",
+      "images/parallelogram-icon.svg",
+      "images/pie-icon.svg",
+      "images/polygon-icon.svg",
+      "images/polyline-icon.svg",
+      "images/rectangle-icon.svg",
+      "images/rounded-rect-icon.svg",
+      "images/square-icon.svg",
+      "images/trapezoid-icon.svg",
+      "images/triangle-icon.svg",
+      "js/shapes-bundle.js",
+      "js/shapes-subtypes.js",
+      "js/shapes-descr.js",
+      "js/shapes-factory.js",
+      "js/shapes-render.js",
+      "js/shapes-lang.js"
+    ],
+    "styles": [
+      "css/shapes.min.css"
+    ],
+    "scripts": [
+      "js/shapes-bundle.js",
+      "js/shapes-lang.js"
+    ]
+  },
+  "order": 355
+}

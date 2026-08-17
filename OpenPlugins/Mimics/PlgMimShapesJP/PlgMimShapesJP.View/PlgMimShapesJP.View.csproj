@@ -4,19 +4,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Web.Plugins.PlgMimShapesJP.View</RootNamespace>
-	<Authors>Yuriy Pradius</Authors>
-	<Company>Community Rapid Software</Company>
-	<Product>Rapid SCADA</Product>
-	<Copyright>Copyright © 2026</Copyright>
-    <Version>6.0.1</Version>
-    <AssemblyVersion>6.0.1.1</AssemblyVersion>
+    <Authors>Yuriy Pradius</Authors>
+    <Company>Community Rapid Software</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2026</Copyright>
+    <Version>6.0.1.2</Version>
+    <AssemblyVersion>6.0.1.2</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ScadaCommon">
       <HintPath>..\Libraries\ScadaCommon.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaWebCommon.Subset">
-      <HintPath>..\Libraries\ScadaWebCommon.Subset.dll</HintPath>
+    <Reference Include="ScadaWebCommon">
+      <HintPath>..\..\\..\\..\\System\\ScadaWeb\\ScadaWebCommon\\bin\\$(Configuration)\\net8.0\\ScadaWebCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="..\PlgMimShapesJP.Shared\PlgMimShapesJP.Shared.projitems" Label="Shared" />

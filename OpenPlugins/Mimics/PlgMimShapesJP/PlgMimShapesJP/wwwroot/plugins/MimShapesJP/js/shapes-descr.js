@@ -1,5 +1,6 @@
 // Contains descriptors for shape components.
 
+// Adds the shared appearance properties used by filled shapes.
 function configureShapeDescriptor(descriptor, allowPoints) {
     const KnownCategory = rs.mimic.KnownCategory;
     const BasicType = rs.mimic.BasicType;
@@ -83,6 +84,7 @@ function configureShapeDescriptor(descriptor, allowPoints) {
     }
 }
 
+// Adds the shared appearance properties used by lines.
 function configureLineDescriptor(descriptor, allowPoints) {
     const KnownCategory = rs.mimic.KnownCategory;
     const BasicType = rs.mimic.BasicType;
@@ -136,6 +138,7 @@ function configureLineDescriptor(descriptor, allowPoints) {
 }
 
 rs.mimic.ShapeRectangleDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the rectangle property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -147,6 +150,7 @@ rs.mimic.ShapeEllipseDescriptor = class extends rs.mimic.ShapeRectangleDescripto
 rs.mimic.ShapeCircleDescriptor = class extends rs.mimic.ShapeRectangleDescriptor {};
 
 rs.mimic.ShapeRoundedRectDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes rounded-rectangle properties including the corner radius.
     constructor() {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
@@ -164,6 +168,7 @@ rs.mimic.ShapeRoundedRectDescriptor = class extends rs.mimic.RegularComponentDes
 };
 
 rs.mimic.ShapePolygonDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes polygon point mode and point-count properties.
     constructor() {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
@@ -197,6 +202,7 @@ rs.mimic.ShapePolygonDescriptor = class extends rs.mimic.RegularComponentDescrip
 };
 
 rs.mimic.ShapeTriangleDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the triangle property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -204,6 +210,7 @@ rs.mimic.ShapeTriangleDescriptor = class extends rs.mimic.RegularComponentDescri
 };
 
 rs.mimic.ShapeDiamondDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the diamond property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -211,6 +218,7 @@ rs.mimic.ShapeDiamondDescriptor = class extends rs.mimic.RegularComponentDescrip
 };
 
 rs.mimic.ShapeHexagonDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the hexagon property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -218,6 +226,7 @@ rs.mimic.ShapeHexagonDescriptor = class extends rs.mimic.RegularComponentDescrip
 };
 
 rs.mimic.ShapeParallelogramDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the parallelogram property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -225,6 +234,7 @@ rs.mimic.ShapeParallelogramDescriptor = class extends rs.mimic.RegularComponentD
 };
 
 rs.mimic.ShapeTrapezoidDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the trapezoid property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -232,6 +242,7 @@ rs.mimic.ShapeTrapezoidDescriptor = class extends rs.mimic.RegularComponentDescr
 };
 
 rs.mimic.ShapeCrossDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the cross property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -239,6 +250,7 @@ rs.mimic.ShapeCrossDescriptor = class extends rs.mimic.RegularComponentDescripto
 };
 
 rs.mimic.ShapeHalfCircleDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the half-circle property descriptor.
     constructor() {
         super();
         configureShapeDescriptor(this, false);
@@ -246,6 +258,7 @@ rs.mimic.ShapeHalfCircleDescriptor = class extends rs.mimic.RegularComponentDesc
 };
 
 rs.mimic.ShapeDonutDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes donut properties including the hole size.
     constructor() {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
@@ -263,6 +276,7 @@ rs.mimic.ShapeDonutDescriptor = class extends rs.mimic.RegularComponentDescripto
 };
 
 rs.mimic.ShapePieDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the pie start and sweep angle properties.
     constructor() {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
@@ -286,31 +300,8 @@ rs.mimic.ShapePieDescriptor = class extends rs.mimic.RegularComponentDescriptor 
     }
 };
 
-rs.mimic.ShapeStarDescriptor = class extends rs.mimic.RegularComponentDescriptor {
-    constructor() {
-        super();
-        const KnownCategory = rs.mimic.KnownCategory;
-        const BasicType = rs.mimic.BasicType;
-        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
-        configureShapeDescriptor(this, false);
-
-        this.add(new PropertyDescriptor({
-            name: "pointCount",
-            displayName: "Point count",
-            category: KnownCategory.APPEARANCE,
-            type: BasicType.INT
-        }));
-
-        this.add(new PropertyDescriptor({
-            name: "innerRadius",
-            displayName: "Inner radius",
-            category: KnownCategory.APPEARANCE,
-            type: BasicType.INT
-        }));
-    }
-};
-
 rs.mimic.ShapeArrowDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes the arrow direction property.
     constructor() {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
@@ -339,6 +330,7 @@ rs.mimic.ShapeArrowDescriptor = class extends rs.mimic.RegularComponentDescripto
 };
 
 rs.mimic.ShapeLineDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes line orientation and endpoint properties.
     constructor() {
         super();
         const KnownCategory = rs.mimic.KnownCategory;
@@ -371,38 +363,39 @@ rs.mimic.ShapeLineDescriptor = class extends rs.mimic.RegularComponentDescriptor
     }
 };
 
-// Polyline временно отключен - будет доработан после добавления точек привязки в редакторе
-//rs.mimic.ShapePolylineDescriptor = class extends rs.mimic.RegularComponentDescriptor {
-//    constructor() {
-//        super();
-//        const KnownCategory = rs.mimic.KnownCategory;
-//        const BasicType = rs.mimic.BasicType;
-//        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
-//        configureLineDescriptor(this, true);
-//
-//        this.add(new PropertyDescriptor({
-//            name: "pointCount",
-//            displayName: "Point count",
-//            category: KnownCategory.APPEARANCE,
-//            type: BasicType.INT
-//        }));
-//
-//        this.add(new PropertyDescriptor({
-//            name: "snapToAxis",
-//            displayName: "Snap to axis",
-//            category: KnownCategory.APPEARANCE,
-//            type: BasicType.BOOL
-//        }));
-//
-//        this.add(new PropertyDescriptor({
-//            name: "snapThreshold",
-//            displayName: "Snap threshold",
-//            category: KnownCategory.APPEARANCE,
-//            type: BasicType.INT
-//        }));
-//    }
-//};
+rs.mimic.ShapePolylineDescriptor = class extends rs.mimic.RegularComponentDescriptor {
+    // Initializes polyline point and axis-snapping properties.
+    constructor() {
+        super();
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
+        const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        configureLineDescriptor(this, true);
 
+        this.add(new PropertyDescriptor({
+            name: "pointCount",
+            displayName: "Point count",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.INT
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "snapToAxis",
+            displayName: "Snap to axis",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.BOOL
+        }));
+
+        this.add(new PropertyDescriptor({
+            name: "snapThreshold",
+            displayName: "Snap threshold",
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.INT
+        }));
+    }
+};
+
+// Registers every shape descriptor with the shared mimic descriptor set.
 function registerShapeDescriptors() {
     let componentDescriptors = rs.mimic.DescriptorSet.componentDescriptors;
     componentDescriptors.set("ShapeRectangle", new rs.mimic.ShapeRectangleDescriptor());
@@ -420,10 +413,9 @@ function registerShapeDescriptors() {
     componentDescriptors.set("ShapeHalfCircle", new rs.mimic.ShapeHalfCircleDescriptor());
     componentDescriptors.set("ShapeDonut", new rs.mimic.ShapeDonutDescriptor());
     componentDescriptors.set("ShapePie", new rs.mimic.ShapePieDescriptor());
-    componentDescriptors.set("ShapeStar", new rs.mimic.ShapeStarDescriptor());
     componentDescriptors.set("ShapeArrow", new rs.mimic.ShapeArrowDescriptor());
     componentDescriptors.set("ShapeLine", new rs.mimic.ShapeLineDescriptor());
-    //componentDescriptors.set("ShapePolyline", new rs.mimic.ShapePolylineDescriptor());
+    componentDescriptors.set("ShapePolyline", new rs.mimic.ShapePolylineDescriptor());
 }
 
 registerShapeDescriptors();

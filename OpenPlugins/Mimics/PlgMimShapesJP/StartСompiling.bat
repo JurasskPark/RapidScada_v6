@@ -32,6 +32,9 @@ set "DST_LANG=%WEB_DST%\lang"
 set "DST_PLUGIN_WWW=%WEB_DST%\wwwroot\plugins\MimShapesJP"
 set "DST_RU=%DST_LANG%\PlgMimShapesJP.ru-RU.xml"
 set "WEB_CONFIG=%WEB_DST%\config\ScadaWebConfig.xml"
+set "WEB_STOP=%WEB_DST%\svc_stop.bat"
+set "WEB_START=%WEB_DST%\svc_start.bat"
+set "SERVICE_STOPPED=0"
 
 if not exist "%WEB_DST%" (
     echo [ERROR] Destination folder not found: %WEB_DST%
@@ -45,47 +48,53 @@ if not exist "%WEB_CONFIG%" (
     echo [ERROR] Web config not found: %WEB_CONFIG%
     exit /b 1
 )
-
-set "DOTNET_CLI_HOME=%ROOT%.dotnet"
-set "NUGET_PACKAGES=%ROOT%.nuget\packages"
-if not exist "%DOTNET_CLI_HOME%" mkdir "%DOTNET_CLI_HOME%"
-if not exist "%NUGET_PACKAGES%" mkdir "%NUGET_PACKAGES%"
-
-echo [1/7] Building PlgMimShapesJP...
-dotnet build "%PRJ_WEB%" -c Release -v minimal || goto :build_error
-
-echo [2/7] Building PlgMimShapesJP.View...
-dotnet build "%PRJ_VIEW%" -c Release -v minimal || goto :build_error
-
-echo [3/7] Activating PlgMimShapesJP in ScadaWeb config...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$path='%WEB_CONFIG%'; [xml]$xml=Get-Content -LiteralPath $path; $plugins=$xml.ScadaWebConfig.Plugins; if (-not ($plugins.Plugin | Where-Object { $_.code -eq 'PlgMimShapesJP' })) { $node=$xml.CreateElement('Plugin'); $node.SetAttribute('code','PlgMimShapesJP'); [void]$plugins.AppendChild($node); $xml.Save($path); Write-Host '[OK] PlgMimShapesJP added to ScadaWebConfig.xml'; } else { Write-Host '[OK] PlgMimShapesJP is already active in ScadaWebConfig.xml'; }" || goto :copy_error
-
-echo [4/7] Stopping ScadaWeb service...
-set "WEB_STOP=%WEB_DST%\svc_stop.bat"
 if not exist "%WEB_STOP%" (
     echo [ERROR] Stop script not found: %WEB_STOP%
     exit /b 1
 )
-call "%WEB_STOP%"
-
-echo [5/7] Deploying binaries...
-copy /Y "%OUT_WEB%\PlgMimShapesJP.dll" "%WEB_DST%\PlgMimShapesJP.dll" >nul || goto :copy_error
-copy /Y "%OUT_VIEW%\PlgMimShapesJP.View.dll" "%ADMIN_LIB_DST%\PlgMimShapesJP.View.dll" >nul || goto :copy_error
-
-echo [6/7] Deploying language and web resources...
-copy /Y "%SRC_LANG%\PlgMimShapesJP.en-GB.xml" "%DST_LANG%\PlgMimShapesJP.en-GB.xml" >nul || goto :copy_error
-copy /Y "%SRC_LANG%\PlgMimShapesJP.ru-RU.xml" "%DST_LANG%\PlgMimShapesJP.ru-RU.xml" >nul || goto :copy_error
-if not exist "%DST_PLUGIN_WWW%" mkdir "%DST_PLUGIN_WWW%"
-robocopy "%SRC_PLUGIN_WWW%" "%DST_PLUGIN_WWW%" /E /R:1 /W:1 /NFL /NDL /NJH /NJS >nul
-if errorlevel 8 goto :copy_error
-
-echo [7/7] Starting ScadaWeb service...
-set "WEB_START=%WEB_DST%\svc_start.bat"
 if not exist "%WEB_START%" (
     echo [ERROR] Start script not found: %WEB_START%
     exit /b 1
 )
+
+set "DOTNET_CLI_HOME=%ROOT%.dotnet"
+set "NUGET_PACKAGES=%ROOT%.nuget\packages"
+set "DOTNET_CLI_TELEMETRY_OPTOUT=1"
+set "DOTNET_NOLOGO=1"
+if not exist "%DOTNET_CLI_HOME%" mkdir "%DOTNET_CLI_HOME%"
+if not exist "%NUGET_PACKAGES%" mkdir "%NUGET_PACKAGES%"
+
+echo [1/8] Building PlgMimShapesJP...
+dotnet build "%PRJ_WEB%" -c Release -v minimal || goto :build_error
+
+echo [2/8] Building PlgMimShapesJP.View...
+dotnet build "%PRJ_VIEW%" -c Release -v minimal || goto :build_error
+
+echo [3/8] Service scripts validated.
+
+echo [4/8] Stopping ScadaWeb service...
+call "%WEB_STOP%"
+if errorlevel 1 goto :service_stop_error
+set "SERVICE_STOPPED=1"
+
+echo [5/8] Deploying binaries...
+copy /Y "%OUT_WEB%\PlgMimShapesJP.dll" "%WEB_DST%\PlgMimShapesJP.dll" >nul || goto :deploy_error
+copy /Y "%OUT_VIEW%\PlgMimShapesJP.View.dll" "%ADMIN_LIB_DST%\PlgMimShapesJP.View.dll" >nul || goto :deploy_error
+
+echo [6/8] Deploying language and web resources...
+copy /Y "%SRC_LANG%\PlgMimShapesJP.en-GB.xml" "%DST_LANG%\PlgMimShapesJP.en-GB.xml" >nul || goto :deploy_error
+copy /Y "%SRC_LANG%\PlgMimShapesJP.ru-RU.xml" "%DST_LANG%\PlgMimShapesJP.ru-RU.xml" >nul || goto :deploy_error
+if not exist "%DST_PLUGIN_WWW%" mkdir "%DST_PLUGIN_WWW%"
+robocopy "%SRC_PLUGIN_WWW%" "%DST_PLUGIN_WWW%" /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS >nul
+if errorlevel 8 goto :deploy_error
+
+echo [7/8] Activating PlgMimShapesJP in ScadaWeb config...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$path='%WEB_CONFIG%'; [xml]$xml=Get-Content -LiteralPath $path; $plugins=$xml.ScadaWebConfig.Plugins; if (-not ($plugins.Plugin | Where-Object { $_.code -eq 'PlgMimShapesJP' })) { $node=$xml.CreateElement('Plugin'); $node.SetAttribute('code','PlgMimShapesJP'); [void]$plugins.AppendChild($node); $xml.Save($path); Write-Host '[OK] PlgMimShapesJP added to ScadaWebConfig.xml'; } else { Write-Host '[OK] PlgMimShapesJP is already active in ScadaWebConfig.xml'; }" || goto :deploy_error
+
+echo [8/8] Starting ScadaWeb service...
 call "%WEB_START%"
+if errorlevel 1 goto :service_start_error
+set "SERVICE_STOPPED=0"
 
 echo [OK] MimShapes plugin has been built, deployed, and ScadaWeb was started.
 exit /b 0
@@ -94,6 +103,24 @@ exit /b 0
 echo [ERROR] Build failed.
 exit /b 1
 
-:copy_error
+:service_stop_error
+echo [ERROR] ScadaWeb could not be stopped. Deployment was not started.
+exit /b 1
+
+:service_start_error
+echo [ERROR] ScadaWeb could not be started. Retrying once...
+goto :deploy_error
+
+:deploy_error
 echo [ERROR] Copy/deploy failed.
+if "%SERVICE_STOPPED%"=="1" (
+    echo [INFO] Restoring ScadaWeb service after the failure...
+    call "%WEB_START%"
+    if errorlevel 1 (
+        echo [ERROR] ScadaWeb remains stopped. Start it manually with: %WEB_START%
+    ) else (
+        set "SERVICE_STOPPED=0"
+        echo [OK] ScadaWeb was restarted after the deployment failure.
+    )
+)
 exit /b 1

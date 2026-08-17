@@ -1,17 +1,16 @@
 # PlgMimShapesJP
 
-![PlgMimShapesJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimShapesJP&color=4bb60e)
-[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](LICENSE)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![PlgMimShapesJP](https://img.shields.io/github/downloads/JurasskPark/RapidScada_v6/PlgMimShapesJP_v6.0.1.1/total)
+![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 
 **Mimic Shapes** — a Rapid SCADA plugin that provides geometric shape components for mimic diagrams.  
 **Фигуры мнемосхем** — плагин Rapid SCADA, добавляющий геометрические фигуры для мнемосхем.
 
 ## Overview / Обзор
 
-PlgMimShapesJP adds 18 geometric shape components to the mimic editor toolbox. Each component allows creating visual elements such as rectangles, circles, polygons, lines, arrows, stars, and more.
+PlgMimShapesJP adds 17 general geometric shape components to the mimic editor toolbox. PlgMimicJP additionally exposes an editable polyline because it supports point handles.
 
-Плагин добавляет 18 типов геометрических фигур на панель инструментов редактора мнемосхем. Каждый компонент позволяет создавать визуальные элементы: прямоугольники, круги, многоугольники, линии, стрелки, звезды и многое другое.
+Плагин добавляет 17 основных геометрических фигур на панель инструментов редактора мнемосхем. PlgMimicJP дополнительно отображает редактируемую ломаную линию, поскольку поддерживает работу с её точками.
 
 ## Components / Компоненты
 
@@ -32,13 +31,14 @@ PlgMimShapesJP adds 18 geometric shape components to the mimic editor toolbox. E
 | **HalfCircle** | Half circle shape | Полукруг |
 | **Donut** | Donut (ring) shape | Пончик (кольцо) |
 | **Pie** | Pie (sector) shape | Сектор |
-| **Star** | Star shape | Звезда |
 | **Arrow** | Directional arrow | Стрелка |
 | **Line** | Line with configurable orientation | Линия с настраиваемой ориентацией |
+| **Polyline** | Editable polyline in PlgMimicJP | Редактируемая ломаная линия в PlgMimicJP |
 
 ## Features / Возможности
 
-- **18 shape types** — geometric primitives for any visual need
+- **17 common shape types** — geometric primitives available in every supported editor
+- **PlgMimicJP polyline** — an additional point-editable broken line
 - **Customizable appearance** — fill color, stroke color, stroke width, dash pattern, opacity, rotation
 - **Background image support** — each shape can have a background image with adjustable opacity
 - **Polygon point modes** — Auto (regular polygon) and Custom (manual points)
@@ -46,7 +46,8 @@ PlgMimShapesJP adds 18 geometric shape components to the mimic editor toolbox. E
 - **Arrow directions** — Right, Left, Up, Down
 - **Localization** — English and Russian language support
 
-- **18 типов фигур** — геометрические примитивы для любых визуальных задач
+- **17 основных типов фигур** — геометрические примитивы во всех поддерживаемых редакторах
+- **Ломаная линия PlgMimicJP** — дополнительная фигура с редактируемыми точками
 - **Настраиваемый внешний вид** — цвет заливки, цвет обводки, толщина обводки, пунктир, прозрачность, поворот
 - **Поддержка фонового изображения** — каждая фигура может иметь фоновое изображение с регулируемой прозрачностью
 - **Режимы точек многоугольника** — Авто (правильный многоугольник) и Вручную (произвольные точки)
@@ -59,12 +60,13 @@ PlgMimShapesJP adds 18 geometric shape components to the mimic editor toolbox. E
 ```
 PlgMimShapesJP/
 ├── PlgMimShapesJP.sln                    # Solution file
-├── BuildDeploy_MimShapesJP.bat           # Build and deploy script
-├── BuildPublish_MimShapesJP.bat          # Build and publish script
+├── StartСompiling.bat                    # Build and deploy script
+├── ../BuildPublish_PlgMimShapesJP.bat    # Portable package script
 ├── README.md                             # This file
 │
 ├── PlgMimShapesJP/                       # Web plugin project
 │   ├── PlgMimShapesJP.csproj
+│   ├── component.json                    # Component manifest
 │   ├── PlgMimShapesJPLogic.cs            # Plugin logic entry point
 │   ├── Code/
 │   │   ├── ShapesComponentGroup.cs       # Toolbox component group
@@ -86,7 +88,8 @@ PlgMimShapesJP/
 │           ├── shapes-factory.js         # Factories and scripts
 │           ├── shapes-render.js          # Renderers
 │           ├── shapes-subtypes.js        # Subtype definitions
-│           └── shapes-bundle.js          # Bundled JS (all above)
+│           ├── shapes-bundle.js          # Runtime bundle (all above)
+│           └── shapes-lang.js            # XML-backed browser localization
 │
 ├── PlgMimShapesJP.Shared/                # Shared library
 │   └── PluginInfo.cs                     # Plugin metadata
@@ -106,7 +109,7 @@ PlgMimShapesJP/
 
 ### Quick Deploy / Быстрое развёртывание
 
-Run `BuildDeploy_MimShapesJP.bat` as Administrator. The script will:
+Run `StartСompiling.bat` as Administrator. The script will:
 
 1. Build the web plugin (`PlgMimShapesJP`)
 2. Build the admin view plugin (`PlgMimShapesJP.View`)
@@ -115,7 +118,7 @@ Run `BuildDeploy_MimShapesJP.bat` as Administrator. The script will:
 5. Deploy language files and web resources
 6. Start the ScadaWeb service
 
-Запустите `BuildDeploy_MimShapesJP.bat` от имени Администратора. Скрипт выполнит сборку, развёртывание и перезапуск службы.
+Запустите `StartСompiling.bat` от имени Администратора. Скрипт выполнит сборку, развёртывание и перезапуск службы.
 
 ### Manual Build / Ручная сборка
 
@@ -123,6 +126,19 @@ Run `BuildDeploy_MimShapesJP.bat` as Administrator. The script will:
 dotnet build PlgMimShapesJP/PlgMimShapesJP.csproj -c Release
 dotnet build PlgMimShapesJP.View/PlgMimShapesJP.View.csproj -c Release
 ```
+
+### Portable Package / Переносимый пакет
+
+Run `..\BuildPublish_PlgMimShapesJP.bat`. The script runs the focused
+JavaScript tests, builds both Release projects and recreates
+`..\Publish\PlgMimShapesJP\SCADA`. The package contains only plugin-owned Web,
+Administrator View, language and browser files; shared SCADA assemblies are not
+copied.
+
+Запустите `..\BuildPublish_PlgMimShapesJP.bat`. Скрипт выполняет JavaScript-тесты,
+собирает оба Release-проекта и заново создаёт
+`..\Publish\PlgMimShapesJP\SCADA`. В пакет попадают только Web DLL, View DLL,
+языковые и браузерные файлы плагина; общие библиотеки SCADA не копируются.
 
 ## Common Properties / Общие свойства
 
@@ -148,8 +164,6 @@ dotnet build PlgMimShapesJP.View/PlgMimShapesJP.View.csproj -c Release
 | **Donut** | Hole size | Inner hole size percentage (10-90%) | Размер внутреннего отверстия в процентах (10-90%) |
 | **Pie** | Start angle | Starting angle in degrees | Начальный угол в градусах |
 | | Sweep angle | Arc sweep angle in degrees | Угол дуги в градусах |
-| **Star** | Point count | Number of star points (3-12) | Количество лучей звезды (3-12) |
-| | Inner radius | Inner radius percentage (10-50%) | Внутренний радиус в процентах (10-50%) |
 | **Arrow** | Direction | Right, Left, Up, Down | Направление: Вправо, Влево, Вверх, Вниз |
 | **Line** | Orientation | Diagonal, Horizontal, Vertical, Custom | Ориентация: Диагональная, Горизонтальная, Вертикальная, Произвольная |
 | | X1, Y1, X2, Y2 | Custom line endpoints (percentage) | Координаты концов линии (в процентах) |
@@ -158,23 +172,25 @@ dotnet build PlgMimShapesJP.View/PlgMimShapesJP.View.csproj -c Release
 
 ### Point Handles (Anchor Points) / Точки привязки (якоря)
 
-The plugin contains commented-out code for point handle editing (anchor points). This feature allows dragging shape vertices directly on the canvas. It is currently disabled because the Mimic Editor does not yet support the required point editing API. When the editor adds this support, uncomment the following sections:
+PlgMimicJP supports point handles for polygons, lines and polylines. It enables the polyline through the optional `ConfigureEditor("PlgMimicJP")` component convention. Other editors keep the polyline hidden because they do not provide the required point-editing workflow.
 
-Плагин содержит закомментированный код для редактирования точек привязки (якорей). Эта функция позволяет перетаскивать вершины фигур прямо на холсте. В настоящее время она отключена, так как Mimic Editor еще не поддерживает необходимый API для редактирования точек. Когда редактор добавит эту поддержку, раскомментируйте следующие секции:
+Drag a handle to move it, Alt-click the selected shape to insert a point into the nearest segment, and Shift-click a handle to remove it. Right-click finishes drawing a new polyline. At least two points are required; no artificial upper limit is imposed.
 
-1. In `shapes-bundle.js` / В `shapes-bundle.js`:
-   - `_renderPointHandles()` method in `ShapeRendererBase`
-   - `_getEditablePoints()`, `startPointEdit()`, `movePointEdit()`, `finishPointEdit()`, `addPointEdit()`, `removePointEdit()` methods in `ShapePolygonRenderer`, `ShapeLineRenderer`, and `ShapePolylineRenderer`
-   - Helper methods: `_clampPercent()`, `_formatPercentPoints()`, `_mimicPointToComponentPercent()`, `_componentPointToPercent()`
+PlgMimicJP поддерживает точки редактирования многоугольников, линий и ломаных. Ломаная включается через необязательное соглашение компонентов `ConfigureEditor("PlgMimicJP")`. В других редакторах она остаётся скрытой, поскольку там нет необходимого сценария редактирования точек.
 
-2. In `shapes.css` / В `shapes.css`:
-   - `.shape-point-handles` and `.jp-point-handle` styles
+Перетаскивание маркера перемещает точку, Alt-клик по выбранной фигуре вставляет точку в ближайший сегмент, а Shift-клик по маркеру удаляет её. Правая кнопка мыши завершает рисование новой ломаной. Требуется минимум две точки; искусственного верхнего ограничения нет.
 
 ### Polyline / Полилиния
 
-Polyline is fully functional but without point handles. The commented-out point editing code is ready for future use.
+Polyline is available only in PlgMimicJP and supports moving, adding and removing points.
 
-Полилиния полностью функциональна, но без точек привязки. Закомментированный код редактирования точек готов к будущему использованию.
+Ломаная линия доступна только в PlgMimicJP и поддерживает перемещение, добавление и удаление точек.
+
+### Browser Assets / Ресурсы браузера
+
+The production runtime loads `shapes-bundle.js` followed by `shapes-lang.js`. The bundle is generated from the four source files listed in `bundleconfig.json`; loading those sources a second time is intentionally avoided.
+
+В рабочем режиме загружается `shapes-bundle.js`, затем `shapes-lang.js`. Bundle формируется из четырёх исходных файлов, перечисленных в `bundleconfig.json`; повторная загрузка этих файлов исключена.
 
 ## Screenshots / Скриншоты
 

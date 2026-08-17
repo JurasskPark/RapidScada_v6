@@ -17,7 +17,6 @@
     <Phrase key="HalfCircleComponent">Полукруг</Phrase>
     <Phrase key="DonutComponent">Кольцо</Phrase>
     <Phrase key="PieComponent">Сектор</Phrase>
-    <Phrase key="StarComponent">Звезда</Phrase>
     <Phrase key="ArrowComponent">Стрелка</Phrase>
     <Phrase key="LineComponent">Линия</Phrase>
     <Phrase key="PolylineComponent">Ломаная линия</Phrase>
@@ -210,20 +209,6 @@
     <Phrase key="SweepAngle">Угол сектора</Phrase>
   </Dictionary>
 
-  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeStar">
-    <Phrase key="FillColor">Цвет заливки</Phrase>
-    <Phrase key="StrokeColor">Цвет обводки</Phrase>
-    <Phrase key="StrokeWidth">Толщина обводки</Phrase>
-    <Phrase key="StrokeDasharray">Пунктир обводки</Phrase>
-    <Phrase key="BackgroundColor">Цвет фона</Phrase>
-    <Phrase key="ImageName">Изображение</Phrase>
-    <Phrase key="ImageOpacity">Прозрачность изображения</Phrase>
-    <Phrase key="Opacity">Прозрачность</Phrase>
-    <Phrase key="Rotation">Поворот</Phrase>
-    <Phrase key="PointCount">Количество лучей</Phrase>
-    <Phrase key="InnerRadius">Внутренний радиус</Phrase>
-  </Dictionary>
-
   <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeArrow">
     <Phrase key="FillColor">Цвет заливки</Phrase>
     <Phrase key="StrokeColor">Цвет обводки</Phrase>
@@ -279,5 +264,45 @@
     <Phrase key="Left">Влево</Phrase>
     <Phrase key="Up">Вверх</Phrase>
     <Phrase key="Down">Вниз</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeClient">
+    <Phrase key="ShapePropertyFillColor">Цвет заливки</Phrase>
+    <Phrase key="ShapePropertyStrokeColor">Цвет обводки</Phrase>
+    <Phrase key="ShapePropertyStrokeWidth">Толщина обводки</Phrase>
+    <Phrase key="ShapePropertyStrokeDash">Пунктир обводки</Phrase>
+    <Phrase key="ShapePropertyOpacity">Прозрачность</Phrase>
+    <Phrase key="ShapePropertyRotation">Поворот</Phrase>
+    <Phrase key="ShapePropertyBackgroundColor">Цвет фона</Phrase>
+    <Phrase key="ShapePropertyImage">Изображение</Phrase>
+    <Phrase key="ShapePropertyImageOpacity">Прозрачность изображения</Phrase>
+    <Phrase key="ShapePropertyPoints">Точки</Phrase>
+    <Phrase key="ShapePropertyBorderRadius">Радиус скругления</Phrase>
+    <Phrase key="ShapePropertyPointMode">Режим точек</Phrase>
+    <Phrase key="ShapePropertyPointCount">Количество точек</Phrase>
+    <Phrase key="ShapePropertyHoleSize">Размер отверстия</Phrase>
+    <Phrase key="ShapePropertyStartAngle">Начальный угол</Phrase>
+    <Phrase key="ShapePropertySweepAngle">Угол сектора</Phrase>
+    <Phrase key="ShapePropertyDirection">Направление</Phrase>
+    <Phrase key="ShapePropertyLineColor">Цвет линии</Phrase>
+    <Phrase key="ShapePropertyLineWidth">Толщина линии</Phrase>
+    <Phrase key="ShapePropertyLineDash">Пунктир линии</Phrase>
+    <Phrase key="ShapePropertyOrientation">Ориентация</Phrase>
+    <Phrase key="ShapePropertyX1">X1</Phrase>
+    <Phrase key="ShapePropertyY1">Y1</Phrase>
+    <Phrase key="ShapePropertyX2">X2</Phrase>
+    <Phrase key="ShapePropertyY2">Y2</Phrase>
+    <Phrase key="ShapePropertySnapToAxis">Выравнивать по осям</Phrase>
+    <Phrase key="ShapePropertySnapThreshold">Порог выравнивания</Phrase>
+    <Phrase key="ShapeEnumPointModeAuto">Авто</Phrase>
+    <Phrase key="ShapeEnumPointModeCustom">Вручную</Phrase>
+    <Phrase key="ShapeEnumLineOrientationDiagonal">Под наклоном</Phrase>
+    <Phrase key="ShapeEnumLineOrientationHorizontal">Горизонтальная</Phrase>
+    <Phrase key="ShapeEnumLineOrientationVertical">Вертикальная</Phrase>
+    <Phrase key="ShapeEnumLineOrientationCustom">По координатам</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionRight">Вправо</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionLeft">Влево</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionUp">Вверх</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionDown">Вниз</Phrase>
   </Dictionary>
 </PlgMimShapesDictionaries>

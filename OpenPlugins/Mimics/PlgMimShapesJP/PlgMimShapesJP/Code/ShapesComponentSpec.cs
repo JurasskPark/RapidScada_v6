@@ -8,13 +8,21 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
     /// </summary>
     public class ShapesComponentSpec : IComponentSpec
     {
+        #region Variable
+
+        private const string PolylineEditorCode = "PlgMimicJP"; // editor that supports polyline point editing
+
+        private bool polylineEnabled; // indicates whether the toolbox exposes the polyline component
+
+        #endregion Variable
+
         #region Property
 
         /// <summary>
         /// Gets the component groups.
         /// <para>Возвращает группы компонентов.</para>
         /// </summary>
-        public List<ComponentGroup> ComponentGroups => [new ShapesComponentGroup()];
+        public List<ComponentGroup> ComponentGroups => [new ShapesComponentGroup(polylineEnabled)];
 
         /// <summary>
         /// Gets the subtype groups.
@@ -28,7 +36,7 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
         /// </summary>
         public List<string> StyleUrls =>
         [
-            "~/plugins/MimShapesJP/css/shapes.min.css"
+            Versioned("~/plugins/MimShapesJP/css/shapes.min.css")
         ];
 
         /// <summary>
@@ -37,15 +45,32 @@ namespace Scada.Web.Plugins.PlgMimShapesJP.Code
         /// </summary>
         public List<string> ScriptUrls =>
         [
-            // Load the bundle first (for compatibility), then override with separate scripts.
-            // This order ensures our latest descriptors, factories and renderers win.
-            "~/plugins/MimShapesJP/js/shapes-bundle.js",
-            "~/plugins/MimShapesJP/js/shapes-subtypes.js",
-            "~/plugins/MimShapesJP/js/shapes-descr.js",
-            "~/plugins/MimShapesJP/js/shapes-factory.js",
-            "~/plugins/MimShapesJP/js/shapes-render.js"
+            Versioned("~/plugins/MimShapesJP/js/shapes-bundle.js"),
+            Versioned("~/plugins/MimShapesJP/js/shapes-lang.js")
         ];
 
         #endregion Property
+
+        #region Basic
+
+        /// <summary>
+        /// Configures editor-specific component capabilities.
+        /// <para>Настраивает возможности компонентов для указанного редактора.</para>
+        /// </summary>
+        public void ConfigureEditor(string editorCode)
+        {
+            polylineEnabled = string.Equals(editorCode, PolylineEditorCode, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Appends the current resource version to a browser asset URL.
+        /// <para>Добавляет текущую версию ресурсов к URL-адресу браузерного ресурса.</para>
+        /// </summary>
+        internal static string Versioned(string url)
+        {
+            return $"{url}?v={PluginConst.ResourceVersion}";
+        }
+
+        #endregion Basic
     }
 }

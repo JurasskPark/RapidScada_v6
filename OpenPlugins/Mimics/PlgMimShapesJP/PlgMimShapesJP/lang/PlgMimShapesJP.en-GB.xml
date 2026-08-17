@@ -17,7 +17,6 @@
     <Phrase key="HalfCircleComponent">Half Circle</Phrase>
     <Phrase key="DonutComponent">Donut</Phrase>
     <Phrase key="PieComponent">Pie</Phrase>
-    <Phrase key="StarComponent">Star</Phrase>
     <Phrase key="ArrowComponent">Arrow</Phrase>
     <Phrase key="LineComponent">Line</Phrase>
     <Phrase key="PolylineComponent">Polyline</Phrase>
@@ -210,20 +209,6 @@
     <Phrase key="SweepAngle">Sweep angle</Phrase>
   </Dictionary>
 
-  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeStar">
-    <Phrase key="FillColor">Fill color</Phrase>
-    <Phrase key="StrokeColor">Stroke color</Phrase>
-    <Phrase key="StrokeWidth">Stroke width</Phrase>
-    <Phrase key="StrokeDasharray">Stroke dash</Phrase>
-    <Phrase key="BackgroundColor">Background color</Phrase>
-    <Phrase key="ImageName">Image</Phrase>
-    <Phrase key="ImageOpacity">Image opacity</Phrase>
-    <Phrase key="Opacity">Opacity</Phrase>
-    <Phrase key="Rotation">Rotation</Phrase>
-    <Phrase key="PointCount">Point count</Phrase>
-    <Phrase key="InnerRadius">Inner radius</Phrase>
-  </Dictionary>
-
   <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeArrow">
     <Phrase key="FillColor">Fill color</Phrase>
     <Phrase key="StrokeColor">Stroke color</Phrase>
@@ -279,5 +264,45 @@
     <Phrase key="Left">Left</Phrase>
     <Phrase key="Up">Up</Phrase>
     <Phrase key="Down">Down</Phrase>
+  </Dictionary>
+
+  <Dictionary key="Scada.Web.Plugins.PlgMimShapesJP.Js.ShapeClient">
+    <Phrase key="ShapePropertyFillColor">Fill color</Phrase>
+    <Phrase key="ShapePropertyStrokeColor">Stroke color</Phrase>
+    <Phrase key="ShapePropertyStrokeWidth">Stroke width</Phrase>
+    <Phrase key="ShapePropertyStrokeDash">Stroke dash</Phrase>
+    <Phrase key="ShapePropertyOpacity">Opacity</Phrase>
+    <Phrase key="ShapePropertyRotation">Rotation</Phrase>
+    <Phrase key="ShapePropertyBackgroundColor">Background color</Phrase>
+    <Phrase key="ShapePropertyImage">Image</Phrase>
+    <Phrase key="ShapePropertyImageOpacity">Image opacity</Phrase>
+    <Phrase key="ShapePropertyPoints">Points</Phrase>
+    <Phrase key="ShapePropertyBorderRadius">Border radius</Phrase>
+    <Phrase key="ShapePropertyPointMode">Point mode</Phrase>
+    <Phrase key="ShapePropertyPointCount">Point count</Phrase>
+    <Phrase key="ShapePropertyHoleSize">Hole size</Phrase>
+    <Phrase key="ShapePropertyStartAngle">Start angle</Phrase>
+    <Phrase key="ShapePropertySweepAngle">Sweep angle</Phrase>
+    <Phrase key="ShapePropertyDirection">Direction</Phrase>
+    <Phrase key="ShapePropertyLineColor">Line color</Phrase>
+    <Phrase key="ShapePropertyLineWidth">Line width</Phrase>
+    <Phrase key="ShapePropertyLineDash">Stroke dash</Phrase>
+    <Phrase key="ShapePropertyOrientation">Orientation</Phrase>
+    <Phrase key="ShapePropertyX1">X1</Phrase>
+    <Phrase key="ShapePropertyY1">Y1</Phrase>
+    <Phrase key="ShapePropertyX2">X2</Phrase>
+    <Phrase key="ShapePropertyY2">Y2</Phrase>
+    <Phrase key="ShapePropertySnapToAxis">Snap to axis</Phrase>
+    <Phrase key="ShapePropertySnapThreshold">Snap threshold</Phrase>
+    <Phrase key="ShapeEnumPointModeAuto">Auto</Phrase>
+    <Phrase key="ShapeEnumPointModeCustom">Custom</Phrase>
+    <Phrase key="ShapeEnumLineOrientationDiagonal">Diagonal</Phrase>
+    <Phrase key="ShapeEnumLineOrientationHorizontal">Horizontal</Phrase>
+    <Phrase key="ShapeEnumLineOrientationVertical">Vertical</Phrase>
+    <Phrase key="ShapeEnumLineOrientationCustom">Custom</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionRight">Right</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionLeft">Left</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionUp">Up</Phrase>
+    <Phrase key="ShapeEnumArrowDirectionDown">Down</Phrase>
   </Dictionary>
 </PlgMimShapesDictionaries>
