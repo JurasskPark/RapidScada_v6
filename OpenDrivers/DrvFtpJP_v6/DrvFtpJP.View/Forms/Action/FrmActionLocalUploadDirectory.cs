@@ -29,6 +29,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         private bool modified;                      // the configuration was modified
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public OperationAction operationAction { get; set; }
         #endregion Variable
 

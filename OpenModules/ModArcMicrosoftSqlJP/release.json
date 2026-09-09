@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "ModArcMicrosoftSqlJP",
+  "versionProject": "ModArcMicrosoftSqlJP.Logic/ModArcMicrosoftSqlJP.Logic.csproj",
+  "display": {
+    "NameEn": "Microsoft SQL Server Archive",
+    "DescriptionRu": "Модуль обеспечивает архивирование данных в базу данных Microsoft SQL Server.",
+    "NameRu": "Архив Microsoft SQL Server",
+    "DescriptionEn": "The module provides data archiving into Microsoft SQL Server database."
+  },
+  "authors": {
+    "ru": [
+      "Автор: Михаил Ширяев",
+      "Доработка: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Mikhail Shiryaev",
+      "Revision: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenModules/ModArcMicrosoftSqlJP",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=modarcmicrosoftsqljp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64"
+  ],
+  "components": [
+    {
+      "project": "ModArcMicrosoftSqlJP.Logic/ModArcMicrosoftSqlJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaServer/Mod"
+      ]
+    },
+    {
+      "project": "ModArcMicrosoftSqlJP.View/ModArcMicrosoftSqlJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "assets": [
+    {
+      "source": "ModArcMicrosoftSqlJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "source": "ModArcMicrosoftSqlJP.Shared/Config/ModArcMicrosoftSqlJP.xml",
+      "destination": "SCADA/ScadaServer/Config/ModArcMicrosoftSqlJP.xml"
+    }
+  ],
+  "notes": [
+    "Для SQL-зависимостей выберите пакет конкретной ОС и архитектуры. AnyCPU-пакет не выпускается: загрузчик Rapid SCADA не выбирает runtime-вариант SQL-клиента из вложенных папок.",
+    "Choose an OS- and architecture-specific package for SQL dependencies. A portable AnyCPU package is not provided because the Rapid SCADA loader does not select the SQL client runtime variant from nested folders."
+  ]
+}

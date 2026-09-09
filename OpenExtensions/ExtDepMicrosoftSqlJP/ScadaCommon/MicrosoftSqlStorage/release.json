@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "MicrosoftSqlStorage",
+  "versionProject": "MicrosoftSqlStorage.csproj",
+  "display": {
+    "NameRu": "Хранилище конфигурации в Microsoft SQL Server",
+    "NameEn": "Microsoft SQL Server configuration storage",
+    "DescriptionRu": "Хранение конфигурации, представлений и файлов приложений Rapid SCADA в базе данных Microsoft SQL Server.",
+    "DescriptionEn": "Stores Rapid SCADA configuration, views and application files in a Microsoft SQL Server database."
+  },
+  "authors": {
+    "ru": [
+      "Автор: Михаил Ширяев",
+      "Доработка: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Mikhail Shiryaev",
+      "Revision: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenExtensions/ExtDepMicrosoftSqlJP/ScadaCommon/MicrosoftSqlStorage",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=extdepmicrosoftsqljp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64"
+  ],
+  "components": [
+    {
+      "project": "MicrosoftSqlStorage.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm",
+        "SCADA/ScadaServer",
+        "SCADA/ScadaWeb"
+      ]
+    }
+  ],
+  "assets": [],
+  "notes": [
+    "Настройте MicrosoftSqlStorage в конфигурации экземпляра Rapid SCADA.",
+    "Configure MicrosoftSqlStorage in the Rapid SCADA instance configuration.",
+    "Для SQL-зависимостей выберите пакет конкретной ОС и архитектуры. AnyCPU-пакет не выпускается: загрузчик Rapid SCADA не выбирает runtime-вариант SQL-клиента из вложенных папок.",
+    "Choose an OS- and architecture-specific package for SQL dependencies. A portable AnyCPU package is not provided because the Rapid SCADA loader does not select the SQL client runtime variant from nested folders."
+  ]
+}

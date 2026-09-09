@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net8.0</TargetFramework>
+	  <TargetFramework>net10.0</TargetFramework>
 	  <EnableDynamicLoading>true</EnableDynamicLoading>
 	  <Nullable>disable</Nullable>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <RootNamespace>Scada.Comm.Drivers.DrvDDEJP.Logic</RootNamespace>
-	  <Version>6.0.0.1</Version>
+	  <Version>6.5.0.0</Version>
 	  <Authors>Yuriy Pradius</Authors>
 	  <Company>Community Rapid Software</Company>
 	  <Product>Rapid SCADA</Product>
@@ -36,7 +36,7 @@
 
   <Target Name="CopyDdeClientAssembly" AfterTargets="Build">
     <PropertyGroup>
-      <DdeClientOutputPath>..\DrvDDEJP.DDE\bin\$(Configuration)\net8.0\DrvDDEJP.DDE.dll</DdeClientOutputPath>
+      <DdeClientOutputPath>..\DrvDDEJP.DDE\bin\$(Configuration)\net10.0\DrvDDEJP.DDE.dll</DdeClientOutputPath>
     </PropertyGroup>
     <Copy SourceFiles="$(DdeClientOutputPath)"
           DestinationFolder="$(OutDir)"

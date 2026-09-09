@@ -3,7 +3,7 @@
 ![ModArcMicrosoftSqlJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ModArcMicrosoftSqlJP&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 [![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](LICENSE)
 
 
@@ -124,36 +124,26 @@ ScadaAdmin/OpenExtensions/
         └── ExtDepMicrosoftSqlJP.ru-RU.xml
 ```
 
-## Build and Deploy / Сборка и развёртывание
+## Build / Сборка
 
-### Prerequisites / Требования
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-- .NET 8.0 SDK
-- Rapid SCADA 6 installed to `C:\Program Files\SCADA`
-- Microsoft SQL Server
-- Administrator rights for deployment
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-- .NET 8.0 SDK
-- Rapid SCADA 6, установленная в `C:\Program Files\SCADA`
-- Microsoft SQL Server
-- Права администратора для развёртывания
-
-### Manual Build / Ручная сборка
-
-```bash
-dotnet build ScadaServer/OpenModules/ModArcMicrosoftSqlJP.Logic/ModArcMicrosoftSqlJP.Logic.csproj -c Release
-dotnet build ScadaServer/OpenModules/ModArcMicrosoftSqlJP.View/ModArcMicrosoftSqlJP.View.csproj -c Release
-dotnet build ScadaAdmin/OpenExtensions/ExtDepMicrosoftSqlJP/ExtDepMicrosoftSqlJP.csproj -c Release
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
 
-Or build the solution files:
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-Или соберите solution-файлы:
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
 
-```bash
-dotnet build ScadaServer/OpenModules/OpenModules.sln -c Release
-dotnet build ScadaAdmin/OpenExtensions/OpenExtensions.sln -c Release
-```
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
 ### Server Deployment / Развёртывание серверного модуля
 
@@ -162,10 +152,10 @@ Copy the server module files to Rapid SCADA:
 Скопируйте файлы серверного модуля в Rapid SCADA:
 
 ```text
-ModArcMicrosoftSqlJP.Logic/bin/Release/net8.0/ModArcMicrosoftSqlJP.Logic.dll
+ModArcMicrosoftSqlJP.Logic/bin/Release/net10.0/ModArcMicrosoftSqlJP.Logic.dll
   -> C:\Program Files\SCADA\ScadaServer\Mod\ModArcMicrosoftSqlJP.Logic.dll
 
-ModArcMicrosoftSqlJP.Logic/bin/Release/net8.0/ModArcMicrosoftSqlJP.Logic/
+ModArcMicrosoftSqlJP.Logic/bin/Release/net10.0/ModArcMicrosoftSqlJP.Logic/
   -> C:\Program Files\SCADA\ScadaServer\Mod\ModArcMicrosoftSqlJP.Logic\
 
 ModArcMicrosoftSqlJP.Shared/Config/ModArcMicrosoftSqlJP.xml
@@ -205,19 +195,19 @@ Copy the view module and extension files:
 Скопируйте файлы View-модуля и расширения:
 
 ```text
-ModArcMicrosoftSqlJP.View/bin/Release/net8.0-windows/ModArcMicrosoftSqlJP.View.dll
+ModArcMicrosoftSqlJP.View/bin/Release/net10.0-windows/ModArcMicrosoftSqlJP.View.dll
   -> C:\Program Files\SCADA\ScadaAdmin\Lib\ModArcMicrosoftSqlJP.View.dll
 
-ModArcMicrosoftSqlJP.View/bin/Release/net8.0-windows/ModArcMicrosoftSqlJP.View/
+ModArcMicrosoftSqlJP.View/bin/Release/net10.0-windows/ModArcMicrosoftSqlJP.View/
   -> C:\Program Files\SCADA\ScadaAdmin\Lib\ModArcMicrosoftSqlJP.View\
 
 ModArcMicrosoftSqlJP.View/Lang/ModArcMicrosoftSqlJP.*.xml
   -> C:\Program Files\SCADA\ScadaAdmin\Lang\
 
-ExtDepMicrosoftSqlJP/bin/Release/net8.0-windows/ExtDepMicrosoftSqlJP.dll
+ExtDepMicrosoftSqlJP/bin/Release/net10.0-windows/ExtDepMicrosoftSqlJP.dll
   -> C:\Program Files\SCADA\ScadaAdmin\Lib\ExtDepMicrosoftSqlJP.dll
 
-ExtDepMicrosoftSqlJP/bin/Release/net8.0-windows/ExtDepMicrosoftSqlJP/
+ExtDepMicrosoftSqlJP/bin/Release/net10.0-windows/ExtDepMicrosoftSqlJP/
   -> C:\Program Files\SCADA\ScadaAdmin\Lib\ExtDepMicrosoftSqlJP\
 
 ExtDepMicrosoftSqlJP/Config/ExtDepMicrosoftSqlJP.xml

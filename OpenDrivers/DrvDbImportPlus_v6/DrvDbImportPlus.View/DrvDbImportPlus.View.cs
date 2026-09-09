@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Config;
@@ -26,34 +26,12 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View
         /// <summary>
         /// Gets the driver name.
         /// </summary>
-        public override string Name
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Импорт из БД Плюс" :
-                    "DB Import Plus";
-            }
-        }
+        public override string Name => DriverUtils.Name(Locale.IsRussian);
 
         /// <summary>
         /// Gets the driver description.
         /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Автор:  Михаил Ширяев\n" +
-                    "Доработка: Юрий Прадиус\n" +
-                    "Импорт из сторонней базы данных.\n\n" 
-
-                    :
-                    "The author: Mikhail Shiryaev\n" +
-                    "Revision: Yuriy Pradius\n" +
-                    "Import from a third-party database.\n\n";
-            }
-        }
+        public override string Descr => DriverUtils.Description(Locale.IsRussian);
 
 
         /// <summary>

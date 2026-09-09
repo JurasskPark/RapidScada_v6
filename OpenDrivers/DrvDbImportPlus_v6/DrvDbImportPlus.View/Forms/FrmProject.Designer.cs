@@ -628,7 +628,6 @@
             txtHelp.Name = "txtHelp";
             txtHelp.Paddings = new Padding(0);
             txtHelp.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            txtHelp.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("txtHelp.ServiceColors");
             txtHelp.Size = new Size(1289, 824);
             txtHelp.TabIndex = 0;
             txtHelp.Zoom = 100;

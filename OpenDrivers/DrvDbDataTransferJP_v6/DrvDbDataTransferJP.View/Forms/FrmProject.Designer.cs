@@ -475,7 +475,6 @@
             txtHelp.Name = "txtHelp";
             txtHelp.Paddings = new Padding(0);
             txtHelp.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            txtHelp.ServiceColors = null;
             txtHelp.Size = new Size(1696, 642);
             txtHelp.TabIndex = 0;
             txtHelp.Zoom = 100;

@@ -15,6 +15,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
     {
         #region Variable
         public bool isEditName; // field
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string FileName { get; set; }
         #endregion Variable
 

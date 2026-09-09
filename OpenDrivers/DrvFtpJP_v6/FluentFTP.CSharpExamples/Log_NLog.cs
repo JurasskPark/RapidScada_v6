@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Net;
 using FluentFTP;
-using FluentFTP.Logging;
 using NLog.Extensions.Logging;
 
 namespace Examples {
@@ -18,7 +17,7 @@ namespace Examples {
 				var nlogLogger = new NLogLoggerProvider();
 
 				// wrap with MELA ILogger
-				var microsoftLogger = nlogLogger.CreateLogger(typeof(Log4NetExample).FullName);
+				var microsoftLogger = nlogLogger.CreateLogger(typeof(NLogExample).FullName);
 
 				// wrap with FtpLogAdapter
 				conn.Logger = new FtpLogAdapter(microsoftLogger);

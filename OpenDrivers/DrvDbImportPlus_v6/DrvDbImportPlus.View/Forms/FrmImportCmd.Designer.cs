@@ -283,7 +283,6 @@
             fctCmdQuery.Paddings = new Padding(0);
             fctCmdQuery.RightBracket = ')';
             fctCmdQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctCmdQuery.ServiceColors = null;
             fctCmdQuery.Size = new Size(1108, 162);
             fctCmdQuery.TabIndex = 6;
             fctCmdQuery.WordWrap = true;
@@ -602,7 +601,6 @@
             fctResult.Paddings = new Padding(0);
             fctResult.RightBracket = ')';
             fctResult.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctResult.ServiceColors = null;
             fctResult.Size = new Size(1122, 454);
             fctResult.TabIndex = 7;
             fctResult.WordWrap = true;

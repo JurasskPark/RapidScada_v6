@@ -25,11 +25,17 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
         /// </summary>
         public const string DriverCode = "DrvTelnetJP";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Проверка доступности TCP-портов";
+        public const string NameEn = "TCP port monitoring";
+        public const string DescriptionRu = "Проверка возможности подключения к заданным TCP-портам узлов и передача результата в каналы Rapid SCADA.";
+        public const string DescriptionEn = "Checks connectivity to configured TCP ports on remote hosts and reports the result to Rapid SCADA channels.";
+
         /// <summary>
         /// The driver version.
         /// <para>Версия драйвера.</para>
         /// </summary>
-        public const string Version = "6.4.0.0";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default configuration file name.
@@ -40,6 +46,24 @@ namespace Scada.Comm.Drivers.DrvTelnetJP
         #endregion Const
 
         #region Basic
+
+        /// <summary>
+        /// Gets the driver name in the selected language.
+        /// <para>Возвращает название драйвера на выбранном языке.</para>
+        /// </summary>
+        public static string Name(bool isRussian = false)
+        {
+            return isRussian ? NameRu : NameEn;
+        }
+
+        /// <summary>
+        /// Gets the driver description in the selected language.
+        /// <para>Возвращает описание драйвера на выбранном языке.</para>
+        /// </summary>
+        public static string Description(bool isRussian = false)
+        {
+            return isRussian ? DescriptionRu : DescriptionEn;
+        }
 
         /// <summary>
         /// Writes a configuration file from an embedded resource.

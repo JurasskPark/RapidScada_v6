@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Config;
@@ -26,28 +26,12 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferJP.View
         /// <summary>
         /// Gets the driver name.
         /// </summary>
-        public override string Name
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Передача данных из БД" :
-                    "DB Data Transfer";
-            }
-        }
+        public override string Name => DriverUtils.Name(Locale.IsRussian);
 
         /// <summary>
         /// Gets the driver description.
         /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Автор: Юрий Прадиус\n\rПередача данных из одной СУБД в другую." :
-                    "The author: Yuriy Pradius\n\rTransferring data from one DBMS to another.";
-            }
-        }
+        public override string Descr => DriverUtils.Description(Locale.IsRussian);
 
         /// <summary>
         /// Loads language dictionaries.

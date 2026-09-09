@@ -19,11 +19,17 @@ namespace Scada.Comm.Drivers.DrvDDEJP
         /// </summary>
         public const string DriverCode = "DrvDDEJP";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Драйвер DDE";
+        public const string NameEn = "DDE driver";
+        public const string DescriptionRu = "Чтение текущих значений из Windows-приложений по протоколу Dynamic Data Exchange (DDE).";
+        public const string DescriptionEn = "Reads current values from Windows applications using the Dynamic Data Exchange (DDE) protocol.";
+
         /// <summary>
         /// The driver version.
         /// <para>Версия драйвера.</para>
         /// </summary>
-        public const string Version = "6.0.0.1";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
@@ -59,7 +65,7 @@ namespace Scada.Comm.Drivers.DrvDDEJP
         /// </summary>
         public static string Name(bool isRussian = false)
         {
-            return isRussian ? "Драйвер DDE" : "DDE Driver";
+            return isRussian ? NameRu : NameEn;
         }
 
         /// <summary>
@@ -68,9 +74,7 @@ namespace Scada.Comm.Drivers.DrvDDEJP
         /// </summary>
         public static string Description(bool isRussian = false)
         {
-            return isRussian
-                ? "Взаимодействие с внешними приложениями через протокол DDE."
-                : "Interacts with external applications via DDE protocol.";
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         #endregion Basic

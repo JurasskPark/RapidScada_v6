@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvPingJP",
+  "versionProject": "DrvPingJP.Logic/DrvPingJP.Logic.csproj",
+  "driverUtils": "DrvPingJP.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvPingJP_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvping"
+    },
+    {
+      "label": "English topic",
+      "url": "https://forum.rapidscada.org/?topic=drvpingjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvPingJP.Logic/DrvPingJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvPingJP.View/DrvPingJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvPingJP.WinForm/DrvPingJP.WinForm.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvPingJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ]
+}

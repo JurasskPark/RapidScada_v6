@@ -244,7 +244,6 @@
             fctCmdQuery.Paddings = new Padding(0);
             fctCmdQuery.RightBracket = ')';
             fctCmdQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctCmdQuery.ServiceColors = null;
             fctCmdQuery.Size = new Size(1108, 162);
             fctCmdQuery.TabIndex = 3;
             fctCmdQuery.WordWrap = true;
@@ -367,7 +366,6 @@
             fctResult.Name = "fctResult";
             fctResult.Paddings = new Padding(0);
             fctResult.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctResult.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctResult.ServiceColors");
             fctResult.Size = new Size(1116, 448);
             fctResult.TabIndex = 0;
             fctResult.Zoom = 100;

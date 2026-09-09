@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvFSTJP",
+  "versionProject": "DrvFSTJP.Logic/DrvFSTJP.Logic.csproj",
+  "driverUtils": "DrvFSTJP.Shared/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFSTJP",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvfstjp"
+    },
+    {
+      "label": "English topic",
+      "url": "https://forum.rapidscada.org/?topic=drvfstjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvFSTJP.Logic/DrvFSTJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvFSTJP.View/DrvFSTJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "assets": []
+}

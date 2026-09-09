@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "ExtDepAgent",
+  "versionProject": "ExtDepAgent.csproj",
+  "display": {
+    "NameRu": "Развёртывание с Агентом",
+    "NameEn": "Deployment with Agent",
+    "DescriptionRu": "Расширение обеспечивает передачу проекта с помощью службы Агента.",
+    "DescriptionEn": "The extension provides project transfer using the Agent service."
+  },
+  "authors": {
+    "ru": [
+      "Автор: Михаил Ширяев"
+    ],
+    "en": [
+      "Author: Mikhail Shiryaev"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenExtensions/ExtDepMicrosoftSqlJP/ExtDepAgent",
+  "forums": [
+    {
+      "label": "Раздел поддержки / Support forum section",
+      "url": "https://forum.rapidscada.ru/?forum=development-and-integration"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "ExtDepAgent.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "assets": [
+    {
+      "source": "Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "notes": []
+}

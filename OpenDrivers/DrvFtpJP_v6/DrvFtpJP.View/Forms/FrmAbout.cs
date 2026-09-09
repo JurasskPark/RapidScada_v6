@@ -13,6 +13,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             InitializeComponent();
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AppTitle
         {
             get
@@ -31,6 +32,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AppDescription
         {
             get
@@ -49,6 +51,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AppVersion
         {
             get
@@ -67,6 +70,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AppCopyright
         {
             get
@@ -85,6 +89,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AppInfoMore
         {
             get
@@ -103,6 +108,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AppBuildDate
         {
             get
@@ -121,6 +127,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string[] AppLinkInfo
         {
             get

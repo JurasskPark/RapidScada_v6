@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Net;
 using FluentFTP;
-using FluentFTP.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
 

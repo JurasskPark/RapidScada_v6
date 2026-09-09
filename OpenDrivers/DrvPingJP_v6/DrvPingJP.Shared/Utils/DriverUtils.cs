@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -18,15 +18,39 @@ namespace Scada.Comm.Drivers.DrvPingJP
         /// </summary>
         public const string DriverCode = "DrvPingJP";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Проверка доступности узлов по ICMP";
+        public const string NameEn = "ICMP host monitoring";
+        public const string DescriptionRu = "Проверка доступности узлов по IP-адресу или DNS-имени с помощью ICMP ping и передача результата в каналы Rapid SCADA.";
+        public const string DescriptionEn = "Checks host availability by IP address or DNS name using ICMP ping and reports the result to Rapid SCADA channels.";
+
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.4.0.1";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
         /// </summary>
         public const string DefaultConfigFileName = DriverCode + ".xml";
+
+        /// <summary>
+        /// Gets the driver name in the selected language.
+        /// <para>Возвращает название драйвера на выбранном языке.</para>
+        /// </summary>
+        public static string Name(bool isRussian = false)
+        {
+            return isRussian ? NameRu : NameEn;
+        }
+
+        /// <summary>
+        /// Gets the driver description in the selected language.
+        /// <para>Возвращает описание драйвера на выбранном языке.</para>
+        /// </summary>
+        public static string Description(bool isRussian = false)
+        {
+            return isRussian ? DescriptionRu : DescriptionEn;
+        }
 
         /// <summary>
         /// Gets the short name of the device configuration file.

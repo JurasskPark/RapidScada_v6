@@ -22,6 +22,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP.View.Forms
 
         private bool modified;                      // the configuration was modified
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public Scenario scenario { get; set; }      // scenario
         private List<OperationAction> Actions { get; set; }
 

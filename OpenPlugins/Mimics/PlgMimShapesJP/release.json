@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "id": "PlgMimShapesJP",
+  "versionProject": "PlgMimShapesJP/PlgMimShapesJP.csproj",
+  "display": {
+    "NameRu": "Фигуры мнемосхем",
+    "NameEn": "Mimic Shapes",
+    "DescriptionRu": "Компоненты мнемосхем для отображения геометрических примитивов.",
+    "DescriptionEn": "Mimic components for displaying geometric primitives."
+  },
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimShapesJP",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=plgmimshapesjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "PlgMimShapesJP/PlgMimShapesJP.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaWeb"
+      ]
+    },
+    {
+      "project": "PlgMimShapesJP.View/PlgMimShapesJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "PlgMimShapesJP/lang",
+      "destination": "SCADA/ScadaWeb/lang"
+    },
+    {
+      "source": "PlgMimShapesJP/wwwroot/plugins/MimShapesJP",
+      "destination": "SCADA/ScadaWeb/wwwroot/plugins/MimShapesJP"
+    }
+  ],
+  "notes": [
+    "Требуется плагин мнемосхем PlgMimic. Подключите плагин в настройках Вебстанции и компонент редактора в Администраторе.",
+    "Requires PlgMimic. Enable the plugin in Webstation settings and its editor component in Administrator."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvFreeDiskSpaceJP",
+  "versionProject": "DrvFreeDiskSpaceJP.Logic/DrvFreeDiskSpaceJP.Logic.csproj",
+  "driverUtils": "DrvFreeDiskSpaceJP.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFreeDiskSpaceJP_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvfreediskspacejp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvFreeDiskSpaceJP.Logic/DrvFreeDiskSpaceJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvFreeDiskSpaceJP.View/DrvFreeDiskSpaceJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvFreeDiskSpaceJP.Winform/DrvFreeDiskSpaceJP.Winform.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvFreeDiskSpaceJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ]
+}

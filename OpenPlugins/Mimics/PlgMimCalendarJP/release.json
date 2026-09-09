@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "id": "PlgMimCalendarJP",
+  "versionProject": "PlgMimCalendarJP/PlgMimCalendarJP.csproj",
+  "display": {
+    "NameRu": "Календарь мнемосхем",
+    "NameEn": "Mimic Calendar",
+    "DescriptionRu": "Календарные компоненты мнемосхем с передачей даты и времени в каналы.",
+    "DescriptionEn": "Calendar mimic components that send date and time to channels."
+  },
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimCalendarJP",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=plgmimcalendarjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "PlgMimCalendarJP/PlgMimCalendarJP.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaWeb"
+      ]
+    },
+    {
+      "project": "PlgMimCalendarJP.View/PlgMimCalendarJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "PlgMimCalendarJP/lang",
+      "destination": "SCADA/ScadaWeb/lang"
+    },
+    {
+      "source": "PlgMimCalendarJP/wwwroot/plugins/MimCalendarJP",
+      "destination": "SCADA/ScadaWeb/wwwroot/plugins/MimCalendarJP"
+    }
+  ],
+  "notes": [
+    "Требуется плагин мнемосхем PlgMimic. Подключите плагин в настройках Вебстанции и компонент редактора в Администраторе.",
+    "Requires PlgMimic. Enable the plugin in Webstation settings and its editor component in Administrator."
+  ]
+}

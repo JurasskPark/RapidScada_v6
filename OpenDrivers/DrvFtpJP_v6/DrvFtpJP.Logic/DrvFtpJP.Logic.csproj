@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvFtpJP.Logic</RootNamespace>
-		<Version>6.4.1.1</Version>
+		<Version>6.5.0.0</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Pradius Y.A.</Company>
 		<Product>DrvFtpJP</Product>

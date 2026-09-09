@@ -3,7 +3,7 @@
 ![DrvDebug](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDebug&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows&color=lightgrey)
 [![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -249,7 +249,7 @@ English:
 ```text
 DrvDebug_v6/
 ├── DrvDebug.sln                    # Solution file
-├── StartСompiling.bat              # Build and local deployment helper
+├── StartСompiling.bat              # Build ZIP package
 ├── README.md                       # This file
 │
 ├── DemoProjects/                   # Demo Rapid SCADA projects
@@ -263,21 +263,24 @@ DrvDebug_v6/
 
 ## Build / Сборка
 
-### Prerequisites / Требования
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-- .NET 8.0 SDK
-- Rapid SCADA 6.x libraries in `Libraries`
-- Windows for the ScadaAdmin view and WinForms host
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-### Commands / Команды
-
-```powershell
-dotnet build .\DrvDebug.sln -c Release
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
 
-The `StartСompiling.bat` script publishes Windows x86, Windows x64 and Any CPU packages, stops local Rapid SCADA services, copies the Any CPU package to `C:\Program Files\SCADA`, restarts services and opens ScadaAdmin.
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-Скрипт `StartСompiling.bat` публикует пакеты Windows x86, Windows x64 и Any CPU, останавливает локальные службы Rapid SCADA, копирует Any CPU пакет в `C:\Program Files\SCADA`, перезапускает службы и открывает ScadaAdmin.
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
+
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
 ## Screenshots / Скриншоты
 

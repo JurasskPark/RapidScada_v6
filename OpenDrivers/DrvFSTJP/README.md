@@ -47,10 +47,23 @@ Generated tags:
 - for each enabled channel: `<CodePrefix>_Concentration`, `<CodePrefix>_MessageCode`, `<CodePrefix>_AlarmCode`, `<CodePrefix>_SensorType`, `<CodePrefix>_CalibrationRequired`, `<CodePrefix>_Threshold1`, `<CodePrefix>_Threshold2`, `<CodePrefix>_Disabled`;
 - for each relay block: `<CodePrefix>_StateLo`, `<CodePrefix>_StateHi`, `<CodePrefix>_Errors`.
 
-## Build
+## Build / Сборка
 
-```powershell
-dotnet build .\DrvFSTJP.sln -c Release -v minimal
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
+
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
+
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
 
-The projects reference Rapid SCADA assemblies from `..\DrvDebug_v6\Libraries` to keep this repository self-contained and avoid modifying the `DrvDebug_v6` sample.
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
+
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
+
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).

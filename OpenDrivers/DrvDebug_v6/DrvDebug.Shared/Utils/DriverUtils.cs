@@ -24,10 +24,16 @@ namespace Scada.Comm.Drivers.DrvDebug
         /// </summary>
         public const string DriverCode = "DrvDebug";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Диагностика и отладка обмена";
+        public const string NameEn = "Communication diagnostics";
+        public const string DescriptionRu = "Проверка каналов связи и байтовых протоколов, отправка команд, декодирование пакетов и симуляция значений тегов.";
+        public const string DescriptionEn = "Tests communication channels and byte protocols, sends commands, decodes packets and simulates tag values.";
+
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.0.0.1";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
@@ -77,8 +83,7 @@ namespace Scada.Comm.Drivers.DrvDebug
         /// </summary>
         public static string Name(bool isRussian = false)
         {
-            string text = isRussian ? "DrvDebug" : "DrvDebug";
-            return text;
+            return isRussian ? NameRu : NameEn;
         }
 
         /// <summary>
@@ -86,10 +91,7 @@ namespace Scada.Comm.Drivers.DrvDebug
         /// </summary>
         public static string Description(bool isRussian = false)
         {
-            string text = isRussian ?
-                    "Протокол DrvDebug." :
-                    "Protocol DrvDebug.";
-            return text;
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         #endregion Basic

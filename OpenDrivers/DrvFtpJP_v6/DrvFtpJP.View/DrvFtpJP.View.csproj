@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<UseWindowsForms>true</UseWindowsForms>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net10.0-windows</TargetFramework>
 		<Nullable>disable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
@@ -11,11 +11,11 @@
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<RootNamespace>Scada.Comm.Drivers.DrvFtpJP.View</RootNamespace>
-		<Version>6.4.1.1</Version>
+		<Version>6.5.0.0</Version>
 		<Authors>Yuriy Pradius</Authors>
 		<Company>Yuriy Pradius</Company>
 		<Product>DrvFtpJP</Product>
-		<Copyright>Copyright © 2025</Copyright>
+		<Copyright>Copyright © 2026</Copyright>
 		<LangVersion>preview</LangVersion>
 		<Platforms>AnyCPU;x86;x64</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -41,6 +41,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="FastColoredTextBox">
+	    <HintPath>..\Libraries\FastColoredTextBox.dll</HintPath>
+	    <Private>true</Private>
+	  </Reference>
 	  <Reference Include="ScadaCommCommon">
 	    <HintPath>..\Libraries\ScadaCommCommon.dll</HintPath>
 	  </Reference>

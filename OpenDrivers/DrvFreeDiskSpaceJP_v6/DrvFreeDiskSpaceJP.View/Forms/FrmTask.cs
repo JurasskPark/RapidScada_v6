@@ -27,6 +27,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         public Task task = new Task();                          // the task
 
         List<DriverTag> listTag = new List<DriverTag>();        // the list task
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public List<DriverTag> ListTag
         {
             get { return listTag; }
@@ -38,6 +39,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP.View.Forms
         public int sortingMethod = 0;                   // sorting method
 
         public int deviceNum;                           // the device num
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public int DeviceNum                            
         {
             get { return deviceNum; }

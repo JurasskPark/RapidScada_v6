@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
@@ -9,8 +9,8 @@
 	<Company>Community Rapid Software</Company>
 	<Product>Rapid SCADA</Product>
 	<Copyright>Copyright © 2026</Copyright>
-    <Version>6.0.2</Version>
-    <AssemblyVersion>6.0.2.1</AssemblyVersion>
+    <Version>6.5.0</Version>
+    <AssemblyVersion>6.5.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="bundleconfig.json" />

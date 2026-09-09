@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using System.ComponentModel;
+using Engine;
 using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
@@ -97,6 +98,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         private DataSource dataSource;                  // the data source
 
         private List<ImportCmd> listImportCommands;     // import commands
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<ImportCmd> ListImportCommands
         {
             get { return listImportCommands; }
@@ -104,6 +106,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus.View.Forms
         }
 
         private List<ExportCmd> listExportCommands;     // export commands
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<ExportCmd> ListExportCommands
         {
             get { return listExportCommands; }

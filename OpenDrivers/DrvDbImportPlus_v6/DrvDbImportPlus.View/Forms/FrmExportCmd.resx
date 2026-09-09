@@ -208,24 +208,6 @@
   <data name="fctResult.Hotkeys" xml:space="preserve">
     <value>Tab=IndentIncrease, Escape=ClearHints, PgUp=GoPageUp, PgDn=GoPageDown, End=GoEnd, Home=GoHome, Left=GoLeft, Up=GoUp, Right=GoRight, Down=GoDown, Insert=ReplaceMode, Del=DeleteCharRight, F3=FindNext, Shift+Tab=IndentDecrease, Shift+PgUp=GoPageUpWithSelection, Shift+PgDn=GoPageDownWithSelection, Shift+End=GoEndWithSelection, Shift+Home=GoHomeWithSelection, Shift+Left=GoLeftWithSelection, Shift+Up=GoUpWithSelection, Shift+Right=GoRightWithSelection, Shift+Down=GoDownWithSelection, Shift+Insert=Paste, Shift+Del=Cut, Ctrl+Back=ClearWordLeft, Ctrl+Space=AutocompleteMenu, Ctrl+End=GoLastLine, Ctrl+Home=GoFirstLine, Ctrl+Left=GoWordLeft, Ctrl+Up=ScrollUp, Ctrl+Right=GoWordRight, Ctrl+Down=ScrollDown, Ctrl+Insert=Copy, Ctrl+Del=ClearWordRight, Ctrl+0=ZoomNormal, Ctrl+A=SelectAll, Ctrl+B=BookmarkLine, Ctrl+C=Copy, Ctrl+E=MacroExecute, Ctrl+F=FindDialog, Ctrl+G=GoToDialog, Ctrl+H=ReplaceDialog, Ctrl+I=AutoIndentChars, Ctrl+M=MacroRecord, Ctrl+N=GoNextBookmark, Ctrl+R=Redo, Ctrl+U=UpperCase, Ctrl+V=Paste, Ctrl+X=Cut, Ctrl+Z=Undo, Ctrl+Add=ZoomIn, Ctrl+Subtract=ZoomOut, Ctrl+OemMinus=NavigateBackward, Ctrl+Shift+End=GoLastLineWithSelection, Ctrl+Shift+Home=GoFirstLineWithSelection, Ctrl+Shift+Left=GoWordLeftWithSelection, Ctrl+Shift+Right=GoWordRightWithSelection, Ctrl+Shift+B=UnbookmarkLine, Ctrl+Shift+C=CommentSelected, Ctrl+Shift+N=GoPrevBookmark, Ctrl+Shift+U=LowerCase, Ctrl+Shift+OemMinus=NavigateForward, Alt+Back=Undo, Alt+Up=MoveSelectedLinesUp, Alt+Down=MoveSelectedLinesDown, Alt+F=FindChar, Alt+Shift+Left=GoLeft_ColumnSelectionMode, Alt+Shift+Up=GoUp_ColumnSelectionMode, Alt+Shift+Right=GoRight_ColumnSelectionMode, Alt+Shift+Down=GoDown_ColumnSelectionMode</value>
   </data>
-  <data name="fctResult.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAADpEcnZEYkltcG9ydFBsdXMuVmlldywgQ3VsdHVyZT1uZXV0cmFs
-        LCBQdWJsaWNLZXlUb2tlbj1udWxsDAMAAABRU3lzdGVtLkRyYXdpbmcsIFZlcnNpb249NC4wLjAuMCwg
-        Q3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iMDNmNWY3ZjExZDUwYTNhBQEAAAAiRmFzdENv
-        bG9yZWRUZXh0Qm94TlMuU2VydmljZUNvbG9ycwYAAAAoPENvbGxhcHNlTWFya2VyRm9yZUNvbG9yPmtf
-        X0JhY2tpbmdGaWVsZCg8Q29sbGFwc2VNYXJrZXJCYWNrQ29sb3I+a19fQmFja2luZ0ZpZWxkKjxDb2xs
-        YXBzZU1hcmtlckJvcmRlckNvbG9yPmtfX0JhY2tpbmdGaWVsZCY8RXhwYW5kTWFya2VyRm9yZUNvbG9y
-        PmtfX0JhY2tpbmdGaWVsZCY8RXhwYW5kTWFya2VyQmFja0NvbG9yPmtfX0JhY2tpbmdGaWVsZCg8RXhw
-        YW5kTWFya2VyQm9yZGVyQ29sb3I+a19fQmFja2luZ0ZpZWxkBAQEBAQEFFN5c3RlbS5EcmF3aW5nLkNv
-        bG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAFFN5
-        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
-        bmcuQ29sb3IDAAAAAgAAAAX8////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAAAARuYW1lBXZhbHVlCmtu
-        b3duQ29sb3IFc3RhdGUBAAAACQcHAwAAAAoAAAAAAAAAAJYAAQAB+/////z///8KAAAAAAAAAACkAAEA
-        Afr////8////CgAAAAAAAAAAlgABAAH5/////P///woAAAAAAAAAAI0AAQAB+P////z///8KAAAAAAAA
-        AACkAAEAAff////8////CgAAAAAAAAAAlgABAAs=
-</value>
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAUAEBAAAAEAIAAbAwAAVgAAABgYAAABACAAGAcAAHEDAAAgIAAAAQAgAIkIAACJCgAAQEAAAAEA

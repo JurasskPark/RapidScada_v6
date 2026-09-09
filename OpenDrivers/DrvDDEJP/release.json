@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvDDEJP",
+  "versionProject": "DrvDDEJP.Logic/DrvDDEJP.Logic.csproj",
+  "driverUtils": "DrvDDEJP.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDDEJP",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvddejp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvDDEJP.Logic/DrvDDEJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvDDEJP.View/DrvDDEJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvDDEJP.DDE/DrvDDEJP.DDE.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ],
+      "windowsOnly": true
+    },
+    {
+      "project": "DrvDDEJP.WinForm/DrvDDEJP.WinForm.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvDDEJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "notes": [
+    "DDE работает только в Windows. / DDE is supported on Windows only.",
+    "DrvDDEJP.DDE.dll устанавливается рядом с DrvDDEJP.Logic.dll.",
+    "DdeNet: Brian Gideon and contributors; included in DrvDDEJP.DDE.dll."
+  ]
+}

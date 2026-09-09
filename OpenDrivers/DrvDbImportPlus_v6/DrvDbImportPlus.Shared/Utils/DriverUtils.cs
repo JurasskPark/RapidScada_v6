@@ -23,10 +23,16 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         public const string DriverCode = "DrvDbImportPlus";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Импорт данных из базы данных";
+        public const string NameEn = "Database import";
+        public const string DescriptionRu = "Импорт значений тегов из баз данных в Rapid SCADA и выполнение SQL-запросов по командам телеуправления.";
+        public const string DescriptionEn = "Imports tag values from databases into Rapid SCADA and executes SQL queries in response to telecontrol commands.";
+
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.5.0.0";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
@@ -68,8 +74,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         public static string Name(bool isRussian = false)
         {
-            string text = isRussian ? "Компилятор для проверки скриптов SCADA" : "Compiler for checking SCADA scripts";
-            return text;
+            return isRussian ? NameRu : NameEn;
         }
 
         /// <summary>
@@ -77,10 +82,7 @@ namespace Scada.Comm.Drivers.DrvDbImportPlus
         /// </summary>
         public static string Description(bool isRussian = false)
         {
-            string text = isRussian ?
-                    "Инструмент для проверки скриптов SCADA." :
-                    "SCADA script testing tool.";
-            return text;
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         /// <summary>

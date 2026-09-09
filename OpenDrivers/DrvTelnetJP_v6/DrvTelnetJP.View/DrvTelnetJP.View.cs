@@ -26,21 +26,13 @@ namespace Scada.Comm.Drivers.DrvTelnetJP.View
         /// Gets the driver name.
         /// <para>Возвращает имя драйвера.</para>
         /// </summary>
-        public override string Name => "Telnet JP";
+        public override string Name => DriverUtils.Name(Locale.IsRussian);
 
         /// <summary>
         /// Gets the driver description.
         /// <para>Возвращает описание драйвера.</para>
         /// </summary>
-        public override string Descr => Locale.IsRussian ?
-            "Автор: Юрий Прадиус\n" +
-            "Проверка доступности сетевых устройств по TCP-порту.\n\n" +
-            "Версия 6.3.0.0\n" +
-            "[v] Переход на .NET 8.0.\n" :
-            "Author: Yuri Pradius\n" +
-            "Checking network device availability by TCP port.\n\n" +
-            "Version 6.3.0.0\n" +
-            "[v] Migrated to .NET 8.0.\n";
+        public override string Descr => DriverUtils.Description(Locale.IsRussian);
 
         /// <summary>
         /// Loads language dictionaries.

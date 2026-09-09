@@ -9,7 +9,13 @@ namespace Scada.Comm.Drivers.DrvFSTJP
     public static class DriverUtils
     {
         public const string DriverCode = "DrvFSTJP";
-        public const string Version = "6.0.0.1";
+
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Газоанализаторы ФСТ-03х";
+        public const string NameEn = "FST-03x gas analyzers";
+        public const string DescriptionRu = "Опрос газоанализаторов ФСТ-03х по RS-232/RS-485 и передача команд устройствам.";
+        public const string DescriptionEn = "Polls FST-03x gas analyzers over RS-232/RS-485 and sends commands to the devices.";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         public static string GetFileName(int deviceNum)
         {
@@ -20,14 +26,12 @@ namespace Scada.Comm.Drivers.DrvFSTJP
 
         public static string Name(bool isRussian = false)
         {
-            return isRussian ? "ФСТ-03х JP" : "FST-03x JP";
+            return isRussian ? NameRu : NameEn;
         }
 
         public static string Description(bool isRussian = false)
         {
-            return isRussian
-                ? "Драйвер опроса газоанализаторов ФСТ-03х по RS232/RS485."
-                : "RS232/RS485 polling driver for FST-03x gas analyzers.";
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         public static int NormalizeAddress(int address)

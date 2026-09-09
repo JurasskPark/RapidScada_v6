@@ -1,4 +1,4 @@
-using DrvFtpJP.Shared.FilesDirectorys;
+﻿using DrvFtpJP.Shared.FilesDirectorys;
 using FluentFTP;
 using Scada.Comm.Drivers.DrvFtpJP;
 using Scada.Comm.Drivers.DrvFtpJP.View.Forms;

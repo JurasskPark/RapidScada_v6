@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvFtpJP",
+  "versionProject": "DrvFtpJP.Logic/DrvFtpJP.Logic.csproj",
+  "driverUtils": "DrvFtpJP.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFtpJP_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvftpjp"
+    },
+    {
+      "label": "English topic",
+      "url": "https://forum.rapidscada.org/?topic=drvftpjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvFtpJP.Logic/DrvFtpJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvFtpJP.View/DrvFtpJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvFtpJP.Winform/DrvFtpJP.WinForm.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvFtpJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "notes": [
+    "FluentFTP: Robin Rodricks and FluentFTP Contributors; MIT License.",
+    "https://github.com/robinrodricks/FluentFTP",
+    "Редактор / Editor: FastColoredTextBox (FastColorTextBoxCore)."
+  ]
+}

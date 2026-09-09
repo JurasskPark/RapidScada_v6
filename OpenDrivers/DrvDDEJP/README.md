@@ -3,10 +3,8 @@
 ![DrvDDEJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDDEJP&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows&color=lightgrey)
-[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](https://www.apache.org/licenses/LICENSE-2.0)
-
 
 **DrvDDEJP** is a Rapid SCADA communication driver for reading real-time values from Windows applications through the Dynamic Data Exchange (DDE) protocol.
 
@@ -186,7 +184,7 @@ English:
 
 ## Safety Notes / Замечания по безопасности
 
-- DDE is a Windows technology. The driver view is built for `net8.0-windows`, and practical DDE operation requires Windows.
+- DDE is a Windows technology. The driver view is built for `net10.0-windows`, and practical DDE operation requires Windows.
 - DDE communication depends on the target application, its service name, topic syntax and Windows session/access context.
 - If a topic fails, the driver disconnects the DDE client for that topic and suppresses repeated error messages until `ReconnectDelay` expires.
 - Empty or invalid returned values are logged and are not written to device data.
@@ -194,7 +192,7 @@ English:
 - Detailed logging writes DDE requests, responses and decoded values to the ScadaComm log. Avoid permanent detailed logging for sensitive data.
 - Rapid SCADA telecontrol command sending is not implemented by the driver runtime.
 
-- DDE - технология Windows. View-модуль собирается под `net8.0-windows`, а практическая работа DDE требует Windows.
+- DDE - технология Windows. View-модуль собирается под `net10.0-windows`, а практическая работа DDE требует Windows.
 - DDE-обмен зависит от целевого приложения, имени сервиса, синтаксиса topic и контекста Windows-сессии/доступа.
 - При ошибке topic драйвер отключает DDE-клиент этого topic и подавляет повторные сообщения до истечения `ReconnectDelay`.
 - Пустые или некорректные возвращённые значения логируются и не записываются в данные КП.
@@ -207,7 +205,7 @@ English:
 ```text
 DrvDDEJP/
 ├── DrvDDEJP.sln                    # Solution file
-├── StartСompiling.bat              # Build and local deployment helper
+├── StartСompiling.bat              # Build ZIP package
 ├── README.md                       # This file
 │
 ├── DdeNet/                         # Embedded DDE client/server library sources
@@ -225,21 +223,24 @@ DrvDDEJP/
 
 ## Build / Сборка
 
-### Prerequisites / Требования
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-- .NET 8.0 SDK
-- Rapid SCADA 6.x libraries in `Libraries`
-- Windows for DDE operation and the ScadaAdmin view
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-### Commands / Команды
-
-```powershell
-dotnet build .\DrvDDEJP.sln -c Release
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
 
-The `StartСompiling.bat` script restores the solution, builds `DrvDDEJP.DDE`, publishes Logic and View to `Release\anycpu`, stops local Rapid SCADA services, copies files to `C:\Program Files\SCADA`, restarts services and opens ScadaAdmin. It must be run as Administrator.
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-Скрипт `StartСompiling.bat` восстанавливает решение, собирает `DrvDDEJP.DDE`, публикует Logic и View в `Release\anycpu`, останавливает локальные службы Rapid SCADA, копирует файлы в `C:\Program Files\SCADA`, перезапускает службы и открывает ScadaAdmin. Его нужно запускать от имени администратора.
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
+
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
 ## Screenshots / Скриншоты
 

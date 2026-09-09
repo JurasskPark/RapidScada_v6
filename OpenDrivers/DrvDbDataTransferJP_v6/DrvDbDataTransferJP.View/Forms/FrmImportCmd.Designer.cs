@@ -330,7 +330,6 @@
             fctCmdQuery.Name = "fctCmdQuery";
             fctCmdQuery.Paddings = new Padding(0);
             fctCmdQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctCmdQuery.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctCmdQuery.ServiceColors");
             fctCmdQuery.Size = new Size(1110, 98);
             fctCmdQuery.TabIndex = 17;
             fctCmdQuery.Zoom = 100;
@@ -376,7 +375,6 @@
             fctInsertQuery.Name = "fctInsertQuery";
             fctInsertQuery.Paddings = new Padding(0);
             fctInsertQuery.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctInsertQuery.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctInsertQuery.ServiceColors");
             fctInsertQuery.Size = new Size(1110, 98);
             fctInsertQuery.TabIndex = 18;
             fctInsertQuery.Zoom = 100;
@@ -613,7 +611,6 @@
             fctResult.Name = "fctResult";
             fctResult.Paddings = new Padding(0);
             fctResult.SelectionColor = Color.FromArgb(60, 0, 0, 255);
-            fctResult.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctResult.ServiceColors");
             fctResult.Size = new Size(1122, 454);
             fctResult.TabIndex = 0;
             fctResult.Zoom = 100;

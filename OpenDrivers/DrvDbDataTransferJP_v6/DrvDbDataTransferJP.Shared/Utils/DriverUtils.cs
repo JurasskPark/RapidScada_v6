@@ -1,7 +1,6 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Azure;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -23,10 +22,16 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferJP
         /// </summary>
         public const string DriverCode = "DrvDbDataTransferJP";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Передача данных между базами данных";
+        public const string NameEn = "Database data transfer";
+        public const string DescriptionRu = "Передача данных из базы-источника в базу-приёмник с помощью SQL-запросов и обновление тегов Rapid SCADA.";
+        public const string DescriptionEn = "Transfers data from a source database to a target database using SQL queries and updates Rapid SCADA tags.";
+
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.5.0.1";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
@@ -68,8 +73,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferJP
         /// </summary>
         public static string Name(bool isRussian = false)
         {
-            string text = isRussian ? "Компилятор для проверки скриптов SCADA" : "Compiler for checking SCADA scripts";
-            return text;
+            return isRussian ? NameRu : NameEn;
         }
 
         /// <summary>
@@ -77,10 +81,7 @@ namespace Scada.Comm.Drivers.DrvDbDataTransferJP
         /// </summary>
         public static string Description(bool isRussian = false)
         {
-            string text = isRussian ?
-                    "Инструмент для проверки скриптов SCADA." :
-                    "SCADA script testing tool.";
-            return text;
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         /// <summary>

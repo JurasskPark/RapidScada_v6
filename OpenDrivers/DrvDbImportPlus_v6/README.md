@@ -3,7 +3,7 @@
 ![DrvDbImportPlus](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbImportPlus&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%2F%20Linux&color=lightgrey)
 
 **DrvDbImportPlus** is a Rapid SCADA communication driver for importing current tag values from relational databases and InfluxDB, and for sending Rapid SCADA telecontrol commands back to a database query.
@@ -283,7 +283,7 @@ English:
 ```text
 DrvDbImportPlus_v6/
 ├── DrvDbImportPlus.sln                  # Solution file
-├── StartСompilingFull.bat               # Build and deployment helper
+├── StartСompiling.bat                   # Build ZIP package
 ├── README.md                            # This file
 │
 ├── DrvDbImportPlus.Logic/               # Runtime driver for ScadaComm
@@ -309,22 +309,30 @@ DrvDbImportPlus_v6/
 
 ## Build / Сборка
 
-### Prerequisites / Требования
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-- .NET 8.0 SDK
-- Rapid SCADA 6.5 libraries in `Libraries`
-- Windows for the ScadaAdmin view and standalone WinForms UI
-- Database provider packages used by the selected data source
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-### Commands / Команды
-
-```powershell
-dotnet build .\DrvDbImportPlus.sln -c Release
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
 
-The `StartСompilingFull.bat` script publishes runtime packages for Windows x64, Windows x86 and Linux x64 logic, and can copy files to a local Rapid SCADA installation.
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-Скрипт `StartСompilingFull.bat` публикует пакеты для Windows x64, Windows x86 и runtime-логики Linux x64, а также может копировать файлы в локальную установку Rapid SCADA.
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
+
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
+
+During a build, View dependencies remain next to `DrvDbImportPlus.View.dll`
+so the WinForms designer and the standalone application can resolve them.
+Publishing the View project moves its dependencies into the `DrvDbImportPlus.View`
+subdirectory for Rapid SCADA. Publishing the standalone application keeps them next to its executable.
+
 
 ## Videos / Видео
 

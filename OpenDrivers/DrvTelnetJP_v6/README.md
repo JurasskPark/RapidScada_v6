@@ -3,19 +3,18 @@
 ![DrvTelnetJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvTelnetJP&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%7C%20Linux&color=lightgrey)
-[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
 ## Overview / Обзор
 
 DrvTelnetJP is a Rapid SCADA 6 driver for checking TCP port availability. The driver tries to open a TCP connection to each configured host and port, then writes the result to Rapid SCADA input channels as an Off/On value.
 
-The runtime driver is built for `.NET 8.0`. The configuration module uses Windows Forms and is built for `net8.0-windows`.
+The runtime driver is built for `.NET 10.0`. The configuration module uses Windows Forms and is built for `net10.0-windows`.
 
 DrvTelnetJP - драйвер Rapid SCADA 6 для проверки доступности TCP-портов. Драйвер пытается открыть TCP-соединение с каждым настроенным узлом и портом, затем записывает результат в каналы Rapid SCADA в формате Выкл/Вкл.
 
-Исполняемая часть драйвера собирается под `.NET 8.0`. Модуль настройки использует Windows Forms и собирается под `net8.0-windows`.
+Исполняемая часть драйвера собирается под `.NET 10.0`. Модуль настройки использует Windows Forms и собирается под `net10.0-windows`.
 
 ## Features / Возможности
 
@@ -146,19 +145,24 @@ A closed result means that a TCP connection was not established within the confi
 
 ## Build / Сборка
 
-English:
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-1. Open `DrvTelnetJP.sln` in Visual Studio.
-2. Restore references to Rapid SCADA assemblies if required.
-3. Build the solution for Release configuration.
-4. Copy the generated driver files to the corresponding Rapid SCADA driver directories.
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-Русский:
+```cmd
+StartСompiling.bat -Runtime win-x64
+```
 
-1. Откройте `DrvTelnetJP.sln` в Visual Studio.
-2. При необходимости восстановите ссылки на сборки Rapid SCADA.
-3. Соберите решение в конфигурации Release.
-4. Скопируйте полученные файлы драйвера в соответствующие каталоги драйверов Rapid SCADA.
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
+
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
+
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
 ## Video / Видео
 

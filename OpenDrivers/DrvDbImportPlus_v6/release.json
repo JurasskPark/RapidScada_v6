@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvDbImportPlus",
+  "versionProject": "DrvDbImportPlus.Logic/DrvDbImportPlus.Logic.csproj",
+  "driverUtils": "DrvDbImportPlus.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Михаил Ширяев",
+      "Доработка: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Mikhail Shiryaev",
+      "Revision: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDbImportPlus_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=%D0%B4%D1%80%D0%B0%D0%B9%D0%B2%D0%B5%D1%80-odbc"
+    },
+    {
+      "label": "English topic",
+      "url": "https://forum.rapidscada.org/?topic=drvdbimportplus"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64"
+  ],
+  "components": [
+    {
+      "project": "DrvDbImportPlus.Logic/DrvDbImportPlus.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvDbImportPlus.View/DrvDbImportPlus.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvDbImportPlus.Winform/DrvDbImportPlus.Winform.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvDbImportPlus.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "notes": [
+    "Для SQL-зависимостей выберите пакет конкретной ОС и архитектуры. AnyCPU-пакет не выпускается: загрузчик Rapid SCADA не выбирает runtime-вариант SQL-клиента из вложенных папок.",
+    "Choose an OS- and architecture-specific package for SQL dependencies. A portable AnyCPU package is not provided because the Rapid SCADA loader does not select the SQL client runtime variant from nested folders."
+  ]
+}

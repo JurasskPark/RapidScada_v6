@@ -30,6 +30,7 @@ namespace Scada.Server.Modules.ModArcMicrosoftSqlJP.View.Controls
         /// Gets or sets the database options being edited.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal IDatabaseOptions DatabaseOptions
         {
             get

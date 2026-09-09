@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvTelnetJP",
+  "versionProject": "DrvTelnetJP.Logic/DrvTelnetJP.Logic.csproj",
+  "driverUtils": "DrvTelnetJP.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvTelnetJP_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvtelnetjp"
+    },
+    {
+      "label": "English topic",
+      "url": "https://forum.rapidscada.org/?topic=drvtelnetjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvTelnetJP.Logic/DrvTelnetJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvTelnetJP.View/DrvTelnetJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvTelnetJP.WinForm/DrvTelnetJP.WinForm.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvTelnetJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ]
+}

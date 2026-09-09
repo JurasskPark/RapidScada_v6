@@ -3,7 +3,7 @@
 ![DrvFreeDiskSpaceJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvFreeDiskSpaceJP&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%7C%20Linux&color=lightgrey)
 [![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -160,25 +160,24 @@ English:
 
 ## Build / Сборка
 
-English:
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-The solution targets .NET 8. The logic project uses `net8.0`, and the configuration UI uses `net8.0-windows`.
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-The supplied `StartСompiling.bat` publishes:
+```cmd
+StartСompiling.bat -Runtime win-x64
+```
 
-- `win-x32` logic and view files;
-- `win-x64` logic and view files;
-- `linux-x64` logic files, with the ScadaAdmin files copied from the Windows build layout.
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-Русский:
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
 
-Решение рассчитано на .NET 8. Проект логики использует `net8.0`, а интерфейс настройки использует `net8.0-windows`.
-
-Поставляемый `StartСompiling.bat` публикует:
-
-- файлы логики и View для `win-x32`;
-- файлы логики и View для `win-x64`;
-- файлы логики для `linux-x64`, при этом файлы ScadaAdmin копируются из структуры Windows-сборки.
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
 ## Screenshots / Скриншоты
 

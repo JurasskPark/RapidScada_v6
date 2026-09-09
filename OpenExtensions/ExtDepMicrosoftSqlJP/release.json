@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "id": "ExtDepMicrosoftSqlJP",
+  "versionProject": "ExtDepMicrosoftSqlJP/ExtDepMicrosoftSqlJP.csproj",
+  "display": {
+    "NameRu": "Развёртывание в Microsoft SQL Server",
+    "NameEn": "Deployment to Microsoft SQL Server",
+    "DescriptionRu": "Расширение обеспечивает передачу проекта в базу данных Microsoft SQL Server.",
+    "DescriptionEn": "The extension provides project transfer to a Microsoft SQL Server database."
+  },
+  "authors": {
+    "ru": [
+      "Автор: Михаил Ширяев",
+      "Доработка: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Mikhail Shiryaev",
+      "Revision: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenExtensions/ExtDepMicrosoftSqlJP",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=extdepmicrosoftsqljp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86"
+  ],
+  "components": [
+    {
+      "project": "ExtDepMicrosoftSqlJP/ExtDepMicrosoftSqlJP.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "assets": [
+    {
+      "source": "ExtDepMicrosoftSqlJP/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "source": "ExtDepMicrosoftSqlJP/Config/ExtDepMicrosoftSqlJP.xml",
+      "destination": "SCADA/ScadaAdmin/Config/ExtDepMicrosoftSqlJP.xml"
+    }
+  ],
+  "notes": [
+    "Для приложений Сервера, Коммуникатора и Вебстанции используйте пакет MicrosoftSqlStorage.",
+    "Use the MicrosoftSqlStorage package for Server, Communicator and Webstation.",
+    "Для SQL-зависимостей выберите пакет конкретной ОС и архитектуры. AnyCPU-пакет не выпускается: загрузчик Rapid SCADA не выбирает runtime-вариант SQL-клиента из вложенных папок.",
+    "Choose an OS- and architecture-specific package for SQL dependencies. A portable AnyCPU package is not provided because the Rapid SCADA loader does not select the SQL client runtime variant from nested folders."
+  ]
+}

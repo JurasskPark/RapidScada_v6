@@ -24,11 +24,17 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         /// </summary>
         public const string DriverCode = "DrvFtpJP";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "FTP-клиент";
+        public const string NameEn = "FTP client";
+        public const string DescriptionRu = "Выполнение сценариев загрузки, скачивания, создания, переименования и удаления файлов и каталогов на FTP-сервере.";
+        public const string DescriptionEn = "Executes scenarios for uploading, downloading, creating, renaming and deleting files and directories on an FTP server.";
+
         /// <summary>
         /// The driver version.
         /// <para>Версия драйвера.</para>
         /// </summary>
-        public const string Version = "6.4.1.1";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
@@ -90,8 +96,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         /// <returns>Application name.</returns>
         public static string Name(bool isRussian = false)
         {
-            string text = isRussian ? "Ftp клиент" : "Ftp client";
-            return text;
+            return isRussian ? NameRu : NameEn;
         }
 
         /// <summary>
@@ -102,25 +107,7 @@ namespace Scada.Comm.Drivers.DrvFtpJP
         /// <returns>Application description.</returns>
         public static string Description(bool isRussian = false)
         {
-            string text = isRussian ?
-                    @$"Выполнение операций на FTP сервере.
-
-Библиотека FluentFTP
-Версия: 52.0.0
-Автор: Robin Rodricks, FluentFTP Contributors
-Лицензия: MIT License
-Сайт: https://github.com/robinrodricks/FluentFTP
-" 
-                    :
-                    @$"Performing operations on the FTP server.
-
-FluentFTP Library
-Version: 52.0.0
-Author: Robin Rodricks, FluentFTP Contributors
-License: MIT License
-Site: https://github.com/robinrodricks/FluentFTP
-";
-            return text;
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         /// <summary>

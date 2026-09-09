@@ -1,4 +1,4 @@
-﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Globalization;
@@ -22,10 +22,16 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         /// </summary>
         public const string DriverCode = "DrvFreeDiskSpaceJP";
 
+        // Shared display metadata for the driver UI and generated release README.
+        public const string NameRu = "Контроль свободного места на дисках";
+        public const string NameEn = "Free disk space monitoring";
+        public const string DescriptionRu = "Контроль свободного места на дисках с передачей состояния в Rapid SCADA и выполнением настроенных действий при достижении порога.";
+        public const string DescriptionEn = "Monitors free disk space, reports disk status to Rapid SCADA and performs configured actions when a threshold is reached.";
+
         /// <summary>
         /// The driver version.
         /// </summary>
-        public const string Version = "6.4.0.0";
+        public static string Version => typeof(DriverUtils).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// The default filename of the configuration.
@@ -68,8 +74,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         /// </summary>
         public static string Name(bool isRussian = false)
         {
-            string text = isRussian ? "Свободное дисковое пространство" : "Free disk space";
-            return text;
+            return isRussian ? NameRu : NameEn;
         }
 
         /// <summary>
@@ -77,10 +82,7 @@ namespace Scada.Comm.Drivers.DrvFreeDiskSpaceJP
         /// </summary>
         public static string Description(bool isRussian = false)
         {
-            string text = isRussian ?
-                    "Мониторинг свободного дискового пространства." :
-                    "Monitoring free disk space.";
-            return text;
+            return isRussian ? DescriptionRu : DescriptionEn;
         }
 
         /// <summary>

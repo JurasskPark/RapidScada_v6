@@ -1,8 +1,11 @@
 # PlgMimCalendarJP
 
 ![PlgMimCalendarJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimCalendarJP&color=4bb60e)
-[![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](LICENSE)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+
+![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
+![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%2F%20Linux&color=lightgrey)
+
 
 **Mimic Calendar** — a Rapid SCADA plugin that provides calendar components for mimic diagrams.  
 **Календарь мнемосхем** — плагин Rapid SCADA, добавляющий календарные компоненты для мнемосхем.
@@ -43,7 +46,7 @@ PlgMimCalendarJP adds six calendar components to the mimic editor toolbox. Each 
 ```
 PlgMimCalendarJP/
 ├── PlgMimCalendarJP.sln              # Solution file
-├── StartСompiling.bat                # Build and deploy script
+├── StartСompiling.bat                # Build ZIP package
 ├── README.md                         # This file
 │
 ├── PlgMimCalendarJP/                 # Web plugin project
@@ -77,34 +80,26 @@ PlgMimCalendarJP/
     └── PlgMimCalendarJPView.cs       # Plugin view entry point
 ```
 
-## Build and Deploy / Сборка и развёртывание
+## Build / Сборка
 
-### Prerequisites / Требования
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-- .NET 8.0 SDK
-- Rapid SCADA installed to `C:\Program Files\SCADA`
-- Administrator rights for deployment
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-### Quick Deploy / Быстрое развёртывание
-
-Run `StartСompiling.bat` as Administrator. The script will:
-
-1. Build the web plugin (`PlgMimCalendarJP`)
-2. Build the admin view plugin (`PlgMimCalendarJP.View`)
-3. Stop the ScadaWeb service
-4. Copy binaries to the SCADA installation
-5. Deploy language files and web resources
-6. Verify the dictionary key in the deployed language file
-7. Start the ScadaWeb service
-
-Запустите `StartСompiling.bat` от имени Администратора. Скрипт выполнит сборку, развёртывание и перезапуск службы.
-
-### Manual Build / Ручная сборка
-
-```bash
-dotnet build PlgMimCalendarJP/PlgMimCalendarJP.csproj -c Release
-dotnet build PlgMimCalendarJP.View/PlgMimCalendarJP.View.csproj -c Release
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
+
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
+
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
+
+Options, package layout and README metadata: [release packaging](../../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../../Doc/RELEASE_PACKAGING.md).
 
 ## Channel Binding / Привязка каналов
 

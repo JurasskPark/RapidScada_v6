@@ -1,9 +1,9 @@
-﻿# DrvDbDataTransferJP
+# DrvDbDataTransferJP
 
-![DrvDbImportPlus](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbDataTransferJP&color=4bb60e)
+![DrvDbDataTransferJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbDataTransferJP&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%2F%20Linux&color=lightgrey)
 
 **DrvDbDataTransferJP** is a Rapid SCADA 6 communication driver for moving data between databases. It executes a `SELECT` query against a source database, then writes the returned rows to a target database using a parameterized `INSERT`, `UPDATE`, `MERGE` or UPSERT command.
@@ -305,38 +305,30 @@ Check the communication line log after deployment. It should show the expected d
 
 ## Build / Сборка
 
-Requirements:
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-- .NET 8 SDK
-- Rapid SCADA 6.5 libraries in `Libraries`
-- Windows for the View and WinForms projects
-
-Build solution:
-
-```powershell
-dotnet build .\DrvDbDataTransferJP.sln -v minimal
-```
-
-Build release packages:
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
 ```cmd
-StartСompiling.bat
+StartСompiling.bat -Runtime win-x64
 ```
 
-Package-only mode:
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-```cmd
-StartСompiling.bat --package-only
-```
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
 
-The build script creates platform folders such as:
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
-```text
-DrvDbDataTransferJP_6.5.0.1_win-x64\Release\SCADA
-DrvDbDataTransferJP_6.5.0.1_win-x32\Release\SCADA
-DrvDbDataTransferJP_6.5.0.1_linux-x64\Release\SCADA
-DrvDbDataTransferJP_6.5.0.1_anycpu\Release\SCADA
-```
+During a build, View dependencies remain next to `DrvDbDataTransferJP.View.dll`
+so the WinForms designer and the standalone application can resolve them.
+Publishing the View project moves its dependencies into the `DrvDbDataTransferJP.View`
+subdirectory for Rapid SCADA. Publishing the standalone application keeps them next to its executable.
+
 
 ## Project Structure / Структура проекта
 

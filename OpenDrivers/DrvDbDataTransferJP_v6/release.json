@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvDbDataTransferJP",
+  "versionProject": "DrvDbDataTransferJP.Logic/DrvDbDataTransferJP.Logic.csproj",
+  "driverUtils": "DrvDbDataTransferJP.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDbDataTransferJP_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvdbdatatransferjp"
+    },
+    {
+      "label": "English topic",
+      "url": "https://forum.rapidscada.org/?topic=drvdbdatatransferjp"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "linux-x64"
+  ],
+  "components": [
+    {
+      "project": "DrvDbDataTransferJP.Logic/DrvDbDataTransferJP.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvDbDataTransferJP.View/DrvDbDataTransferJP.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvDbDataTransferJP.Winform/DrvDbDataTransferJP.Winform.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvDbDataTransferJP.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ],
+  "notes": [
+    "Для SQL-зависимостей выберите пакет конкретной ОС и архитектуры. AnyCPU-пакет не выпускается: загрузчик Rapid SCADA не выбирает runtime-вариант SQL-клиента из вложенных папок.",
+    "Choose an OS- and architecture-specific package for SQL dependencies. A portable AnyCPU package is not provided because the Rapid SCADA loader does not select the SQL client runtime variant from nested folders."
+  ]
+}

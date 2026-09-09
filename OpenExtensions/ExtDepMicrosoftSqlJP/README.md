@@ -3,7 +3,7 @@
 ![ExtDepMicrosoftSqlJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtDepMicrosoftSqlJP&color=4bb60e)
 
 ![Rapid SCADA](https://jurasskpark.ru/service/budges/?label=Rapid%20SCADA&message=6.x&color=blue)
-![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=8.0&color=purple)
+![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 [![License](https://jurasskpark.ru/service/budges/?label=license&message=Apache%202.0&color=blue)](../../../License.txt)
 
 
@@ -125,21 +125,24 @@ ExtDepMicrosoftSqlJP/
 
 ## Build / Сборка
 
-Build the extension project:
+Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
 
-Сборка проекта расширения:
+Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
 
-```powershell
-dotnet build C:\Projects\scada-v6-develop\scada-v6-develop\ScadaAdmin\OpenExtensions\ExtDepMicrosoftSqlJP\ExtDepMicrosoftSqlJP.csproj -c Release
+```cmd
+StartСompiling.bat -Runtime win-x64
 ```
 
-Or build all open Administrator extensions:
+Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
+and SHA-256 files are written to the repository's `Releases` directory.
+Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
 
-Или сборка всех открытых расширений Администратора:
+Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
+сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
+сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
 
-```powershell
-dotnet build C:\Projects\scada-v6-develop\scada-v6-develop\ScadaAdmin\OpenExtensions\OpenExtensions.sln -c Release
-```
+Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
+Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
 
 ## Deployment / Развёртывание
 
@@ -149,8 +152,8 @@ Copy the extension files to the Administrator application directory:
 
 | Source | Target |
 |---|---|
-| `bin\Release\net8.0-windows\ExtDepMicrosoftSqlJP.dll` | `C:\Program Files\SCADA\ScadaAdmin\Lib\ExtDepMicrosoftSqlJP.dll` |
-| `bin\Release\net8.0-windows\ExtDepMicrosoftSqlJP\*` | `C:\Program Files\SCADA\ScadaAdmin\Lib\ExtDepMicrosoftSqlJP\` |
+| `bin\Release\net10.0-windows\ExtDepMicrosoftSqlJP.dll` | `C:\Program Files\SCADA\ScadaAdmin\Lib\ExtDepMicrosoftSqlJP.dll` |
+| `bin\Release\net10.0-windows\ExtDepMicrosoftSqlJP\*` | `C:\Program Files\SCADA\ScadaAdmin\Lib\ExtDepMicrosoftSqlJP\` |
 | `Config\ExtDepMicrosoftSqlJP.xml` | `C:\Program Files\SCADA\ScadaAdmin\Config\ExtDepMicrosoftSqlJP.xml` |
 | `Lang\ExtDepMicrosoftSqlJP.en-GB.xml` | `C:\Program Files\SCADA\ScadaAdmin\Lang\ExtDepMicrosoftSqlJP.en-GB.xml` |
 | `Lang\ExtDepMicrosoftSqlJP.ru-RU.xml` | `C:\Program Files\SCADA\ScadaAdmin\Lang\ExtDepMicrosoftSqlJP.ru-RU.xml` |
@@ -166,13 +169,13 @@ Register the extension in the Administrator configuration:
 ## Requirements / Требования
 
 - Rapid SCADA 6 Administrator
-- .NET 8
+- .NET 10
 - Microsoft SQL Server
 - SQL Server user permissions to create schemas, tables, views, foreign keys, and write project data
 - `Microsoft.Data.SqlClient` runtime files copied to the `ExtDepMicrosoftSqlJP` dependency subfolder
 
 - Администратор Rapid SCADA 6
-- .NET 8
+- .NET 10
 - Microsoft SQL Server
 - Права пользователя SQL Server на создание схем, таблиц, представлений, внешних ключей и запись данных проекта
 - Runtime-файлы `Microsoft.Data.SqlClient`, скопированные в подпапку зависимостей `ExtDepMicrosoftSqlJP`

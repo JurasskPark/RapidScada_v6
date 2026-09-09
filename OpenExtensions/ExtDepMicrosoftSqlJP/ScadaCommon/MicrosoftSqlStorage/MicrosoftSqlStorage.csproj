@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.Storages.MicrosoftSqlStorage</RootNamespace>
-    <Version>6.4.0</Version>
+    <Version>6.5.0</Version>
     <Authors>Mikhail Shiryaev, Yuriy Pradius</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>

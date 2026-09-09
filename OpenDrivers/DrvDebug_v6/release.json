@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "DrvDebug",
+  "versionProject": "DrvDebug.Logic/DrvDebug.Logic.csproj",
+  "driverUtils": "DrvDebug.Shared/Utils/DriverUtils.cs",
+  "authors": {
+    "ru": [
+      "Автор: Юрий Прадиус"
+    ],
+    "en": [
+      "Author: Yuriy Pradius"
+    ]
+  },
+  "sourceUrl": "https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDebug_v6",
+  "forums": [
+    {
+      "label": "Русская тема / Russian topic",
+      "url": "https://forum.rapidscada.ru/?topic=drvdebug"
+    }
+  ],
+  "runtimes": [
+    "win-x64",
+    "win-x86",
+    "anycpu"
+  ],
+  "components": [
+    {
+      "project": "DrvDebug.Logic/DrvDebug.Logic.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaComm/Drv"
+      ]
+    },
+    {
+      "project": "DrvDebug.View/DrvDebug.View.csproj",
+      "kind": "library",
+      "destinations": [
+        "SCADA/ScadaAdmin/Lib"
+      ],
+      "languageDestination": "SCADA/ScadaAdmin/Lang"
+    },
+    {
+      "project": "DrvDebug.WinForm/DrvDebug.WinForm.csproj",
+      "kind": "app",
+      "destinations": [
+        "App"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "source": "DrvDebug.View/Lang",
+      "destination": "SCADA/ScadaAdmin/Lang"
+    }
+  ]
+}
