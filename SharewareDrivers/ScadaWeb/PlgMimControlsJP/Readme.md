@@ -469,16 +469,13 @@ The demonstration shows the capacitance components on the Rapid SCADA working di
 
 ## Screenshots / Скриншоты
 
-### Runtime mimic / Рабочая мнемосхема
-
 ![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_001.png)
 ![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_002.png)
-
-### Mimic editor / Редактор мнемосхемы
-
 ![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_003.png)
-
-
+![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_004.png)
+![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_005.png)
+![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_006.png)
+![PlgMimControlsJP components in a running Rapid SCADA mimic](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/refs/heads/master/SharewareDrivers/ScadaWeb/PlgMimControlsJP/Source/PlgMimControlsJP_007.png)
 
 ## License / Лицензия
 
