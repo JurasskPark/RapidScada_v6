@@ -1,8 +1,8 @@
 # PlgMimControlsJP — Operator Controls for Rapid SCADA
 
-![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
-![Version](https://img.shields.io/badge/version-6.0.1-green.svg)
+![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.5-blue.svg)
+![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)
+![Version](https://img.shields.io/badge/version-6.5.0.15-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
 
 ## About This Guide / О руководстве
@@ -11,15 +11,19 @@ This guide explains how engineers, operators and administrators use `PlgMimContr
 
 Это руководство предназначено для инженеров, операторов и администраторов, которые используют `PlgMimControlsJP` в мнемосхемах Rapid SCADA. В нём описаны состав компонентов, привязка каналов, подтверждение команд, качество данных, формы ввода значений, темы, установка, активация и устранение неполадок.
 
-`PlgMimControlsJP` version `6.0.1` adds thirteen localized components to the **CONTROLS / УПРАВЛЕНИЕ** toolbox group. The plugin uses the public standard Mimic contract and works with both the standard Mimic Editor and compatible alternative editors. It does not require `PlgMimicJP` or a separate backend API.
+`PlgMimControlsJP` version `6.5.0.15` provides nineteen localized control components and the autonomous `ControlsDemo` component in the **CONTROLS / УПРАВЛЕНИЕ** toolbox. The plugin uses the public standard Mimic contract and works with both the standard Mimic Editor and compatible alternative editors. It does not require `PlgMimicJP` or a separate backend API.
 
-`PlgMimControlsJP` версии `6.0.1` добавляет тринадцать локализованных компонентов в группу **CONTROLS / УПРАВЛЕНИЕ**. Плагин использует публичный стандартный контракт Mimic и работает со стандартным Mimic Editor и совместимыми альтернативными редакторами. Зависимость от `PlgMimicJP` и отдельный серверный API не требуются.
+`PlgMimControlsJP` версии `6.5.0.15` предоставляет девятнадцать локализованных компонентов управления и автономный компонент `ControlsDemo` в палитре **CONTROLS / УПРАВЛЕНИЕ**. Плагин использует публичный стандартный контракт Mimic и работает со стандартным Mimic Editor и совместимыми альтернативными редакторами. Зависимость от `PlgMimicJP` и отдельный серверный API не требуются.
+
+Authoring is free of the component runtime license: engineers can place, configure, copy and save ordinary controls without installing a local ControlsJP license. Executing those controls in Webstation requires a valid server-side `PlgMimControlsJP` license. `ControlsDemo` works without that license using only simulated data.
+
+Для проектирования не требуется лицензия исполнения компонента: обычные элементы можно добавлять, настраивать, копировать и сохранять без локальной лицензии ControlsJP. Для их работы в Вебстанции требуется действующая серверная лицензия `PlgMimControlsJP`. `ControlsDemo` работает без этой лицензии исключительно на искусственных данных.
 
 ## Features / Возможности
 
 English:
 
-- thirteen display, selection, command and multi-value form components;
+- nineteen display, selection, command and multi-value form components, plus an autonomous demo;
 - standard Rapid SCADA input and output channel bindings;
 - numeric, UTF-8 text and exact Hex-byte commands where applicable;
 - confirmed-state rendering without optimistic state changes;
@@ -29,13 +33,17 @@ English:
 - three layouts for numeric step buttons;
 - built-in numeric and RUS/ENG on-screen keyboards;
 - a configurable multi-row value input form with six editor types;
+- separate press/release commands, a one-shot PLC handshake and a mechanism command panel;
+- process value and accepted setpoint with Inline, Stacked and Popup layouts;
+- button and rotary mode selection, plus searchable dropdown and list layouts;
+- PNG, JPG and SVG button images, four image positions, scaling and multiline captions;
 - four complete light and dark CSS themes;
 - Russian and English toolbox names, properties and runtime captions;
 - safe editor preview: commands are disabled while a mimic is being edited.
 
 Русский:
 
-- тринадцать компонентов отображения, выбора, управления и группового ввода;
+- девятнадцать компонентов отображения, выбора, управления и группового ввода, а также автономное демо;
 - стандартные привязки к входным и выходным каналам Rapid SCADA;
 - числовые команды, текст UTF-8 и точные Hex-байты для поддерживаемых компонентов;
 - отображение только подтверждённого состояния без оптимистического переключения;
@@ -45,6 +53,10 @@ English:
 - три варианта размещения кнопок шага числового ввода;
 - встроенные цифровая и экранная RUS/ENG-клавиатуры;
 - настраиваемая многострочная форма ввода с шестью типами редакторов;
+- отдельные команды нажатия и отпускания, однократная команда с подтверждением цикла ПЛК и панель команд механизма;
+- факт и принятая уставка с расположением Inline, Stacked и Popup;
+- выбор режима кнопкой или поворотным переключателем, выпадающий список и список с поиском;
+- изображения PNG, JPG и SVG в кнопках, четыре положения, масштабирование и многострочные подписи;
 - четыре полные светлые и тёмные CSS-темы;
 - русские и английские названия компонентов, свойств и рабочих надписей;
 - безопасное превью в редакторе, в котором отправка команд заблокирована.
@@ -53,25 +65,25 @@ English:
 
 English:
 
-1. Install, enable and activate `PlgMimControlsJP`, then restart SCADA Web.
+1. Install and enable `PlgMimControlsJP`, then restart SCADA Web. A component license is not required for editing.
 2. Open a mimic in a compatible Mimic Editor.
 3. Select a component from the **CONTROLS** group and place it on the canvas.
 4. For a display component, set its input channel.
-5. For a command component, set both the feedback input channel and the output command channel.
+5. For a command component, configure its command output and the feedback, ready-state or permit channels it exposes; see its description below.
 6. Configure captions, values, colors, ranges or options required by that component.
-7. Save the mimic and open it in Webstation.
+7. Install the server-side license for ordinary controls, save the mimic, transfer the project to runtime and open it in Webstation.
 8. Verify the operator has control rights and the output channel accepts commands.
 9. Send a command and check that the device writes the resulting state back to the input channel.
 
 Русский:
 
-1. Установите, включите и активируйте `PlgMimControlsJP`, затем перезапустите SCADA Web.
+1. Установите и включите `PlgMimControlsJP`, затем перезапустите SCADA Web. Для редактирования лицензия компонента не требуется.
 2. Откройте мнемосхему в совместимом редакторе Mimic.
 3. Выберите элемент в группе **УПРАВЛЕНИЕ** и поместите его на полотно.
 4. Для компонента отображения укажите входной канал.
-5. Для компонента управления укажите входной канал обратной связи и выходной канал команды.
+5. Для компонента управления настройте выход команды и предусмотренные им каналы обратной связи, готовности или разрешения; см. описание компонента ниже.
 6. Настройте требуемые подписи, значения, цвета, диапазоны или варианты.
-7. Сохраните мнемосхему и откройте её в Вебстанции.
+7. Установите серверную лицензию обычных компонентов, сохраните мнемосхему, передайте проект в runtime и откройте её в Вебстанции.
 8. Проверьте наличие у оператора права управления и разрешение команд для выходного канала.
 9. Отправьте команду и убедитесь, что устройство возвращает итоговое состояние во входной канал.
 
@@ -81,6 +93,10 @@ Commands are intentionally disabled in edit mode. A command component does not s
 
 ## Component Catalog / Каталог компонентов
 
+The following nineteen types are ordinary components. They are available for authoring without a local component license; their runtime execution is licensed.
+
+Следующие девятнадцать типов являются обычными компонентами. Для их редактирования локальная лицензия компонента не нужна; исполнение в runtime лицензируется.
+
 | Type name | English toolbox name | Русское название | Default size / Размер | Purpose / Назначение |
 |---|---|---|---|---|
 | `BitCheckList` | Bit check list | Список битов | `170 × 110` | Edit selected bits without losing hidden bits / Изменение выбранных битов без потери скрытых |
@@ -89,19 +105,33 @@ Commands are intentionally disabled in edit mode. A command component does not s
 | `DiscreteSlider` | Discrete slider | Дискретный ползунок | `280 × 82` | Select an exact configured division / Выбор точного деления |
 | `IlluminatedButton` | Illuminated button | Кнопка с подсветкой | `140 × 64` | Send one fixed command and show feedback / Одна фиксированная команда и индикация обратной связи |
 | `LatchedButton` | Latched button | Фиксируемая кнопка | `130 × 42` | Two-state command button / Двухпозиционная командная кнопка |
+| `MechanismPanel` | Mechanism panel | Панель механизма | `130 × 32` | Button or hotspot opening a state and command panel / Кнопка или активная область открытия панели состояния и команд |
+| `ModeSelector` | Mode selector | Переключатель режимов | `220 × 160` | Direct mode selection; default three-position rotary layout / Прямой выбор режима; по умолчанию поворотный переключатель на три положения |
+| `MomentaryButton` | Hold button | Кнопка удержания | `112 × 32` | Separate commands on press and release / Отдельные команды нажатия и отпускания |
 | `NumericUpDown` | Numeric input | Числовой ввод | `140 × 36` | Validated number and step commands / Проверяемый числовой ввод и команды шага |
+| `OneShotButton` | One-shot button | Однократная команда | `112 × 32` | One command followed by a PLC ready-state cycle / Одна команда с ожиданием цикла готовности ПЛК |
 | `ProcessValue` | Process value | Текущее значение | `160 × 42` | Read-only formatted process value / Форматированное значение только для чтения |
 | `RadioButtonGroup` | Radio button group | Переключатели | `160 × 64` | Visible selection of one configured value / Наглядный выбор одного значения |
+| `SearchableComboBox` | Searchable selection | Выбор с поиском | `240 × 32` | Searchable Dropdown or ListBox; ListBox starts at `240 × 110` / Выпадающий список или список с поиском; исходный размер ListBox `240 × 110` |
+| `SetpointControl` | Setpoint control | Уставка процесса | `390 × 36` | Separate PV, accepted SP and explicit setpoint entry; default Inline / Раздельные факт, принятая уставка и явный ввод задания; по умолчанию Inline |
 | `SquareToggle` | Square toggle | Квадратный переключатель | `60 × 30` | Compact square binary switch / Компактный квадратный переключатель |
 | `StateIndicator` | State indicator | Индикатор состояния | `140 × 64` | Read-only state lamp / Лампа состояния только для чтения |
 | `TextCommandInput` | Command input | Ввод команды | `250 × 36` | Number, UTF-8 or Hex command entry / Ввод числа, UTF-8 или Hex-команды |
 | `ValueForm` | Value input form | Форма ввода значений | `210 × 44` | Multi-row modal value entry / Многострочная модальная форма ввода |
 
+The separate demo type is available without a component runtime license. In the standard authoring mode it is offered alongside the ordinary controls, independently of the server license. Saved demos work in both licensed and unlicensed runtime.
+
+Отдельный демонстрационный тип доступен без лицензии исполнения компонента. В штатном режиме проектирования он предлагается вместе с обычными элементами независимо от серверной лицензии. Сохранённые демонстрации работают как в лицензированном, так и в нелицензированном runtime.
+
+| Type name | English toolbox name | Русское название | Default size / Размер | Purpose / Назначение |
+|---|---|---|---|---|
+| `ControlsDemo` | Demonstration | Демонстрация возможностей | `920 × 720` | Autonomous simulated controls, no SCADA channels or real commands / Автономные искусственные значения без каналов SCADA и реальных команд |
+
 ## Channels, Commands and Confirmation / Каналы, команды и подтверждение
 
-Most interactive controls use an input channel for confirmed feedback and an output channel for commands. A command is available only in runtime when the component is enabled, the operator has control rights, the output channel number is greater than zero and the Webstation command API is available.
+Most interactive controls use an input channel for confirmed feedback and an output channel for commands. A command is available only in licensed runtime when the component is enabled, the operator has control rights, the resolved output channel number is greater than zero and the Webstation command API is available. Ready-state feedback and configured permit channels impose additional component-specific conditions.
 
-Большинство интерактивных компонентов используют входной канал для подтверждённой обратной связи и выходной канал для команд. Команда доступна только во время выполнения, если компонент включён, оператор имеет право управления, номер выходного канала больше нуля и доступен командный API Вебстанции.
+Большинство интерактивных компонентов используют входной канал для подтверждённой обратной связи и выходной канал для команд. Команда доступна только в лицензированном runtime, если компонент включён, оператор имеет право управления, определённый с учётом привязок номер выходного канала больше нуля и доступен командный API Вебстанции. Сигнал готовности и настроенные каналы разрешения добавляют условия конкретного компонента.
 
 The following command formats are available where the component exposes `CommandFormat`:
 
@@ -119,13 +149,17 @@ Hex separators may be spaces, commas, semicolons, colons or hyphens. Every byte 
 
 ### Pending Frame / Рамка ожидания
 
-Command controls have an optional `Show pending frame` property. It is disabled by default. When enabled, `Pending frame color` appears; its default is amber `#D97706`.
+Command controls have an optional `Show pending frame` property. Basic controls default to off; `MomentaryButton`, `OneShotButton`, `MechanismPanel`, `ModeSelector` and `SearchableComboBox` start with it enabled. Existing saved settings are retained. When enabled, `Pending frame color` appears; its default is amber `#D97706`.
 
-У командных компонентов есть необязательное свойство `Показывать рамку ожидания`. По умолчанию оно выключено. После включения появляется свойство `Цвет рамки ожидания` с исходным янтарным цветом `#D97706`.
+У командных компонентов есть необязательное свойство `Показывать рамку ожидания`. У базовых элементов оно по умолчанию выключено; у `MomentaryButton`, `OneShotButton`, `MechanismPanel`, `ModeSelector` и `SearchableComboBox` изначально включено. Сохранённые настройки сохраняются. После включения появляется свойство `Цвет рамки ожидания` с исходным янтарным цветом `#D97706`.
 
-For a control with an input channel, pending state ends when the expected good input value arrives, command sending is rejected, or the ten-second safety timeout expires. Output-only fields clear the pending state after the server acknowledges the command. The frame never replaces the actual channel state.
+For basic controls with an input channel, pending state ends when the expected good input value arrives, command sending is rejected, or the ten-second safety timeout expires. Output-only fields clear the pending state after the server acknowledges the command. The frame never replaces the actual channel state.
 
-Для компонента с входным каналом ожидание заканчивается после получения ожидаемого достоверного значения, ошибки отправки или защитного тайм-аута 10 секунд. Поля только с выходным каналом снимают ожидание после подтверждения команды сервером. Рамка никогда не заменяет фактическое состояние канала.
+У базовых компонентов с входным каналом ожидание заканчивается после получения ожидаемого достоверного значения, ошибки отправки или защитного тайм-аута 10 секунд. Поля только с выходным каналом снимают ожидание после подтверждения команды сервером. Рамка никогда не заменяет фактическое состояние канала.
+
+This basic ten-second rule is not the completion contract for every type. `SetpointControl`, `ModeSelector` and `SearchableComboBox` have configurable feedback timeouts; `OneShotButton` keeps its PLC handshake lock even if its waiting frame times out. See the corresponding component descriptions below.
+
+Базовое правило 10 секунд не определяет завершение работы всех типов. У `SetpointControl`, `ModeSelector` и `SearchableComboBox` настраивается тайм-аут обратной связи; `OneShotButton` сохраняет блокировку цикла ПЛК даже после тайм-аута рамки ожидания. Поведение описано в разделах соответствующих компонентов ниже.
 
 ## Selection Controls / Компоненты выбора
 
@@ -134,6 +168,26 @@ For a control with an input channel, pending state ends when the expected good i
 Configure `InCnlNum`, `OutCnlNum` and the `Options` list. Each option contains visible text and a numeric value. The input value selects the matching item; choosing an item sends its value once. If the input is missing, bad or not present in the list, the field is empty and no configured option is selected. Numeric `-1` is not reserved and may be used normally.
 
 Настройте `InCnlNum`, `OutCnlNum` и список `Варианты`. Каждый вариант содержит видимую надпись и числовое значение. Входное значение выбирает совпадающий пункт, а выбор пункта один раз отправляет его значение. При отсутствии данных, плохом качестве или неизвестном значении поле остаётся пустым. Число `-1` не зарезервировано и может использоваться как обычное значение.
+
+### ModeSelector
+
+`ModeSelector` has two layouts: `Button` opens a menu for direct selection, while `Rotary` shows a rotary switch with two to five positions. More than five options automatically select the Button layout without losing rows. A rotary drag previews the requested position locally and sends only the final position on release; crossing intermediate positions and cancelling the drag send nothing.
+
+`ModeSelector` имеет два вида: `Button` открывает меню прямого выбора, а `Rotary` показывает поворотный переключатель на два–пять положений. При количестве вариантов больше пяти автоматически используется Button без потери строк. Перетаскивание ручки локально показывает выбранное положение и отправляет только итоговую команду при отпускании; прохождение промежуточных положений и отмена перетаскивания ничего не отправляют.
+
+Each `ModeSelectorOption` can have its own input, output and permit channels, numeric or text feedback, and a Double, Text or Hex command. Zero row input/output channels use the component's common channels. Confirmed position follows good matching feedback; server acknowledgement alone does not confirm a mode. Configure `FeedbackTimeout` and the optional pending frame for command feedback.
+
+Каждый `ModeSelectorOption` может иметь собственные каналы входа, выхода и разрешения, числовую или текстовую обратную связь и команду Double, Text или Hex. Нулевые входной/выходной каналы строки используют общие каналы компонента. Подтверждённое положение следует достоверной совпавшей обратной связи; принятие команды сервером само по себе режим не подтверждает. Для ожидания команды настройте `FeedbackTimeout` и необязательную рамку.
+
+### SearchableComboBox
+
+`SearchableComboBox` provides `Dropdown` and `ListBox` layouts. Configure the `SearchableSelectionOption` list with captions, typed feedback, commands and optional permits; row channels may differ from the common component channels. Search filters captions by a case-insensitive substring and preserves the configured order. Typing or clearing the search and opening the dropdown send no commands.
+
+`SearchableComboBox` поддерживает виды `Dropdown` и `ListBox`. Настройте список `SearchableSelectionOption` с подписями, типизированной обратной связью, командами и необязательными разрешениями; каналы строк могут отличаться от общих каналов компонента. Поиск фильтрует подписи по подстроке без учёта регистра и сохраняет настроенный порядок. Ввод или очистка поиска и открытие списка не отправляют команды.
+
+Clicking a different available row or explicitly pressing Enter sends one configured command. The previous confirmed selection stays visible until matching good feedback arrives. Filtering out the current row does not replace its confirmed value. Configure placeholders, popup dimensions and `FeedbackTimeout`; neither layout limits the number of rows.
+
+Щелчок по другому доступному пункту или явное нажатие Enter отправляет одну настроенную команду. Прежний подтверждённый выбор сохраняется до совпавшей достоверной обратной связи. Исключение текущей строки фильтром не подменяет подтверждённое значение. Настройте подсказки, размеры всплывающего списка и `FeedbackTimeout`; оба вида поддерживают произвольное число строк.
 
 ### RadioButtonGroup
 
@@ -159,9 +213,9 @@ Each `BitOption` contains a one-based bit number and caption. Bit 1 corresponds 
 
 Каждый `BitOption` содержит номер бита, начиная с единицы, и подпись. Бит 1 соответствует маске `1`, бит 2 — `2`, бит 8 — `128`, бит 9 — `256`. Компонент изменяет только показанные биты и сохраняет все скрытые биты последней достоверной входной маски.
 
-`BitCheckList` is the only command component disabled before receiving a valid non-negative integer input value. This prevents accidental loss of hidden bits. The list may be vertical or horizontal; horizontal mode uses scrolling when the component is too narrow.
+`BitCheckList` requires a valid non-negative integer input value before sending a command. This prevents accidental loss of hidden bits. The list may be vertical or horizontal; horizontal mode uses scrolling when the component is too narrow.
 
-`BitCheckList` — единственный командный компонент, который заблокирован до получения корректного целого неотрицательного входного значения. Это предотвращает случайную потерю скрытых битов. Список может быть вертикальным или горизонтальным; при нехватке ширины горизонтальный режим использует прокрутку.
+`BitCheckList` требует корректное целое неотрицательное входное значение до отправки команды. Это предотвращает случайную потерю скрытых битов. Список может быть вертикальным или горизонтальным; при нехватке ширины горизонтальный режим использует прокрутку.
 
 ## Numeric Input and Slider / Числовой ввод и ползунок
 
@@ -191,6 +245,20 @@ During interaction the selected value is shown near the thumb. After release, th
 
 Во время управления рядом с указателем показывается выбранное значение. После отпускания ползунок возвращается к подтверждённому положению входного канала до прихода обратной связи. Отсутствующие или плохие данные отображаются как `#.#`, но не блокируют выбор. При смене ориентации ширина и высота меняются местами, если текущие пропорции соответствуют прежнему направлению.
 
+Command divisions do not round the actual feedback value. For `35…85` with 10 divisions, commands are `35, 40, …, 85`, while feedback such as `43.9` is displayed as `43.9`. An output channel of zero makes the slider an indicator; a missing input is different from a missing command output.
+
+Деления команды не округляют фактическую обратную связь. Для диапазона `35…85` и 10 делений команды равны `35, 40, …, 85`, а факт `43,9` отображается как `43,9`. При выходном канале 0 ползунок работает как индикатор; отсутствие входа и отсутствие выхода команды — разные условия.
+
+### SetpointControl
+
+`SetpointControl` keeps three channels separate: `InCnlNum` supplies the read-only process value (PV), `SetpointInCnlNum` supplies the accepted setpoint (SP), and `OutCnlNum` receives a Double command. It supports `Inline` (`390 × 36`), `Stacked` (`236 × 64`) and `Popup` (`240 × 32`) starting layouts; dimensions remain editable. Set the numeric range, step, precision, unit and captions for the process.
+
+`SetpointControl` разделяет три канала: `InCnlNum` передаёт фактическое значение процесса (PV) только для чтения, `SetpointInCnlNum` — принятую уставку (SP), а `OutCnlNum` получает числовую команду Double. Начальные виды — `Inline` (`390 × 36`), `Stacked` (`236 × 64`) и `Popup` (`240 × 32`); размеры можно изменять. Настройте диапазон, шаг, точность, единицу измерения и подписи процесса.
+
+Editing changes only a local draft. Apply or Enter sends it explicitly; live polling preserves the draft. Only matching good SP feedback confirms the command. PV changes and transport acknowledgement do not replace accepted SP. Failed or timed-out requests retain the draft for an explicit retry; pending requests prevent duplicate sending.
+
+Редактирование меняет только локальный черновик. Кнопка отправки или Enter явно отправляет его; обновление данных сохраняет черновик. Команду подтверждает только совпавшая достоверная обратная связь SP. Изменение факта и подтверждение транспорта не подменяют принятую уставку. После ошибки или тайм-аута черновик сохраняется для явного повтора; во время ожидания повторная отправка блокируется.
+
 ## Command Buttons / Командные кнопки
 
 ### LatchedButton
@@ -218,6 +286,36 @@ The accessible `aria-pressed` state follows confirmed feedback. The button does 
 Use `LatchedButton` instead when On and Off require different commands.
 
 Если для включения и выключения нужны разные команды, используйте `LatchedButton`.
+
+### MomentaryButton
+
+`MomentaryButton` has separate `PressOutCnlNum` / `ReleaseOutCnlNum`, command formats and payloads. Holding the pointer, Enter or Space sends the press command once; release, cancellation, focus loss or the finite `MaxHoldTime` sends the release command. A typed `ControlStateOption` dictionary can display independent equipment feedback; the locally pressed button is not confirmation of movement.
+
+`MomentaryButton` имеет отдельные `PressOutCnlNum` / `ReleaseOutCnlNum`, форматы и значения команд. Удержание указателя, Enter или Space один раз отправляет команду нажатия; отпускание, отмена, потеря фокуса или конечный `MaxHoldTime` отправляет команду отпускания. Типизированный словарь `ControlStateOption` может показывать независимую обратную связь оборудования; локальное нажатие не подтверждает движение.
+
+A browser disconnect or closure cannot guarantee delivery of a release command. Configure an equipment-side watchdog or server control timeout for held actions.
+
+При разрыве связи или закрытии браузера доставка команды отпускания не гарантируется. Для действий удержания настройте watchdog оборудования или серверный тайм-аут управления.
+
+### OneShotButton
+
+`OneShotButton` sends one configured command only when good feedback matches `ReadyValue` of `ReadyValueType`. `ReadyInCnlNum=0` uses the common input channel. After sending, the button stays locked until good feedback has left the ready value and returned to it. The caption and state dictionary remain separate from this handshake.
+
+`OneShotButton` отправляет одну настроенную команду только при совпадении достоверной обратной связи с `ReadyValue` типа `ReadyValueType`. При `ReadyInCnlNum=0` используется общий входной канал. После отправки кнопка остаётся заблокированной, пока достоверная обратная связь не выйдет из состояния готовности и не вернётся в него. Подпись и словарь состояния не подменяют этот цикл подтверждения.
+
+Server acceptance and `HandshakeTimeout` do not count as PLC completion or unlock a successfully sent cycle. The timeout reports a diagnostic. An explicit send rejection can restore readiness before PLC busy has been observed.
+
+Принятие команды сервером и `HandshakeTimeout` не означают завершение ПЛК и не снимают блокировку успешно отправленного цикла. Тайм-аут показывает диагностику. Явный отказ отправки может восстановить готовность до наблюдения занятости ПЛК.
+
+### MechanismPanel
+
+`MechanismPanel` opens an adjacent state and command popup through a visible Button or a Hotspot. The hotspot has an editor frame and is transparent in runtime. Configure the title, typed state dictionary and `OperatorCommand` list; each command can use its own output channel, Double/Text/Hex payload, colors, image and optional typed permit channel. Opening or closing the panel never sends commands.
+
+`MechanismPanel` открывает соседнюю панель состояния и команд через видимую кнопку Button или активную область Hotspot. В редакторе область имеет рамку, а в runtime прозрачна. Настройте заголовок, типизированный словарь состояний и список `OperatorCommand`; у каждой команды могут быть собственный выходной канал, значение Double/Text/Hex, цвета, изображение и необязательный типизированный канал разрешения. Открытие и закрытие панели никогда не отправляет команды.
+
+`PopupWidth` and `PopupHeight` are independent of the trigger size. Zero enables automatic sizing on that axis; positive values request fixed dimensions within viewport limits, with wrapping and scrolling for long content. State text and colors follow the first matching dictionary row; missing and unmatched input have separate appearances.
+
+`PopupWidth` и `PopupHeight` не зависят от размера кнопки или активной области. Ноль включает автоматический размер по соответствующей оси; положительное значение задаёт фиксированный размер в пределах окна с переносом и прокруткой длинного содержимого. Текст и цвета состояния берутся из первой совпавшей строки словаря; отсутствующие и неизвестные данные имеют отдельный вид.
 
 ## Command Input / Ввод команды
 
@@ -256,6 +354,37 @@ The plugin automatically creates hidden standard bindings for all unique row cha
 
 Плагин автоматически создаёт скрытые стандартные привязки для всех уникальных каналов строк. Строка `BitCheckList` заблокирована до получения корректной исходной маски, а скрытые биты сохраняются из последнего принятого значения. `ValueForm` не зависит от `PlgMimMultiSet`, не заменяет и не изменяет его.
 
+## Button Images and Text Wrapping / Изображения и перенос текста в кнопках
+
+From `6.5.0.15`, `IlluminatedButton`, `LatchedButton`, `MomentaryButton`, `OneShotButton`, `TextCommandInput`, `SetpointControl`, `ValueForm` and `MechanismPanel` support configurable button content. Use the standard Mimic image picker to add PNG, JPG or SVG images to the mimic. Images remain embedded in the `.mim` and do not require an external URL.
+
+Начиная с `6.5.0.15`, `IlluminatedButton`, `LatchedButton`, `MomentaryButton`, `OneShotButton`, `TextCommandInput`, `SetpointControl`, `ValueForm` и `MechanismPanel` поддерживают настраиваемое содержимое кнопок. Штатный выбор изображения Mimic позволяет добавить PNG, JPG или SVG в мнемосхему. Изображения сохраняются внутри `.mim` и не требуют внешнего URL.
+
+| Setting / Настройка | Behavior / Поведение |
+|---|---|
+| `ImageName` | Image selected from the mimic collection / Изображение из коллекции мнемосхемы |
+| `ImagePosition` | `Left`, `Right`, `Top` or `Bottom` relative to text / Слева, справа, сверху или снизу относительно текста |
+| `ImageScale` | `1…100%` of the available image area; aspect ratio is preserved / `1…100%` доступной области изображения с сохранением пропорций |
+| `WrapText` | Multiline captions and explicit line breaks / Многострочные подписи и явные переводы строк |
+
+Use `ButtonContent` for ordinary buttons and the text-command send button, `ApplyButtonContent` for a setpoint's Apply button, and `OpenButtonContent` for a form opener. Mechanism commands have their own button-content settings. State-driven buttons can use different images for On, Off, Unknown and No data; dictionary controls select the image from the confirmed matching state row. If no state image is configured, the common image is used. Images change appearance only, not command routing or feedback rules.
+
+Для обычных кнопок и кнопки отправки текста используется `ButtonContent`, для отправки уставки — `ApplyButtonContent`, для открытия формы — `OpenButtonContent`. Команды механизма имеют собственные настройки содержимого кнопки. Кнопки с индикацией могут использовать разные изображения для состояний «Включено», «Выключено», «Неизвестно» и «Нет данных»; словарные элементы выбирают изображение по подтверждённой совпавшей строке состояния. При отсутствии изображения состояния используется общее изображение. Картинки меняют только оформление, а не маршрутизацию команды или правила обратной связи.
+
+Keep enough space for both the image and caption, especially when Top/Bottom is used on small buttons. The entire caption remains available in the tooltip. Old mimics without these settings retain text-only buttons without wrapping.
+
+Оставляйте место для изображения и подписи, особенно при Top/Bottom на маленьких кнопках. Полная подпись остаётся доступна во всплывающей подсказке. Старые мнемосхемы без этих настроек сохраняют текстовые кнопки без переноса.
+
+## Autonomous Demo / Автономная демонстрация
+
+`ControlsDemo` previews basic operator controls on simulated data and requires no component runtime license, SCADA channels or command outputs. The editor shows a static preview. Save the mimic, transfer it to runtime and open it in Webstation to start the local simulation. Runtime demo controls and its value form update only their owning demo's private values; Reset resumes automatic values. Multiple demos are independent. Demo values and drafts are not saved to the project.
+
+`ControlsDemo` демонстрирует базовые операторские элементы на искусственных данных и не требует лицензии исполнения компонента, каналов SCADA или выходов команд. Редактор показывает статичное превью. Сохраните мнемосхему, передайте её в runtime и откройте в Вебстанции для запуска локальной модели. Элементы и форма демо меняют только собственные временные значения; Reset возвращает автоматическое изменение. Несколько демо независимы. Значения и черновики демо не сохраняются в проект.
+
+The autonomous demo defaults to English independently of the host interface language. It is different from DemoProject views composed of ordinary controls bound to Simulator channels: those views exercise real channel/command routing and require the ordinary component runtime license.
+
+Автономное демо по умолчанию использует английский язык независимо от языка интерфейса хоста. Оно отличается от представлений DemoProject, составленных из обычных элементов с каналами Simulator: такие представления проверяют реальную маршрутизацию каналов и команд и требуют лицензии исполнения обычных компонентов.
+
 ## Read-Only Components / Компоненты только для чтения
 
 ### ProcessValue
@@ -293,6 +422,10 @@ Missing input data is shown honestly and normally does not prevent an explicit o
 | `DiscreteSlider` | Select any configured division / Выбрать любое настроенное деление |
 | `IlluminatedButton`, `TextCommandInput` | Send the explicitly configured command / Отправить явно настроенную команду |
 | `ValueForm` | Edit and apply ordinary rows / Изменить и отправить обычные строки |
+| `SetpointControl` | Edit and explicitly apply a valid setpoint / Ввести и явно отправить корректную уставку |
+| `ModeSelector`, `SearchableComboBox` | Select an available option, subject to configured permits / Выбрать доступный вариант с учётом настроенных разрешений |
+| `MomentaryButton`, `MechanismPanel` | Send configured commands subject to channel rights and permits / Отправить настроенную команду с учётом прав на канал и разрешений |
+| `OneShotButton` | Blocked until good ready-state feedback arrives / Заблокирован до достоверного сигнала готовности |
 | `BitCheckList` | Blocked until the first valid source mask / Заблокирован до первой корректной исходной маски |
 
 ## Themes / Темы оформления
@@ -332,23 +465,27 @@ Neutral surfaces use the theme accent for selection, focus and active manipulati
 
 Requirements:
 
-- Rapid SCADA 6.x;
-- the .NET 8 runtime used by SCADA Web;
+- a compatible Rapid SCADA 6.5 build;
+- the .NET 10 runtime used by the current SCADA Web package;
 - Mimic diagrams and a compatible Mimic Editor;
 - configured input and output channels;
 - operator control rights for command components;
-- a valid `PlgMimControlsJP` product license for placing new components;
+- a valid server-side `PlgMimControlsJP` license for executing ordinary components;
 - a package matching the installed Rapid SCADA build.
 
 Требования:
 
-- Rapid SCADA 6.x;
-- среда .NET 8, используемая SCADA Web;
+- совместимая сборка Rapid SCADA 6.5;
+- среда .NET 10, используемая текущим пакетом SCADA Web;
 - поддержка мнемосхем и совместимый редактор Mimic;
 - настроенные входные и выходные каналы;
 - право управления у оператора для командных компонентов;
-- действующая лицензия продукта `PlgMimControlsJP` для добавления новых элементов;
+- действующая серверная лицензия `PlgMimControlsJP` для исполнения обычных компонентов;
 - пакет, соответствующий установленной сборке Rapid SCADA.
+
+No local component license is required for authoring. Current packages target .NET 10 and the 6.5 branch; compatibility with older Webstation builds, including 6.3, requires a matching build and separate verification.
+
+Для проектирования локальная лицензия компонента не нужна. Текущие пакеты рассчитаны на .NET 10 и ветку 6.5; для старых сборок Вебстанции, включая 6.3, нужна соответствующая сборка и отдельная проверка совместимости.
 
 Installation:
 
@@ -356,7 +493,7 @@ Installation:
 2. Enable `PlgMimControlsJP` in the Webstation plugin configuration.
 3. On Windows, install the supplied `PlgMimControlsJP.View.dll` in `ScadaAdmin\Lib` when the classic Administrator must recognize the plugin.
 4. Restart SCADA Web, its service or the IIS site. A browser refresh alone does not reload plugin assemblies.
-5. Open a mimic editor and verify that the **CONTROLS / УПРАВЛЕНИЕ** group contains thirteen components.
+5. Open a mimic editor and verify that **CONTROLS / УПРАВЛЕНИЕ** contains nineteen ordinary component types and the separate `ControlsDemo` entry without requiring a local component license.
 6. After an update, perform a hard browser refresh if old scripts or styles remain cached.
 
 Установка:
@@ -365,7 +502,7 @@ Installation:
 2. Включите `PlgMimControlsJP` в конфигурации плагинов Вебстанции.
 3. Под Windows установите поставляемый `PlgMimControlsJP.View.dll` в `ScadaAdmin\Lib`, если классический Администратор должен распознавать плагин.
 4. Перезапустите SCADA Web, соответствующую службу или сайт IIS. Простое обновление браузера не перезагружает сборки плагина.
-5. Откройте редактор мнемосхем и убедитесь, что группа **CONTROLS / УПРАВЛЕНИЕ** содержит тринадцать компонентов.
+5. Откройте редактор мнемосхем и убедитесь, что в **CONTROLS / УПРАВЛЕНИЕ** доступны девятнадцать обычных типов и отдельный пункт `ControlsDemo` без локальной лицензии компонента.
 6. Если после обновления остались старые скрипты или стили, выполните жёсткое обновление страницы.
 
 Required Webstation plugin entry:
@@ -384,54 +521,70 @@ The public browser asset path is `/plugins/MimControlsJP`. Do not rename `PlgMim
 
 ## Activation / Активация
 
-The controls plugin uses its own installation-specific license. A `MimicEditorJP`, `PlgMimTankJP`, `PlgMimPipesJP` or another product license does not activate `PlgMimControlsJP`.
+The ordinary controls use their own server-side runtime license. A `Single` license is bound to the server installation; it does not have to be copied to the engineer's computer to create or save `.mim` files. A `MimicEditorJP`, `PlgMimTankJP`, `PlgMimPipesJP` or another product license does not activate `PlgMimControlsJP`.
 
-Плагин элементов управления использует собственную лицензию, привязанную к установке. Лицензия `MimicEditorJP`, `PlgMimTankJP`, `PlgMimPipesJP` или другого продукта не активирует `PlgMimControlsJP`.
+Обычные элементы управления используют собственную серверную лицензию исполнения. Лицензия `Single` привязана к установке сервера; для создания и сохранения `.mim` её не нужно копировать на компьютер проектировщика. Лицензия `MimicEditorJP`, `PlgMimTankJP`, `PlgMimPipesJP` или другого продукта не активирует `PlgMimControlsJP`.
+
+The separate `MimicEditorJP` license governs that editor's free-version watermark on save. It does not replace a ControlsJP runtime license and does not restrict the availability of ControlsJP components for authoring.
+
+Отдельная лицензия `MimicEditorJP` управляет водяным знаком бесплатной версии этого редактора при сохранении. Она не заменяет лицензию исполнения ControlsJP и не ограничивает доступность компонентов ControlsJP для проектирования.
 
 | Host / Приложение | Activation request / Запрос активации | License / Лицензия |
 |---|---|---|
-| SCADA Web | `C:\Program Files\SCADA\ScadaWeb\config\PlgMimControlsJP_Activation.bin` | `C:\Program Files\SCADA\ScadaWeb\config\PlgMimControlsJP.bin` |
-| ScadaAdminWebJP | `C:\Program Files\SCADA\ScadaAdminWebJP\License\PlgMimControlsJP_Activation.bin` | `C:\Program Files\SCADA\ScadaAdminWebJP\License\PlgMimControlsJP.bin` |
+| SCADA Web / Webstation | `ScadaWeb/config/PlgMimControlsJP_Activation.bin` | `ScadaWeb/config/PlgMimControlsJP_License.bin` |
+
+Paths are relative to the Rapid SCADA installation directory. For example, a Windows installation may use `C:\Program Files\SCADA\ScadaWeb\config`. A different runtime component host uses its own configured license directory. An authoring-only ScadaAdminWebJP or classic Administrator installation does not require a local ControlsJP runtime license and does not generate an activation request merely by editing a mimic.
+
+Пути указаны относительно каталога установки Rapid SCADA. Например, установка Windows может использовать `C:\Program Files\SCADA\ScadaWeb\config`. Другой хост исполнения компонентов использует свой настроенный каталог лицензий. Для ScadaAdminWebJP или классического Администратора, используемого только для проектирования, локальная лицензия исполнения ControlsJP не нужна; само редактирование мнемосхемы не создаёт запрос активации.
 
 English:
 
-1. Start SCADA Web or ScadaAdminWebJP without a ControlsJP license.
-2. The plugin creates `PlgMimControlsJP_Activation.bin` in the host license directory. An existing request is not overwritten.
+1. Install and enable the plugin on the SCADA Web server, then start or restart the application.
+2. If the runtime license is missing or rejected, the plugin creates `PlgMimControlsJP_Activation.bin` in `ScadaWeb/config` when its licensing dependencies are available. An existing request is not overwritten automatically.
 3. Send the activation request to the license provider.
 4. The generated license must preserve the request UID and the exact application name `PlgMimControlsJP`.
-5. Save the received key as `PlgMimControlsJP.bin` in the same host license directory.
-6. Restart SCADA Web or ScadaAdminWebJP. A browser refresh alone is not sufficient.
-7. If both hosts are used, install a valid license in each directory because each host reads only its own license location.
+5. Save the received key as `PlgMimControlsJP_License.bin` in the same server directory.
+6. Restart SCADA Web so the runtime component specifications are rebuilt. A browser refresh alone is not sufficient.
+7. Open an ordinary control in Webstation and verify licensed operation, channel feedback and command rights. No second component license is needed on the authoring computer.
 
 Русский:
 
-1. Запустите SCADA Web или ScadaAdminWebJP без лицензии ControlsJP.
-2. Плагин создаст `PlgMimControlsJP_Activation.bin` в папке лицензий хоста. Существующий запрос не перезаписывается.
+1. Установите и включите плагин на сервере SCADA Web, затем запустите или перезапустите приложение.
+2. Если лицензия исполнения отсутствует или отклонена, плагин создаст `PlgMimControlsJP_Activation.bin` в `ScadaWeb/config` при наличии зависимостей лицензирования. Существующий запрос автоматически не перезаписывается.
 3. Передайте запрос активации поставщику лицензии.
 4. При создании лицензии должны быть сохранены UID из запроса и точное имя приложения `PlgMimControlsJP`.
-5. Сохраните полученный ключ под именем `PlgMimControlsJP.bin` в той же папке лицензий хоста.
-6. Перезапустите SCADA Web или ScadaAdminWebJP. Простого обновления страницы недостаточно.
-7. Если используются оба хоста, установите действующую лицензию в каждый каталог, потому что каждый хост читает только собственную папку лицензий.
+5. Сохраните полученный ключ под именем `PlgMimControlsJP_License.bin` в том же каталоге сервера.
+6. Перезапустите SCADA Web для повторного создания спецификаций runtime. Простого обновления страницы недостаточно.
+7. Откройте обычный компонент в Вебстанции и проверьте лицензированную работу, обратную связь каналов и права управления. Вторая лицензия компонента на компьютере проектировщика не нужна.
 
-If the license is missing, invalid or issued for another `AppName`, existing ControlsJP components continue to load and work because their scripts, styles and subtypes remain registered. The **CONTROLS / УПРАВЛЕНИЕ** toolbox group is hidden until a valid license is installed.
+If the server license is missing, invalid, expired, issued for another `AppName`, or cannot be validated, ordinary ControlsJP runtime components are replaced by inert localized license warnings. Their types, IDs, geometry and saved settings remain loadable, but they do not execute component scripts, process bindings/data or send commands. Other plugins and autonomous `ControlsDemo` instances continue to work. The editor palette remains available.
 
-Если лицензия отсутствует, недействительна или выдана для другого `AppName`, существующие компоненты ControlsJP продолжают загружаться и работать, потому что их скрипты, стили и подтипы остаются зарегистрированными. Группа **CONTROLS / УПРАВЛЕНИЕ** скрывается до установки действующей лицензии.
+Если серверная лицензия отсутствует, недействительна, просрочена, выдана для другого `AppName` или не может быть проверена, обычные компоненты ControlsJP в runtime заменяются инертными локализованными сообщениями о лицензии. Их типы, ID, геометрия и сохранённые настройки остаются доступными для загрузки, но они не исполняют скрипты компонента, не обрабатывают привязки/данные и не отправляют команды. Другие плагины и автономные экземпляры `ControlsDemo` продолжают работать. Палитра редактора остаётся доступной.
+
+| Context / Контекст | Ordinary controls / Обычные элементы | `ControlsDemo` |
+|---|---|---|
+| Authoring without a local component license / Проектирование без локальной лицензии компонента | Full palette, properties, copying and saving / Полная палитра, свойства, копирование и сохранение | Available in the standard editor palette; static preview / Доступен в штатной палитре редактора; статичное превью |
+| Licensed runtime / Лицензированный runtime | Real feedback and commands with normal operator rights / Реальная обратная связь и команды с обычными правами оператора | Previously saved demos continue to simulate / Ранее сохранённые демо продолжают моделирование |
+| Unlicensed runtime / Нелицензированный runtime | Inert license warnings / Инертные сообщения о лицензии | Autonomous simulated values and local actions / Автономные искусственные значения и локальные действия |
 
 ## Troubleshooting / Устранение неполадок
 
 | Symptom / Признак | Cause and action / Причина и действие |
 |---|---|
-| The **CONTROLS / УПРАВЛЕНИЕ** group is missing / Группа отсутствует | Check `PlgMimControlsJP.bin`, plugin registration, DLL and static assets, then restart the host. Without a license existing components remain usable, but the toolbox is hidden. / Проверьте `PlgMimControlsJP.bin`, регистрацию, DLL и статические ресурсы, затем перезапустите хост. Без лицензии существующие компоненты работают, но toolbox скрыт. |
+| The **CONTROLS / УПРАВЛЕНИЕ** group is missing in the editor / Группа отсутствует в редакторе | Check plugin registration, matching DLLs, dictionaries and static assets, then restart the host. The component runtime license does not hide the authoring palette. / Проверьте регистрацию плагина, согласованные DLL, словари и статические ресурсы, затем перезапустите хост. Лицензия исполнения компонента не скрывает палитру проектирования. |
+| Runtime controls show license warnings / Компоненты runtime показывают сообщения о лицензии | Check the server file `PlgMimControlsJP_License.bin`, product `AppName`, UID, validity and licensing dependencies; restart SCADA Web after installing the key. / Проверьте серверный файл `PlgMimControlsJP_License.bin`, `AppName` продукта, UID, срок действия и зависимости лицензирования; после установки ключа перезапустите SCADA Web. |
 | `PlgMimControlsJP_Activation.bin` is not created / Запрос активации не создаётся | Verify that `LicenseJP.Logic.dll` and its packaged dependencies are installed beside the plugin runtime and that the host can write to its license directory. / Проверьте `LicenseJP.Logic.dll` и пакетные зависимости рядом со средой плагина, а также право хоста на запись в папку лицензий. |
-| The group contains fewer than 13 components / В группе меньше 13 компонентов | The DLL and browser assets are from different versions. Deploy the complete matching package. / DLL и браузерные ресурсы относятся к разным версиям. Установите полный согласованный пакет. |
+| The editor has fewer than 19 ordinary types / В редакторе меньше 19 обычных типов | Check that the DLL, dictionaries and browser assets belong to the same current package. `ControlsDemo` is additional and may be omitted from a licensed palette. / Проверьте, что DLL, словари и браузерные ресурсы относятся к одному текущему пакету. `ControlsDemo` является дополнительным пунктом и может отсутствовать в лицензированной палитре. |
 | A component displays data but does not send a command / Данные видны, но команда не отправляется | Commands are disabled in the editor. In runtime check `Enabled`, operator control rights, `OutCnlNum` and output-channel permissions. / В редакторе команды запрещены. Во время выполнения проверьте `Enabled`, право управления, `OutCnlNum` и разрешение команд выходного канала. |
 | The command was accepted but the visible state did not change / Команда принята, но вид не изменился | This is expected until the device writes the result to the input feedback channel. Check `InCnlNum` and device feedback. / До обратной связи это ожидаемо. Проверьте `InCnlNum` и возврат состояния устройством. |
-| The pending frame is not visible / Рамка ожидания не видна | `Show pending frame` is off by default. Enable it and select its color if visual feedback is required. / `Показывать рамку ожидания` по умолчанию выключено. Включите его и выберите цвет. |
+| The pending frame is not visible / Рамка ожидания не видна | Check `Show pending frame` and its color; defaults depend on the component. The frame appears only while a command is pending. / Проверьте `Показывать рамку ожидания` и её цвет: исходная настройка зависит от компонента. Рамка видна только во время ожидания команды. |
 | `BitCheckList` is disabled / `BitCheckList` заблокирован | The component has not received a good non-negative integer source mask. Check the input channel and its quality. / Не получена достоверная целая неотрицательная маска. Проверьте входной канал и качество. |
 | A selection is empty, a checkbox is indeterminate or the slider shows `#.#` / Пустой выбор, неопределённый флажок или `#.#` | The input channel is zero, missing, bad quality or contains an unsupported value. / Входной канал равен нулю, отсутствует, имеет плохое качество или неподдерживаемое значение. |
 | A numeric value is rejected / Число отклоняется | Check minimum, maximum, negative-value permission, decimal places and exact step alignment. Exponential notation is not accepted. / Проверьте минимум, максимум, отрицательные значения, точность и соответствие шагу. Экспоненциальная запись не принимается. |
 | A text or Hex command is rejected / Текстовая или Hex-команда отклоняется | Check the selected command format. Hex requires pairs of valid hexadecimal digits and no `0x` prefix. / Проверьте формат. Для Hex нужны пары допустимых шестнадцатеричных цифр без `0x`. |
 | A `ValueForm` row is not sent / Строка `ValueForm` не отправляется | Apply sends only changed and valid rows. Check the row output channel, validation result and control rights. / Общая кнопка отправляет только изменённые и корректные строки. Проверьте выходной канал строки, результат проверки и права. |
+| `OneShotButton` remains locked / `OneShotButton` остаётся заблокированным | Verify a good ready → not ready → ready feedback cycle. Server acknowledgement and a timeout do not confirm PLC completion. / Проверьте достоверный цикл готов → не готов → готов. Подтверждение сервера и тайм-аут не подтверждают завершение ПЛК. |
+| `SetpointControl` keeps the old accepted SP / `SetpointControl` сохраняет прежнюю принятую уставку | Check `SetpointInCnlNum`; only its matching good feedback confirms the command. PV and transport acknowledgement are separate. / Проверьте `SetpointInCnlNum`; команду подтверждает только совпавшая достоверная обратная связь этого канала. Факт и подтверждение транспорта независимы. |
 | The classic Administrator reports an assembly load error / Классический Администратор сообщает об ошибке загрузки | Install the matching packaged `PlgMimControlsJP.View.dll`. It is built against `ScadaWebCommon.Subset` for classic Administrator compatibility. / Установите соответствующий пакетный `PlgMimControlsJP.View.dll`. Он собран с `ScadaWebCommon.Subset` для совместимости с классическим Администратором. |
 | New files are installed but the old appearance remains / Установлены новые файлы, но остался старый вид | Restart the application or IIS site and perform a hard browser refresh. / Перезапустите приложение или IIS и выполните жёсткое обновление страницы. |
 
@@ -439,31 +592,39 @@ If the license is missing, invalid or issued for another `AppName`, existing Con
 
 English:
 
-- confirmed visual state always comes from the input channel, not from an optimistic local write;
+- ordinary component confirmed state comes from input feedback, not from an optimistic local write;
 - `BitCheckList` requires a valid source mask before the first command;
 - `TextCommandInput` has no password mode;
 - `ValueForm` does not replace or modify `PlgMimMultiSet`;
 - `ProcessValue` and `StateIndicator` are read-only and never send commands;
+- `OneShotButton` requires good ready feedback and a completed ready-state cycle;
+- the five-position limit applies only to the rotary `ModeSelector`, not to its Button layout;
+- `ControlsDemo` uses simulated values and never controls real equipment;
+- the ordinary component runtime license is installed on the server; authoring and the editor watermark license are separate;
 - command controls use the standard Mimic `mainApi` and require no custom backend endpoint;
 - the plugin has no dependency on `PlgMimicJP` or `MimicEditorJP`;
 - changing a CSS theme is an administrator file operation, not a runtime user setting.
 
 Русский:
 
-- подтверждённое визуальное состояние всегда поступает из входного канала, а не из локального оптимистического переключения;
+- подтверждённое состояние обычного компонента поступает из обратной связи входа, а не из локального оптимистического переключения;
 - `BitCheckList` требует корректную исходную маску до первой команды;
 - `TextCommandInput` не имеет парольного режима;
 - `ValueForm` не заменяет и не изменяет `PlgMimMultiSet`;
 - `ProcessValue` и `StateIndicator` предназначены только для чтения и не отправляют команды;
+- `OneShotButton` требует достоверного сигнала готовности и завершённого цикла готовности;
+- ограничение пяти положений относится только к поворотному `ModeSelector`, а не к виду Button;
+- `ControlsDemo` использует искусственные значения и никогда не управляет реальным оборудованием;
+- лицензия исполнения обычных компонентов устанавливается на сервере; проектирование и лицензия водяного знака редактора независимы;
 - командные компоненты используют стандартный `mainApi` Mimic и не требуют собственного backend endpoint;
 - плагин не зависит от `PlgMimicJP` и `MimicEditorJP`;
 - смена CSS-темы является файловой операцией администратора, а не пользовательской настройкой во время выполнения.
 
 ## Video / Видео
 
-The demonstration shows the capacitance components on the Rapid SCADA working diagram and their configuration in the editor.
+The demonstration shows operator control components on a Rapid SCADA mimic and their configuration in the editor.
 
-В демонстрации показаны компоненты емкостей на работающей мнемосхеме Rapid SCADA и их настройка в редакторе.
+В демонстрации показаны операторские элементы управления на мнемосхеме Rapid SCADA и их настройка в редакторе.
 
 [Watch the PlgMimControlsJP demonstration / Посмотреть демонстрацию PlgMimControlsJP](https://jurasskpark.ru/files/github/PlgMimControlsJP.mp4)
 
@@ -479,6 +640,6 @@ The demonstration shows the capacitance components on the Rapid SCADA working di
 
 ## License / Лицензия
 
-`PlgMimControlsJP` is distributed as shareware/commercial software. A valid product license is required to place new control components. Existing mimic diagrams remain loadable when a license is temporarily unavailable, but the toolbox is hidden as described above. Do not rename the plugin DLL, activation request or license file.
+`PlgMimControlsJP` is distributed as shareware/commercial software. Creating and saving ordinary control components does not require a local component license. Their execution in Webstation requires a valid server-side product license; otherwise only those runtime components are replaced by inert license warnings. The autonomous `ControlsDemo` remains available on simulated data. A `MimicEditorJP` watermark license is separate. Do not rename the plugin DLL, activation request or `PlgMimControlsJP_License.bin` file.
 
-`PlgMimControlsJP` распространяется как условно-бесплатное/коммерческое программное обеспечение. Для добавления новых компонентов управления требуется действующая лицензия продукта. Существующие мнемосхемы продолжают загружаться при временном отсутствии лицензии, но группа toolbox скрывается, как описано выше. Не переименовывайте DLL плагина, запрос активации и файл лицензии.
+`PlgMimControlsJP` распространяется как условно-бесплатное/коммерческое программное обеспечение. Создание и сохранение обычных компонентов управления не требует локальной лицензии компонента. Для их исполнения в Вебстанции нужна действующая серверная лицензия продукта; без неё только эти runtime-компоненты заменяются инертными сообщениями о лицензии. Автономный `ControlsDemo` остаётся доступным на искусственных данных. Лицензия водяного знака `MimicEditorJP` независима. Не переименовывайте DLL плагина, запрос активации и файл `PlgMimControlsJP_License.bin`.
