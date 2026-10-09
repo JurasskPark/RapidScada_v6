@@ -23,6 +23,10 @@ Adds pipe layouts and equipment indicators to Rapid SCADA mimic diagrams.
 
 ![PlgMimPipesJP — screenshot 2](Source/PlgMimPipesJP_002.png)
 
+![PlgMimPipesJP — screenshot 3](Source/PlgMimPipesJP_003.png)
+
+![PlgMimPipesJP — screenshot 4](Source/PlgMimPipesJP_004.png)
+
 ## Video
 
 Pipe components in a running Rapid SCADA mimic and their configuration in the editor.
