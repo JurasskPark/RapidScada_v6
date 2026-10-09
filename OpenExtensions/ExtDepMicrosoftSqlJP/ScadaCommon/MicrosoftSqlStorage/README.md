@@ -1,5 +1,6 @@
 # MicrosoftSqlStorage
 
+![MicrosoftSqlStorage](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=MicrosoftSqlStorage&color=4bb60e)
 ![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows%20%2F%20Linux&color=lightgrey)
 

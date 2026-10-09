@@ -1,5 +1,6 @@
 # PlgMimTankJP
 
+![PlgMimTankJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimTankJP&color=4bb60e)
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 ![Version](https://img.shields.io/badge/version-6.1.0-green.svg)

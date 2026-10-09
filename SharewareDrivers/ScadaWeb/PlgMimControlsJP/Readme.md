@@ -1,5 +1,6 @@
 # PlgMimControlsJP
 
+![PlgMimControlsJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimControlsJP&color=4bb60e)
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.5-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)
 ![Version](https://img.shields.io/badge/version-6.5.0.15-green.svg)

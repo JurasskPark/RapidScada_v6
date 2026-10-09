@@ -1,5 +1,6 @@
 # ExtDepAgent
 
+![ExtDepAgent](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtDepAgent&color=4bb60e)
 ![.NET](https://jurasskpark.ru/service/budges/?label=.NET&message=10.0&color=purple)
 ![Platform](https://jurasskpark.ru/service/budges/?label=platform&message=Windows&color=lightgrey)
 
