@@ -1,33 +1,19 @@
-	Драйвера для Rapid SCADA.
-	Drivers  for Rapid SCADA.
-
-
-	
-### ExtSNMPJP
+# ExtSnmpJP
 
 ![ExtSnmpJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtSnmpJP&color=4bb60e)
 
-Библиотека ExtSNMPJP (6.1.1.3)
-- Релиз.
----------------------------------------------------------------------------
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
-ExtSNMPJP  library (6.1.1.3)
-- Release.
+Provides the SNMP extension distributed for Rapid SCADA Administrator.
 
+## Screenshots
 
-## Video / Видео
+![ExtSnmpJP — screenshot 1](Source/ExtSnmpJP_001.png)
 
-[Watch the ExtSnmpJP demonstration / Посмотреть демонстрацию ExtSnmpJP ](https://jurasskpark.ru/files/github/ExtSnmpJP.mp4)
+![ExtSnmpJP — screenshot 2](Source/ExtSnmpJP_002.png)
 
-## Screenshots / Скриншоты
+## Video
 
-![ExtSNMPJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/SnmpJP/Source/ExtSnmpJP_001.png) ![ExtSnmpJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/SnmpJP/Source/ExtSnmpJP_002.png)
+- [Demonstration of ExtSnmpJP](https://jurasskpark.ru/files/github/ExtSnmpJP.mp4)
 
-## License / Лицензия
-
-This project is part of the Rapid SCADA ecosystem.  
-Данный проект является частью экосистемы Rapid SCADA.
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[License and usage conditions](Help/en/license.md)

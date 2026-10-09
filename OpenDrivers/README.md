@@ -1,57 +1,19 @@
-<p align="center" >
-	Драйвера для Rapid SCADA.
-	Drivers  for Rapid SCADA.
-</p>
+# Open drivers
 
-### DrvDbImportPlus
-![DrvDbImportPlus](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDbImportPlus&color=4bb60e)
+[English](README.md) · [Русский](README.ru.md) · [English help](../Help/en/index.md) · [Русская справка](../Help/ru/index.md)
 
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDbImportPlus_v6
+Communication drivers with source code.
 
--------------------------------------------------------------------------------
+| Product | Description |
+| --- | --- |
+| [DrvDbImportPlus](DrvDbImportPlus_v6/README.md) | Imports database values and sends SCADA commands to database queries. |
+| [DrvDbDataTransferJP](DrvDbDataTransferJP_v6/README.md) | Transfers database query results and updates Rapid SCADA tags. |
+| [DrvDDEJP](DrvDDEJP/README.md) | Reads values from DDE servers for Rapid SCADA on Windows. |
+| [DrvDebug](DrvDebug_v6/README.md) | Tests communication scenarios, decodes responses and simulates device values. |
+| [DrvFreeDiskSpaceJP](DrvFreeDiskSpaceJP_v6/README.md) | Monitors disk space and runs configured cleanup tasks. |
+| [DrvFSTJP](DrvFSTJP/README.md) | Connects FST-03x gas analyzers and relay expansion blocks to Rapid SCADA. |
+| [DrvFtpJP](DrvFtpJP_v6/README.md) | Automates FTP file transfers using configurable task scenarios. |
+| [DrvPingJP](DrvPingJP_v6/README.md) | Monitors network availability using ping requests. |
+| [DrvTelnetJP](DrvTelnetJP_v6/README.md) | Monitors whether configured TCP ports accept connections. |
 
-### DrvPingJP
-![DrvPingJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvPingJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvPingJP_v6
-
--------------------------------------------------------------------------------
-
-### DrvTelnetJP
-![DrvTelnetJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvTelnetJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvTelnetJP_v6
-
--------------------------------------------------------------------------------
-
-### DrvFreeDiskSpaceJP
-![DrvFreeDiskSpaceJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvFreeDiskSpaceJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFreeDiskSpaceJP_v6
-
--------------------------------------------------------------------------------
-
-### DrvFTPJP
-![DrvFtpJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvFtpJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvFtpJP_v6
-
--------------------------------------------------------------------------------
-
-### DrvDDEJP
-![DrvDDEJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDDEJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDDEJP
-
--------------------------------------------------------------------------------
-
-### DrvDebug
-![DrvDDEJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvDebug&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers/DrvDebug_v6
-
--------------------------------------------------------------------------------
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[All categories](../README.md)

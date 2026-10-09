@@ -1,69 +1,7 @@
 # DrvFSTJP
 
-`DrvFSTJP` is a Rapid SCADA 6.x communication driver for FST-03x gas analyzers.
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
-The implementation is based on `Dopolnitelnye-funktsii-FST-03h.-Rukovodstvo-polzovatelya.pdf` and uses the FST RS232/RS485 packet format:
+Connects FST-03x gas analyzers and relay expansion blocks to Rapid SCADA.
 
-- packet start: `0D 0A`;
-- address byte: low nibble is destination address `0..15`, high nibble is source address `0..15`;
-- command byte;
-- data length byte `N`;
-- header checksum: low byte of the sum of the first 5 header bytes;
-- data block `N` bytes;
-- data checksum: low byte of the sum of data bytes, `00` when `N = 0`.
-
-Implemented polling commands:
-
-- `0x00` link check, response data contains device type: `01` FST-03V, `02` FST-03m, `03` relay expansion block;
-- `0x01` status request for FST-03x, response code `01` or `02`, response data length `25`;
-- optional `0x01` status request for relay expansion blocks, response code `03`;
-- telecommands `ResetDevice`, `ResetChannel`, `RelayOn`, `RelayOff`, `RelaySetMask`, `SendFstPacket`.
-
-## XML project
-
-The device configuration file name follows Rapid SCADA driver conventions:
-
-- `DrvFSTJP.xml` for device number `0`;
-- `DrvFSTJP_001.xml`, `DrvFSTJP_002.xml`, etc. for regular devices.
-
-The sample project is in `DemoProjects/DrvFSTJP_001.xml`.
-
-In ScadaAdmin, open the device properties to create or edit this XML file using the built-in driver form. The form stores the per-device configuration in the ScadaComm configuration directory.
-
-Important XML fields:
-
-- `MasterAddress` - PC/master address on the FST bus, usually `0`;
-- `DeviceAddress` - FST-03x address `1..15`;
-- `PollLinkCheck` - send command `0x00`;
-- `PollStatus` - send command `0x01`;
-- `Channels/Channel` - enabled FST channels `1..8`;
-- `Coefficient` and `Offset` - convert raw 12-bit concentration as `raw * Coefficient + Offset`;
-- `RelayDevices` - optional relay expansion blocks.
-
-Generated tags:
-
-- `DeviceType`;
-- `GlobalErrors`;
-- for each enabled channel: `<CodePrefix>_Concentration`, `<CodePrefix>_MessageCode`, `<CodePrefix>_AlarmCode`, `<CodePrefix>_SensorType`, `<CodePrefix>_CalibrationRequired`, `<CodePrefix>_Threshold1`, `<CodePrefix>_Threshold2`, `<CodePrefix>_Disabled`;
-- for each relay block: `<CodePrefix>_StateLo`, `<CodePrefix>_StateHi`, `<CodePrefix>_Errors`.
-
-## Build / Сборка
-
-Requires Windows, PowerShell 7.2+ and the .NET 10 SDK. Run from this product folder:
-
-Нужны Windows, PowerShell 7.2+ и .NET 10 SDK. Запуск из папки продукта:
-
-```cmd
-StartСompiling.bat -Runtime win-x64
-```
-
-Without `-Runtime`, all platforms listed in `release.json` are built. ZIP archives
-and SHA-256 files are written to the repository's `Releases` directory.
-Each ZIP contains `SCADA` and an automatically generated `readme.txt`.
-
-Без `-Runtime` собираются все платформы из `release.json`. Готовые ZIP и SHA-256
-сохраняются в корневой папке `Releases`. Каждый ZIP содержит `SCADA` и автоматически
-сформированный `readme.txt`. Установка в SCADA выполняется отдельно.
-
-Options, package layout and README metadata: [release packaging](../../Doc/RELEASE_PACKAGING.md).
-Параметры, структура пакетов и данные README: [сборка пакетов](../../Doc/RELEASE_PACKAGING.md).
+[Support](https://forum.rapidscada.org/?topic=drvfstjp)

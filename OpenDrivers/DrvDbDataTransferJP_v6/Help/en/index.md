@@ -1,0 +1,20 @@
+# DrvDbDataTransferJP — Help
+
+[Product](../../README.md) · [Русский](../ru/index.md)
+
+- [Overview](overview.md)
+- [Features](features.md)
+- [Supported Databases](supported-databases.md)
+- [Transfer Mode](transfer-mode.md)
+- [Updating Rapid SCADA Tags](updating-rapid-scada-tags.md)
+- [Legacy Tag Import](legacy-tag-import.md)
+- [Date/Time Patterns](date-time-patterns.md)
+- [Polling Windows](polling-windows.md)
+- [Logging](logging.md)
+- [Deployment Notes](deployment-notes.md)
+- [Build](build.md)
+- [Project Structure](project-structure.md)
+- [Configuration XML](configuration-xml.md)
+- [Screenshots](screenshots.md)
+- [License](license.md)
+- [SAST Tools](development.md)

@@ -1,22 +1,12 @@
-<p align="center" >
-	Плагины для Rapid SCADA.
-	Plugins for Rapid SCADA.
-</p>
+# Webstation plugins
 
-### PlgMimCalendarJP
-![PlgMimCalendarJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimCalendarJP&color=4bb60e)
+[English](README.md) · [Русский](README.ru.md) · [English help](../Help/en/index.md) · [Русская справка](../Help/ru/index.md)
 
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimCalendarJP
+Mimic components with source code.
 
--------------------------------------------------------------------------------
+| Product | Description |
+| --- | --- |
+| [PlgMimCalendarJP](Mimics/PlgMimCalendarJP/README.md) | Adds date and time input components to Rapid SCADA mimic diagrams. |
+| [PlgMimShapesJP](Mimics/PlgMimShapesJP/README.md) | Adds configurable geometric shapes to Rapid SCADA mimic diagrams. |
 
-### PlgMimShapesJP
-![PlgMimShapesJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=PlgMimShapesJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenPlugins/Mimics/PlgMimShapesJP
-
--------------------------------------------------------------------------------
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[All categories](../README.md)

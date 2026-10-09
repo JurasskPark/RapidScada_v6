@@ -1,42 +1,20 @@
-<p align="center" >
-Драйвера для Rapid SCADA.     
-Drivers  for Rapid SCADA.
-</p>
+# Shareware products
 
-# Shareware Drivers
+[English](README.md) · [Русский](README.ru.md) · [English help](../Help/en/index.md) · [Русская справка](../Help/ru/index.md)
 
-![DrvParserTextJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvParserTextJP&color=4bb60e)
+Drivers, Administrator extensions and Webstation plugins.
 
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/ParserTextJP
+| Product | Description |
+| --- | --- |
+| [DrvMOXANportJP](Drivers/MOXANportJP/README.md) | Monitors and administers MOXA NPort serial device servers. |
+| [DrvParserTextJP](Drivers/ParserTextJP/README.md) | Parses text files and maps their contents to Rapid SCADA tags. |
+| [DrvParserTextInDatabaseJP](Drivers/ParserTextInDatabaseJP/README.md) | Parses text files and writes extracted values to a database. |
+| [ExtScriptCompilerJP](ScadaAdmin/ScriptCompilerJP/README.md) | Provides script editing and compilation tools for Rapid SCADA Administrator. |
+| [ExtSnmpJP](ScadaAdmin/SnmpJP/README.md) | Provides the SNMP extension distributed for Rapid SCADA Administrator. |
+| [ExtTrendJP](ScadaAdmin/TrendJP/README.md) | Provides the trend extension distributed for Rapid SCADA Administrator. |
+| [PlgMimControlsJP](ScadaWeb/PlgMimControlsJP/Readme.md) | Adds operator controls with confirmed feedback to Rapid SCADA mimic diagrams. |
+| [PlgMimPipesJP](ScadaWeb/PlgMimPipesJP/Readme.md) | Adds pipe layouts and equipment indicators to Rapid SCADA mimic diagrams. |
+| [PlgMimTankJP](ScadaWeb/PlgMimTankJP/Readme.md) | Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams. |
+| [PlgTrendJP](ScadaWeb/PlgTrendJP/Readme.md) | Displays interactive archive trends in Webstation and on mimic diagrams. |
 
--------------------------------------------------------------------------------
-
-![DrvParserTextInDatabaseJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvParserTextInDatabaseJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/ParserTextInDatabaseJP
-
--------------------------------------------------------------------------------
-
-![ExtScriptCompilerJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtScriptCompilerJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP
-
--------------------------------------------------------------------------------
-
-![ExtSnmpJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtSnmpJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/SnmpJP
-
--------------------------------------------------------------------------------
-
-![ExtTrendJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtTrendJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/ScadaAdmin/TrendJP
-
--------------------------------------------------------------------------------
-
-![DrvMOXANportJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=DrvMOXANportJP&color=4bb60e)
-
-https://github.com/JurasskPark/RapidScada_v6/tree/master/SharewareDrivers/Drivers/MOXANportJP
-
--------------------------------------------------------------------------------
+[All categories](../README.md)

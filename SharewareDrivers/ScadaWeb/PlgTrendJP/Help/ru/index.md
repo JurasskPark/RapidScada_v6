@@ -1,0 +1,22 @@
+# PlgTrendJP — Справка
+
+[Продукт](../../README.ru.md) · [English](../en/index.md)
+
+- [Обзор](overview.md)
+- [Быстрый старт](quick-start.md)
+- [Элементы основной страницы](main-page-controls.md)
+- [Выбор каналов и архивов](selecting-channels-and-archives.md)
+- [Работа с графиком](working-with-the-chart.md)
+- [Меню «Действия»](actions-menu.md)
+- [Типы тренда](trend-types.md)
+- [Несколько осей](multiple-axes.md)
+- [Автоматическое обновление](automatic-refresh.md)
+- [Экспорт Excel](excel-export.md)
+- [TrendWindow на мнемосхеме](trendwindow-on-a-mimic-diagram.md)
+- [Качество данных и пропуски](data-quality-and-missing-points.md)
+- [Настройка отдельного представления](configuring-a-standalone-view.md)
+- [Установка и регистрация](installation-and-registration.md)
+- [Активация и лимит каналов](activation-and-tag-limit.md)
+- [Устранение неполадок](troubleshooting.md)
+- [Скриншоты](screenshots.md)
+- [Лицензия](license.md)

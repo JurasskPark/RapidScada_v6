@@ -1,53 +1,15 @@
-	Драйвера для Rapid SCADA.
-	Drivers  for Rapid SCADA.
-
-
-	
-### ExtScriptCompilerJP
+# ExtScriptCompilerJP
 
 ![ExtScriptCompilerJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtScriptCompilerJP&color=4bb60e)
 
-Библиотека ExtScriptCompilerJP (6.3.0.4)
-- Добавлена подсветка ошибки и указания номера строки.
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
-Библиотека ExtScriptCompilerJP (6.3.0.3)
-- Добавлено отображение параметров в методах.
-- Исправлены ошибки и недочеты.
+Provides script editing and compilation tools for Rapid SCADA Administrator.
 
-Библиотека ExtScriptCompilerJP (6.3.0.1)
-- Переход с Net Core 6.0 на Net Core 8.0.
-- Добавлена возможность добавлять библиотеки и прописывать необходимые пространства имен.
+## Screenshots
 
-Библиотека ExtScriptCompilerJP (6.1.1.6)
-- Релиз.
----------------------------------------------------------------------------
-ExtScriptCompilerJP library (6.3.0.4)
-- Added error highlighting and line number indication.
+![ExtScriptCompilerJP — screenshot 1](Source/ExtScriptCompilerJP_000.png)
 
-ExtScriptCompilerJP library (6.3.0.3)
-- Added parameter mapping in methods.
-- Fixed bugs and bugs.
+![ExtScriptCompilerJP — screenshot 2](Source/ExtScriptCompilerJP_001.png)
 
-ExtScriptCompilerJP library (6.3.0.1)
-- Migration from Net Core 6.0 to Net Core 8.0.
-- Added the ability to add libraries and register the necessary namespaces.
-
-ExtScriptCompilerJP library (6.1.1.6)
-- Release.
-
-
-Screenshots
-
-![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_000.png)
-![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_001.png)
-![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_002.png)
-![ExtScriptCompilerJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/ScriptCompilerJP/Source/ExtScriptCompilerJP_003.png)
-
-## License / Лицензия
-
-This project is part of the Rapid SCADA ecosystem.  
-Данный проект является частью экосистемы Rapid SCADA.
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[License and usage conditions](Help/en/license.md)

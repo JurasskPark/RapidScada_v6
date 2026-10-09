@@ -1,56 +1,21 @@
-	Драйвера для Rapid SCADA.
-	Drivers  for Rapid SCADA.
-
-
-	
-### ExtTrendJP
+# ExtTrendJP
 
 ![ExtTrendJP](https://jurasskpark.ru/service/budges/?user=JurasskPark&repo=RapidScada_v6&product=ExtTrendJP&color=4bb60e)
 
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
-Библиотека ExtTrendJP (6.3.0.1)
-- Исправление ошибок в графическом оформлении библиотеки.
-Библиотека ExtTrendJP (6.3.0.0)
-- Переход с Net Core 6.0 на Net Core 8.0.
-Библиотека ExtTrendJP (6.1.1.3)
-- Исправление небольших недочетов и ошибки с изменением свойств архива.
-Библиотека ExtTrendJP (6.1.1.2)
-- Исправлена ошибка по отсчету времени.
-- Исправлена ошибка в изображении О программе и Splash формы.
-Библиотека ExtTrendJP (6.1.1.1)
-- Релиз.
----------------------------------------------------------------------------
+Provides the trend extension distributed for Rapid SCADA Administrator.
 
-ExtTrendJP Library (6.3.0.1)
-- Correction of errors in the library's graphic design.
-ExtTrendJP Library (6.3.0.0)
-- Migration from Net Core 6.0 to Net Core 8.0.
-ExtTrendJP  library (6.1.1.3)
-- Correction of minor bugs and errors with changing archive properties.
-ExtTrendJP  library (6.1.1.2)
-- Fixed a bug in the time countdown.
-- Fixed a bug in the About and Splash form image.
-ExtTrendJP  library (6.1.1.1)
-- Release.
+## Screenshots
 
+![ExtTrendJP — screenshot 1](Source/ExtTrendJP_001.png)
 
-Video on YouTube 
-https://www.youtube.com/watch?v=AJ5tr_kXeQw
+![ExtTrendJP — screenshot 2](Source/ExtTrendJP_002.png)
 
+## Video
 
-[![Video on YouTube](https://img.youtube.com/vi/AJ5tr_kXeQw/0.jpg)](https://www.youtube.com/watch?v=AJ5tr_kXeQw)
+- [Demonstration of ExtTrendJP — YouTube](https://www.youtube.com/watch?v=AJ5tr_kXeQw)
 
-Screenshots
+[![Video demonstration](https://img.youtube.com/vi/AJ5tr_kXeQw/0.jpg)](https://www.youtube.com/watch?v=AJ5tr_kXeQw)
 
-![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_001.png) ![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_002.png)
-![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_003.png) ![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_004.png)
-![ExtTrendJP](https://raw.githubusercontent.com/JurasskPark/RapidScada_v6/master/SharewareDrivers/ScadaAdmin/TrendJP/Source/ExtTrendJP_005.png) 
-
-## License / Лицензия
-
-This project is part of the Rapid SCADA ecosystem.  
-Данный проект является частью экосистемы Rapid SCADA.
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[License and usage conditions](Help/en/license.md)

@@ -1,0 +1,23 @@
+# PlgMimTankJP — Справка
+
+[Продукт](../../README.ru.md) · [English](../en/index.md)
+
+- [Обзор](overview.md)
+- [Возможности](features.md)
+- [Быстрый старт](quick-start.md)
+- [Каталог компонентов](component-catalog.md)
+- [Полные многослойные уровнемеры](full-layered-level-indicators.md)
+- [Мёртвая зона и переполнение](dead-zone-and-overflow.md)
+- [Аварийные уровни](level-alarms.md)
+- [Качество данных](data-quality.md)
+- [Уровнемеры Lite](lite-level-indicators.md)
+- [Линейная шкала](linear-gauge.md)
+- [Промышленные SVG-ёмкости](industrial-svg-vessels.md)
+- [Превью редактора и рабочий режим](editor-preview-and-runtime.md)
+- [Совмещение с сеткой трубопроводов](pipe-grid-integration.md)
+- [Установка и регистрация](installation-and-registration.md)
+- [Активация](activation.md)
+- [Устранение неполадок](troubleshooting.md)
+- [Границы функциональности](scope-and-limitations.md)
+- [Скриншоты](screenshots.md)
+- [Лицензия](license.md)

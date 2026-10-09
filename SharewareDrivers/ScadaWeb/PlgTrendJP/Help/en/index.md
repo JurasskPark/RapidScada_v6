@@ -1,0 +1,22 @@
+# PlgTrendJP — Help
+
+[Product](../../Readme.md) · [Русский](../ru/index.md)
+
+- [Overview](overview.md)
+- [Quick Start](quick-start.md)
+- [Main Page Controls](main-page-controls.md)
+- [Selecting Channels and Archives](selecting-channels-and-archives.md)
+- [Working with the Chart](working-with-the-chart.md)
+- [Actions Menu](actions-menu.md)
+- [Trend Types](trend-types.md)
+- [Multiple Axes](multiple-axes.md)
+- [Automatic Refresh](automatic-refresh.md)
+- [Excel Export](excel-export.md)
+- [TrendWindow on a Mimic Diagram](trendwindow-on-a-mimic-diagram.md)
+- [Data Quality and Missing Points](data-quality-and-missing-points.md)
+- [Configuring a Standalone View](configuring-a-standalone-view.md)
+- [Installation and Registration](installation-and-registration.md)
+- [Activation and Tag Limit](activation-and-tag-limit.md)
+- [Troubleshooting](troubleshooting.md)
+- [Screenshots](screenshots.md)
+- [License](license.md)

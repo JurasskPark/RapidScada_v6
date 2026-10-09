@@ -1,0 +1,20 @@
+# DrvDbDataTransferJP — Справка
+
+[Продукт](../../README.ru.md) · [English](../en/index.md)
+
+- [Обзор](overview.md)
+- [Возможности](features.md)
+- [Поддерживаемые БД](supported-databases.md)
+- [Режим переноса](transfer-mode.md)
+- [Обновление тегов Rapid SCADA](updating-rapid-scada-tags.md)
+- [Старый режим импорта тегов](legacy-tag-import.md)
+- [Шаблоны даты и времени](date-time-patterns.md)
+- [Окна опроса](polling-windows.md)
+- [Логирование](logging.md)
+- [Замечания по развертыванию](deployment-notes.md)
+- [Сборка](build.md)
+- [Структура проекта](project-structure.md)
+- [XML-конфигурация](configuration-xml.md)
+- [Скриншоты](screenshots.md)
+- [Лицензия](license.md)
+- [Статический анализ](development.md)

@@ -1,0 +1,23 @@
+# PlgMimTankJP — Help
+
+[Product](../../Readme.md) · [Русский](../ru/index.md)
+
+- [Overview](overview.md)
+- [Features](features.md)
+- [Quick Start](quick-start.md)
+- [Component Catalog](component-catalog.md)
+- [Full Layered Level Indicators](full-layered-level-indicators.md)
+- [Dead Zone and Overflow](dead-zone-and-overflow.md)
+- [Level Alarms](level-alarms.md)
+- [Data Quality](data-quality.md)
+- [Lite Level Indicators](lite-level-indicators.md)
+- [Linear Gauge](linear-gauge.md)
+- [Industrial SVG Vessels](industrial-svg-vessels.md)
+- [Editor Preview and Runtime](editor-preview-and-runtime.md)
+- [Pipe Grid Integration](pipe-grid-integration.md)
+- [Installation and Registration](installation-and-registration.md)
+- [Activation](activation.md)
+- [Troubleshooting](troubleshooting.md)
+- [Scope and Limitations](scope-and-limitations.md)
+- [Screenshots](screenshots.md)
+- [License](license.md)
