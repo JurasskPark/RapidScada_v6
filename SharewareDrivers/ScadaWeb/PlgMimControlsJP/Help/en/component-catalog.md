@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Component Catalog
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/component-catalog.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/component-catalog.md)
 
 The following nineteen types are ordinary components. They are available for authoring without a local component license; their runtime execution is licensed.
 

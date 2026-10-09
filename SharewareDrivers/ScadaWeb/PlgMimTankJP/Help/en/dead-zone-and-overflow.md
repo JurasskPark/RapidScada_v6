@@ -1,6 +1,6 @@
 # PlgMimTankJP — Dead Zone and Overflow
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/dead-zone-and-overflow.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/dead-zone-and-overflow.md)
 
 The dead zone represents sediment, sludge or another unusable bottom layer. It is normalized to `0 ≤ deadZoneMeters < tankHeightMeters` and subtracted once from known liquid layers from bottom to top.
 

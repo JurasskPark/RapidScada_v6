@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Important Notes
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/important-notes.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/important-notes.md)
 
 - Do not resize `PipeAssembly` with the ordinary component resize handles; edit its route points instead.
 - The first automatic-layout point fixes the parent container. The route may extend outside that container, including into negative local coordinates.

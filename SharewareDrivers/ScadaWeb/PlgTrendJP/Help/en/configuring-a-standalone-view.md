@@ -1,6 +1,6 @@
 # PlgTrendJP — Configuring a Standalone View
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/configuring-a-standalone-view.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/configuring-a-standalone-view.md)
 
 The plugin registers the fileless view type `TrendJP`. A configured view opens `/TrendJP?viewID=<ID>`. The `Args` field contains ordinary query-string parameters without the leading `?`.
 

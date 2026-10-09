@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Button Images and Text Wrapping
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/button-images-and-text-wrapping.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/button-images-and-text-wrapping.md)
 
 From `6.5.0.15`, `IlluminatedButton`, `LatchedButton`, `MomentaryButton`, `OneShotButton`, `TextCommandInput`, `SetpointControl`, `ValueForm` and `MechanismPanel` support configurable button content. Use the standard Mimic image picker to add PNG, JPG or SVG images to the mimic. Images remain embedded in the `.mim` and do not require an external URL.
 

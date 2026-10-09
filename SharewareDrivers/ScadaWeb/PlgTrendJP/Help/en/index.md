@@ -1,6 +1,6 @@
 # PlgTrendJP — Help
 
-[Product](../../Readme.md) · [Русский](../ru/index.md)
+[Product](../../README.md) · [Русский](../ru/index.md)
 
 - [Overview](overview.md)
 - [Quick Start](quick-start.md)

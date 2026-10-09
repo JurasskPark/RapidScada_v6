@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Quick Start
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/quick-start.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/quick-start.md)
 
 1. Install and enable `PlgMimControlsJP`, then restart SCADA Web. A component license is not required for editing.
 2. Open a mimic in a compatible Mimic Editor.

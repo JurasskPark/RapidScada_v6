@@ -1,6 +1,6 @@
 # PlgMimTankJP — Linear Gauge
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/linear-gauge.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/linear-gauge.md)
 
 `LinearGauge` is a separate read-only zonal scale driven by the standard input channel. It is not a layered liquid indicator and does not calculate tank alarms.
 

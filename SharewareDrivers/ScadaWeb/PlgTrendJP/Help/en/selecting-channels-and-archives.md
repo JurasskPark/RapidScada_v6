@@ -1,6 +1,6 @@
 # PlgTrendJP — Selecting Channels and Archives
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/selecting-channels-and-archives.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/selecting-channels-and-archives.md)
 
 The channel dialog supports filters by object, device and text. **Selected only** temporarily shows only checked channels. **Available in selected archive** is enabled by default and hides channels that are not written to the selected archive.
 

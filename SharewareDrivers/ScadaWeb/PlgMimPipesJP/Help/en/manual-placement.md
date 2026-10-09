@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Manual Placement
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/manual-placement.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/manual-placement.md)
 
 1. Open a mimic in the visual editor.
 2. Select a component from the **PIPES** group and place it on the canvas.

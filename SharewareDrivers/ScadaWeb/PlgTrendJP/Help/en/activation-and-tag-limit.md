@@ -1,6 +1,6 @@
 # PlgTrendJP — Activation and Tag Limit
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/activation-and-tag-limit.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation-and-tag-limit.md)
 
 `PlgTrendJP` uses a separate installation-specific license. If no valid license is found, the plugin creates `PlgTrendJP_Activation.bin` without overwriting an existing request.
 

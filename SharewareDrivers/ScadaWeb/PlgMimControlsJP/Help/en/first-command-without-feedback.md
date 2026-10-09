@@ -1,6 +1,6 @@
 # PlgMimControlsJP — First Command Without Feedback
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/first-command-without-feedback.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/first-command-without-feedback.md)
 
 Missing input data is shown honestly and normally does not prevent an explicit operator command:
 

@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/badge/version-6.1.0-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
 
-[English](Readme.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
 Добавляет ёмкости, сосуды и индикаторы уровня на мнемосхемы Rapid SCADA.
 
@@ -23,6 +23,22 @@
 ![PlgMimTankJP — скриншот 1](Source/PlgMimTankJP_001.png)
 
 ![PlgMimTankJP — скриншот 2](Source/PlgMimTankJP_002.png)
+
+![PlgMimTankJP — скриншот 3](Source/PlgMimTankJP_003.png)
+
+![PlgMimTankJP — скриншот 4](Source/PlgMimTankJP_004.png)
+
+![PlgMimTankJP — скриншот 5](Source/PlgMimTankJP_005.png)
+
+![PlgMimTankJP — скриншот 6](Source/PlgMimTankJP_006.png)
+
+![PlgMimTankJP — скриншот 7](Source/PlgMimTankJP_007.png)
+
+![PlgMimTankJP — скриншот 8](Source/PlgMimTankJP_008.png)
+
+![PlgMimTankJP — скриншот 9](Source/PlgMimTankJP_009.png)
+
+![PlgMimTankJP — скриншот 10](Source/PlgMimTankJP_010.png)
 
 ## Видео
 

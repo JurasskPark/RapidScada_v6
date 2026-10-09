@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Editor and Runtime Behavior
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/editor-and-runtime-behavior.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/editor-and-runtime-behavior.md)
 
 - Every selected component has a lime editor outline around its complete external size, including controls with clipped or scrollable content.
 - Interactive child elements do not intercept moving and resizing in edit mode.

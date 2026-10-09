@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Help
 
-[Product](../../Readme.md) · [Русский](../ru/index.md)
+[Product](../../README.md) · [Русский](../ru/index.md)
 
 - [Overview](overview.md)
 - [Features](features.md)

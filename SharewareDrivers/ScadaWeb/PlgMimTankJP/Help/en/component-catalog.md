@@ -1,6 +1,6 @@
 # PlgMimTankJP — Component Catalog
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/component-catalog.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/component-catalog.md)
 
 | Type name | English toolbox name | Default size |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # PlgTrendJP — Multiple Axes
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/multiple-axes.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/multiple-axes.md)
 
 `multiple-axes` creates no more than four real Y-axis groups. It does not create one axis for every channel.
 

@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Equipment States
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/equipment-states.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/equipment-states.md)
 
 The pump, gate valve and pressure gauge obtain their state from the standard input channel binding. The state is calculated at runtime and cannot be selected manually.
 

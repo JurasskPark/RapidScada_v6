@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Automatic Pipe Layout
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/automatic-pipe-layout.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/automatic-pipe-layout.md)
 
 Automatic layout is supported only by the modern Mimic JP Editor. The original Mimic Editor can place ordinary pipe components but displays a message when automatic layout is selected.
 

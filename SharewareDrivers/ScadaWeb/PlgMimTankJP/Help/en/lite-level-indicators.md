@@ -1,6 +1,6 @@
 # PlgMimTankJP — Lite Level Indicators
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/lite-level-indicators.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/lite-level-indicators.md)
 
 `VerticalLevelLite` and `HorizontalLevelLite` are compact indicators for layouts where only the colored fill is required. They intentionally omit values, captions, percentages, quality text, alarms, legend and dead-zone compensation.
 

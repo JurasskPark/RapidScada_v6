@@ -1,6 +1,6 @@
 # PlgMimTankJP — Quick Start
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/quick-start.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/quick-start.md)
 
 1. Install and enable `PlgMimTankJP`, then restart SCADA Web and activate the plugin.
 2. Open a mimic in Mimic Editor or Mimic Editor JP.

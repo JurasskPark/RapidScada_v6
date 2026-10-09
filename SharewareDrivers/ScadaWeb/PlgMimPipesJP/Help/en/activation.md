@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Activation
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/activation.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
 The pipe plugin uses its own license. A `MimicEditorJP` license does not activate `PlgMimPipesJP`.
 

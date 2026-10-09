@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Multi-Value Form
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/multi-value-form.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/multi-value-form.md)
 
 `ValueForm` appears on the mimic as a configurable open button. Its modal window contains the form title, row list, common Apply button and Close button. Each `ValueFormRow` has a name, input channel, output channel and one of six editors:
 

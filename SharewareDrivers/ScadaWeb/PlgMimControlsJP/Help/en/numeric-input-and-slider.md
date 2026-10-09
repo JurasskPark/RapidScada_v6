@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Numeric Input and Slider
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/numeric-input-and-slider.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/numeric-input-and-slider.md)
 
 ## NumericUpDown
 

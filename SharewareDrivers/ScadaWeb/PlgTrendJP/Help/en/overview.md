@@ -1,6 +1,6 @@
 # PlgTrendJP — Overview
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/overview.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/overview.md)
 
 ![Rapid SCADA](https://img.shields.io/badge/Rapid%20SCADA-6.x-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)

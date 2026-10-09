@@ -5,7 +5,7 @@
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
 
-[English](Readme.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
 Добавляет трубопроводы и индикаторы оборудования на мнемосхемы Rapid SCADA.
 
@@ -22,6 +22,10 @@
 ![PlgMimPipesJP — скриншот 1](Source/PlgMimPipesJP_001.png)
 
 ![PlgMimPipesJP — скриншот 2](Source/PlgMimPipesJP_002.png)
+
+![PlgMimPipesJP — скриншот 3](Source/PlgMimPipesJP_003.png)
+
+![PlgMimPipesJP — скриншот 4](Source/PlgMimPipesJP_004.png)
 
 ## Видео
 

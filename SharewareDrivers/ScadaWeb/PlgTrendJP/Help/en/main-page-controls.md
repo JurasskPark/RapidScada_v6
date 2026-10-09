@@ -1,6 +1,6 @@
 # PlgTrendJP — Main Page Controls
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/main-page-controls.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/main-page-controls.md)
 
 | Control | Purpose |
 | --- | --- |

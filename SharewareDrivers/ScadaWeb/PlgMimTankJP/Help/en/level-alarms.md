@@ -1,6 +1,6 @@
 # PlgMimTankJP — Level Alarms
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/level-alarms.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/level-alarms.md)
 
 Default thresholds are `LL = 5%`, `L = 15%`, `H = 85%` and `HH = 95%`. Threshold order is always normalized:
 

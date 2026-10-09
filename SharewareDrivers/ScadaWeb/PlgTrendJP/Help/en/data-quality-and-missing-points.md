@@ -1,6 +1,6 @@
 # PlgTrendJP — Data Quality and Missing Points
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/data-quality-and-missing-points.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/data-quality-and-missing-points.md)
 
 A point is drawn only when its SCADA status is positive and its value is a valid finite number. Bad-quality, missing or invalid points break line, stepped, smooth and area paths. TrendJP intentionally does not connect the good values on opposite sides of a bad interval.
 

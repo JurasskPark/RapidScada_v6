@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Command Buttons
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/command-buttons.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/command-buttons.md)
 
 ## LatchedButton
 

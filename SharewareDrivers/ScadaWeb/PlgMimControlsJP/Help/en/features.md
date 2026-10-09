@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Features
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/features.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/features.md)
 
 - nineteen display, selection, command and multi-value form components, plus an autonomous demo;
 - standard Rapid SCADA input and output channel bindings;

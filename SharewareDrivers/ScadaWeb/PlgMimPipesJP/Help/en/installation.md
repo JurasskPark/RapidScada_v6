@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Installation
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/installation.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/installation.md)
 
 1. Copy the supplied plugin package to the Rapid SCADA installation while preserving its directories.
 2. Enable `PlgMimPipesJP` in the Webstation plugin list.

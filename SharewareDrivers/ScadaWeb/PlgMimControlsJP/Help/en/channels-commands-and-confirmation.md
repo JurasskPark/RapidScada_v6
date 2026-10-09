@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Channels, Commands and Confirmation
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/channels-commands-and-confirmation.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/channels-commands-and-confirmation.md)
 
 Most interactive controls use an input channel for confirmed feedback and an output channel for commands. A command is available only in licensed runtime when the component is enabled, the operator has control rights, the resolved output channel number is greater than zero and the Webstation command API is available. Ready-state feedback and configured permit channels impose additional component-specific conditions.
 

@@ -1,6 +1,6 @@
 # PlgMimTankJP — Full Layered Level Indicators
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/full-layered-level-indicators.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/full-layered-level-indicators.md)
 
 `TankV2` draws layers vertically from bottom to top. `LayerProgress` draws them horizontally from left to right. Both components use the same physical-level, quality, dead-zone, overflow and alarm calculations.
 

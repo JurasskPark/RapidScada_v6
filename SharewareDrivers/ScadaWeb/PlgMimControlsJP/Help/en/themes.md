@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Themes
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/themes.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/themes.md)
 
 The active file `css/controls.css` contains the complete light-blue theme. Four complete replaceable presets are supplied:
 

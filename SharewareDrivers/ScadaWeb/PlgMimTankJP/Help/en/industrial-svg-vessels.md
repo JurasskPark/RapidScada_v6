@@ -1,6 +1,6 @@
 # PlgMimTankJP — Industrial SVG Vessels
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/industrial-svg-vessels.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/industrial-svg-vessels.md)
 
 Every vessel always displays its body and nameplate. The level indicator, alarm badges and instruments are disabled by default and appear only when enabled in properties. Liquid is shown on a wide external level scale and in separate value cards; it is not painted transparently inside the vessel body.
 

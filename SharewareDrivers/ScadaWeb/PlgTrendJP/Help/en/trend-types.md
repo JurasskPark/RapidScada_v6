@@ -1,6 +1,6 @@
 # PlgTrendJP — Trend Types
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/trend-types.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/trend-types.md)
 
 Open **Actions → Trend type** and select the presentation that matches the data.
 

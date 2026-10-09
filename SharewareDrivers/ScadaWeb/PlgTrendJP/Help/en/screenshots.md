@@ -1,6 +1,6 @@
 # PlgTrendJP — Screenshots
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/screenshots.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/screenshots.md)
 
 ## Runtime mimic
 

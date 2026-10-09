@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Command Input
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/command-input.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/command-input.md)
 
 `TextCommandInput` has no input channel. Configure an output channel, `Double`, `Text` or `Hex` format, placeholder, optional send button and optional on-screen keyboard button. The send-button caption and keyboard type appear in the property grid only while the corresponding button is enabled.
 

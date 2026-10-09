@@ -1,6 +1,6 @@
 # PlgMimTankJP — Editor Preview and Runtime
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/editor-preview-and-runtime.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/editor-preview-and-runtime.md)
 
 The editor intentionally shows configured previews, all enabled instrument positions and level-alarm layout. This makes it possible to arrange a mimic before channels produce live values.
 

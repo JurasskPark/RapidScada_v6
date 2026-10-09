@@ -1,6 +1,6 @@
 # PlgTrendJP — Working with the Chart
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/working-with-the-chart.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/working-with-the-chart.md)
 
 ## Zoom and Pan
 

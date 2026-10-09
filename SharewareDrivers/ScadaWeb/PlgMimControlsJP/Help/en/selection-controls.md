@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Selection Controls
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/selection-controls.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/selection-controls.md)
 
 ## ComboBox
 

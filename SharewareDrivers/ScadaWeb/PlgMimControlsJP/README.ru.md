@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/badge/version-6.5.0.15-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
 
-[English](Readme.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
 Добавляет операторские элементы управления с подтверждённой обратной связью на мнемосхемы Rapid SCADA.
 

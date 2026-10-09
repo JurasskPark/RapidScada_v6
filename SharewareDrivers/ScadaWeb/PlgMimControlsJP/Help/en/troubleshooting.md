@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Troubleshooting
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/troubleshooting.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/troubleshooting.md)
 
 | Symptom | Cause and action |
 | --- | --- |

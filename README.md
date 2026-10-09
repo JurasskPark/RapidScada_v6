@@ -51,9 +51,9 @@ Drivers, Server modules, Administrator extensions and Webstation plugins for Rap
 | [ExtScriptCompilerJP](SharewareDrivers/ScadaAdmin/ScriptCompilerJP/README.md) | Provides script editing and compilation tools for Rapid SCADA Administrator. |
 | [ExtSnmpJP](SharewareDrivers/ScadaAdmin/SnmpJP/README.md) | Provides the SNMP extension distributed for Rapid SCADA Administrator. |
 | [ExtTrendJP](SharewareDrivers/ScadaAdmin/TrendJP/README.md) | Provides the trend extension distributed for Rapid SCADA Administrator. |
-| [PlgMimControlsJP](SharewareDrivers/ScadaWeb/PlgMimControlsJP/Readme.md) | Adds operator controls with confirmed feedback to Rapid SCADA mimic diagrams. |
-| [PlgMimPipesJP](SharewareDrivers/ScadaWeb/PlgMimPipesJP/Readme.md) | Adds pipe layouts and equipment indicators to Rapid SCADA mimic diagrams. |
-| [PlgMimTankJP](SharewareDrivers/ScadaWeb/PlgMimTankJP/Readme.md) | Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams. |
-| [PlgTrendJP](SharewareDrivers/ScadaWeb/PlgTrendJP/Readme.md) | Displays interactive archive trends in Webstation and on mimic diagrams. |
+| [PlgMimControlsJP](SharewareDrivers/ScadaWeb/PlgMimControlsJP/README.md) | Adds operator controls with confirmed feedback to Rapid SCADA mimic diagrams. |
+| [PlgMimPipesJP](SharewareDrivers/ScadaWeb/PlgMimPipesJP/README.md) | Adds pipe layouts and equipment indicators to Rapid SCADA mimic diagrams. |
+| [PlgMimTankJP](SharewareDrivers/ScadaWeb/PlgMimTankJP/README.md) | Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams. |
+| [PlgTrendJP](SharewareDrivers/ScadaWeb/PlgTrendJP/README.md) | Displays interactive archive trends in Webstation and on mimic diagrams. |
 
 Open-source products target .NET 10. [Build instructions](Help/en/build.md) · [Package creation](Help/en/release-packaging.md). Product pages preserve the compatibility information of individual shareware releases.

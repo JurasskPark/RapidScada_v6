@@ -1,6 +1,6 @@
 # PlgMimTankJP — Data Quality
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/data-quality.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/data-quality.md)
 
 A channel value is considered good only when data exists, its SCADA status is positive and the value is a finite number.
 

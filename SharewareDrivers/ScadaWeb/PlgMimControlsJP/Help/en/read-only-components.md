@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Read-Only Components
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/read-only-components.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/read-only-components.md)
 
 ## ProcessValue
 

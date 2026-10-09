@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Activation
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/activation.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
 The ordinary controls use their own server-side runtime license. A `Single` license is bound to the server installation; it does not have to be copied to the engineer's computer to create or save `.mim` files. A `MimicEditorJP`, `PlgMimTankJP`, `PlgMimPipesJP` or another product license does not activate `PlgMimControlsJP`.
 

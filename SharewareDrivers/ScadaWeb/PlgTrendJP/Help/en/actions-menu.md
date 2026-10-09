@@ -1,6 +1,6 @@
 # PlgTrendJP — Actions Menu
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/actions-menu.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/actions-menu.md)
 
 ## Display Settings
 

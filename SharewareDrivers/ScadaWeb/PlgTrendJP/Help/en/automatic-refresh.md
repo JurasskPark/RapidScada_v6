@@ -1,6 +1,6 @@
 # PlgTrendJP — Automatic Refresh
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/automatic-refresh.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/automatic-refresh.md)
 
 Select a timer interval and click **Start**. Click **Stop** to disable periodic requests. The timer is not started merely by selecting an interval unless `autoRefresh=true` is configured.
 

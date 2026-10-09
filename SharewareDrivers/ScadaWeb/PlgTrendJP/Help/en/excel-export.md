@@ -1,6 +1,6 @@
 # PlgTrendJP — Excel Export
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/excel-export.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/excel-export.md)
 
 1. Load the required trend first.
 2. Open **Actions → Export Excel**.

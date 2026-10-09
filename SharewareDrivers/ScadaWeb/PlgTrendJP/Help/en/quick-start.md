@@ -1,6 +1,6 @@
 # PlgTrendJP — Quick Start
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/quick-start.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/quick-start.md)
 
 1. Open a view of type `TrendJP` in Webstation.
 2. Click **Select...** in the **Channels** field.

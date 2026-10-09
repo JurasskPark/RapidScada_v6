@@ -1,6 +1,6 @@
 # PlgMimTankJP — Features
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/features.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/features.md)
 
 - vertical and horizontal three-layer level indicators;
 - compact channel-driven Lite indicators;

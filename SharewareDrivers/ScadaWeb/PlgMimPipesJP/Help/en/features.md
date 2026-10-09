@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Features
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/features.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/features.md)
 
 - straight and narrow straight pipes;
 - 45° and 90° elbows;

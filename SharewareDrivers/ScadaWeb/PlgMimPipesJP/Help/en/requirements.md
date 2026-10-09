@@ -1,6 +1,6 @@
 # PlgMimPipesJP — Requirements
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/requirements.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/requirements.md)
 
 - Rapid SCADA 6.x on Windows;
 - an installed and enabled `PlgMimPipesJP` plugin;

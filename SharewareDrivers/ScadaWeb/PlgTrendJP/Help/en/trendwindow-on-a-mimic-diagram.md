@@ -1,6 +1,6 @@
 # PlgTrendJP — TrendWindow on a Mimic Diagram
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/trendwindow-on-a-mimic-diagram.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/trendwindow-on-a-mimic-diagram.md)
 
 `TrendWindow` is a compact interactive trend placed directly on a mimic diagram. The editor displays demonstration data so that appearance can be configured without archive access. At runtime it loads real data and supports tooltips, wheel zoom, drag panning, Reset Zoom and the interactive legend.
 

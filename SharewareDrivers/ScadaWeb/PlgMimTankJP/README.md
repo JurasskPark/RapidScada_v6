@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/badge/version-6.1.0-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
 
-[English](Readme.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
+[English](README.md) · [Русский](README.ru.md) · [English help](Help/en/index.md) · [Русская справка](Help/ru/index.md)
 
 Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams.
 
@@ -23,6 +23,22 @@ Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams.
 ![PlgMimTankJP — screenshot 1](Source/PlgMimTankJP_001.png)
 
 ![PlgMimTankJP — screenshot 2](Source/PlgMimTankJP_002.png)
+
+![PlgMimTankJP — screenshot 3](Source/PlgMimTankJP_003.png)
+
+![PlgMimTankJP — screenshot 4](Source/PlgMimTankJP_004.png)
+
+![PlgMimTankJP — screenshot 5](Source/PlgMimTankJP_005.png)
+
+![PlgMimTankJP — screenshot 6](Source/PlgMimTankJP_006.png)
+
+![PlgMimTankJP — screenshot 7](Source/PlgMimTankJP_007.png)
+
+![PlgMimTankJP — screenshot 8](Source/PlgMimTankJP_008.png)
+
+![PlgMimTankJP — screenshot 9](Source/PlgMimTankJP_009.png)
+
+![PlgMimTankJP — screenshot 10](Source/PlgMimTankJP_010.png)
 
 ## Video
 

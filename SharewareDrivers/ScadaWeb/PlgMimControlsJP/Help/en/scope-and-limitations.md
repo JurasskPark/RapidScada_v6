@@ -1,6 +1,6 @@
 # PlgMimControlsJP — Scope and Limitations
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/scope-and-limitations.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/scope-and-limitations.md)
 
 - ordinary component confirmed state comes from input feedback, not from an optimistic local write;
 - `BitCheckList` requires a valid source mask before the first command;

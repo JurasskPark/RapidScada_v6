@@ -1,6 +1,6 @@
 # PlgMimTankJP — Scope and Limitations
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/scope-and-limitations.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/scope-and-limitations.md)
 
 - all level values are linear heights in metres;
 - layer count and order are fixed by the selected component type;

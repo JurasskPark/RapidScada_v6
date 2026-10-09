@@ -1,6 +1,6 @@
 # PlgMimTankJP — Activation
 
-[Contents](index.md) · [Product](../../Readme.md) · [Русский](../ru/activation.md)
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
 The tank plugin uses its own installation-specific license. A `MimicEditorJP`, `PlgMimPipesJP` or another product license does not activate `PlgMimTankJP`.
 
