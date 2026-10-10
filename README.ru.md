@@ -55,6 +55,7 @@
 | [PlgMimDisplayJP](SharewareDrivers/ScadaWeb/PlgMimDisplayJP/README.ru.md) | Добавляет электронные табло, таблицы данных и условный текст на мнемосхемы Rapid SCADA. |
 | [PlgMimElectricJP](SharewareDrivers/ScadaWeb/PlgMimElectricJP/README.ru.md) | Добавляет на мнемосхемы Rapid SCADA символы электроснабжения, КИПиА и автоматизации. |
 | [PlgMimPipesJP](SharewareDrivers/ScadaWeb/PlgMimPipesJP/README.ru.md) | Добавляет трубопроводы и индикаторы оборудования на мнемосхемы Rapid SCADA. |
+| [PlgMimSVGAnimationJP](SharewareDrivers/ScadaWeb/PlgMimSVGAnimationJP/README.ru.md) | Добавляет дизайнер SVG-символов, анимацию по каналам и действия оператора на мнемосхемы Rapid SCADA. |
 | [PlgMimTankJP](SharewareDrivers/ScadaWeb/PlgMimTankJP/README.ru.md) | Добавляет ёмкости, сосуды и индикаторы уровня на мнемосхемы Rapid SCADA. |
 | [PlgTrendJP](SharewareDrivers/ScadaWeb/PlgTrendJP/README.ru.md) | Отображает интерактивные архивные тренды в Вебстанции и на мнемосхемах. |
 

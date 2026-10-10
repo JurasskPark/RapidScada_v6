@@ -16,6 +16,7 @@ Drivers, Administrator extensions and Webstation plugins.
 | [PlgMimDisplayJP](ScadaWeb/PlgMimDisplayJP/README.md) | Adds electronic displays, data tables and conditional text to Rapid SCADA mimic diagrams. |
 | [PlgMimElectricJP](ScadaWeb/PlgMimElectricJP/README.md) | Adds electrical, instrumentation and automation symbols to Rapid SCADA mimic diagrams. |
 | [PlgMimPipesJP](ScadaWeb/PlgMimPipesJP/README.md) | Adds pipe layouts and equipment indicators to Rapid SCADA mimic diagrams. |
+| [PlgMimSVGAnimationJP](ScadaWeb/PlgMimSVGAnimationJP/README.md) | Adds an SVG symbol designer, channel-driven animation and operator actions to Rapid SCADA mimic diagrams. |
 | [PlgMimTankJP](ScadaWeb/PlgMimTankJP/README.md) | Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams. |
 | [PlgTrendJP](ScadaWeb/PlgTrendJP/README.md) | Displays interactive archive trends in Webstation and on mimic diagrams. |
 
