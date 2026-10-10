@@ -1,0 +1,30 @@
+# PlgMimDisplayJP — Русская справка
+
+[Оглавление](index.md) · [Продукт](../../README.ru.md) · [English](../en/index.md)
+
+Версия **6.5.0.3** · Rapid SCADA **6.5** · **.NET 10**
+
+- [Обзор](overview.md)
+- [Установка](installation.md)
+- [Активация](activation.md)
+- [Настройка](configuration.md)
+- [Использование табло](usage.md)
+- [Каталог компонентов и параметры](components.md)
+- [Сегментный индикатор](segment-display.md)
+- [Матричный индикатор](dot-matrix-display.md)
+- [Механический счётчик](mechanical-counter.md)
+- [Бегущая строка](marquee-display.md)
+- [Таблица данных](data-table-display.md)
+- [Текст по значению](value-text-display.md)
+- [Форматирование чисел](numeric-format.md)
+- [Каналы и качество данных](channels.md)
+- [Ячейки и размеры таблицы](table-cells.md)
+- [Действия ячеек таблицы](actions.md)
+- [Правила текста по значению](rules.md)
+- [Автономная демонстрация](demo.md)
+- [Минимальные примеры](examples.md)
+- [Галерея скриншотов PNG](screenshots.md)
+- [Диагностика](troubleshooting.md)
+- [Лицензия и исполнение](license.md)
+- [Сборка исходников и разработка](build.md)
+- [Источники и границы документации](sources.md)

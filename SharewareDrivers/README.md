@@ -13,6 +13,7 @@ Drivers, Administrator extensions and Webstation plugins.
 | [ExtSnmpJP](ScadaAdmin/SnmpJP/README.md) | Provides the SNMP extension distributed for Rapid SCADA Administrator. |
 | [ExtTrendJP](ScadaAdmin/TrendJP/README.md) | Provides the trend extension distributed for Rapid SCADA Administrator. |
 | [PlgMimControlsJP](ScadaWeb/PlgMimControlsJP/README.md) | Adds operator controls with confirmed feedback to Rapid SCADA mimic diagrams. |
+| [PlgMimDisplayJP](ScadaWeb/PlgMimDisplayJP/README.md) | Adds electronic displays, data tables and conditional text to Rapid SCADA mimic diagrams. |
 | [PlgMimElectricJP](ScadaWeb/PlgMimElectricJP/README.md) | Adds electrical, instrumentation and automation symbols to Rapid SCADA mimic diagrams. |
 | [PlgMimPipesJP](ScadaWeb/PlgMimPipesJP/README.md) | Adds pipe layouts and equipment indicators to Rapid SCADA mimic diagrams. |
 | [PlgMimTankJP](ScadaWeb/PlgMimTankJP/README.md) | Adds tank, vessel and level indicators to Rapid SCADA mimic diagrams. |

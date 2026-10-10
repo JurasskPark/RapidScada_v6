@@ -1,0 +1,30 @@
+# PlgMimDisplayJP — English help
+
+[Contents](index.md) · [Product](../../README.md) · [Русский](../ru/index.md)
+
+Version **6.5.0.3** · Rapid SCADA **6.5** · **.NET 10**
+
+- [Overview](overview.md)
+- [Installation](installation.md)
+- [Activation](activation.md)
+- [Configuration](configuration.md)
+- [Using displays](usage.md)
+- [Component catalog and parameters](components.md)
+- [Segment display](segment-display.md)
+- [Dot-matrix display](dot-matrix-display.md)
+- [Mechanical counter](mechanical-counter.md)
+- [Marquee display](marquee-display.md)
+- [Data table](data-table-display.md)
+- [Conditional value text](value-text-display.md)
+- [Numeric formatting](numeric-format.md)
+- [Channels and data quality](channels.md)
+- [Table cells and tracks](table-cells.md)
+- [Table cell actions](actions.md)
+- [Value-to-text rules](rules.md)
+- [Autonomous demonstration](demo.md)
+- [Minimal examples](examples.md)
+- [PNG screenshot gallery](screenshots.md)
+- [Troubleshooting](troubleshooting.md)
+- [License and execution](license.md)
+- [Source build and development](build.md)
+- [Sources and documentation boundaries](sources.md)

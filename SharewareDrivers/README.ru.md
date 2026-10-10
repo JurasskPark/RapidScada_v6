@@ -13,6 +13,7 @@
 | [ExtSnmpJP](ScadaAdmin/SnmpJP/README.ru.md) | Предоставляет расширение SNMP для Администратора Rapid SCADA. |
 | [ExtTrendJP](ScadaAdmin/TrendJP/README.ru.md) | Предоставляет расширение трендов для Администратора Rapid SCADA. |
 | [PlgMimControlsJP](ScadaWeb/PlgMimControlsJP/README.ru.md) | Добавляет операторские элементы управления с подтверждённой обратной связью на мнемосхемы Rapid SCADA. |
+| [PlgMimDisplayJP](ScadaWeb/PlgMimDisplayJP/README.ru.md) | Добавляет электронные табло, таблицы данных и условный текст на мнемосхемы Rapid SCADA. |
 | [PlgMimElectricJP](ScadaWeb/PlgMimElectricJP/README.ru.md) | Добавляет на мнемосхемы Rapid SCADA символы электроснабжения, КИПиА и автоматизации. |
 | [PlgMimPipesJP](ScadaWeb/PlgMimPipesJP/README.ru.md) | Добавляет трубопроводы и индикаторы оборудования на мнемосхемы Rapid SCADA. |
 | [PlgMimTankJP](ScadaWeb/PlgMimTankJP/README.ru.md) | Добавляет ёмкости, сосуды и индикаторы уровня на мнемосхемы Rapid SCADA. |
