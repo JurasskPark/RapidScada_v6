@@ -2,22 +2,16 @@
 
 [Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
-Webstation loads the license from its `ScadaWeb/config` directory. With the default Windows installation this is `C:\Program Files\SCADA\ScadaWeb\config`; other installations use their actual Webstation configuration directory.
+Activation requires a request file from the server running Webstation.
 
-| Item | Exact name |
-| --- | --- |
-| Application name | `PlgMimElectricJP` |
-| Activation request | `PlgMimElectricJP_Activation.bin` |
-| Signed license | `PlgMimElectricJP_License.bin` |
+1. Copy the plugin libraries to the Webstation folder on the server.
+2. Restart the Rapid SCADA web service.
+3. The `PlgMimElectricJP_Activation.bin` file will appear automatically in `ScadaWeb\config`. This is the activation request.
+4. Download the project from the server using Administrator. The request file will be in the downloaded project's `ScadaWeb\config` folder.
+5. Send this file to the email address specified in the plugin archive's README.
+6. Put the received `PlgMimElectricJP_License.bin` file in the project's `ScadaWeb\config` folder in Administrator, then publish the project to the server.
+7. If the license matches this server and passes validation, the plugin becomes activated. Open the mimic in Webstation and check the symbol.
 
-1. Start Webstation with the plugin enabled. If the license is missing or invalid, the plugin attempts to create an activation request. An existing request is preserved.
-2. Give the request to the license provider and obtain the license for the same server UID and exact application name.
-3. Save the signed file as `PlgMimElectricJP_License.bin` in this host's configuration directory.
-4. Restart Webstation: its license result is cached for the running process.
-5. Open a saved mimic containing an ordinary component and check the server log and displayed state.
+Keep the filenames unchanged.
 
-LicenseJPLite checks the signed license, UID, expiration and product name. A key for `MimicEditorJP` or another component plugin does not activate this product. A missing dependency or validation exception also prevents licensed execution.
-
-Editing does not require a local component key and does not create local activation requests. Without a valid server license, ordinary components become localized inert placeholders: their bindings, scripts, blinking and actions do not execute. Other plugins continue working and `ElectricalDemo` remains available. Saved mimic files are preserved.
-
-The JP editor watermark is governed by its separate editor license. For another server host using the license-provider contract, use the license directory supplied by that host; this guide verifies the Webstation path.
+[Installation](installation.md) · [License](license.md) · [Troubleshooting](troubleshooting.md)

@@ -2,21 +2,16 @@
 
 [Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
-Runtime activation uses the product name `PlgMimSVGAnimationJP` and these exact filenames:
+Activation requires a request file from the server running Webstation.
 
-| File | Purpose |
-| --- | --- |
-| `PlgMimSVGAnimationJP_Activation.bin` | Activation request |
-| `PlgMimSVGAnimationJP_License.bin` | Issued signed license |
+1. Copy the plugin libraries to the Webstation folder on the server.
+2. Restart the Rapid SCADA web service.
+3. The `PlgMimSVGAnimationJP_Activation.bin` file will appear automatically in `ScadaWeb\config`. This is the activation request.
+4. Download the project from the server using Administrator. The request file will be in the downloaded project's `ScadaWeb\config` folder.
+5. Send this file to the email address specified in the plugin archive's README.
+6. Put the received `PlgMimSVGAnimationJP_License.bin` file in the project's `ScadaWeb\config` folder in Administrator, then publish the project to the server.
+7. If the license matches this server and passes validation, the plugin becomes activated. Open the mimic in Webstation and check the symbol.
 
-1. Install the complete plugin and restart the host.
-2. Open the host's JP license interface when the plugin's provider is registered. The native manifest declares contract version `1` and `SvgAnimationLicenseStatusProvider`.
-3. Generate the activation request for the target server and submit it through the supplier's established licensing process.
-4. Place the issued license in the application's standard configuration directory, `ConfigDir`.
-5. Restart the affected host and inspect the plugin's license status.
+Keep the filenames unchanged. Drawing and testing symbols in the editor simulator do not require activation.
 
-The license is server-bound in Single mode. Moving to another server or using a key issued for the old product name requires the supplier's appropriate activation process. Renaming a signed file does not change its product identity.
-
-If the host has no registered license provider/interface, check the native manifest registration and installation before generating files manually. No separate key is required for editing, applying drawings or the editor simulator.
-
-[Execution policy](license.md) · [Migration](migration.md) · [Troubleshooting](troubleshooting.md)
+[Installation](installation.md) · [License](license.md) · [Troubleshooting](troubleshooting.md)

@@ -2,21 +2,16 @@
 
 [Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
-Ordinary runtime execution uses LicenseJPLite validation for the exact application name **PlgMimDisplayJP**. File presence alone is insufficient: signature, server identity, validity period and product identity are validated.
+Activation requires a request file from the server running Webstation.
 
-| Item | Name / location |
-| --- | --- |
-| License file | `PlgMimDisplayJP_License.bin` |
-| Activation request | `PlgMimDisplayJP_Activation.bin` |
-| Standard host directory | `AppDirs.ConfigDir` of the running Webstation |
-| Provider contract | Version 1 |
+1. Copy the plugin libraries to the Webstation folder on the server.
+2. Restart the Rapid SCADA web service.
+3. The `PlgMimDisplayJP_Activation.bin` file will appear automatically in `ScadaWeb\config`. This is the activation request.
+4. Download the project from the server using Administrator. The request file will be in the downloaded project's `ScadaWeb\config` folder.
+5. Send this file to the email address specified in the plugin archive's README.
+6. Put the received `PlgMimDisplayJP_License.bin` file in the project's `ScadaWeb\config` folder in Administrator, then publish the project to the server.
+7. If the license matches this server and passes validation, the plugin becomes activated. Open the mimic in Webstation and check the symbol.
 
-1. Install the complete runtime package and enable the plugin.
-2. Start Webstation. If the license is missing or invalid and LicenseJPLite is available, the plugin prepares its activation request in the configuration directory.
-3. Submit this product's activation request through your agreed license-issuance channel.
-4. Place the issued `PlgMimDisplayJP_License.bin` in the running host's configuration directory.
-5. Restart Webstation and inspect the plugin license message.
+Keep the filenames unchanged.
 
-The server log records the validation result. Status codes are `valid`, `missing`, `invalid` and `error`. Failure to generate a request is reported together with the validation error; check directory access and the complete LicenseJPLite runtime. An existing request is preserved.
-
-A `Single` license remains server-bound. The editor does not require a second local component license. Licenses from another plugin do not enable this product. Price, issuance contacts and additional commercial terms are not specified by the inspected materials; use your supplied purchase information.
+[Installation](installation.md) · [License](license.md) · [Troubleshooting](troubleshooting.md)

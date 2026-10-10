@@ -2,19 +2,16 @@
 
 [Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
-The tank plugin uses its own installation-specific license. A `MimicEditorJP`, `PlgMimPipesJP` or another product license does not activate `PlgMimTankJP`.
+Activation requires a request file from the server running Webstation.
 
-| Host | Activation request | License |
-| --- | --- | --- |
-| SCADA Web | `C:\Program Files\SCADA\ScadaWeb\config\PlgMimTankJP_Activation.bin` | `C:\Program Files\SCADA\ScadaWeb\config\PlgMimTankJP.bin` |
-| ScadaAdminWebJP | `C:\Program Files\SCADA\ScadaAdminWebJP\License\PlgMimTankJP_Activation.bin` | `C:\Program Files\SCADA\ScadaAdminWebJP\License\PlgMimTankJP.bin` |
+1. Copy the plugin libraries to the Webstation folder on the server.
+2. Restart the Rapid SCADA web service.
+3. The `PlgMimTankJP_Activation.bin` file will appear automatically in `ScadaWeb\config`. This is the activation request.
+4. Download the project from the server using Administrator. The request file will be in the downloaded project's `ScadaWeb\config` folder.
+5. Send this file to the email address specified in the plugin archive's README.
+6. Put the received `PlgMimTankJP_License.bin` file in the project's `ScadaWeb\config` folder in Administrator, then publish the project to the server.
+7. If the license matches this server and passes validation, the plugin becomes activated. Open the mimic in Webstation and check the symbol.
 
-1. Start SCADA Web or ScadaAdminWebJP without a TankJP license.
-2. The plugin creates `PlgMimTankJP_Activation.bin` in the host license directory. An existing request is not overwritten.
-3. Send the activation request to the license provider.
-4. The generated license must preserve the request UID and the exact application name `PlgMimTankJP`.
-5. Save the received key as `PlgMimTankJP.bin` in the same host license directory.
-6. Restart SCADA Web or ScadaAdminWebJP. A browser refresh alone is not sufficient.
-7. If both applications are used, place a valid license in each directory because each host reads only its own license location.
+Keep the filenames unchanged.
 
-If the license is missing, invalid or issued for another `AppName`, existing TankJP components continue to load and display. The **TANKS** toolbox group is hidden and direct placement of new components is rejected until a valid license is installed.
+[Installation](installation-and-registration.md) · [License](license.md) · [Troubleshooting](troubleshooting.md)

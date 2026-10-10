@@ -2,19 +2,16 @@
 
 [Contents](index.md) · [Product](../../README.md) · [Русский](../ru/activation.md)
 
-The pipe plugin uses its own license. A `MimicEditorJP` license does not activate `PlgMimPipesJP`.
+Activation requires a request file from the server running Webstation.
 
-| Host | Activation request | License |
-| --- | --- | --- |
-| SCADA Web | `C:\Program Files\SCADA\ScadaWeb\config\PlgMimPipesJP_Activation.bin` | `C:\Program Files\SCADA\ScadaWeb\config\PlgMimPipesJP.bin` |
-| ScadaAdminWebJP | `C:\Program Files\SCADA\ScadaAdminWebJP\License\PlgMimPipesJP_Activation.bin` | `C:\Program Files\SCADA\ScadaAdminWebJP\License\PlgMimPipesJP.bin` |
+1. Copy the plugin libraries to the Webstation folder on the server.
+2. Restart the Rapid SCADA web service.
+3. The `PlgMimPipesJP_Activation.bin` file will appear automatically in `ScadaWeb\config`. This is the activation request.
+4. Download the project from the server using Administrator. The request file will be in the downloaded project's `ScadaWeb\config` folder.
+5. Send this file to the email address specified in the plugin archive's README.
+6. Put the received `PlgMimPipesJP_License.bin` file in the project's `ScadaWeb\config` folder in Administrator, then publish the project to the server.
+7. If the license matches this server and passes validation, the plugin becomes activated. Open the mimic in Webstation and check the symbol.
 
-1. Start the application without a pipe license.
-2. The plugin creates `PlgMimPipesJP_Activation.bin` in the license directory. An existing request is not overwritten.
-3. Send this activation request to the license provider.
-4. The generated license must preserve the request UID and the exact application name `PlgMimPipesJP`.
-5. Save the received key as `PlgMimPipesJP.bin` in the license directory used by the application.
-6. Restart SCADA Web or ScadaAdminWebJP. A browser refresh alone is not sufficient.
-7. If both applications are used, put a valid license into each directory because each host reads only its own license location.
+Keep the filenames unchanged.
 
-If the license is missing or invalid, existing pipe components continue to load and display, but the pipe toolbox group is hidden and new components cannot be placed.
+[Installation](installation.md) · [License](license.md) · [Troubleshooting](troubleshooting.md)
