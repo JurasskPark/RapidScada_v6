@@ -19,12 +19,4 @@ Clicking an action records it in the simulator log without sending SCADA command
 
 Test-mode changes are not persisted as real input values. Stop testing to edit base geometry, then apply the designer and save the document.
 
-The source-only local example server can be started from `Plugins/Mimics/PlgMimSVGAnimationJP`:
-
-~~~powershell
-node Scripts/ServeExamples.mjs
-~~~
-
-It serves the examples on port `11140` through the same drawing engine with synthetic samples. This is a development fixture, not a deployed SCADA viewer.
-
 [HelloWorld](examples.md) · [Quality](quality.md) · [License](license.md)

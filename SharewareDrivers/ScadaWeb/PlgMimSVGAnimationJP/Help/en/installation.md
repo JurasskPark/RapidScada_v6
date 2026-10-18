@@ -6,7 +6,7 @@
 
 The inspected manifest, Web assembly and View assembly use version `6.5.0.3` and target .NET 10 / Rapid SCADA 6.5. Use matching host and plugin builds. Compatibility with Webstation 6.3 has not been established for this version.
 
-Obtain a complete package built from the corresponding source version. This documentation directory contains Markdown and PNG images, not an installable ZIP.
+Use the complete, ready-to-install plugin package for your Webstation version. This documentation directory contains Markdown and PNG images, not an installable ZIP.
 
 ## Package placement
 
@@ -29,4 +29,4 @@ The portable package uses `ScadaAdmin/Lib` for the View DLL. Native host deploym
 
 Close editor sessions before updating packages. Keep a backup of project documents and the previous package. The old `PlgSVGAnimationJP` registration must not coexist with the renamed plugin: see [migration](migration.md).
 
-[Activation](activation.md) · [Build and packaging](build.md) · [Troubleshooting](troubleshooting.md)
+[Activation](activation.md) · [Troubleshooting](troubleshooting.md)

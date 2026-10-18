@@ -7,7 +7,7 @@
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<RootNamespace>Scada.Comm.Drivers.DrvFtpJP.Logic</RootNamespace>
 		<Version>6.5.0.0</Version>
-		<Authors>Yuriy Pradius</Authors>
+		<Authors>Pradius Yuriy</Authors>
 		<Company>Pradius Y.A.</Company>
 		<Product>DrvFtpJP</Product>
 		<Copyright>Copyright © 2025</Copyright>

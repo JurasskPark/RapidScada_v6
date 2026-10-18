@@ -31,6 +31,5 @@ One SVG symbol component: drawing, channel rules and operator interaction. The g
 25. [Activation](activation.md)
 26. [License and execution policy](license.md)
 27. [Renaming and document migration](migration.md)
-28. [Build and development](build.md)
-29. [Troubleshooting](troubleshooting.md)
-30. [Sources and remaining gaps](sources.md)
+28. [Troubleshooting](troubleshooting.md)
+29. [Sources and remaining gaps](sources.md)
